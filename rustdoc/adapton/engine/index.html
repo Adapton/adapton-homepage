@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `engine` mod in crate `adapton`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, engine">
+
+    <title>adapton::engine - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>adapton</a></p><script>window.sidebarCurrent = {name: 'engine', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>adapton</a>::<wbr><a class='mod' href=''>engine</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/adapton/engine.rs.html#1-1775' title='goto source code'>[src]</a></span></h1>
+<h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Art.html'
+                                  title='adapton::engine::Art'>Art</a></td>
+                           <td class='docblock-short'>
+                                <p>The term &quot;Art&quot; stands for two things here: &quot;Adapton return type&quot;,
+and &quot;Articulation point, for &#39;articulating&#39; incremental change&quot;.
+The concept of an &quot;Art&quot; also abstracts over whether the producer
+is eager (like a ref cell) or lazy (like a thunk).</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Cnt.html'
+                                  title='adapton::engine::Cnt'>Cnt</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.DCG.html'
+                                  title='adapton::engine::DCG'>DCG</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Flags.html'
+                                  title='adapton::engine::Flags'>Flags</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Globals.html'
+                                  title='adapton::engine::Globals'>Globals</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Loc.html'
+                                  title='adapton::engine::Loc'>Loc</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Name.html'
+                                  title='adapton::engine::Name'>Name</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.ArtIdChoice.html'
+                                  title='adapton::engine::ArtIdChoice'>ArtIdChoice</a></td>
+                           <td class='docblock-short'>
+                                <p>An <code>ArtIdChoice</code> is a symbolic identity for an articulation point made by
+Adapton::thunk.  An <code>ArtIdChoice</code> is chosen by the programmer to identify
+the point during evaluation (and simultaneously, to identify the
+point during re-evaluation).
+An <code>Eager</code> identity is special, and it means &quot;do not introduce any
+laziness/memoization overhead here&quot;; when Eager is used, no thunk
+is created; rather, the computation eagerly produces an articulated
+value of the form Art::Rc(v), for some value v.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.Engine.html'
+                                  title='adapton::engine::Engine'>Engine</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.cell.html'
+                                  title='adapton::engine::cell'>cell</a></td>
+                           <td class='docblock-short'>
+                                <p>Creates a mutable articulation.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.cnt.html'
+                                  title='adapton::engine::cnt'>cnt</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.engine_is_dcg.html'
+                                  title='adapton::engine::engine_is_dcg'>engine_is_dcg</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.engine_is_naive.html'
+                                  title='adapton::engine::engine_is_naive'>engine_is_naive</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.force.html'
+                                  title='adapton::engine::force'>force</a></td>
+                           <td class='docblock-short'>
+                                <p>Demand &amp; observe arts (all kinds): force</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.init_dcg.html'
+                                  title='adapton::engine::init_dcg'>init_dcg</a></td>
+                           <td class='docblock-short'>
+                                <p>Initializes global state with a fresh DCG-based engine; returns the old engine.
+The DCG is the central implementation structure behind Adapton.
+At a high level, it consists of a data dependence graph (the &quot;demanded computation graph&quot;), and an associated memoization table.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.init_engine.html'
+                                  title='adapton::engine::init_engine'>init_engine</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.init_naive.html'
+                                  title='adapton::engine::init_naive'>init_naive</a></td>
+                           <td class='docblock-short'>
+                                <p>Initializes global state with a (&quot;fresh&quot;) Naive engine; returns the old engine.
+The naive engine is stateless, and performs no memoization and builds no dependence graphs.
+(Since the naive engine is stateless, every instance of the naive engine is equivalent to a &quot;fresh&quot; one).</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.name_fork.html'
+                                  title='adapton::engine::name_fork'>name_fork</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.name_fork3.html'
+                                  title='adapton::engine::name_fork3'>name_fork3</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.name_fork4.html'
+                                  title='adapton::engine::name_fork4'>name_fork4</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.name_of_isize.html'
+                                  title='adapton::engine::name_of_isize'>name_of_isize</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.name_of_str.html'
+                                  title='adapton::engine::name_of_str'>name_of_str</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.name_of_string.html'
+                                  title='adapton::engine::name_of_string'>name_of_string</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.name_of_usize.html'
+                                  title='adapton::engine::name_of_usize'>name_of_usize</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.name_pair.html'
+                                  title='adapton::engine::name_pair'>name_pair</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.name_unit.html'
+                                  title='adapton::engine::name_unit'>name_unit</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.ns.html'
+                                  title='adapton::engine::ns'>ns</a></td>
+                           <td class='docblock-short'>
+                                <p>Creates or re-enters a given namespace; performs the given computation there.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.put.html'
+                                  title='adapton::engine::put'>put</a></td>
+                           <td class='docblock-short'>
+                                <p>Creates immutable, eager articulation.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.set.html'
+                                  title='adapton::engine::set'>set</a></td>
+                           <td class='docblock-short'>
+                                <p>Mutates a mutable articulation.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.structural.html'
+                                  title='adapton::engine::structural'>structural</a></td>
+                           <td class='docblock-short'>
+                                <p>Enters a special &quot;namespace&quot; where all name uses are ignored; instead, Adapton uses structural identity.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.thunk.html'
+                                  title='adapton::engine::thunk'>thunk</a></td>
+                           <td class='docblock-short'>
+                                <p>Creates an articulated computation.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.use_engine.html'
+                                  title='adapton::engine::use_engine'>use_engine</a></td>
+                           <td class='docblock-short'>
+                                <p>Initializes global state with a fresh DCG-based engine; returns the old engine</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "adapton";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>
