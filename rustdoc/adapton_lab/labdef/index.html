@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/adapton_lab/labdef.rs.html#1-118' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/adapton_lab/labdef.rs.html#1-126' title='goto source code'>[src]</a></span></h1>
 <h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -74,15 +74,15 @@ input (left vertical edge in <code>README.md</code> diagram).</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.LabExpParams.html'
-                                  title='adapton_lab::labdef::LabExpParams'>LabExpParams</a></td>
+                           <td><a class='struct' href='struct.LabParams.html'
+                                  title='adapton_lab::labdef::LabParams'>LabParams</a></td>
                            <td class='docblock-short'>
                                 <p>Parameters to running a single lab experiment.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.LabExpResults.html'
-                                  title='adapton_lab::labdef::LabExpResults'>LabExpResults</a></td>
+                           <td><a class='struct' href='struct.LabResults.html'
+                                  title='adapton_lab::labdef::LabResults'>LabResults</a></td>
                            <td class='docblock-short'>
                                 <p>The result of a lab is a sequence of samples.</p>
                            </td>
@@ -117,7 +117,7 @@ samples.</p>
                            <td class='docblock-short'>
                                 <p>Generic notion of an Incremental Computation to Evaluate and Test.
 We instantiate this structure once for each test in our test suite.
-We implement the <code>LabExp</code> trait generically for this structure.</p>
+We implement the <code>LabDef</code> trait generically for this structure.</p>
                            </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
@@ -153,6 +153,15 @@ See <code>README.md</code> for more.</p>
                            <td class='docblock-short'>
                                 <p>Generic method for generating a random input.
 See <code>README.md</code> for more.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.LabDef.html'
+                                  title='adapton_lab::labdef::LabDef'>LabDef</a></td>
+                           <td class='docblock-short'>
+                                <p>Lab experiment definition: Hides the Input, Output and Compute types of a
+TestComputer, abstracting over them.
+See catalog module for example instances.</p>
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>

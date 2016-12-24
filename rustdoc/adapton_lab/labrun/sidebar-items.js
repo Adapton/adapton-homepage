@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["TestEngineState",""],["TestState",""]],"trait":[["LabExp","Lab experiment: Hides the Input, Output and Compute types of a TestComputer, abstracting over them."],["SampleGen",""]]});
+initSidebarItems({"struct":[["TestEngineState",""],["TestState",""]],"trait":[["SampleGen",""]]});
