@@ -611,6 +611,8 @@
 <span id="567">567</span>
 <span id="568">568</span>
 <span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Debug</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::<span class='ident'>Hash</span>;
@@ -621,8 +623,8 @@
 <span class='kw'>use</span> <span class='ident'>collections</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>engine</span>::<span class='op'>*</span>;
 
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>time</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>csv</span>;
+<span class='comment'>//extern crate time;</span>
+<span class='comment'>//extern crate csv;</span>
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Copy</span>,<span class='ident'>Hash</span>,<span class='ident'>Eq</span>,<span class='ident'>PartialEq</span>,<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Op</span> { <span class='ident'>Plus</span>, <span class='ident'>Minus</span>, <span class='ident'>Times</span>, <span class='ident'>Divide</span>, <span class='ident'>ParenOpen</span>, <span class='ident'>ParenClose</span> }
@@ -980,131 +982,133 @@
 
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>runtime_harness</span>(<span class='ident'>max_len</span>: <span class='ident'>isize</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>isize</span>, <span class='ident'>u64</span>, <span class='ident'>isize</span>)<span class='op'>&gt;</span> {
+<span class='comment'>// Removed this one-off test system: Use Adapton Lab instead:</span>
 
-  <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>runtimes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>isize</span>, <span class='ident'>u64</span>, <span class='ident'>isize</span>)<span class='op'>&gt;</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
-  <span class='comment'>//fn construct_exp(len: isize) -&gt; Vec&lt;NameElse&lt;char&gt;&gt;{</span>
-  <span class='comment'>//  let cap = len as _ ;</span>
-  <span class='comment'>//  let mut input = Vec::with_capacity(cap);</span>
-  <span class='comment'>//  for _ in 0..len {</span>
-  <span class='comment'>//    input.push(NameElse::Else(&#39;1&#39;));</span>
-  <span class='comment'>//    input.push(NameElse::Else(&#39;+&#39;));</span>
-  <span class='comment'>//  }</span>
-  <span class='comment'>//  input.push(NameElse::Else(&#39;1&#39;));</span>
-  <span class='comment'>//  input</span>
-  <span class='comment'>//};</span>
+<span class='comment'>// pub fn runtime_harness(max_len: isize) -&gt; Vec&lt;(isize, u64, isize)&gt; {</span>
 
-  <span class='kw'>fn</span> <span class='ident'>push_char</span>(<span class='ident'>name_step</span>:<span class='ident'>usize</span>, <span class='ident'>name</span>:<span class='ident'>usize</span>, <span class='ident'>ch</span>: <span class='ident'>char</span>, <span class='ident'>l</span>:<span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span>{
-    <span class='kw'>let</span> <span class='ident'>l</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>name</span> <span class='op'>%</span> <span class='ident'>name_step</span> <span class='op'>==</span> <span class='number'>0</span> {
-      <span class='kw'>let</span> <span class='ident'>l</span> <span class='op'>=</span> <span class='op'>&lt;</span><span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span> <span class='kw'>as</span> <span class='ident'>ListIntro</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;&gt;</span>::<span class='ident'>art</span>(<span class='ident'>cell</span>(<span class='ident'>name_of_usize</span>(<span class='ident'>name</span>), <span class='ident'>l</span>));
-      <span class='kw'>let</span> <span class='ident'>l</span> <span class='op'>=</span> <span class='op'>&lt;</span><span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span> <span class='kw'>as</span> <span class='ident'>ListIntro</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;&gt;</span>::<span class='ident'>name</span>(<span class='ident'>name_of_usize</span>(<span class='ident'>name</span>), <span class='ident'>l</span>);
-      <span class='ident'>l</span>
-    } <span class='kw'>else</span> { <span class='ident'>l</span> } ;
-    <span class='kw'>let</span> <span class='ident'>l</span> <span class='op'>=</span> <span class='op'>&lt;</span><span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span> <span class='kw'>as</span> <span class='ident'>ListIntro</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;&gt;</span>::<span class='ident'>cons</span>(<span class='ident'>ch</span>, <span class='ident'>l</span>);
-    <span class='ident'>l</span>
-  };
+<span class='comment'>//   let mut runtimes: Vec&lt;(isize, u64, isize)&gt; = vec![];</span>
+<span class='comment'>//   //fn construct_exp(len: isize) -&gt; Vec&lt;NameElse&lt;char&gt;&gt;{</span>
+<span class='comment'>//   //  let cap = len as _ ;</span>
+<span class='comment'>//   //  let mut input = Vec::with_capacity(cap);</span>
+<span class='comment'>//   //  for _ in 0..len {</span>
+<span class='comment'>//   //    input.push(NameElse::Else(&#39;1&#39;));</span>
+<span class='comment'>//   //    input.push(NameElse::Else(&#39;+&#39;));</span>
+<span class='comment'>//   //  }</span>
+<span class='comment'>//   //  input.push(NameElse::Else(&#39;1&#39;));</span>
+<span class='comment'>//   //  input</span>
+<span class='comment'>//   //};</span>
 
-  <span class='kw'>fn</span> <span class='ident'>construct_input</span>(<span class='ident'>len</span>: <span class='ident'>isize</span>) <span class='op'>-&gt;</span> <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>input</span>: <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>List</span>::<span class='ident'>Nil</span>;
-    <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>len</span> {
-      <span class='ident'>input</span> <span class='op'>=</span> <span class='ident'>push</span>(<span class='ident'>input</span>.<span class='ident'>clone</span>(), <span class='string'>&#39;1&#39;</span>);
-      <span class='ident'>input</span> <span class='op'>=</span> <span class='ident'>push</span>(<span class='ident'>input</span>.<span class='ident'>clone</span>(), <span class='string'>&#39;+&#39;</span>);
-    }
-    <span class='ident'>input</span> <span class='op'>=</span> <span class='ident'>push</span>(<span class='ident'>input</span>.<span class='ident'>clone</span>(), <span class='string'>&#39;1&#39;</span>);
-    <span class='ident'>input</span>
-  };
+<span class='comment'>//   fn push_char(name_step:usize, name:usize, ch: char, l:List&lt;char&gt;) -&gt; List&lt;char&gt;{</span>
+<span class='comment'>//     let l = if name % name_step == 0 {</span>
+<span class='comment'>//       let l = &lt;List&lt;char&gt; as ListIntro&lt;char&gt;&gt;::art(cell(name_of_usize(name), l));</span>
+<span class='comment'>//       let l = &lt;List&lt;char&gt; as ListIntro&lt;char&gt;&gt;::name(name_of_usize(name), l);</span>
+<span class='comment'>//       l</span>
+<span class='comment'>//     } else { l } ;</span>
+<span class='comment'>//     let l = &lt;List&lt;char&gt; as ListIntro&lt;char&gt;&gt;::cons(ch, l);</span>
+<span class='comment'>//     l</span>
+<span class='comment'>//   };</span>
 
-  <span class='kw'>fn</span> <span class='ident'>prepend_input</span>(<span class='ident'>input</span>:<span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span>, <span class='ident'>name</span>:<span class='ident'>isize</span>) <span class='op'>-&gt;</span> <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span> {
-    <span class='kw'>let</span> <span class='ident'>input</span> <span class='op'>=</span> <span class='op'>&lt;</span><span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span> <span class='kw'>as</span> <span class='ident'>ListIntro</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;&gt;</span>::<span class='ident'>art</span>(<span class='ident'>cell</span>(<span class='ident'>name_of_isize</span>(<span class='ident'>name</span>), <span class='ident'>input</span>));
-    <span class='kw'>let</span> <span class='ident'>input</span> <span class='op'>=</span> <span class='op'>&lt;</span><span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span> <span class='kw'>as</span> <span class='ident'>ListIntro</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;&gt;</span>::<span class='ident'>name</span>(<span class='ident'>name_of_isize</span>(<span class='ident'>name</span>), <span class='ident'>input</span>);
-    <span class='kw'>let</span> <span class='ident'>input</span> <span class='op'>=</span> <span class='ident'>push</span>(<span class='ident'>input</span>.<span class='ident'>clone</span>(), <span class='string'>&#39;+&#39;</span>);
-    <span class='kw'>let</span> <span class='ident'>input</span> <span class='op'>=</span> <span class='ident'>push</span>(<span class='ident'>input</span>.<span class='ident'>clone</span>(), <span class='string'>&#39;1&#39;</span>);
-    <span class='ident'>input</span>
-  };
+<span class='comment'>//   fn construct_input(len: isize) -&gt; List&lt;char&gt; {</span>
+<span class='comment'>//     let mut input: List&lt;char&gt; = List::Nil;</span>
+<span class='comment'>//     for _ in 0..len {</span>
+<span class='comment'>//       input = push(input.clone(), &#39;1&#39;);</span>
+<span class='comment'>//       input = push(input.clone(), &#39;+&#39;);</span>
+<span class='comment'>//     }</span>
+<span class='comment'>//     input = push(input.clone(), &#39;1&#39;);</span>
+<span class='comment'>//     input</span>
+<span class='comment'>//   };</span>
 
-  <span class='kw'>fn</span> <span class='ident'>doit</span>(<span class='ident'>input</span>: <span class='ident'>Art</span><span class='op'>&lt;</span><span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>isize</span> {
-    <span class='comment'>//let list : List&lt;char&gt;  = list_of_vec(&amp;input);</span>
-    <span class='kw'>let</span> <span class='ident'>input</span> <span class='op'>=</span> <span class='ident'>force</span>(<span class='kw-2'>&amp;</span><span class='ident'>input</span>);
-    <span class='kw'>let</span> <span class='ident'>tree</span> : <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span> <span class='op'>=</span> 
-      <span class='ident'>ns</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;tree_of_list&quot;</span>),
-         <span class='op'>||</span><span class='ident'>tree_of_list</span>(<span class='ident'>Dir2</span>::<span class='ident'>Left</span>, <span class='ident'>input</span>));
+<span class='comment'>//   fn prepend_input(input:List&lt;char&gt;, name:isize) -&gt; List&lt;char&gt; {</span>
+<span class='comment'>//     let input = &lt;List&lt;char&gt; as ListIntro&lt;char&gt;&gt;::art(cell(name_of_isize(name), input));</span>
+<span class='comment'>//     let input = &lt;List&lt;char&gt; as ListIntro&lt;char&gt;&gt;::name(name_of_isize(name), input);</span>
+<span class='comment'>//     let input = push(input.clone(), &#39;+&#39;);</span>
+<span class='comment'>//     let input = push(input.clone(), &#39;1&#39;);</span>
+<span class='comment'>//     input</span>
+<span class='comment'>//   };</span>
+
+<span class='comment'>//   fn doit(input: Art&lt;List&lt;char&gt;&gt;) -&gt; isize {</span>
+<span class='comment'>//     //let list : List&lt;char&gt;  = list_of_vec(&amp;input);</span>
+<span class='comment'>//     let input = force(&amp;input);</span>
+<span class='comment'>//     let tree : Tree&lt;char&gt; = </span>
+<span class='comment'>//       ns(name_of_str(&quot;tree_of_list&quot;),</span>
+<span class='comment'>//          ||tree_of_list(Dir2::Left, input));</span>
     
-    <span class='comment'>// TODO: How to use names here?</span>
-    <span class='kw'>let</span> <span class='ident'>tokenized_input</span> : <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>Tok</span><span class='op'>&gt;</span> <span class='op'>=</span> 
-      <span class='ident'>ns</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;tok_of_char&quot;</span>),
-         <span class='op'>||</span><span class='ident'>tok_of_char</span>(<span class='ident'>tree</span>));
-    <span class='comment'>// TODO: How to use names here?    </span>
-    <span class='kw'>let</span> <span class='ident'>postfix</span> : <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>Tok</span><span class='op'>&gt;</span> <span class='op'>=</span> 
-      <span class='ident'>ns</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;postfix_of_infix&quot;</span>),
-         <span class='op'>||</span><span class='ident'>postfix_of_infix</span>(<span class='ident'>tokenized_input</span>));
+<span class='comment'>//     // TODO: How to use names here?</span>
+<span class='comment'>//     let tokenized_input : Tree&lt;Tok&gt; = </span>
+<span class='comment'>//       ns(name_of_str(&quot;tok_of_char&quot;),</span>
+<span class='comment'>//          ||tok_of_char(tree));</span>
+<span class='comment'>//     // TODO: How to use names here?    </span>
+<span class='comment'>//     let postfix : List&lt;Tok&gt; = </span>
+<span class='comment'>//       ns(name_of_str(&quot;postfix_of_infix&quot;),</span>
+<span class='comment'>//          ||postfix_of_infix(tokenized_input));</span>
     
-    <span class='kw'>let</span> <span class='ident'>postfix_tree</span> : <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>Tok</span><span class='op'>&gt;</span> <span class='op'>=</span> 
-      <span class='ident'>ns</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;tree_of_list2&quot;</span>),
-         <span class='op'>||</span><span class='ident'>tree_of_list</span>(<span class='ident'>Dir2</span>::<span class='ident'>Right</span>, <span class='ident'>postfix</span>));	
+<span class='comment'>//     let postfix_tree : Tree&lt;Tok&gt; = </span>
+<span class='comment'>//       ns(name_of_str(&quot;tree_of_list2&quot;),</span>
+<span class='comment'>//          ||tree_of_list(Dir2::Right, postfix));	</span>
     
-    <span class='comment'>// TODO: How to use names here?</span>
-    <span class='ident'>ns</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;evaluate_postfix&quot;</span>),
-       <span class='op'>||</span><span class='ident'>evaluate_postfix</span>(<span class='ident'>postfix_tree</span>))
-  };
+<span class='comment'>//     // TODO: How to use names here?</span>
+<span class='comment'>//     ns(name_of_str(&quot;evaluate_postfix&quot;),</span>
+<span class='comment'>//        ||evaluate_postfix(postfix_tree))</span>
+<span class='comment'>//   };</span>
 
-  <span class='kw'>fn</span> <span class='ident'>csv_of_runtimes</span>(<span class='ident'>path</span>:<span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>runtimes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>isize</span>, <span class='ident'>u64</span>, <span class='ident'>isize</span>)<span class='op'>&gt;</span>) {
-    <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='ident'>path</span>);
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span> <span class='op'>=</span> <span class='ident'>csv</span>::<span class='ident'>Writer</span>::<span class='ident'>from_file</span>(<span class='ident'>path</span>).<span class='ident'>unwrap</span>();
-    <span class='kw'>for</span> <span class='ident'>r</span> <span class='kw'>in</span> <span class='ident'>runtimes</span>.<span class='ident'>into_iter</span>() {
-      <span class='comment'>//println!(&quot;{:?}&quot;,r);</span>
-      <span class='ident'>writer</span>.<span class='ident'>encode</span>(<span class='ident'>r</span>).<span class='ident'>ok</span>().<span class='ident'>expect</span>(<span class='string'>&quot;CSV writer error&quot;</span>);
-    }
-  };
+<span class='comment'>//   fn csv_of_runtimes(path:&amp;str, runtimes: Vec&lt;(isize, u64, isize)&gt;) {</span>
+<span class='comment'>//     let path = Path::new(path);</span>
+<span class='comment'>//     let mut writer = csv::Writer::from_file(path).unwrap();</span>
+<span class='comment'>//     for r in runtimes.into_iter() {</span>
+<span class='comment'>//       //println!(&quot;{:?}&quot;,r);</span>
+<span class='comment'>//       writer.encode(r).ok().expect(&quot;CSV writer error&quot;);</span>
+<span class='comment'>//     }</span>
+<span class='comment'>//   };</span>
 
-  { <span class='comment'>// This should be really fast:</span>
-    <span class='ident'>init_dcg</span>();
-    <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>engine_is_dcg</span>());
+<span class='comment'>//   { // This should be really fast:</span>
+<span class='comment'>//     init_dcg();</span>
+<span class='comment'>//     assert!(engine_is_dcg());</span>
     
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>input</span> : <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>List</span>::<span class='ident'>Nil</span>;
-    <span class='ident'>input</span> <span class='op'>=</span> <span class='ident'>push</span>(<span class='ident'>input</span>, <span class='string'>&#39;1&#39;</span>);
-    <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>1</span>..<span class='ident'>max_len</span> {
-        <span class='ident'>input</span> <span class='op'>=</span> <span class='ident'>prepend_input</span>(<span class='ident'>input</span>, <span class='ident'>i</span>);
-        <span class='kw'>let</span> <span class='ident'>input</span> <span class='op'>=</span> <span class='ident'>input</span>.<span class='ident'>clone</span>();
-        <span class='kw'>let</span> <span class='ident'>dcg_start</span> <span class='op'>=</span> <span class='ident'>time</span>::<span class='ident'>precise_time_ns</span>();
-        <span class='kw'>let</span> <span class='ident'>input_cell</span> <span class='op'>=</span> <span class='ident'>cell</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;input&quot;</span>), <span class='ident'>input</span>);
-        <span class='kw'>let</span> (_, <span class='ident'>dcg_out</span>) <span class='op'>=</span> <span class='macro'>eager</span><span class='macro'>!</span>(<span class='ident'>doit</span>, <span class='ident'>input</span>:<span class='ident'>input_cell</span>);
-        <span class='kw'>let</span> <span class='ident'>dcg_end</span> <span class='op'>=</span> <span class='ident'>time</span>::<span class='ident'>precise_time_ns</span>();
-        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;DCG: {}, {} ms, {}&quot;</span>, <span class='ident'>i</span>, (<span class='ident'>dcg_end</span> <span class='op'>-</span> <span class='ident'>dcg_start</span>) <span class='kw'>as</span> <span class='ident'>u64</span> <span class='op'>/</span> <span class='number'>1000000</span>, <span class='ident'>dcg_out</span>);
-        <span class='ident'>runtimes</span>.<span class='ident'>push</span>((<span class='ident'>i</span>,<span class='ident'>dcg_end</span> <span class='op'>-</span> <span class='ident'>dcg_start</span>, <span class='ident'>dcg_out</span>));
-    }
-      <span class='ident'>csv_of_runtimes</span>(<span class='string'>&quot;./dcg.csv&quot;</span>, <span class='ident'>runtimes</span>.<span class='ident'>clone</span>()); 
-      <span class='comment'>//runtimes</span>
-  }
+<span class='comment'>//     let mut input : List&lt;char&gt; = List::Nil;</span>
+<span class='comment'>//     input = push(input, &#39;1&#39;);</span>
+<span class='comment'>//     for i in 1..max_len {</span>
+<span class='comment'>//         input = prepend_input(input, i);</span>
+<span class='comment'>//         let input = input.clone();</span>
+<span class='comment'>//         let dcg_start = time::precise_time_ns();</span>
+<span class='comment'>//         let input_cell = cell(name_of_str(&quot;input&quot;), input);</span>
+<span class='comment'>//         let (_, dcg_out) = eager!(doit, input:input_cell);</span>
+<span class='comment'>//         let dcg_end = time::precise_time_ns();</span>
+<span class='comment'>//         println!(&quot;DCG: {}, {} ms, {}&quot;, i, (dcg_end - dcg_start) as u64 / 1000000, dcg_out);</span>
+<span class='comment'>//         runtimes.push((i,dcg_end - dcg_start, dcg_out));</span>
+<span class='comment'>//     }</span>
+<span class='comment'>//       csv_of_runtimes(&quot;./dcg.csv&quot;, runtimes.clone()); </span>
+<span class='comment'>//       //runtimes</span>
+<span class='comment'>//   }</span>
 
-  <span class='kw'>if</span> <span class='bool-val'>false</span> 
-  { <span class='comment'>// This is really, really slow:</span>
-    <span class='ident'>init_naive</span>();
-    <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>engine_is_naive</span>());
+<span class='comment'>//   if false </span>
+<span class='comment'>//   { // This is really, really slow:</span>
+<span class='comment'>//     init_naive();</span>
+<span class='comment'>//     assert!(engine_is_naive());</span>
     
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>input</span> : <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>char</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>List</span>::<span class='ident'>Nil</span>;
-    <span class='ident'>input</span> <span class='op'>=</span> <span class='ident'>push</span>(<span class='ident'>input</span>, <span class='string'>&#39;1&#39;</span>);
-    <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>1</span>..<span class='ident'>max_len</span> {
-      <span class='ident'>input</span> <span class='op'>=</span> <span class='ident'>prepend_input</span>(<span class='ident'>input</span>, <span class='ident'>i</span>);
-      <span class='kw'>let</span> <span class='ident'>naive_start</span> <span class='op'>=</span> <span class='ident'>time</span>::<span class='ident'>precise_time_ns</span>();
-      <span class='kw'>let</span> <span class='ident'>naive_out</span> <span class='op'>=</span> <span class='ident'>doit</span>(<span class='ident'>cell</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;input&quot;</span>), <span class='ident'>input</span>.<span class='ident'>clone</span>()));
-      <span class='kw'>let</span> <span class='ident'>naive_end</span> <span class='op'>=</span> <span class='ident'>time</span>::<span class='ident'>precise_time_ns</span>();
-      <span class='comment'>//println!(&quot;Naive: {}, {}, {}&quot;, i, naive_end - naive_start, naive_out);</span>
-      <span class='ident'>runtimes</span>.<span class='ident'>push</span>((<span class='ident'>i</span>,<span class='ident'>naive_end</span> <span class='op'>-</span> <span class='ident'>naive_start</span>, <span class='ident'>naive_out</span>));}
-    <span class='ident'>csv_of_runtimes</span>(<span class='string'>&quot;./naive.csv&quot;</span>, <span class='ident'>runtimes</span>.<span class='ident'>clone</span>()); 
-    <span class='comment'>//runtimes</span>
-  } <span class='kw'>else</span> {}
-  <span class='ident'>Vec</span>::<span class='ident'>new</span>()
-}
+<span class='comment'>//     let mut input : List&lt;char&gt; = List::Nil;</span>
+<span class='comment'>//     input = push(input, &#39;1&#39;);</span>
+<span class='comment'>//     for i in 1..max_len {</span>
+<span class='comment'>//       input = prepend_input(input, i);</span>
+<span class='comment'>//       let naive_start = time::precise_time_ns();</span>
+<span class='comment'>//       let naive_out = doit(cell(name_of_str(&quot;input&quot;), input.clone()));</span>
+<span class='comment'>//       let naive_end = time::precise_time_ns();</span>
+<span class='comment'>//       //println!(&quot;Naive: {}, {}, {}&quot;, i, naive_end - naive_start, naive_out);</span>
+<span class='comment'>//       runtimes.push((i,naive_end - naive_start, naive_out));}</span>
+<span class='comment'>//     csv_of_runtimes(&quot;./naive.csv&quot;, runtimes.clone()); </span>
+<span class='comment'>//     //runtimes</span>
+<span class='comment'>//   } else {}</span>
+<span class='comment'>//   Vec::new()</span>
+<span class='comment'>// }</span>
 
-<span class='attribute'>#[<span class='ident'>test</span>]</span>
-<span class='kw'>fn</span> <span class='ident'>test_runtime_harness</span>() {
-  <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
-  <span class='kw'>let</span> <span class='ident'>child</span> <span class='op'>=</span>
-    <span class='ident'>thread</span>::<span class='ident'>Builder</span>::<span class='ident'>new</span>().<span class='ident'>stack_size</span>(<span class='number'>64</span> <span class='op'>*</span> <span class='number'>1024</span> <span class='op'>*</span> <span class='number'>1024</span>).<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> { 
-      <span class='ident'>runtime_harness</span>(<span class='number'>16</span>);
-    });
-  <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>child</span>.<span class='ident'>unwrap</span>().<span class='ident'>join</span>();
-}
+<span class='comment'>// #[test]</span>
+<span class='comment'>// fn test_runtime_harness() {</span>
+<span class='comment'>//   use std::thread;</span>
+<span class='comment'>//   let child =</span>
+<span class='comment'>//     thread::Builder::new().stack_size(64 * 1024 * 1024).spawn(move || { </span>
+<span class='comment'>//       runtime_harness(16);</span>
+<span class='comment'>//     });</span>
+<span class='comment'>//   let _ = child.unwrap().join();</span>
+<span class='comment'>// }</span>
 
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>generate_balanced_string</span> () {
   <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::{<span class='ident'>Hash</span>,<span class='ident'>Hasher</span>,<span class='ident'>SipHasher</span>};
