@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/adapton/collections.rs.html#1-2119' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/adapton/collections.rs.html#1-2237' title='goto source code'>[src]</a></span></h1>
 <h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -217,6 +217,13 @@ Retains all names from the original tree, even if they merely name empty sub-tre
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='fn' href='fn.list_art.html'
+                                  title='adapton::collections::list_art'>list_art</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='fn' href='fn.list_cons.html'
                                   title='adapton::collections::list_cons'>list_cons</a></td>
                            <td class='docblock-short'>
@@ -224,10 +231,26 @@ Retains all names from the original tree, even if they merely name empty sub-tre
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='fn' href='fn.list_filter_eager.html'
+                                  title='adapton::collections::list_filter_eager'>list_filter_eager</a></td>
+                           <td class='docblock-short'>
+                                <p>Eagerly filters the list, guided by names in input list.
+Memoizes recursion for each name in input.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.list_filter_lazy.html'
+                                  title='adapton::collections::list_filter_lazy'>list_filter_lazy</a></td>
+                           <td class='docblock-short'>
+                                <p>Lazily filters the list, guided by names in input list.
+Creates lazy named thunks in output for each name in input.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='fn' href='fn.list_fold.html'
                                   title='adapton::collections::list_fold'>list_fold</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Ignores names; performs no memoization; use tree_fold_* for lists that could be long.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -245,6 +268,22 @@ Retains all names from the original tree, even if they merely name empty sub-tre
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='fn' href='fn.list_map_eager.html'
+                                  title='adapton::collections::list_map_eager'>list_map_eager</a></td>
+                           <td class='docblock-short'>
+                                <p>Eagerly maps the list.
+Uses (eager) memoization for each name in <code>l</code>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.list_map_lazy.html'
+                                  title='adapton::collections::list_map_lazy'>list_map_lazy</a></td>
+                           <td class='docblock-short'>
+                                <p>Lazily maps the list, guided by names in input list.
+Creates lazy named thunks in output for each name in input.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='fn' href='fn.list_merge.html'
                                   title='adapton::collections::list_merge'>list_merge</a></td>
                            <td class='docblock-short'>
@@ -256,6 +295,13 @@ When the input lists are each sorted according to <code>Ord</code>; the output i
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.list_merge_wrapper.html'
                                   title='adapton::collections::list_merge_wrapper'>list_merge_wrapper</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.list_name.html'
+                                  title='adapton::collections::list_name'>list_name</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
@@ -298,6 +344,14 @@ Not incremental; used only for setting up inputs for tests.</p>
                                   title='adapton::collections::list_push'>list_push</a></td>
                            <td class='docblock-short'>
                                 
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.list_reverse.html'
+                                  title='adapton::collections::list_reverse'>list_reverse</a></td>
+                           <td class='docblock-short'>
+                                <p>Eagerly maps the list.
+Uses (eager) memoization for each name in <code>l</code>.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
