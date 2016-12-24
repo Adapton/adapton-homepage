@@ -273,7 +273,7 @@
 <span class='doccomment'>/// fine-grained scale.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Sample</span> {
-  <span class='kw'>pub</span> <span class='ident'>params</span>:       <span class='ident'>SampleParams</span>,
+  <span class='comment'>//pub params:       SampleParams,</span>
   <span class='kw'>pub</span> <span class='ident'>batch_name</span>:   <span class='ident'>usize</span>,   <span class='comment'>// Index/name the change batches; one sample per compute + change batch</span>
   <span class='kw'>pub</span> <span class='ident'>dcg_sample</span>:   <span class='ident'>EngineSample</span>,
   <span class='kw'>pub</span> <span class='ident'>naive_sample</span>: <span class='ident'>EngineSample</span>,

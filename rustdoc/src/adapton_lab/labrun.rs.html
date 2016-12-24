@@ -423,7 +423,7 @@
         } <span class='kw'>else</span> { <span class='prelude-val'>None</span> } ;
 
         <span class='kw'>let</span> <span class='ident'>sample</span> <span class='op'>=</span> <span class='ident'>Sample</span>{
-          <span class='ident'>params</span>:<span class='self'>self</span>.<span class='ident'>params</span>.<span class='ident'>sample_params</span>.<span class='ident'>clone</span>(),
+          <span class='comment'>//params:self.params.sample_params.clone(),</span>
           <span class='ident'>batch_name</span>:<span class='self'>self</span>.<span class='ident'>change_batch_num</span>,
           <span class='ident'>dcg_sample</span>,
           <span class='ident'>naive_sample</span>,
