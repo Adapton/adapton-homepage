@@ -111,26 +111,40 @@
 <span id="67">67</span>
 <span id="68">68</span>
 <span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>field_init_shorthand</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>rustc_private</span>)]</span>
 <span class='comment'>//#![feature(custom_derive)]</span>
 
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serialize</span>;
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>csv</span>;
+<span class='comment'>//extern crate serialize;</span>
+<span class='comment'>//extern crate csv;</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rand</span>;
 
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>adapton</span>;
 
-<span class='comment'>// lab definitions:</span>
+<span class='doccomment'>/// See also: Defines lab parameters `LabParams` and `LabDef`, the</span>
+<span class='doccomment'>/// parameters for running the abstract commutative diagram. See</span>
+<span class='doccomment'>/// [Adapton Lab README](https://github.com/cuplv/adapton-lab.rust).</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>labdef</span>;
+
+<span class='doccomment'>/// See also: **Generically implements** the abstract commutative</span>
+<span class='doccomment'>/// diagram. See [Adapton Lab</span>
+<span class='doccomment'>/// README](https://github.com/cuplv/adapton-lab.rust).</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>labrun</span>;
+
+<span class='doccomment'>/// See also: Provides **concrete instances** of the diagram from</span>
+<span class='doccomment'>/// [Adapton Lab README](https://github.com/cuplv/adapton-lab.rust).</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>catalog</span>;
 
 <span class='kw'>use</span> <span class='ident'>labdef</span>::<span class='op'>*</span>;
-<span class='comment'>//use labrun::*;</span>
-<span class='comment'>//use catalog::*;</span>
 
 <span class='comment'>// fn csv_of_runtimes(path:&amp;str, samples: Vec&lt;Sample&gt;) {</span>
 <span class='comment'>//   let path = Path::new(path);</span>

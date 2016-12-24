@@ -1,1 +1,1 @@
-initSidebarItems({"macro":[["testcomputer",""]],"mod":[["catalog",""],["labdef",""],["labrun",""]]});
+initSidebarItems({"macro":[["testcomputer",""]],"mod":[["catalog","See also: Provides **concrete instances** of the diagram from Adapton Lab README."],["labdef","See also: Defines lab parameters `LabParams` and `LabDef`, the parameters for running the abstract commutative diagram. See Adapton Lab README."],["labrun","See also: **Generically implements** the abstract commutative diagram. See Adapton Lab README."]]});
