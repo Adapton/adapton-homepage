@@ -47,8 +47,8 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-3774' class='srclink' href='../../../src/adapton/src/collections.rs.html#1975-1980' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn edit&lt;X: <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a>&gt;(z: <a class='struct' href='../../../adapton/collections/raz/struct.Zip.html' title='adapton::collections::raz::Zip'>Zip</a>&lt;X&gt;, edit: <a class='enum' href='../../../adapton/collections/raz/enum.Edit.html' title='adapton::collections::raz::Edit'>Edit</a>&lt;X&gt;) -&gt; <a class='struct' href='../../../adapton/collections/raz/struct.Zip.html' title='adapton::collections::raz::Zip'>Zip</a>&lt;X&gt;</pre><div class='docblock'><p>Perform the given edit, in the given direction, at the current focus of the given zipper.
+               </span><a class='srclink' href='../../../src/adapton/collections.rs.html#1975-1980' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn edit&lt;X:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a>&gt;(z: <a class='struct' href='../../../adapton/collections/raz/struct.Zip.html' title='adapton::collections::raz::Zip'>Zip</a>&lt;X&gt;, edit: <a class='enum' href='../../../adapton/collections/raz/enum.Edit.html' title='adapton::collections::raz::Edit'>Edit</a>&lt;X&gt;) -&gt; <a class='struct' href='../../../adapton/collections/raz/struct.Zip.html' title='adapton::collections::raz::Zip'>Zip</a>&lt;X&gt;</pre><div class='docblock'><p>Perform the given edit, in the given direction, at the current focus of the given zipper.
 The zipper is taken because its head vectors may be mutated, e.g., to insert or remove elements.</p>
 </div></section>
     <section id='search' class="content hidden"></section>
@@ -73,6 +73,8 @@ The zipper is taken because its head vectors may be mutated, e.g., to insert or 
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 
@@ -104,11 +106,9 @@ The zipper is taken because its head vectors may be mutated, e.g., to insert or 
     <script>
         window.rootPath = "../../../";
         window.currentCrate = "adapton";
-        window.playgroundUrl = "";
     </script>
     <script src="../../../jquery.js"></script>
     <script src="../../../main.js"></script>
-    
     <script defer src="../../../search-index.js"></script>
 </body>
 </html>

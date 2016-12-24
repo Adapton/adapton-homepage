@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/adapton/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -73,22 +73,10 @@
 <span id="29">29</span>
 <span id="30">30</span>
 <span id="31">31</span>
-<span id="32">32</span>
-<span id="33">33</span>
-<span id="34">34</span>
-<span id="35">35</span>
-<span id="36">36</span>
-<span id="37">37</span>
-<span id="38">38</span>
-<span id="39">39</span>
 </pre><pre class='rust '>
 <span class='comment'>// Adapton for Rust</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>field_init_shorthand</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>rustc_private</span>)]</span>
+
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>zero_one</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>associated_consts</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>box_patterns</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>box_syntax</span>)]</span>
 <span class='comment'>//#![feature(associated_type_defaults)]</span>
 <span class='comment'>//#![feature(custom_derive)]</span>
 <span class='comment'>//#![feature(type_ascription)]</span>
@@ -101,8 +89,6 @@
 <span class='comment'>// extern crate quickcheck;</span>
 <span class='comment'>// extern crate rand;</span>
 
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serialize</span>;
-
 <span class='comment'>// extern crate time;</span>
 
 <span class='comment'>// #[macro_use]</span>
@@ -114,8 +100,6 @@
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>collections</span> ;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>fixpoints</span> ;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>arith_parse</span> ;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>bitstring</span> ;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>trie</span> ;
 
 <span class='kw'>mod</span> <span class='ident'>adapton</span> {
     <span class='kw'>pub</span> <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;

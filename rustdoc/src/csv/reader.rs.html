@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/.multirust/toolchains/nightly/cargo/registry/src/github.com-1ecc6299db9ec823/csv-0.14.4/src/reader.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.multirust/toolchains/nightly/cargo/registry/src/github.com-1ecc6299db9ec823/csv-0.14.7/src/reader.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>reader.rs.html -- source</title>
@@ -1062,6 +1062,16 @@
 <span id="1018">1018</span>
 <span id="1019">1019</span>
 <span id="1020">1020</span>
+<span id="1021">1021</span>
+<span id="1022">1022</span>
+<span id="1023">1023</span>
+<span id="1024">1024</span>
+<span id="1025">1025</span>
+<span id="1026">1026</span>
+<span id="1027">1027</span>
+<span id="1028">1028</span>
+<span id="1029">1029</span>
+<span id="1030">1030</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
@@ -1713,9 +1723,6 @@
                         }
                     }
                     <span class='ident'>EndRecord</span> <span class='op'>=&gt;</span> {
-                        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>record_term</span>.<span class='ident'>is_crlf</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>b&#39;\n&#39;</span> {
-                            <span class='self'>self</span>.<span class='ident'>bump</span>();
-                        }
                         <span class='self'>self</span>.<span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>StartRecord</span>;
                         <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>next_eor</span>();
                     }
@@ -1726,6 +1733,7 @@
                         } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='self'>self</span>.<span class='ident'>delimiter</span> {
                             <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>next_data</span>();
                         } <span class='kw'>else</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_record_term</span>(<span class='ident'>c</span>) {
+                            <span class='self'>self</span>.<span class='ident'>bump_eor</span>(<span class='ident'>c</span>);
                             <span class='self'>self</span>.<span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>EndRecord</span>;
                             <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>next_data</span>();
                         } <span class='kw'>else</span> {
@@ -1739,6 +1747,7 @@
                             <span class='self'>self</span>.<span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>StartField</span>;
                             <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>next_data</span>();
                         } <span class='kw'>else</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_record_term</span>(<span class='ident'>c</span>) {
+                            <span class='self'>self</span>.<span class='ident'>bump_eor</span>(<span class='ident'>c</span>);
                             <span class='self'>self</span>.<span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>EndRecord</span>;
                             <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>next_data</span>();
                         } <span class='kw'>else</span> {
@@ -1769,6 +1778,7 @@
                             <span class='self'>self</span>.<span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>StartField</span>;
                             <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>next_data</span>();
                         } <span class='kw'>else</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>is_record_term</span>(<span class='ident'>c</span>) {
+                            <span class='self'>self</span>.<span class='ident'>bump_eor</span>(<span class='ident'>c</span>);
                             <span class='self'>self</span>.<span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>EndRecord</span>;
                             <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>next_data</span>();
                         } <span class='kw'>else</span> {
@@ -1877,6 +1887,16 @@
     <span class='kw'>fn</span> <span class='ident'>bump</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
         <span class='self'>self</span>.<span class='ident'>bufi</span> <span class='op'>+=</span> <span class='number'>1</span>;
         <span class='self'>self</span>.<span class='ident'>byte_offset</span> <span class='op'>+=</span> <span class='number'>1</span>;
+    }
+
+    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>bump_eor</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>c</span>: <span class='ident'>u8</span>) {
+        <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>record_term</span>.<span class='ident'>is_crlf</span>() <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>!=</span> <span class='string'>b&#39;\r&#39;</span> {
+            <span class='kw'>return</span>;
+        }
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>get</span>(<span class='self'>self</span>.<span class='ident'>bufi</span>) <span class='op'>==</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='string'>b&#39;\n&#39;</span>) {
+            <span class='self'>self</span>.<span class='ident'>bump</span>();
+        }
     }
 
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>

@@ -47,12 +47,12 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../../src/adapton/collections.rs.html#1978-2237' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../../src/adapton/collections.rs.html#1867-2119' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Random Access Zipper (RAZ).
 Purely functional sequences with global access (via a balanced
 tree structure) and simple local edits (via a zipper structure).</p>
 
-<p>See also: <a href="http://github.com/cuplv/raz.ocaml.git">RAZ in OCaml</a></p>
+<p>See also: http:://github.com/cuplv/raz.ocaml.git</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -80,27 +80,56 @@ point in the sequence.</p>
                            <td><a class='enum' href='enum.Dir.html'
                                   title='adapton::collections::raz::Dir'>Dir</a></td>
                            <td class='docblock-short'>
-                                <p>Distinguishes left (<code>L</code>) and right (<code>R</code>) traversal orders for various operations involving trees.</p>
+                                
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.Edit.html'
                                   title='adapton::collections::raz::Edit'>Edit</a></td>
                            <td class='docblock-short'>
-                                <p>An O(1)-sized change to the zipper: a single element insertion,
-replacement, removal; or, a local cursor movement by one element
-in either direction.</p>
+                                
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.Tree.html'
                                   title='adapton::collections::raz::Tree'>Tree</a></td>
                            <td class='docblock-short'>
-                                <p>A binary tree with vector leaves (aka, a &quot;rope&quot;), balanced
+                                <p>A rope (i.e., a tree with vector leaves), balanced
 probabilistically.</p>
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.edit.html'
+                                  title='adapton::collections::raz::edit'>edit</a></td>
+                           <td class='docblock-short'>
+                                <p>Perform the given edit, in the given direction, at the current focus of the given zipper.
+The zipper is taken because its head vectors may be mutated, e.g., to insert or remove elements.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.empty_tree.html'
+                                  title='adapton::collections::raz::empty_tree'>empty_tree</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.empty_zip.html'
+                                  title='adapton::collections::raz::empty_zip'>empty_zip</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.insert.html'
+                                  title='adapton::collections::raz::insert'>insert</a></td>
+                           <td class='docblock-short'>
+                                <p>Transform the zipper, inserting x in the given direction. The
+optional punctuation follows the inserted element, in the given
+direction.</p>
+                           </td>
+                       </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.mergesort_eager.html'
                                   title='adapton::collections::raz::mergesort_eager'>mergesort_eager</a></td>
@@ -118,41 +147,10 @@ tree, in ascending order (when <code>d = Dir::L</code>) or descending order
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.tree_empty.html'
-                                  title='adapton::collections::raz::tree_empty'>tree_empty</a></td>
-                           <td class='docblock-short'>
-                                <p>A tree that consists of zero elements (and exactly one punctuation <code>p</code>).</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
                            <td><a class='fn' href='fn.tree_of_zip.html'
                                   title='adapton::collections::raz::tree_of_zip'>tree_of_zip</a></td>
                            <td class='docblock-short'>
                                 <p>Unfocuses the zipper into a tree form</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.zip_edit.html'
-                                  title='adapton::collections::raz::zip_edit'>zip_edit</a></td>
-                           <td class='docblock-short'>
-                                <p>Perform the given edit, in the given direction, at the current focus of the given zipper.
-The zipper is taken because its head vectors may be mutated, e.g., to insert or remove elements.</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.zip_empty.html'
-                                  title='adapton::collections::raz::zip_empty'>zip_empty</a></td>
-                           <td class='docblock-short'>
-                                <p>A zipper that consists of zero elements (and exactly one punctuation <code>p</code>).</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.zip_insert.html'
-                                  title='adapton::collections::raz::zip_insert'>zip_insert</a></td>
-                           <td class='docblock-short'>
-                                <p>Transform the zipper, inserting element <code>x</code> in the given
-direction <code>d</code>. The optional punctuation <code>p</code> follows the inserted
-element, in the given direction.</p>
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>

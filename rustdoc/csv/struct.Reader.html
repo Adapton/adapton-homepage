@@ -323,7 +323,7 @@ separator (<code>\x1f</code>) and record separator (<code>\x1e</code>), respecti
 
 <p>Since ASCII delimited text is meant to be unquoted, this also sets
 <code>quote</code> to <code>None</code>.</p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;R:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/std/io/trait.Read.html' title='std::io::Read'>Read</a>&gt; <a class='struct' href='../csv/struct.Reader.html' title='csv::Reader'>Reader</a>&lt;R&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/csv/reader.rs.html#516-834' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;R:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/std/io/trait.Read.html' title='std::io::Read'>Read</a>&gt; <a class='struct' href='../csv/struct.Reader.html' title='csv::Reader'>Reader</a>&lt;R&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/csv/reader.rs.html#516-844' title='goto source code'>[src]</a></span></h3>
 <div class='docblock'><p>These are low level methods for dealing with the raw bytes of CSV records.
 You should only need to use these when you need the performance or if
 your CSV data isn&#39;t UTF-8 encoded.</p>
@@ -410,7 +410,7 @@ chocolate,refile,7&quot;</span>;
 a Unicode string in place.</p>
 </div><h4 id='method.byte_offset' class='method'><span id='byte_offset.v' class='invisible'><code>fn <a href='#method.byte_offset' class='fnname'>byte_offset</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a></code></span></h4>
 <div class='docblock'><p>Returns the byte offset at which the current record started.</p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;R:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/std/io/trait.Read.html' title='std::io::Read'>Read</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/std/io/trait.Seek.html' title='std::io::Seek'>Seek</a>&gt; <a class='struct' href='../csv/struct.Reader.html' title='csv::Reader'>Reader</a>&lt;R&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/csv/reader.rs.html#847-872' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;R:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/std/io/trait.Read.html' title='std::io::Read'>Read</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/std/io/trait.Seek.html' title='std::io::Seek'>Seek</a>&gt; <a class='struct' href='../csv/struct.Reader.html' title='csv::Reader'>Reader</a>&lt;R&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/csv/reader.rs.html#857-882' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.seek' class='method'><span id='seek.v' class='invisible'><code>fn <a href='#method.seek' class='fnname'>seek</a>(&amp;mut self, pos: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a>) -&gt; <a class='type' href='../csv/type.Result.html' title='csv::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></span></h4>
 <div class='docblock'><p>Seeks the underlying reader to the file cursor specified.</p>
 
