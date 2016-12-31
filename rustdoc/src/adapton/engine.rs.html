@@ -1817,6 +1817,30 @@
 <span id="1773">1773</span>
 <span id="1774">1774</span>
 <span id="1775">1775</span>
+<span id="1776">1776</span>
+<span id="1777">1777</span>
+<span id="1778">1778</span>
+<span id="1779">1779</span>
+<span id="1780">1780</span>
+<span id="1781">1781</span>
+<span id="1782">1782</span>
+<span id="1783">1783</span>
+<span id="1784">1784</span>
+<span id="1785">1785</span>
+<span id="1786">1786</span>
+<span id="1787">1787</span>
+<span id="1788">1788</span>
+<span id="1789">1789</span>
+<span id="1790">1790</span>
+<span id="1791">1791</span>
+<span id="1792">1792</span>
+<span id="1793">1793</span>
+<span id="1794">1794</span>
+<span id="1795">1795</span>
+<span id="1796">1796</span>
+<span id="1797">1797</span>
+<span id="1798">1798</span>
+<span id="1799">1799</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>RefCell</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
@@ -1831,13 +1855,15 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>num</span>::<span class='ident'>Zero</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Add</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
- 
+
+<span class='kw'>use</span> <span class='ident'>reflect</span>::<span class='op'>*</span>; 
 <span class='kw'>use</span> <span class='ident'>macros</span>::<span class='op'>*</span>;
 
 <span class='macro'>thread_local</span><span class='macro'>!</span>(<span class='kw'>static</span> <span class='ident'>GLOBALS</span>: <span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>Globals</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>Globals</span>{<span class='ident'>engine</span>:<span class='ident'>Engine</span>::<span class='ident'>Naive</span>}));
 <span class='macro'>thread_local</span><span class='macro'>!</span>(<span class='kw'>static</span> <span class='ident'>ROOT_NAME</span>: <span class='ident'>Name</span> <span class='op'>=</span> <span class='ident'>Name</span>{ <span class='ident'>hash</span>:<span class='number'>0</span>, <span class='ident'>symbol</span>: <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>NameSym</span>::<span class='ident'>Root</span>) });
 
-<span class='comment'>// Names provide a symbolic way to identify nodes.</span>
+<span class='doccomment'>/// Names: A fundemental abstraction in Adapton.  When they identify different content over time, they give rise to incremental changes.</span>
+<span class='doccomment'>/// Names are used to identify mutable cells (see `cell`) and thunks (see `thunk).</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>,<span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Name</span> {
   <span class='ident'>hash</span> : <span class='ident'>u64</span>, <span class='comment'>// hash of symbol</span>
@@ -1852,7 +1878,7 @@
   }
 }
 
-<span class='comment'>// Each location identifies a node in the DCG.</span>
+<span class='doccomment'>/// Each location identifies a node in the DCG.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>,<span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Loc</span> {
   <span class='ident'>hash</span> : <span class='ident'>u64</span>, <span class='comment'>// hash of (path,id)</span>
@@ -1885,25 +1911,34 @@
   }
 }
 
+<span class='doccomment'>/// Flags control runtime behavior</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Flags</span> {
   <span class='kw'>pub</span> <span class='ident'>use_purity_optimization</span> : <span class='ident'>bool</span>,
-  <span class='kw'>pub</span> <span class='ident'>ignore_nominal_use_structural</span> : <span class='ident'>bool</span>, <span class='comment'>// Ignore the Nominal ArtIdChoice, and use Structural behavior instead</span>
-  <span class='kw'>pub</span> <span class='ident'>check_dcg_is_wf</span> : <span class='ident'>bool</span>, <span class='comment'>// After each Adapton operation, check that the DCG is well-formed</span>
-  <span class='kw'>pub</span> <span class='ident'>write_dcg</span> : <span class='ident'>bool</span>, <span class='comment'>// Within each well-formedness check, write the DCG to the local filesystem</span>
-  <span class='kw'>pub</span> <span class='ident'>gmlog_dcg</span> : <span class='ident'>bool</span>, <span class='comment'>// At certain points in the Engine&#39;s code, write state changes as graph-movie output</span>
+  <span class='doccomment'>/// Ignore the `Nominal` `ArtIdChoice`, and use `Structural` behavior instead</span>
+  <span class='kw'>pub</span> <span class='ident'>ignore_nominal_use_structural</span> : <span class='ident'>bool</span>, 
+  <span class='doccomment'>/// After each Adapton operation, check that the DCG is well-formed</span>
+  <span class='kw'>pub</span> <span class='ident'>check_dcg_is_wf</span> : <span class='ident'>bool</span>, 
+  <span class='doccomment'>/// Within each well-formedness check, write the DCG to the local filesystem</span>
+  <span class='kw'>pub</span> <span class='ident'>write_dcg</span> : <span class='ident'>bool</span>, 
+  <span class='doccomment'>/// Deprecated: At certain points in the Engine&#39;s code, write state changes as graph-movie output</span>
+  <span class='doccomment'>/// TODO: To be replaced with DCG reflection, and reflection-to-filesystem logic.</span>
+  <span class='kw'>pub</span> <span class='ident'>gmlog_dcg</span> : <span class='ident'>bool</span>,
 }
 
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Globals</span> {
   <span class='ident'>engine</span>: <span class='ident'>Engine</span>,
 }
 
+<span class='doccomment'>/// The engine API works in two modes: `Naive` and `DCG`.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>,<span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Engine</span> {
   <span class='ident'>DCG</span>(<span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>DCG</span><span class='op'>&gt;</span>),
   <span class='ident'>Naive</span>
 }
 
+<span class='doccomment'>/// The DCG consists of private state (a memo table of DCG nodes, a</span>
+<span class='doccomment'>/// stack of DCG nodes, etc.).</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DCG</span> {
   <span class='kw'>pub</span> <span class='ident'>flags</span> : <span class='ident'>Flags</span>, <span class='comment'>// public because I dont want to write / design abstract accessors</span>
@@ -3404,44 +3439,52 @@
   <span class='kw'>return</span> <span class='ident'>engine</span>
 }
 
+<span class='doccomment'>/// alias for `use_engine`</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>init_engine</span> (<span class='ident'>engine</span>: <span class='ident'>Engine</span>) <span class='op'>-&gt;</span> <span class='ident'>Engine</span> {
   <span class='ident'>use_engine</span>(<span class='ident'>engine</span>)
 }
 
+<span class='doccomment'>/// Create a name from unit, that is, create a &quot;leaf&quot; name.</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_unit</span> () <span class='op'>-&gt;</span> <span class='ident'>Name</span> {
   <span class='ident'>ROOT_NAME</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span><span class='ident'>r</span>.<span class='ident'>clone</span>())
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_of_usize</span> (<span class='ident'>u</span>:<span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>Name</span> {
-  <span class='kw'>let</span> <span class='ident'>h</span> <span class='op'>=</span> <span class='ident'>my_hash</span>(<span class='kw-2'>&amp;</span><span class='ident'>u</span>) ;
-  <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>NameSym</span>::<span class='ident'>Usize</span>(<span class='ident'>u</span>) ;
-  <span class='ident'>Name</span>{ <span class='ident'>hash</span>:<span class='ident'>h</span>, <span class='ident'>symbol</span>:<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>s</span>) }
-}
-
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_of_isize</span> (<span class='ident'>i</span>:<span class='ident'>isize</span>) <span class='op'>-&gt;</span> <span class='ident'>Name</span> {
-  <span class='kw'>let</span> <span class='ident'>h</span> <span class='op'>=</span> <span class='ident'>my_hash</span>(<span class='kw-2'>&amp;</span><span class='ident'>i</span>) ;
-  <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>NameSym</span>::<span class='ident'>Isize</span>(<span class='ident'>i</span>) ;
-  <span class='ident'>Name</span>{ <span class='ident'>hash</span>:<span class='ident'>h</span>, <span class='ident'>symbol</span>:<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>s</span>) }
-}
-
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_of_string</span> (<span class='ident'>s</span>:<span class='ident'>String</span>) <span class='op'>-&gt;</span> <span class='ident'>Name</span> {
-  <span class='kw'>let</span> <span class='ident'>h</span> <span class='op'>=</span> <span class='ident'>my_hash</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>);
-  <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>NameSym</span>::<span class='ident'>String</span>(<span class='ident'>s</span>) ;
-  <span class='ident'>Name</span>{ <span class='ident'>hash</span>:<span class='ident'>h</span>, <span class='ident'>symbol</span>:<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>s</span>) }
-}
-
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_of_str</span> (<span class='ident'>s</span>:<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>Name</span> {
-  <span class='kw'>let</span> <span class='ident'>h</span> <span class='op'>=</span> <span class='ident'>my_hash</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>);
-  <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>NameSym</span>::<span class='ident'>String</span>(<span class='ident'>s</span>.<span class='ident'>to_string</span>()) ;
-  <span class='ident'>Name</span>{ <span class='ident'>hash</span>:<span class='ident'>h</span>, <span class='ident'>symbol</span>:<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>s</span>) }
-}
-
+<span class='doccomment'>/// Create one name from two (binary name composition)</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_pair</span> (<span class='ident'>n1</span>:<span class='ident'>Name</span>, <span class='ident'>n2</span>:<span class='ident'>Name</span>) <span class='op'>-&gt;</span> <span class='ident'>Name</span> {
   <span class='kw'>let</span> <span class='ident'>h</span> <span class='op'>=</span> <span class='ident'>my_hash</span>( <span class='kw-2'>&amp;</span>(<span class='ident'>n1</span>.<span class='ident'>hash</span>,<span class='ident'>n2</span>.<span class='ident'>hash</span>) ) ;
   <span class='kw'>let</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>NameSym</span>::<span class='ident'>Pair</span>(<span class='ident'>n1</span>.<span class='ident'>symbol</span>, <span class='ident'>n2</span>.<span class='ident'>symbol</span>) ;
   <span class='ident'>Name</span>{ <span class='ident'>hash</span>:<span class='ident'>h</span>, <span class='ident'>symbol</span>:<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>p</span>) }
 }
 
+<span class='doccomment'>/// Create a name from a `usize`</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_of_usize</span> (<span class='ident'>u</span>:<span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>Name</span> {
+  <span class='kw'>let</span> <span class='ident'>h</span> <span class='op'>=</span> <span class='ident'>my_hash</span>(<span class='kw-2'>&amp;</span><span class='ident'>u</span>) ;
+  <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>NameSym</span>::<span class='ident'>Usize</span>(<span class='ident'>u</span>) ;
+  <span class='ident'>Name</span>{ <span class='ident'>hash</span>:<span class='ident'>h</span>, <span class='ident'>symbol</span>:<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>s</span>) }
+}
+
+<span class='doccomment'>/// Create a name from a `isize`</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_of_isize</span> (<span class='ident'>i</span>:<span class='ident'>isize</span>) <span class='op'>-&gt;</span> <span class='ident'>Name</span> {
+  <span class='kw'>let</span> <span class='ident'>h</span> <span class='op'>=</span> <span class='ident'>my_hash</span>(<span class='kw-2'>&amp;</span><span class='ident'>i</span>) ;
+  <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>NameSym</span>::<span class='ident'>Isize</span>(<span class='ident'>i</span>) ;
+  <span class='ident'>Name</span>{ <span class='ident'>hash</span>:<span class='ident'>h</span>, <span class='ident'>symbol</span>:<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>s</span>) }
+}
+
+<span class='doccomment'>/// Create a name from a `string`</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_of_string</span> (<span class='ident'>s</span>:<span class='ident'>String</span>) <span class='op'>-&gt;</span> <span class='ident'>Name</span> {
+  <span class='kw'>let</span> <span class='ident'>h</span> <span class='op'>=</span> <span class='ident'>my_hash</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>);
+  <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>NameSym</span>::<span class='ident'>String</span>(<span class='ident'>s</span>) ;
+  <span class='ident'>Name</span>{ <span class='ident'>hash</span>:<span class='ident'>h</span>, <span class='ident'>symbol</span>:<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>s</span>) }
+}
+
+<span class='doccomment'>/// Create a name from a `str`</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_of_str</span> (<span class='ident'>s</span>:<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>Name</span> {
+  <span class='kw'>let</span> <span class='ident'>h</span> <span class='op'>=</span> <span class='ident'>my_hash</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>);
+  <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>NameSym</span>::<span class='ident'>String</span>(<span class='ident'>s</span>.<span class='ident'>to_string</span>()) ;
+  <span class='ident'>Name</span>{ <span class='ident'>hash</span>:<span class='ident'>h</span>, <span class='ident'>symbol</span>:<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>s</span>) }
+}
+
+<span class='doccomment'>/// Create two names from one</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_fork</span> (<span class='ident'>n</span>:<span class='ident'>Name</span>) <span class='op'>-&gt;</span> (<span class='ident'>Name</span>, <span class='ident'>Name</span>) {
   <span class='kw'>let</span> <span class='ident'>h1</span> <span class='op'>=</span> <span class='ident'>my_hash</span>( <span class='kw-2'>&amp;</span>(<span class='kw-2'>&amp;</span><span class='ident'>n</span>, <span class='number'>11111111</span>) ) ; <span class='comment'>// TODO-Later: make this hashing better.</span>
   <span class='kw'>let</span> <span class='ident'>h2</span> <span class='op'>=</span> <span class='ident'>my_hash</span>( <span class='kw-2'>&amp;</span>(<span class='kw-2'>&amp;</span><span class='ident'>n</span>, <span class='number'>22222222</span>) ) ;
@@ -3451,6 +3494,7 @@
           <span class='ident'>symbol</span>:<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>NameSym</span>::<span class='ident'>ForkR</span>(<span class='ident'>n</span>.<span class='ident'>symbol</span>)) } )    
 }
 
+<span class='doccomment'>/// Create three names from one</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_fork3</span> (<span class='ident'>n</span>:<span class='ident'>Name</span>)
                    <span class='op'>-&gt;</span> (<span class='ident'>Name</span>,<span class='ident'>Name</span>,<span class='ident'>Name</span>)
 {
@@ -3459,6 +3503,7 @@
   (<span class='ident'>n1</span>,<span class='ident'>n2</span>,<span class='ident'>n3</span>)
 }
 
+<span class='doccomment'>/// Create four names from one</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_fork4</span> (<span class='ident'>n</span>:<span class='ident'>Name</span>)
                    <span class='op'>-&gt;</span> (<span class='ident'>Name</span>,<span class='ident'>Name</span>,<span class='ident'>Name</span>,<span class='ident'>Name</span>)
 {
@@ -3490,6 +3535,7 @@
     })    
   }
 
+<span class='doccomment'>/// Counts various engine cost metrics, returning a product of sums (`Cnt`)</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cnt</span><span class='op'>&lt;</span><span class='ident'>Res</span>,<span class='ident'>F</span><span class='op'>&gt;</span> (<span class='ident'>body</span>:<span class='ident'>F</span>) <span class='op'>-&gt;</span> (<span class='ident'>Res</span>, <span class='ident'>Cnt</span>)
   <span class='kw'>where</span> <span class='ident'>F</span>:<span class='ident'>FnOnce</span>() <span class='op'>-&gt;</span> <span class='ident'>Res</span> {
     <span class='ident'>GLOBALS</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> {
@@ -3578,6 +3624,7 @@
   }
 }
 
+<span class='doccomment'>/// True iff the current engine is `Naive`</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>engine_is_naive</span> () <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
   <span class='ident'>GLOBALS</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> {
     <span class='kw'>match</span> <span class='ident'>g</span>.<span class='ident'>borrow</span>().<span class='ident'>engine</span> {
@@ -3586,6 +3633,7 @@
     }})    
 }
 
+<span class='doccomment'>/// True iff the current engine is a `DCG`</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>engine_is_dcg</span> () <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
   <span class='ident'>GLOBALS</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> {
     <span class='kw'>match</span> <span class='ident'>g</span>.<span class='ident'>borrow</span>().<span class='ident'>engine</span> {
