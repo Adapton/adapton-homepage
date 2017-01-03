@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/adapton/src/collections.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.multirust/toolchains/nightly/cargo/git/checkouts/adapton.rust-b16351c49ab23a81/b6c4162/src/collections.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>collections.rs.html -- source</title>
@@ -2757,6 +2757,10 @@
 <span id="2713">2713</span>
 <span id="2714">2714</span>
 <span id="2715">2715</span>
+<span id="2716">2716</span>
+<span id="2717">2717</span>
+<span id="2718">2718</span>
+<span id="2719">2719</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Debug</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::<span class='ident'>Hash</span>;
@@ -2768,6 +2772,10 @@
 
 <span class='kw'>use</span> <span class='ident'>macros</span>::<span class='op'>*</span> ;
 <span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='op'>*</span> ;
+
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>trie</span> {
+  <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>trie</span>::<span class='op'>*</span>;
+}
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Copy</span>,<span class='ident'>Hash</span>,<span class='ident'>Eq</span>,<span class='ident'>PartialEq</span>,<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Dir2</span> { <span class='ident'>Left</span>, <span class='ident'>Right</span> }

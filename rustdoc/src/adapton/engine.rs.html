@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/adapton/src/engine.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.multirust/toolchains/nightly/cargo/git/checkouts/adapton.rust-b16351c49ab23a81/b6c4162/src/engine.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>engine.rs.html -- source</title>
@@ -1841,6 +1841,38 @@
 <span id="1797">1797</span>
 <span id="1798">1798</span>
 <span id="1799">1799</span>
+<span id="1800">1800</span>
+<span id="1801">1801</span>
+<span id="1802">1802</span>
+<span id="1803">1803</span>
+<span id="1804">1804</span>
+<span id="1805">1805</span>
+<span id="1806">1806</span>
+<span id="1807">1807</span>
+<span id="1808">1808</span>
+<span id="1809">1809</span>
+<span id="1810">1810</span>
+<span id="1811">1811</span>
+<span id="1812">1812</span>
+<span id="1813">1813</span>
+<span id="1814">1814</span>
+<span id="1815">1815</span>
+<span id="1816">1816</span>
+<span id="1817">1817</span>
+<span id="1818">1818</span>
+<span id="1819">1819</span>
+<span id="1820">1820</span>
+<span id="1821">1821</span>
+<span id="1822">1822</span>
+<span id="1823">1823</span>
+<span id="1824">1824</span>
+<span id="1825">1825</span>
+<span id="1826">1826</span>
+<span id="1827">1827</span>
+<span id="1828">1828</span>
+<span id="1829">1829</span>
+<span id="1830">1830</span>
+<span id="1831">1831</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>RefCell</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
@@ -1856,14 +1888,20 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Add</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 
-<span class='kw'>use</span> <span class='ident'>reflect</span>::<span class='op'>*</span>; 
 <span class='kw'>use</span> <span class='ident'>macros</span>::<span class='op'>*</span>;
+
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>reflect</span> {
+  <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>reflect</span>::<span class='op'>*</span>;
+}
 
 <span class='macro'>thread_local</span><span class='macro'>!</span>(<span class='kw'>static</span> <span class='ident'>GLOBALS</span>: <span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>Globals</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>Globals</span>{<span class='ident'>engine</span>:<span class='ident'>Engine</span>::<span class='ident'>Naive</span>}));
 <span class='macro'>thread_local</span><span class='macro'>!</span>(<span class='kw'>static</span> <span class='ident'>ROOT_NAME</span>: <span class='ident'>Name</span> <span class='op'>=</span> <span class='ident'>Name</span>{ <span class='ident'>hash</span>:<span class='number'>0</span>, <span class='ident'>symbol</span>: <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>NameSym</span>::<span class='ident'>Root</span>) });
 
-<span class='doccomment'>/// Names: A fundemental abstraction in Adapton.  When they identify different content over time, they give rise to incremental changes.</span>
-<span class='doccomment'>/// Names are used to identify mutable cells (see `cell`) and thunks (see `thunk).</span>
+<span class='doccomment'>/// *Names*: First-class data that identifies a mutable cell (see</span>
+<span class='doccomment'>/// `cell`) or a thunk (see `thunk`).  When a name identifies</span>
+<span class='doccomment'>/// different content over time, it describes *where* incremental</span>
+<span class='doccomment'>/// changing is occurring, relative to other (unaffected) parts of</span>
+<span class='doccomment'>/// data structures or computations.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>,<span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Name</span> {
   <span class='ident'>hash</span> : <span class='ident'>u64</span>, <span class='comment'>// hash of symbol</span>
@@ -1878,9 +1916,9 @@
   }
 }
 
-<span class='doccomment'>/// Each location identifies a node in the DCG.</span>
+<span class='comment'>// Each location identifies a node in the DCG.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>,<span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Loc</span> {
+<span class='kw'>struct</span> <span class='ident'>Loc</span> {
   <span class='ident'>hash</span> : <span class='ident'>u64</span>, <span class='comment'>// hash of (path,id)</span>
   <span class='ident'>path</span> : <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;</span>,
   <span class='ident'>id</span>   : <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>ArtId</span><span class='op'>&gt;</span>,
@@ -1898,8 +1936,10 @@
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Hash</span>,<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>,<span class='ident'>Clone</span>)]</span>
 <span class='kw'>enum</span> <span class='ident'>ArtId</span> {
-  <span class='ident'>Structural</span>(<span class='ident'>u64</span>), <span class='comment'>// Identifies an Art::Loc based on hashing content.</span>
-  <span class='ident'>Nominal</span>(<span class='ident'>Name</span>),   <span class='comment'>// Identifies an Art::Loc based on a programmer-chosen name.</span>
+  <span class='doccomment'>/// Identifies an `Art` structurally, based on hashing content.</span>
+  <span class='ident'>Structural</span>(<span class='ident'>u64</span>), 
+  <span class='doccomment'>/// Identifies an `Art` nominally, based on a programmer-chosen `Name`.</span>
+  <span class='ident'>Nominal</span>(<span class='ident'>Name</span>),
 }
 
 <span class='kw'>impl</span> <span class='ident'>Debug</span> <span class='kw'>for</span> <span class='ident'>ArtId</span> {
@@ -1911,7 +1951,7 @@
   }
 }
 
-<span class='doccomment'>/// Flags control runtime behavior</span>
+<span class='doccomment'>/// Flags control runtime behavior of the DCG.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Flags</span> {
   <span class='kw'>pub</span> <span class='ident'>use_purity_optimization</span> : <span class='ident'>bool</span>,
@@ -1926,19 +1966,22 @@
   <span class='kw'>pub</span> <span class='ident'>gmlog_dcg</span> : <span class='ident'>bool</span>,
 }
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Globals</span> {
+<span class='kw'>struct</span> <span class='ident'>Globals</span> {
   <span class='ident'>engine</span>: <span class='ident'>Engine</span>,
 }
 
-<span class='doccomment'>/// The engine API works in two modes: `Naive` and `DCG`.</span>
+<span class='doccomment'>/// The engine API works in two modes: `Naive` and `DCG`. A `Naive` engine is stateless, whereas the `DCG` is stateful.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>,<span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Engine</span> {
   <span class='ident'>DCG</span>(<span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>DCG</span><span class='op'>&gt;</span>),
   <span class='ident'>Naive</span>
 }
 
+<span class='doccomment'>/// *(DCG) Demanded Computation Graph*: The cache of past computation.</span>
+<span class='doccomment'>///</span>
 <span class='doccomment'>/// The DCG consists of private state (a memo table of DCG nodes, a</span>
-<span class='doccomment'>/// stack of DCG nodes, etc.).</span>
+<span class='doccomment'>/// stack of DCG nodes, edges among these nodes, the current</span>
+<span class='doccomment'>/// namespace, etc.).</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DCG</span> {
   <span class='kw'>pub</span> <span class='ident'>flags</span> : <span class='ident'>Flags</span>, <span class='comment'>// public because I dont want to write / design abstract accessors</span>
@@ -2373,14 +2416,14 @@
   }
 }
 
-<span class='doccomment'>/// An `ArtIdChoice` is a symbolic identity for an articulation point made by</span>
-<span class='doccomment'>/// Adapton::thunk.  An `ArtIdChoice` is chosen by the programmer to identify</span>
-<span class='doccomment'>/// the point during evaluation (and simultaneously, to identify the</span>
-<span class='doccomment'>/// point during re-evaluation).</span>
+<span class='doccomment'>/// An `ArtIdChoice` choses between `Eager`, `Structural` and</span>
+<span class='doccomment'>/// `Nominal` identities for articulation points introduced by</span>
+<span class='doccomment'>/// `thunk`.</span>
+<span class='doccomment'>/// </span>
 <span class='doccomment'>/// An `Eager` identity is special, and it means &quot;do not introduce any</span>
 <span class='doccomment'>/// laziness/memoization overhead here&quot;; when Eager is used, no thunk</span>
-<span class='doccomment'>/// is created; rather, the computation eagerly produces an articulated</span>
-<span class='doccomment'>/// value of the form Art::Rc(v), for some value v.</span>
+<span class='doccomment'>/// is created; rather, the computation eagerly produces an immutable</span>
+<span class='doccomment'>/// value held in an `Rc`.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Hash</span>,<span class='ident'>Debug</span>,<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>,<span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ArtIdChoice</span> {
   <span class='doccomment'>/// Eagerly produces an `Art` that merely consists of an `Rc`; no additional indirection is needed/used.</span>
@@ -2391,12 +2434,18 @@
   <span class='ident'>Nominal</span>(<span class='ident'>Name</span>),
 }
 
+<span class='doccomment'>/// *Engine Counts*: Metrics that reflect the time and space costs of the engine.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>,<span class='ident'>Hash</span>,<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>,<span class='ident'>Clone</span>,<span class='ident'>Encodable</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Cnt</span> {
+  <span class='doccomment'>/// Number of DCG nodes created</span>
   <span class='kw'>pub</span> <span class='ident'>create</span> : <span class='ident'>usize</span>, <span class='comment'>// Add trait performs sum</span>
+  <span class='doccomment'>/// Number of DCG nodes evaluated</span>
   <span class='kw'>pub</span> <span class='ident'>eval</span>   : <span class='ident'>usize</span>, <span class='comment'>// Add trait performs sum</span>
+  <span class='doccomment'>/// Number of DCG nodes marked as dirty</span>
   <span class='kw'>pub</span> <span class='ident'>dirty</span>  : <span class='ident'>usize</span>, <span class='comment'>// Add trait performs sum</span>
+  <span class='doccomment'>/// Number of DCG nodes reverted from dirty to clean</span>
   <span class='kw'>pub</span> <span class='ident'>clean</span>  : <span class='ident'>usize</span>, <span class='comment'>// Add trait performs sum</span>
+  <span class='doccomment'>/// Maximum height of the DCG node stack.  This stack is pushed when DCG nodes are evaluated, and popped when they complete.</span>
   <span class='kw'>pub</span> <span class='ident'>stack</span>  : <span class='ident'>usize</span>, <span class='comment'>// Add trait performs max</span>
 }
 
@@ -3285,10 +3334,25 @@
     }}
 }
 
-<span class='doccomment'>/// The term &quot;Art&quot; stands for two things here: &quot;Adapton return type&quot;,</span>
-<span class='doccomment'>/// and &quot;Articulation point, for &#39;articulating&#39; incremental change&quot;.</span>
-<span class='doccomment'>/// The concept of an &quot;Art&quot; also abstracts over whether the producer</span>
-<span class='doccomment'>/// is eager (like a ref cell) or lazy (like a thunk).</span>
+<span class='doccomment'>/// *Articulations:* for incrementally-changing data/computation.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>///  - Introduced by (produced by) `thunk`, `cell` and `put` </span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>///  - Eliminated by (consumed by) `force` (and `set`).</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// The term *Art* stands for two things here: _Adapton Return Type_</span>
+<span class='doccomment'>/// (of `thunk` and `cell`), and _Articulation point for</span>
+<span class='doccomment'>/// incrementally-changing data/computation_.  </span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Each art has a unique identity. (See also: `Name`s, and functions</span>
+<span class='doccomment'>/// to produce them).  Because this identity, an art can be hashed and</span>
+<span class='doccomment'>/// compared for equality efficiently, in O(1) time.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// The concept of an art abstracts over whether the producer is eager</span>
+<span class='doccomment'>/// (like a ref `cell`) or lazy (like a `thunk`).  One uses `force` to</span>
+<span class='doccomment'>/// inspect both. Consequently, code that consumes structures with</span>
+<span class='doccomment'>/// arts need only ever use `force` (not two different functions,</span>
+<span class='doccomment'>/// depending on whether the art is lazy or eager).</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>,<span class='ident'>Hash</span>,<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Art</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
   <span class='ident'>art</span>:<span class='ident'>EnumArt</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>,

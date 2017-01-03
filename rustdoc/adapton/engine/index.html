@@ -47,61 +47,54 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/adapton/engine.rs.html#1-1799' title='goto source code'>[src]</a></span></h1>
-<h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+               </span><a class='srclink' href='../../src/adapton/engine.rs.html#1-1831' title='goto source code'>[src]</a></span></h1>
+<h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='reflect/index.html'
+                                  title='adapton::engine::reflect'>reflect</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Art.html'
                                   title='adapton::engine::Art'>Art</a></td>
                            <td class='docblock-short'>
-                                <p>The term &quot;Art&quot; stands for two things here: &quot;Adapton return type&quot;,
-and &quot;Articulation point, for &#39;articulating&#39; incremental change&quot;.
-The concept of an &quot;Art&quot; also abstracts over whether the producer
-is eager (like a ref cell) or lazy (like a thunk).</p>
+                                <p><em>Articulations:</em> for incrementally-changing data/computation.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Cnt.html'
                                   title='adapton::engine::Cnt'>Cnt</a></td>
                            <td class='docblock-short'>
-                                
+                                <p><em>Engine Counts</em>: Metrics that reflect the time and space costs of the engine.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.DCG.html'
                                   title='adapton::engine::DCG'>DCG</a></td>
                            <td class='docblock-short'>
-                                <p>The DCG consists of private state (a memo table of DCG nodes, a
-stack of DCG nodes, etc.).</p>
+                                <p><em>(DCG) Demanded Computation Graph</em>: The cache of past computation.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Flags.html'
                                   title='adapton::engine::Flags'>Flags</a></td>
                            <td class='docblock-short'>
-                                <p>Flags control runtime behavior</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Globals.html'
-                                  title='adapton::engine::Globals'>Globals</a></td>
-                           <td class='docblock-short'>
-                                
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Loc.html'
-                                  title='adapton::engine::Loc'>Loc</a></td>
-                           <td class='docblock-short'>
-                                <p>Each location identifies a node in the DCG.</p>
+                                <p>Flags control runtime behavior of the DCG.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Name.html'
                                   title='adapton::engine::Name'>Name</a></td>
                            <td class='docblock-short'>
-                                <p>Names: A fundemental abstraction in Adapton.  When they identify different content over time, they give rise to incremental changes.
-Names are used to identify mutable cells (see <code>cell</code>) and thunks (see `thunk).</p>
+                                <p><em>Names</em>: First-class data that identifies a mutable cell (see
+<code>cell</code>) or a thunk (see <code>thunk</code>).  When a name identifies
+different content over time, it describes <em>where</em> incremental
+changing is occurring, relative to other (unaffected) parts of
+data structures or computations.</p>
                            </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
@@ -109,21 +102,16 @@ Names are used to identify mutable cells (see <code>cell</code>) and thunks (see
                            <td><a class='enum' href='enum.ArtIdChoice.html'
                                   title='adapton::engine::ArtIdChoice'>ArtIdChoice</a></td>
                            <td class='docblock-short'>
-                                <p>An <code>ArtIdChoice</code> is a symbolic identity for an articulation point made by
-Adapton::thunk.  An <code>ArtIdChoice</code> is chosen by the programmer to identify
-the point during evaluation (and simultaneously, to identify the
-point during re-evaluation).
-An <code>Eager</code> identity is special, and it means &quot;do not introduce any
-laziness/memoization overhead here&quot;; when Eager is used, no thunk
-is created; rather, the computation eagerly produces an articulated
-value of the form Art::Rc(v), for some value v.</p>
+                                <p>An <code>ArtIdChoice</code> choses between <code>Eager</code>, <code>Structural</code> and
+<code>Nominal</code> identities for articulation points introduced by
+<code>thunk</code>.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.Engine.html'
                                   title='adapton::engine::Engine'>Engine</a></td>
                            <td class='docblock-short'>
-                                <p>The engine API works in two modes: <code>Naive</code> and <code>DCG</code>.</p>
+                                <p>The engine API works in two modes: <code>Naive</code> and <code>DCG</code>. A <code>Naive</code> engine is stateless, whereas the <code>DCG</code> is stateful.</p>
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
