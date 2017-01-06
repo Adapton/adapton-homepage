@@ -1,0 +1,16 @@
+<html style="width:100%;height:500px">
+<body style="width:100%;height:100%">
+<table class="enginesample" style="border-style:solid;border-width:20px; border-right:0px;">
+  <tr>
+    <td><span class="vizheading">Alloc <a href="https://en.wikipedia.org/wiki/Espalier">Espailer</a></span></td>
+    <td><span class="vizheading">Observe <a href="https://en.wikipedia.org/wiki/Espalier">Espailer</a></span></td>
+    <td><span class="vizheading">Value <a href="https://en.wikipedia.org/wiki/Espalier">Espailer</a></span></td>
+  </tr>
+  <tr>
+    <td><object class="vizviewport2" data="fakealloc.html"></object></td>
+    <td><object class="vizviewport2" data="fakeobserve.html"></object></td>
+    <td><object class="vizviewport2" style="width:1000px" data="fakevalue.html"></object></td>
+  </tr>
+</table>
+</body>
+</html>
