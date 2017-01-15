@@ -9,6 +9,7 @@
 
     <title>labdef.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -168,9 +169,12 @@
 <span id="124">124</span>
 <span id="125">125</span>
 <span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='ident'>Cnt</span>; <span class='comment'>// Counters for engine costs</span>
 <span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='ident'>Name</span>; <span class='comment'>// Names, for naming things uniquely</span>
+<span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='ident'>reflect</span>::<span class='ident'>trace</span>::<span class='ident'>Trace</span>;
 <span class='kw'>use</span> <span class='ident'>rand</span>::<span class='ident'>Rng</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>marker</span>::<span class='ident'>PhantomData</span>;
 
@@ -294,6 +298,7 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>EngineMetrics</span> {
   <span class='kw'>pub</span> <span class='ident'>time_ns</span>:    <span class='ident'>u64</span>,
   <span class='kw'>pub</span> <span class='ident'>engine_cnt</span>: <span class='ident'>Cnt</span>,
+  <span class='kw'>pub</span> <span class='ident'>dcg_traces</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Trace</span><span class='op'>&gt;</span>,
 }
 </pre>
 </section>

@@ -9,6 +9,7 @@
 
     <title>main.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -118,9 +119,21 @@
 <span id="74">74</span>
 <span id="75">75</span>
 <span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
 </pre><pre class='rust '>
+<span class='doccomment'>//! Travis test</span>
+
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>field_init_shorthand</span>)]</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>rustc_private</span>)]</span>
+<span class='comment'>//#![feature(rustc_private)]</span>
 <span class='comment'>//#![feature(custom_derive)]</span>
 
 <span class='comment'>//extern crate serialize;</span>
@@ -130,10 +143,18 @@
 <span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>adapton</span>;
 
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>pmfp_collections</span>;
+
 <span class='doccomment'>/// See also: Defines lab parameters `LabParams` and `LabDef`, the</span>
 <span class='doccomment'>/// parameters for running the abstract commutative diagram. See</span>
 <span class='doccomment'>/// [Adapton Lab README](https://github.com/cuplv/adapton-lab.rust).</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>labdef</span>;
+
+<span class='doccomment'>/// This module of Adapton Lab extends Adapton&#39;s existing reflection</span>
+<span class='doccomment'>/// (see `adapton::engine::reflect`) with further reflections.  In</span>
+<span class='doccomment'>/// particular, we produce HTML output structure, for human user</span>
+<span class='doccomment'>/// interaction and consumption.</span>
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>labviz</span>;
 
 <span class='doccomment'>/// See also: **Generically implements** the abstract commutative</span>
 <span class='doccomment'>/// diagram. See [Adapton Lab</span>
@@ -160,7 +181,7 @@
     <span class='ident'>sample_params</span>: <span class='ident'>SampleParams</span>{
       <span class='ident'>input_seeds</span>: <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0</span>],
       <span class='ident'>generate_params</span>: <span class='ident'>GenerateParams</span>{
-        <span class='ident'>size</span>:<span class='number'>10</span>,
+        <span class='ident'>size</span>: <span class='number'>256</span>,
         <span class='ident'>gauge</span>:<span class='number'>1</span>,
         <span class='ident'>nominal_strategy</span>:<span class='ident'>NominalStrategy</span>::<span class='ident'>Regular</span>,
       },
@@ -177,10 +198,10 @@
   <span class='kw'>let</span> <span class='ident'>params</span> <span class='op'>=</span> <span class='ident'>lab_params_defaults</span>();
   <span class='kw'>let</span> <span class='ident'>tests</span> <span class='op'>=</span> <span class='ident'>catalog</span>::<span class='ident'>all_tests</span>();
   <span class='kw'>for</span> <span class='ident'>test</span> <span class='kw'>in</span> <span class='ident'>tests</span>.<span class='ident'>iter</span>() {
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Test: {:?}&quot;</span>, <span class='ident'>test</span>.<span class='ident'>name</span>());
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Running: {:?}&quot;</span>, <span class='ident'>test</span>.<span class='ident'>name</span>());
     <span class='kw'>let</span> <span class='ident'>results</span> <span class='op'>=</span> <span class='ident'>test</span>.<span class='ident'>run</span>(<span class='kw-2'>&amp;</span><span class='ident'>params</span>);
-    <span class='ident'>drop</span>(<span class='ident'>results</span>)
-  }
+    <span class='ident'>labviz</span>::<span class='ident'>write_test_results</span>(<span class='ident'>test</span>.<span class='ident'>name</span>(), <span class='kw-2'>&amp;</span><span class='ident'>results</span>);
+  }  
 }
 
 <span class='attribute'>#[<span class='ident'>test</span>]</span>

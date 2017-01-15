@@ -9,6 +9,7 @@
 
     <title>adapton_lab::labdef::Compute - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -47,9 +48,9 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/adapton_lab/labdef.rs.html#38-40' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/adapton_lab/labdef.rs.html#39-41' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Compute&lt;Input, Output&gt; {
-    fn <a href='#tymethod.compute' class='fnname'>compute</a>(Input) -&gt; Output;
+    fn <a href='#tymethod.compute' class='fnname'>compute</a>(_: Input) -&gt; Output;
 }</pre><div class='docblock'><p>Generic notion of a computation to run naively and incrementally.
 It has specific <code>Input</code> and <code>Output</code> types, and a way to <code>compute</code>
 the <code>Output</code> from the <code>Input</code>.
@@ -57,7 +58,7 @@ See <code>README.md</code> for more.</p>
 </div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.compute' class='method stab '><span id='compute.v' class='invisible'><code>fn <a href='#tymethod.compute' class='fnname'>compute</a>(Input) -&gt; Output</code></span></h3></div>
+        <h3 id='tymethod.compute' class='method stab '><span id='compute.v' class='invisible'><code>fn <a href='#tymethod.compute' class='fnname'>compute</a>(_: Input) -&gt; Output</code></span></h3></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
     <li><code>impl Compute&lt;<a class='enum' href='../../adapton/collections/enum.List.html' title='adapton::collections::List'>List</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;, <a class='enum' href='../../adapton/collections/enum.List.html' title='adapton::collections::List'>List</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;&gt; for <a class='struct' href='../../adapton_lab/catalog/struct.EagerMap.html' title='adapton_lab::catalog::EagerMap'>EagerMap</a></code></li>

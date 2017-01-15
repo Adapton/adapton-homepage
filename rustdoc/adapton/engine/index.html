@@ -9,6 +9,7 @@
 
     <title>adapton::engine - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -47,14 +48,17 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/adapton/engine.rs.html#1-1831' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/adapton/engine.rs.html#1-2216' title='goto source code'>[src]</a></span></h1>
 <h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
                            <td><a class='mod' href='reflect/index.html'
                                   title='adapton::engine::reflect'>reflect</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Reflects the DCG engine, including both the effects of the
+programs running in it, and the internal effects of the engine
+cleaning and dirtying the DCG.  For the latter effects, see the
+<code>trace</code> module.</p>
                            </td>
                        </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
@@ -194,6 +198,13 @@ The naive engine is stateless, and performs no memoization and builds no depende
                                   title='adapton::engine::name_fork4'>name_fork4</a></td>
                            <td class='docblock-short'>
                                 <p>Create four names from one</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.name_of_hash64.html'
+                                  title='adapton::engine::name_of_hash64'>name_of_hash64</a></td>
+                           <td class='docblock-short'>
+                                
                            </td>
                        </tr>
                        <tr class=' module-item'>

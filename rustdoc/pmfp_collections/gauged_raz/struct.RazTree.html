@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `RazTree` struct in crate `pmfp_collections`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, RazTree">
+
+    <title>pmfp_collections::gauged_raz::RazTree - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>pmfp_collections</a>::<wbr><a href='index.html'>gauged_raz</a></p><script>window.sidebarCurrent = {name: 'RazTree', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>pmfp_collections</a>::<wbr><a href='index.html'>gauged_raz</a>::<wbr><a class='struct' href=''>RazTree</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/pmfp_collections/gauged_raz.rs.html#43' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct RazTree&lt;E:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>&gt; { /* fields omitted */ }</pre><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;E:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>&gt; <a class='struct' href='../../pmfp_collections/gauged_raz/struct.RazTree.html' title='pmfp_collections::gauged_raz::RazTree'>RazTree</a>&lt;E&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/pmfp_collections/gauged_raz.rs.html#52-97' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.len' class='method'><span id='len.v' class='invisible'><code>fn <a href='#method.len' class='fnname'>len</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></span></h4>
+<h4 id='method.focus' class='method'><span id='focus.v' class='invisible'><code>fn <a href='#method.focus' class='fnname'>focus</a>(self, pos: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../pmfp_collections/gauged_raz/struct.Raz.html' title='pmfp_collections::gauged_raz::Raz'>Raz</a>&lt;E&gt;&gt;</code></span></h4>
+</div><h2 id='deref-methods'>Methods from <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html' title='core::ops::Deref'>Deref</a>&lt;Target=<a class='struct' href='../../pmfp_collections/split_btree_cursor/struct.Tree.html' title='pmfp_collections::split_btree_cursor::Tree'>Tree</a>&lt;<a class='enum' href='../../pmfp_collections/gauged_raz/enum.TreeData.html' title='pmfp_collections::gauged_raz::TreeData'>TreeData</a>&lt;E&gt;&gt;&gt;</h2><div class='impl-items'><h4 id='method.is_empty' class='method'><span id='is_empty.v' class='invisible'><code>fn <a href='#method.is_empty' class='fnname'>is_empty</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
+<div class='docblock'><p>whether the tree contains any structure</p>
+</div><h4 id='method.level' class='method'><span id='level.v' class='invisible'><code>fn <a href='#method.level' class='fnname'>level</a>(&amp;self) -&gt; <a class='type' href='../../pmfp_collections/split_btree_cursor/type.Level.html' title='pmfp_collections::split_btree_cursor::Level'>Level</a></code></span></h4>
+<div class='docblock'><p>peek at the level of the root of this tree, an empty tree has level 0</p>
+</div><h4 id='method.peek' class='method'><span id='peek.v' class='invisible'><code>fn <a href='#method.peek' class='fnname'>peek</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;E&gt;</code></span></h4>
+<div class='docblock'><p>peek at the data contained at the top node of the tree</p>
+</div><h4 id='method.good_levels' class='method'><span id='good_levels.v' class='invisible'><code>fn <a href='#method.good_levels' class='fnname'>good_levels</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
+<div class='docblock'><p>for debugging, this is an O(n) operation
+<code>debug_assert!(tree.good_levels(),&quot;this section of code has a problem&quot;);</code></p>
+
+<p>checks that the levels of the tree follow the convention
+of non-increasing to the left branch and decreasing to the
+right branch</p>
+
+<p>also prints the levels of the first failing tree and branches</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;E:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../pmfp_collections/gauged_raz/struct.RazTree.html' title='pmfp_collections::gauged_raz::RazTree'>RazTree</a>&lt;E&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/pmfp_collections/gauged_raz.rs.html#42' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class='method'><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../pmfp_collections/gauged_raz/struct.RazTree.html' title='pmfp_collections::gauged_raz::RazTree'>RazTree</a>&lt;E&gt;</code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class='method'><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;E:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html' title='core::ops::Deref'>Deref</a> for <a class='struct' href='../../pmfp_collections/gauged_raz/struct.RazTree.html' title='pmfp_collections::gauged_raz::RazTree'>RazTree</a>&lt;E&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/pmfp_collections/gauged_raz.rs.html#45-50' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Target' class='type'><span id='Target.t' class='invisible'><code>type <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html#associatedtype.Target' class='type'>Target</a> = <a class='struct' href='../../pmfp_collections/split_btree_cursor/struct.Tree.html' title='pmfp_collections::split_btree_cursor::Tree'>Tree</a>&lt;<a class='enum' href='../../pmfp_collections/gauged_raz/enum.TreeData.html' title='pmfp_collections::gauged_raz::TreeData'>TreeData</a>&lt;E&gt;&gt;</code></span></h4>
+<div class='docblock'><p>The resulting type after dereferencing</p>
+</div><h4 id='method.deref' class='method'><span id='deref.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html#tymethod.deref' class='fnname'>deref</a>(&amp;self) -&gt; &amp;Self::<a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html' title='core::ops::Deref'>Target</a></code></span></h4>
+<div class='docblock'><p>The method called to dereference a value</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;E:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>&gt; <a class='trait' href='../../pmfp_collections/seqzip/trait.Seq.html' title='pmfp_collections::seqzip::Seq'>Seq</a>&lt;E, <a class='struct' href='../../pmfp_collections/gauged_raz/struct.Raz.html' title='pmfp_collections::gauged_raz::Raz'>Raz</a>&lt;E&gt;&gt; for <a class='struct' href='../../pmfp_collections/gauged_raz/struct.RazTree.html' title='pmfp_collections::gauged_raz::RazTree'>RazTree</a>&lt;E&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/pmfp_collections/gauged_raz.rs.html#281-285' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.zip_to' class='method'><span id='zip_to.v' class='invisible'><code>fn <a href='../../pmfp_collections/seqzip/trait.Seq.html#tymethod.zip_to' class='fnname'>zip_to</a>(&amp;self, loc: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../pmfp_collections/gauged_raz/struct.Raz.html' title='pmfp_collections::gauged_raz::Raz'>Raz</a>&lt;E&gt;, &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;</code></span></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "pmfp_collections";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

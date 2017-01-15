@@ -9,6 +9,7 @@
 
     <title>labrun.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -250,6 +251,11 @@
 <span id="206">206</span>
 <span id="207">207</span>
 <span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
 </pre><pre class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>time</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rand</span>;
@@ -292,11 +298,16 @@
 <span class='kw'>fn</span> <span class='ident'>get_engine_metrics</span><span class='op'>&lt;</span><span class='ident'>X</span>,<span class='ident'>F</span>:<span class='ident'>FnOnce</span>() <span class='op'>-&gt;</span> <span class='ident'>X</span><span class='op'>&gt;</span> (<span class='ident'>thunk</span>:<span class='ident'>F</span>) <span class='op'>-&gt;</span> (<span class='ident'>X</span>,<span class='ident'>EngineMetrics</span>)
 {
   <span class='kw'>let</span> <span class='ident'>time_start</span> <span class='op'>=</span> <span class='ident'>time</span>::<span class='ident'>precise_time_ns</span>();
+  
+  <span class='ident'>reflect</span>::<span class='ident'>dcg_reflect_begin</span>();
   <span class='kw'>let</span> (<span class='ident'>x</span>,<span class='ident'>cnt</span>) <span class='op'>=</span> <span class='ident'>cnt</span>(<span class='ident'>thunk</span>);
+  <span class='kw'>let</span> <span class='ident'>traces</span> <span class='op'>=</span> <span class='ident'>reflect</span>::<span class='ident'>dcg_reflect_end</span>();
+
   <span class='kw'>let</span> <span class='ident'>time_end</span> <span class='op'>=</span> <span class='ident'>time</span>::<span class='ident'>precise_time_ns</span>();
   <span class='kw'>return</span> (<span class='ident'>x</span>, <span class='ident'>EngineMetrics</span>{
     <span class='ident'>time_ns</span>:<span class='ident'>time_end</span> <span class='op'>-</span> <span class='ident'>time_start</span>,
     <span class='ident'>engine_cnt</span>:<span class='ident'>cnt</span>,
+    <span class='ident'>dcg_traces</span>:<span class='ident'>traces</span>,
   })
 }
 
@@ -321,14 +332,14 @@
         <span class='ident'>get_engine_metrics</span>(
           <span class='kw'>move</span> <span class='op'>||</span> <span class='ident'>InputDist</span>::<span class='ident'>edit</span>(<span class='ident'>input</span>, <span class='ident'>editst</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>rng2</span>, <span class='kw-2'>&amp;</span><span class='ident'>params</span>.<span class='ident'>generate_params</span>))
     };
-  <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;EngineSample::process_input: {:?}&quot;</span>, <span class='ident'>process_input</span>); <span class='comment'>// XXX Temp  </span>
+  <span class='comment'>//println!(&quot;EngineSample::process_input: {:?}&quot;, process_input); // XXX Temp  </span>
 
   <span class='kw'>let</span> <span class='ident'>input2</span> <span class='op'>=</span> <span class='ident'>edited_input</span>.<span class='ident'>clone</span>();
   <span class='kw'>let</span> (<span class='ident'>output</span>, <span class='ident'>compute_output</span>): (<span class='ident'>Output</span>,<span class='ident'>EngineMetrics</span>) 
     <span class='op'>=</span> <span class='ident'>ns</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;compute&quot;</span>),
          <span class='kw'>move</span> <span class='op'>||</span> <span class='ident'>get_engine_metrics</span>(<span class='kw'>move</span> <span class='op'>||</span> <span class='ident'>Computer</span>::<span class='ident'>compute</span>(<span class='ident'>input2</span>) ));
 
-  <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;EngineSample::compute_output: {:?}&quot;</span>, <span class='ident'>compute_output</span>); <span class='comment'>// XXX Temp  </span>
+  <span class='comment'>//println!(&quot;EngineSample::compute_output: {:?}&quot;, compute_output); // XXX Temp  </span>
 
   <span class='kw'>if</span> <span class='bool-val'>false</span> {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot; Input: {:?}&quot;</span>, <span class='ident'>edited_input</span>); <span class='comment'>// XXX Temp</span>
@@ -395,7 +406,7 @@
         <span class='ident'>swap</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>naive_state</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>naive_state</span> );
 
         <span class='comment'>// Run Naive Version</span>
-        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Naive - - - - - &quot;</span>);
+        <span class='comment'>//println!(&quot;Naive - - - - - ({:?} / {:?})&quot;, self.change_batch_num, self.params.change_batch_loopc );</span>
         <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>use_engine</span>(<span class='ident'>Engine</span>::<span class='ident'>Naive</span>); <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>engine_is_naive</span>());
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>rng</span>.<span class='ident'>clone</span>(); <span class='comment'>// Restore Rng</span>
         <span class='kw'>let</span> (<span class='ident'>naive_output</span>, <span class='ident'>naive_input_edited</span>, <span class='ident'>naive_editst</span>, <span class='ident'>naive_sample</span>) <span class='op'>=</span> 
@@ -404,7 +415,7 @@
         <span class='self'>self</span>.<span class='ident'>naive_state</span>.<span class='ident'>input</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>((<span class='ident'>naive_input_edited</span>, <span class='ident'>naive_editst</span>)); <span class='comment'>// Save the input and input-editing state</span>
 
         <span class='comment'>// Run DCG Version</span>
-        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;DCG - - - - - &quot;</span>);
+        <span class='comment'>//println!(&quot;DCG - - - - - &quot;);</span>
         <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>use_engine</span>(<span class='ident'>dcg_state</span>.<span class='ident'>engine</span>); <span class='comment'>// Restore saved DCG</span>
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>engine_is_dcg</span>()); <span class='comment'>// This really is the DCG version</span>
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>rng</span>.<span class='ident'>clone</span>(); <span class='comment'>// Restore Rng</span>
@@ -446,11 +457,11 @@
     {            
       <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='ident'>get_sample_gen</span>::<span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>InputDist</span>,<span class='ident'>Computer</span><span class='op'>&gt;</span>(<span class='ident'>params</span>);
       <span class='kw'>loop</span> {
-        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>());
+        <span class='comment'>//println!(&quot;{:?}&quot;, self.name());</span>
         <span class='kw'>let</span> <span class='ident'>sample</span> <span class='op'>=</span> (<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>st</span>).<span class='ident'>sample</span>();
-        <span class='comment'>//println!(&quot;{:?}&quot;, sample);</span>
+        <span class='comment'>//println!(&quot;{:?}&quot;, sample);        </span>
         <span class='kw'>match</span> <span class='ident'>sample</span> {
-          <span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='kw'>continue</span>,
+          <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> {<span class='ident'>st</span>.<span class='ident'>samples</span>.<span class='ident'>push</span>(<span class='ident'>s</span>); <span class='kw'>continue</span>},
           <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>break</span>,
         }
       };

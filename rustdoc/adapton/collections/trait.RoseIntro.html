@@ -9,6 +9,7 @@
 
     <title>adapton::collections::RoseIntro - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -50,10 +51,10 @@
                </span><a class='srclink' href='../../src/adapton/collections.rs.html#262-272' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait RoseIntro&lt;Leaf, Branch&gt;: <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> {
     type <a href='#associatedtype.List' class='type'>List</a>: <a class='trait' href='../../adapton/collections/trait.ListElim.html' title='adapton::collections::ListElim'>ListElim</a>&lt;Self&gt;;
-    fn <a href='#tymethod.leaf' class='fnname'>leaf</a>(Leaf) -&gt; Self;
-    fn <a href='#tymethod.branch' class='fnname'>branch</a>(Branch, Self::<a class='trait' href='../../adapton/collections/trait.RoseIntro.html' title='adapton::collections::RoseIntro'>List</a>) -&gt; Self;
-    fn <a href='#tymethod.name' class='fnname'>name</a>(<a class='struct' href='../../adapton/engine/struct.Name.html' title='adapton::engine::Name'>Name</a>, Self) -&gt; Self;
-    fn <a href='#tymethod.art' class='fnname'>art</a>(<a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;Self&gt;) -&gt; Self;
+    fn <a href='#tymethod.leaf' class='fnname'>leaf</a>(_: Leaf) -&gt; Self;
+    fn <a href='#tymethod.branch' class='fnname'>branch</a>(_: Branch, _: Self::<a class='trait' href='../../adapton/collections/trait.RoseIntro.html' title='adapton::collections::RoseIntro'>List</a>) -&gt; Self;
+    fn <a href='#tymethod.name' class='fnname'>name</a>(_: <a class='struct' href='../../adapton/engine/struct.Name.html' title='adapton::engine::Name'>Name</a>, _: Self) -&gt; Self;
+    fn <a href='#tymethod.art' class='fnname'>art</a>(_: <a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;Self&gt;) -&gt; Self;
 }</pre><div class='docblock'><p>Rose Trees: A tree with arbitrary branching at each node.
 See also, Definition 2 (page 2) of
   <a href="http://ftp.qucis.queensu.ca/TechReports/Reports/1995-380.pdf"><em>Parallel Implementation of Tree Skeletons</em>, by D.B. Skillicorn 1995.</a></p>
@@ -63,10 +64,10 @@ See also, Definition 2 (page 2) of
         <h3 id='associatedtype.List' class='method stab '><span id='List.t' class='invisible'><code>type <a href='#associatedtype.List' class='type'>List</a>: <a class='trait' href='../../adapton/collections/trait.ListElim.html' title='adapton::collections::ListElim'>ListElim</a>&lt;Self&gt;</code></span></h3></div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.leaf' class='method stab '><span id='leaf.v' class='invisible'><code>fn <a href='#tymethod.leaf' class='fnname'>leaf</a>(Leaf) -&gt; Self</code></span></h3><div class='docblock'><p>Introduce a leaf with exactly zero children</p>
-</div><h3 id='tymethod.branch' class='method stab '><span id='branch.v' class='invisible'><code>fn <a href='#tymethod.branch' class='fnname'>branch</a>(Branch, Self::<a class='trait' href='../../adapton/collections/trait.RoseIntro.html' title='adapton::collections::RoseIntro'>List</a>) -&gt; Self</code></span></h3><div class='docblock'><p>Introduce a branch with zero or more subtrees</p>
-</div><h3 id='tymethod.name' class='method stab '><span id='name.v' class='invisible'><code>fn <a href='#tymethod.name' class='fnname'>name</a>(<a class='struct' href='../../adapton/engine/struct.Name.html' title='adapton::engine::Name'>Name</a>, Self) -&gt; Self</code></span></h3><div class='docblock'><p>Introduce a Named subtree</p>
-</div><h3 id='tymethod.art' class='method stab '><span id='art.v' class='invisible'><code>fn <a href='#tymethod.art' class='fnname'>art</a>(<a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;Self&gt;) -&gt; Self</code></span></h3><div class='docblock'><p>Introduce a list with an articulation that holds a list</p>
+        <h3 id='tymethod.leaf' class='method stab '><span id='leaf.v' class='invisible'><code>fn <a href='#tymethod.leaf' class='fnname'>leaf</a>(_: Leaf) -&gt; Self</code></span></h3><div class='docblock'><p>Introduce a leaf with exactly zero children</p>
+</div><h3 id='tymethod.branch' class='method stab '><span id='branch.v' class='invisible'><code>fn <a href='#tymethod.branch' class='fnname'>branch</a>(_: Branch, _: Self::<a class='trait' href='../../adapton/collections/trait.RoseIntro.html' title='adapton::collections::RoseIntro'>List</a>) -&gt; Self</code></span></h3><div class='docblock'><p>Introduce a branch with zero or more subtrees</p>
+</div><h3 id='tymethod.name' class='method stab '><span id='name.v' class='invisible'><code>fn <a href='#tymethod.name' class='fnname'>name</a>(_: <a class='struct' href='../../adapton/engine/struct.Name.html' title='adapton::engine::Name'>Name</a>, _: Self) -&gt; Self</code></span></h3><div class='docblock'><p>Introduce a Named subtree</p>
+</div><h3 id='tymethod.art' class='method stab '><span id='art.v' class='invisible'><code>fn <a href='#tymethod.art' class='fnname'>art</a>(_: <a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;Self&gt;) -&gt; Self</code></span></h3><div class='docblock'><p>Introduce a list with an articulation that holds a list</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `labviz` mod in crate `adapton_lab`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, labviz">
+
+    <title>adapton_lab::labviz - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>adapton_lab</a></p><script>window.sidebarCurrent = {name: 'labviz', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>adapton_lab</a>::<wbr><a class='mod' href=''>labviz</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/adapton_lab/labviz.rs.html#1-474' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>This module of Adapton Lab extends Adapton&#39;s existing reflection
+(see <code>adapton::engine::reflect</code>) with further reflections.  In
+particular, we produce HTML output structure, for human user
+interaction and consumption.</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Div.html'
+                                  title='adapton_lab::labviz::Div'>Div</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Div</code> struct represents a restricted form of a <code>&lt;div&gt;</code> element
+in HTML.  The field <code>tag</code> is a string, which corresponds to a a
+distinguished <code>tag</code> CSS class indicates the Rust datatype
+reflected into this <code>Div</code>.  The other CSS <code>classes</code> hold bits that
+signal various subcases (e.g., of <code>enum</code>s in the <code>reflect</code>
+module).  Finally, for Rust structures that have subfields and/or
+substructure, the <code>Div</code>&#39;s <code>extent</code> field lists their reflections
+into <code>Div</code>s.  In principle, the produced <code>Div</code> structure has an
+equivalent amount of information to the corresponding Rust
+datatype, and could be &quot;parsed&quot; back into this Rust datatype later
+(let&#39;s not do that, though!).</p>
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.WriteHTML.html'
+                                  title='adapton_lab::labviz::WriteHTML'>WriteHTML</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.div_of_edge.html'
+                                  title='adapton_lab::labviz::div_of_edge'>div_of_edge</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.div_of_loc.html'
+                                  title='adapton_lab::labviz::div_of_loc'>div_of_loc</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.div_of_name.html'
+                                  title='adapton_lab::labviz::div_of_name'>div_of_name</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.div_of_oploc.html'
+                                  title='adapton_lab::labviz::div_of_oploc'>div_of_oploc</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.div_of_path.html'
+                                  title='adapton_lab::labviz::div_of_path'>div_of_path</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.div_of_succ.html'
+                                  title='adapton_lab::labviz::div_of_succ'>div_of_succ</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.div_of_trace.html'
+                                  title='adapton_lab::labviz::div_of_trace'>div_of_trace</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.style_string.html'
+                                  title='adapton_lab::labviz::style_string'>style_string</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.write_test_results.html'
+                                  title='adapton_lab::labviz::write_test_results'>write_test_results</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "adapton_lab";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

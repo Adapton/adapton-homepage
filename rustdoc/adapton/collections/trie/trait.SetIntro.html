@@ -9,6 +9,7 @@
 
     <title>adapton::collections::trie::SetIntro - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -50,11 +51,11 @@
                </span><a class='srclink' href='../../../src/adapton/trie.rs.html#421-428' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait SetIntro&lt;X&gt;: <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + 'static {
     fn <a href='#tymethod.empty' class='fnname'>empty</a>() -&gt; Self;
-    fn <a href='#tymethod.add' class='fnname'>add</a>(Self, e: X) -&gt; Self;
+    fn <a href='#tymethod.add' class='fnname'>add</a>(_: Self, e: X) -&gt; Self;
 }</pre>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.empty' class='method stab '><span id='empty.v' class='invisible'><code>fn <a href='#tymethod.empty' class='fnname'>empty</a>() -&gt; Self</code></span></h3><h3 id='tymethod.add' class='method stab '><span id='add.v' class='invisible'><code>fn <a href='#tymethod.add' class='fnname'>add</a>(Self, e: X) -&gt; Self</code></span></h3></div>
+        <h3 id='tymethod.empty' class='method stab '><span id='empty.v' class='invisible'><code>fn <a href='#tymethod.empty' class='fnname'>empty</a>() -&gt; Self</code></span></h3><h3 id='tymethod.add' class='method stab '><span id='add.v' class='invisible'><code>fn <a href='#tymethod.add' class='fnname'>add</a>(_: Self, e: X) -&gt; Self</code></span></h3></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
     <li><code>impl&lt;X, Set:&nbsp;<a class='trait' href='../../../adapton/collections/trie/trait.TrieIntro.html' title='adapton::collections::trie::TrieIntro'>TrieIntro</a>&lt;X&gt; + <a class='trait' href='../../../adapton/collections/trie/trait.TrieElim.html' title='adapton::collections::trie::TrieElim'>TrieElim</a>&lt;X&gt;&gt; SetIntro&lt;X&gt; for Set</code></li>

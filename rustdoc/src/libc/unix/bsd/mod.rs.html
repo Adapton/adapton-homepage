@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/.multirust/toolchains/nightly/cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.18/src/unix/bsd/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.19/src/unix/bsd/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../../main.css">
     
@@ -410,6 +411,12 @@
 <span id="366">366</span>
 <span id="367">367</span>
 <span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>dox</span>::<span class='ident'>mem</span>;
 
@@ -528,6 +535,12 @@
         <span class='kw'>pub</span> <span class='ident'>msg_control</span>: <span class='op'>*</span><span class='kw-2'>mut</span> ::<span class='ident'>c_void</span>,
         <span class='kw'>pub</span> <span class='ident'>msg_controllen</span>: ::<span class='ident'>socklen_t</span>,
         <span class='kw'>pub</span> <span class='ident'>msg_flags</span>: ::<span class='ident'>c_int</span>,
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>cmsghdr</span> {
+        <span class='kw'>pub</span> <span class='ident'>cmsg_len</span>: ::<span class='ident'>socklen_t</span>,
+        <span class='kw'>pub</span> <span class='ident'>cmsg_level</span>: ::<span class='ident'>c_int</span>,
+        <span class='kw'>pub</span> <span class='ident'>cmsg_type</span>: ::<span class='ident'>c_int</span>,
     }
 
     <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>fsid_t</span> {

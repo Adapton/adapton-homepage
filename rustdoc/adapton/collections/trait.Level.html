@@ -9,6 +9,7 @@
 
     <title>adapton::collections::Level - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -49,12 +50,12 @@
                    </a>
                </span><a class='srclink' href='../../src/adapton/collections.rs.html#291-302' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Level: <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + 'static {
-    fn <a href='#tymethod.new' class='fnname'>new</a>&lt;X:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a>&gt;(&amp;X) -&gt; Self;
+    fn <a href='#tymethod.new' class='fnname'>new</a>&lt;X:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a>&gt;(_: &amp;X) -&gt; Self;
     fn <a href='#tymethod.bits' class='fnname'>bits</a>() -&gt; Self;
     fn <a href='#tymethod.zero' class='fnname'>zero</a>() -&gt; Self;
-    fn <a href='#tymethod.inc' class='fnname'>inc</a>(&amp;Self) -&gt; Self;
-    fn <a href='#tymethod.add' class='fnname'>add</a>(&amp;Self, &amp;Self) -&gt; Self;
-    fn <a href='#tymethod.lte' class='fnname'>lte</a>(&amp;Self, &amp;Self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>;
+    fn <a href='#tymethod.inc' class='fnname'>inc</a>(_: &amp;Self) -&gt; Self;
+    fn <a href='#tymethod.add' class='fnname'>add</a>(_: &amp;Self, _: &amp;Self) -&gt; Self;
+    fn <a href='#tymethod.lte' class='fnname'>lte</a>(_: &amp;Self, _: &amp;Self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>;
     fn <a href='#tymethod.max_val' class='fnname'>max_val</a>() -&gt; Self;
 
     fn <a href='#method.max' class='fnname'>max</a>(a: &amp;Self, b: &amp;Self) -&gt; Self { ... }
@@ -64,7 +65,7 @@ representation (<em>Incremental Computation via Function Caching</em>).</p>
 </div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.new' class='method stab '><span id='new.v' class='invisible'><code>fn <a href='#tymethod.new' class='fnname'>new</a>&lt;X:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a>&gt;(&amp;X) -&gt; Self</code></span></h3><h3 id='tymethod.bits' class='method stab '><span id='bits.v' class='invisible'><code>fn <a href='#tymethod.bits' class='fnname'>bits</a>() -&gt; Self</code></span></h3><h3 id='tymethod.zero' class='method stab '><span id='zero.v' class='invisible'><code>fn <a href='#tymethod.zero' class='fnname'>zero</a>() -&gt; Self</code></span></h3><h3 id='tymethod.inc' class='method stab '><span id='inc.v' class='invisible'><code>fn <a href='#tymethod.inc' class='fnname'>inc</a>(&amp;Self) -&gt; Self</code></span></h3><h3 id='tymethod.add' class='method stab '><span id='add.v' class='invisible'><code>fn <a href='#tymethod.add' class='fnname'>add</a>(&amp;Self, &amp;Self) -&gt; Self</code></span></h3><h3 id='tymethod.lte' class='method stab '><span id='lte.v' class='invisible'><code>fn <a href='#tymethod.lte' class='fnname'>lte</a>(&amp;Self, &amp;Self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h3><h3 id='tymethod.max_val' class='method stab '><span id='max_val.v' class='invisible'><code>fn <a href='#tymethod.max_val' class='fnname'>max_val</a>() -&gt; Self</code></span></h3></div>
+        <h3 id='tymethod.new' class='method stab '><span id='new.v' class='invisible'><code>fn <a href='#tymethod.new' class='fnname'>new</a>&lt;X:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a>&gt;(_: &amp;X) -&gt; Self</code></span></h3><h3 id='tymethod.bits' class='method stab '><span id='bits.v' class='invisible'><code>fn <a href='#tymethod.bits' class='fnname'>bits</a>() -&gt; Self</code></span></h3><h3 id='tymethod.zero' class='method stab '><span id='zero.v' class='invisible'><code>fn <a href='#tymethod.zero' class='fnname'>zero</a>() -&gt; Self</code></span></h3><h3 id='tymethod.inc' class='method stab '><span id='inc.v' class='invisible'><code>fn <a href='#tymethod.inc' class='fnname'>inc</a>(_: &amp;Self) -&gt; Self</code></span></h3><h3 id='tymethod.add' class='method stab '><span id='add.v' class='invisible'><code>fn <a href='#tymethod.add' class='fnname'>add</a>(_: &amp;Self, _: &amp;Self) -&gt; Self</code></span></h3><h3 id='tymethod.lte' class='method stab '><span id='lte.v' class='invisible'><code>fn <a href='#tymethod.lte' class='fnname'>lte</a>(_: &amp;Self, _: &amp;Self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h3><h3 id='tymethod.max_val' class='method stab '><span id='max_val.v' class='invisible'><code>fn <a href='#tymethod.max_val' class='fnname'>max_val</a>() -&gt; Self</code></span></h3></div>
             <h2 id='provided-methods'>Provided Methods</h2>
             <div class='methods'>
         <h3 id='method.max' class='method stab '><span id='max.v' class='invisible'><code>fn <a href='#method.max' class='fnname'>max</a>(a: &amp;Self, b: &amp;Self) -&gt; Self</code></span></h3></div>

@@ -9,6 +9,7 @@
 
     <title>adapton::engine::reflect::DCG - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -47,22 +48,27 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../../src/adapton/reflect.rs.html#93-97' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../../src/adapton/reflect.rs.html#188-197' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct DCG {
-    pub table: <a class='struct' href='https://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;<a class='struct' href='../../../adapton/engine/reflect/struct.Loc.html' title='adapton::engine::reflect::Loc'>Loc</a>&gt;, <a class='struct' href='https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='enum' href='../../../adapton/engine/reflect/enum.GraphNode.html' title='adapton::engine::reflect::GraphNode'>GraphNode</a>&gt;&gt;,
+    pub table: <a class='struct' href='https://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../../adapton/engine/reflect/struct.Loc.html' title='adapton::engine::reflect::Loc'>Loc</a>, <a class='enum' href='../../../adapton/engine/reflect/enum.Node.html' title='adapton::engine::reflect::Node'>Node</a>&gt;,
     pub stack: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../../adapton/engine/reflect/struct.Frame.html' title='adapton::engine::reflect::Frame'>Frame</a>&gt;,
     pub path: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../../adapton/engine/struct.Name.html' title='adapton::engine::Name'>Name</a>&gt;,
-}</pre><div class='docblock'><p>Reflected version of <code>engine::DCG</code></p>
+}</pre><div class='docblock'><p>Reflected version of <code>engine::DCG</code>.</p>
 </div><h2 class='fields'>Fields</h2><span id='structfield.table' class='structfield'>
                            <span id='table.v' class='invisible'>
-                           <code>table: <a class='struct' href='https://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html' title='alloc::rc::Rc'>Rc</a>&lt;<a class='struct' href='../../../adapton/engine/reflect/struct.Loc.html' title='adapton::engine::reflect::Loc'>Loc</a>&gt;, <a class='struct' href='https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='enum' href='../../../adapton/engine/reflect/enum.GraphNode.html' title='adapton::engine::reflect::GraphNode'>GraphNode</a>&gt;&gt;</code>
-                           </span></span><span class='stab '></span><span id='structfield.stack' class='structfield'>
+                           <code>table: <a class='struct' href='https://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html' title='std::collections::hash::map::HashMap'>HashMap</a>&lt;<a class='struct' href='../../../adapton/engine/reflect/struct.Loc.html' title='adapton::engine::reflect::Loc'>Loc</a>, <a class='enum' href='../../../adapton/engine/reflect/enum.Node.html' title='adapton::engine::reflect::Node'>Node</a>&gt;</code>
+                           </span></span><span class='stab '></span><div class='docblock'><p>The current memo table, mapping <code>Loc</code>s to <code>Node</code>s.</p>
+</div><span id='structfield.stack' class='structfield'>
                            <span id='stack.v' class='invisible'>
                            <code>stack: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../../adapton/engine/reflect/struct.Frame.html' title='adapton::engine::reflect::Frame'>Frame</a>&gt;</code>
-                           </span></span><span class='stab '></span><span id='structfield.path' class='structfield'>
+                           </span></span><span class='stab '></span><div class='docblock'><p>A stack of <code>Frame</code>s, which store the currently-executing nodes, and their outgoing edges thus far.</p>
+</div><span id='structfield.path' class='structfield'>
                            <span id='path.v' class='invisible'>
                            <code>path: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../../adapton/engine/struct.Name.html' title='adapton::engine::Name'>Name</a>&gt;</code>
-                           </span></span><span class='stab '></span><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../../adapton/engine/reflect/struct.DCG.html' title='adapton::engine::reflect::DCG'>DCG</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/adapton/reflect.rs.html#92' title='goto source code'>[src]</a></span></h3>
+                           </span></span><span class='stab '></span><div class='docblock'><p>A list of <code>Name</code>s, which is extended for nested regions of code
+by the <code>ns</code> (namespace) combinator.  This path variable
+determines the path for each allocated <code>Loc</code>.</p>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../../adapton/engine/reflect/struct.DCG.html' title='adapton::engine::reflect::DCG'>DCG</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/adapton/reflect.rs.html#187' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class='method'><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></span></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div></section>
