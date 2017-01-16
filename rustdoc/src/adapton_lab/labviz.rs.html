@@ -517,6 +517,33 @@
 <span id="472">472</span>
 <span id="473">473</span>
 <span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
@@ -641,6 +668,9 @@
 }
 
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>div_of_trace</span> (<span class='ident'>tr</span>:<span class='kw-2'>&amp;</span><span class='ident'>trace</span>::<span class='ident'>Trace</span>) <span class='op'>-&gt;</span> <span class='ident'>Div</span> {
+  <span class='comment'>// For linking to rustdoc documentation from the output HTML</span>
+  <span class='kw'>let</span> <span class='ident'>tr_eff_url</span> <span class='op'>=</span> <span class='string'>&quot;http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html&quot;</span>;
+
   <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>div</span> <span class='op'>=</span> 
     <span class='ident'>Div</span>{ 
       <span class='ident'>tag</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;trace&quot;</span>),
@@ -663,18 +693,19 @@
         <span class='macro'>vec</span><span class='macro'>!</span>[
           <span class='ident'>Div</span>{ 
             <span class='ident'>tag</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;tr-effect&quot;</span>),
-            <span class='ident'>text</span>: <span class='prelude-val'>Some</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='kw'>match</span> <span class='ident'>tr</span>.<span class='ident'>effect</span> {
-              <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>CleanRec</span>  <span class='op'>=&gt;</span> <span class='string'>&quot;CleanRec&quot;</span>,
-              <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>CleanEval</span> <span class='op'>=&gt;</span> <span class='string'>&quot;CleanEval&quot;</span>,
-              <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>CleanEdge</span> <span class='op'>=&gt;</span> <span class='string'>&quot;CleanEdge&quot;</span>,
-              <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Dirty</span>     <span class='op'>=&gt;</span> <span class='string'>&quot;Dirty&quot;</span>,
-              <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Remove</span>    <span class='op'>=&gt;</span> <span class='string'>&quot;Remove&quot;</span>,
-              <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Alloc</span>(<span class='ident'>trace</span>::<span class='ident'>AllocCase</span>::<span class='ident'>LocFresh</span>,_)     <span class='op'>=&gt;</span> <span class='string'>&quot;Alloc(LocFresh)&quot;</span>,
-              <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Alloc</span>(<span class='ident'>trace</span>::<span class='ident'>AllocCase</span>::<span class='ident'>LocExists</span>,_)    <span class='op'>=&gt;</span> <span class='string'>&quot;Alloc(LocExists)&quot;</span>,
-              <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Force</span>(<span class='ident'>trace</span>::<span class='ident'>ForceCase</span>::<span class='ident'>CompCacheMiss</span>)  <span class='op'>=&gt;</span> <span class='string'>&quot;Force(CompCacheMiss)&quot;</span>,
-              <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Force</span>(<span class='ident'>trace</span>::<span class='ident'>ForceCase</span>::<span class='ident'>CompCacheHit</span>)   <span class='op'>=&gt;</span> <span class='string'>&quot;Force(CompCacheHit)&quot;</span>,
-              <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Force</span>(<span class='ident'>trace</span>::<span class='ident'>ForceCase</span>::<span class='ident'>RefGet</span>)         <span class='op'>=&gt;</span> <span class='string'>&quot;Force(RefGet)&quot;</span>,
-            })),
+            <span class='ident'>text</span>: <span class='prelude-val'>Some</span>(              
+              <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;&lt;a href={:?}&gt;{}&lt;/a&gt;&quot;</span>, <span class='ident'>tr_eff_url</span>, <span class='kw'>match</span> <span class='ident'>tr</span>.<span class='ident'>effect</span> {
+                <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>CleanRec</span>  <span class='op'>=&gt;</span> <span class='string'>&quot;CleanRec&quot;</span>,
+                <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>CleanEval</span> <span class='op'>=&gt;</span> <span class='string'>&quot;CleanEval&quot;</span>,
+                <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>CleanEdge</span> <span class='op'>=&gt;</span> <span class='string'>&quot;CleanEdge&quot;</span>,
+                <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Dirty</span>     <span class='op'>=&gt;</span> <span class='string'>&quot;Dirty&quot;</span>,
+                <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Remove</span>    <span class='op'>=&gt;</span> <span class='string'>&quot;Remove&quot;</span>,
+                <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Alloc</span>(<span class='ident'>trace</span>::<span class='ident'>AllocCase</span>::<span class='ident'>LocFresh</span>,_)     <span class='op'>=&gt;</span> <span class='string'>&quot;Alloc(LocFresh)&quot;</span>,
+                <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Alloc</span>(<span class='ident'>trace</span>::<span class='ident'>AllocCase</span>::<span class='ident'>LocExists</span>,_)    <span class='op'>=&gt;</span> <span class='string'>&quot;Alloc(LocExists)&quot;</span>,
+                <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Force</span>(<span class='ident'>trace</span>::<span class='ident'>ForceCase</span>::<span class='ident'>CompCacheMiss</span>)  <span class='op'>=&gt;</span> <span class='string'>&quot;Force(CompCacheMiss)&quot;</span>,
+                <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Force</span>(<span class='ident'>trace</span>::<span class='ident'>ForceCase</span>::<span class='ident'>CompCacheHit</span>)   <span class='op'>=&gt;</span> <span class='string'>&quot;Force(CompCacheHit)&quot;</span>,
+                <span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Force</span>(<span class='ident'>trace</span>::<span class='ident'>ForceCase</span>::<span class='ident'>RefGet</span>)         <span class='op'>=&gt;</span> <span class='string'>&quot;Force(RefGet)&quot;</span>,
+              })),
             <span class='ident'>classes</span>: <span class='macro'>vec</span><span class='macro'>!</span>[],
             <span class='ident'>extent</span>: <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[]),
           },
@@ -745,17 +776,24 @@
   }
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>write_test_results</span>(<span class='ident'>testname</span>:<span class='ident'>Name</span>, <span class='ident'>results</span>:<span class='kw-2'>&amp;</span><span class='ident'>LabResults</span>) {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>write_test_results</span>(<span class='ident'>testname</span>:<span class='ident'>Name</span>, <span class='ident'>testurl</span>:<span class='kw-2'>&amp;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>, <span class='ident'>results</span>:<span class='kw-2'>&amp;</span><span class='ident'>LabResults</span>) {
   
   <span class='comment'>// For linking to rustdoc documentation from the output HTML</span>
-  <span class='kw'>let</span> <span class='ident'>trace_url</span> <span class='op'>=</span> <span class='string'>&quot;http://adapton.org/rustdoc/adapton/engine/reflect/trace/struct.Trace.html&quot;</span>;
+  <span class='kw'>let</span> <span class='ident'>trace_url</span>   <span class='op'>=</span> <span class='string'>&quot;http://adapton.org/rustdoc/adapton/engine/reflect/trace/struct.Trace.html&quot;</span>;
+  <span class='kw'>let</span> <span class='ident'>catalog_url</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;http://adapton.org/rustdoc/adapton_lab/catalog/index.html&quot;</span>);
   
   <span class='ident'>fs</span>::<span class='ident'>create_dir_all</span>(<span class='string'>&quot;lab-results&quot;</span>).<span class='ident'>unwrap</span>();
   <span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='ident'>File</span>::<span class='ident'>create</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;lab-results/{:?}.html&quot;</span>, <span class='ident'>testname</span>)).<span class='ident'>unwrap</span>();
   <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>writer</span> <span class='op'>=</span> <span class='ident'>BufWriter</span>::<span class='ident'>new</span>(<span class='ident'>f</span>);
-
   <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;{}&quot;</span>, <span class='ident'>style_string</span>()).<span class='ident'>unwrap</span>();
-  <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;div class={:?}&gt;{:?}&lt;/div&gt;&quot;</span>, <span class='string'>&quot;test-name&quot;</span>, <span class='ident'>testname</span>).<span class='ident'>unwrap</span>();
+  <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;div class={:?}&gt;&lt;a href={:?} class={:?}&gt;{:?}&lt;/a&gt;&lt;/div&gt;&quot;</span>, 
+           <span class='string'>&quot;test-name&quot;</span>, 
+           <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>testurl</span> {
+             <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>url</span>) <span class='op'>=&gt;</span> <span class='ident'>url</span>,
+             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw-2'>&amp;</span> <span class='ident'>catalog_url</span>
+           },
+           <span class='string'>&quot;test-name&quot;</span>,
+           <span class='ident'>testname</span>).<span class='ident'>unwrap</span>();
 
   <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;div style=\&quot;font-size:12px\&quot; class=\&quot;batch-name\&quot;&gt; step&lt;/div&gt;&quot;</span>);
   <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;div style=\&quot;font-size:20px\&quot; class=\&quot;editor\&quot;&gt;Editor&lt;/div&gt;&quot;</span>);
@@ -809,6 +847,15 @@
 body {
   background: #552266;
   font-family: sans-serif;
+  text-decoration: none;
+  padding: 0px;
+  margin: 0px;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }
 hr {
   float: left;
@@ -816,74 +863,72 @@ hr {
   width: 0px;
   border: none;
 }
+
 .test-name {
   font-size: 32px;
   color: #ccaadd;
+  margin: 8px;
 }
+.test-name:visited {
+  color: #ccaadd;
+}
+.test-name:hover {
+  color: white;
+}
+
 .batch-name-lab {
   font-size: 0px;
 }
+.batch-name {
+  font-size: 16px;
+  border: solid;
+  display: inline;
+  padding: 3px;
+  margin: 3px;
+  float: left;
+  background: #aa88aa;
+  width: 32px;
+}
 .time-ns {
   font-size: 20px;
-  display: inline;
-}
-.time-ms-lab {
   display: inline;
 }
 .time-ms {
   font-size: 20px;
   display: inline;
 }
-.batch-name {
-  font-size: 16px;
-  border: solid;
-  display: inline;
-  padding: 7px;
-  margin: 5px;
-  float: left;
-  background: #aa88aa;
-  width: 32px;
-}
-.traces {
-  font-size: 8px;
-  border: solid 1px;
-  display: inline;
-  padding: 1px;
-  margin: 0px;
-  float: left;
-  width: 100%;
-  background: #dddddd;
-}
-.title {
-  font-size: 20px;
-}
 .editor {
   font-size: 14px;
   border: solid;
-  display: inline;
-  padding: 2px;
-  margin: 2px;
+  display: block;
+  padding: 1px;
+  margin: 1px;
   float: left;
   width: 10%;
-  background: #dddddd;
+  background: #aaaaaa;
 }
 .archivist {
   font-size: 14px;
   border: solid;
-  display: inline;
-  padding: 2px;
-  margin: 2px;
+  display: block;
+  padding: 1px;
+  margin: 1px;
   float: left;
-  width: 80%;
+  width: 85%;
   background: #dddddd;
 }
-.tr-effect { 
-  display: inline;
-  display: none;
-  font-size: 10px;
-  background-color: white;
-  border-radius: 2px;
+.traces {
+  font-size: 8px;
+  border: solid 0px;
+  border-top: solid 1px;
+  padding: 0px;
+
+  display: block;
+  margin: 0px;
+  float: left;
+  width: 100%;
 }
+
 .trace {
   display: inline-block;
   border-style: solid;
@@ -894,19 +939,19 @@ hr {
   margin: 1px;
   border-radius: 5px;
 }
-.alloc-kind-thunk {
-  border-color: green;
-  border-radius:20px;
-}
-.alloc-kind-refcell {
-  border-color: green;
-  border-radius:0;
+.tr-effect { 
+  display: inline;
+  display: none;
+  font-size: 10px;
+  background-color: white;
+  border-radius: 2px;
 }
 .tr-symbols {  
   font-size: 10px;
   display: inline;
   display: none;
 }
+
 .path {  
   display: flex;
   display: none;
@@ -933,6 +978,15 @@ hr {
   border-radius: 2px;
   padding: 1px;
   margin: 1px;
+}
+
+.alloc-kind-thunk {
+  border-color: green;
+  border-radius:20px;
+}
+.alloc-kind-refcell {
+  border-color: green;
+  border-radius:0;
 }
 .tr-force-compcache-miss {  
   background: #ccccff;

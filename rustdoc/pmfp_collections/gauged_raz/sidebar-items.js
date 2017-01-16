@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["TreeData",""]],"struct":[["Raz",""],["RazTree",""]]});
+initSidebarItems({"struct":[["Raz","Random access zipper"],["RazTree","Tree form of a RAZ"]]});

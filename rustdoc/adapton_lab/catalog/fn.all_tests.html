@@ -48,8 +48,28 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/adapton_lab/catalog.rs.html#205-256' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn all_tests() -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../adapton_lab/labdef/trait.LabDef.html' title='adapton_lab::labdef::LabDef'>LabDef</a>&gt;&gt;</pre><div class='docblock'><p>This is the master list of all tests in the current Adapton Lab</p>
+               </span><a class='srclink' href='../../src/adapton_lab/catalog.rs.html#257-329' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn all_tests() -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../adapton_lab/labdef/trait.LabDef.html' title='adapton_lab::labdef::LabDef'>LabDef</a>&gt;&gt;</pre><div class='docblock'><p><code>all_tests</code>: This is the master list of all tests in the current
+Adapton Lab.</p>
+
+<p>To add a new test, just add a <code>testcomputer!</code> to the <code>vec!</code> in
+this definition.  Doing so generally requires doing at least the
+following:</p>
+
+<ol>
+<li><p>Add a new (empty struct) type that implements the <code>Compute</code> trait
+for some input- and output-type pair.</p></li>
+<li><p>The input type must be a type parameter to some implementation
+of the <code>Generate</code> and <code>Edit</code> traits, which you must also provide
+to <code>testcomputer!</code>.  Together, these trait implementations give
+the distribution of the input (how it is chosen, and how it
+changes, respectively).</p></li>
+<li><p>The other arguments consist of the type of the <code>Editor</code> state
+(e.g., a counter of type <code>usize</code> in many cases), and a name and
+url to display in generated output.  The URL should link to the
+rustdoc for this module, which in turn provides other related
+documentation about Adapton Lab and Adapton.</p></li>
+</ol>
 </div></section>
     <section id='search' class="content hidden"></section>
 

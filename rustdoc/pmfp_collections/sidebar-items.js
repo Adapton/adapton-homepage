@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["archive_stack","High-gauge Stack"],["gauged_raz",""],["persist_raz",""],["seqzip",""],["split_btree_cursor",""],["stack",""],["zip",""]]});
+initSidebarItems({"mod":[["archive_stack","High-gauge Stack"],["gauged_raz","Gauged RAZ - random access sequence - cursor access in low-const O(1) time - arbirary access in O(log n) time - combines tree cursor with stack"],["persist_raz",""],["seqzip",""],["split_btree_cursor",""],["stack",""],["zip",""]]});

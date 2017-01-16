@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/d5a5609/src/split_btree_cursor.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/4ba9f9d/src/split_btree_cursor.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>split_btree_cursor.rs.html -- source</title>
@@ -461,6 +461,83 @@
 <span id="416">416</span>
 <span id="417">417</span>
 <span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
 </pre><pre class='rust '>
 <span class='doccomment'>/// Split Binary Tree Cursor</span>
 <span class='doccomment'>/// - a cursor within a persistent, ordered, binary tree</span>
@@ -512,8 +589,21 @@
 		<span class='kw'>let</span> <span class='ident'>Tree</span>(<span class='kw-2'>ref</span> <span class='ident'>t</span>) <span class='op'>=</span> <span class='op'>*</span><span class='self'>self</span>;
 		<span class='ident'>link_peek</span>(<span class='ident'>t</span>)
 	}
+
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fold_up</span><span class='op'>&lt;</span><span class='ident'>R</span>,<span class='ident'>F</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node_calc</span>: <span class='kw-2'>&amp;</span><span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>
+	<span class='kw'>where</span>
+		<span class='ident'>F</span>: <span class='ident'>Fn</span>(<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>,<span class='kw-2'>&amp;</span><span class='ident'>E</span>,<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>R</span>
+	{
+		<span class='kw'>let</span> <span class='ident'>Tree</span>(<span class='kw-2'>ref</span> <span class='ident'>tree</span>) <span class='op'>=</span> <span class='op'>*</span><span class='self'>self</span>;
+		<span class='ident'>link_fold_up</span>(<span class='ident'>tree</span>, <span class='ident'>node_calc</span>)
+	}
+
 	<span class='doccomment'>/// for debugging, this is an O(n) operation</span>
+	<span class='doccomment'>///</span>
 	<span class='doccomment'>/// ```</span>
+	<span class='doccomment'>/// use pmfp_collections::split_btree_cursor::Tree;</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// let tree = Tree::new(4,(),Tree::empty(),Tree::new(1,(),Tree::empty(),Tree::empty()));</span>
 	<span class='doccomment'>/// debug_assert!(tree.good_levels(),&quot;this section of code has a problem&quot;);</span>
 	<span class='doccomment'>/// ```</span>
 	<span class='doccomment'>///</span>
@@ -561,9 +651,26 @@
 	<span class='ident'>r_branch</span>: <span class='ident'>TreeLink</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>
 }
 <span class='kw'>type</span> <span class='ident'>TreeLink</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>Level</span>,<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>TreeNode</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>)<span class='op'>&gt;</span>;
+<span class='comment'>// Nominal Adapton design: type TreeLink&lt;E&gt; = Option&lt;(Level,Option&lt;Name&gt;,Art&lt;TreeNode&lt;E&gt;&gt;)&gt;; </span>
 <span class='kw'>fn</span> <span class='ident'>link_peek</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>(<span class='ident'>link</span>: <span class='kw-2'>&amp;</span><span class='ident'>TreeLink</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>E</span><span class='op'>&gt;</span>{
 	<span class='ident'>link</span>.<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(_,<span class='kw-2'>ref</span> <span class='ident'>node</span>)<span class='op'>|</span> <span class='kw-2'>&amp;</span><span class='ident'>node</span>.<span class='ident'>data</span>)
 }
+<span class='kw'>fn</span> <span class='ident'>link_fold_up</span><span class='op'>&lt;</span><span class='ident'>E</span>,<span class='ident'>R</span>,<span class='ident'>F</span><span class='op'>&gt;</span>(<span class='ident'>link</span>: <span class='kw-2'>&amp;</span><span class='ident'>TreeLink</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>, <span class='ident'>node_calc</span>: <span class='kw-2'>&amp;</span><span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>
+<span class='kw'>where</span>
+	<span class='ident'>F</span>: <span class='ident'>Fn</span>(<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>,<span class='kw-2'>&amp;</span><span class='ident'>E</span>,<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>R</span>
+{
+	<span class='kw'>match</span> <span class='op'>*</span><span class='ident'>link</span> {
+		<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+		<span class='prelude-val'>Some</span>((_,<span class='kw-2'>ref</span> <span class='ident'>t</span>)) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='op'>*</span><span class='op'>*</span><span class='ident'>t</span> { <span class='ident'>TreeNode</span>{ <span class='kw-2'>ref</span> <span class='ident'>data</span>, <span class='kw-2'>ref</span> <span class='ident'>l_branch</span>, <span class='kw-2'>ref</span> <span class='ident'>r_branch</span> } <span class='op'>=&gt;</span>
+			<span class='prelude-val'>Some</span>(<span class='ident'>node_calc</span>(
+				<span class='ident'>link_fold_up</span>(<span class='ident'>l_branch</span>,<span class='ident'>node_calc</span>),
+				<span class='ident'>data</span>,
+				<span class='ident'>link_fold_up</span>(<span class='ident'>r_branch</span>,<span class='ident'>node_calc</span>))
+			)
+		}
+	}
+}
+
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> <span class='ident'>AsPattern</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 	<span class='kw'>fn</span> <span class='ident'>pat</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
@@ -880,6 +987,53 @@
 	}
 
 }
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
+<span class='kw'>mod</span> <span class='ident'>tests</span> {
+	<span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
+
+  <span class='attribute'>#[<span class='ident'>test</span>]</span>
+  <span class='kw'>fn</span> <span class='ident'>test_fold_up</span>() {
+  	<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>max</span>;
+		<span class='kw'>let</span> <span class='ident'>t</span> <span class='op'>=</span> 
+		<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>5</span>,<span class='prelude-val'>None</span>,
+			<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>3</span>,<span class='prelude-val'>None</span>,
+				<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='prelude-val'>Some</span>(<span class='number'>1</span>),<span class='ident'>Tree</span>::<span class='ident'>empty</span>(),<span class='ident'>Tree</span>::<span class='ident'>empty</span>()),
+				<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>2</span>,<span class='prelude-val'>None</span>,
+					<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>1</span>,<span class='prelude-val'>None</span>,
+						<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='prelude-val'>Some</span>(<span class='number'>2</span>),<span class='ident'>Tree</span>::<span class='ident'>empty</span>(),<span class='ident'>Tree</span>::<span class='ident'>empty</span>()),
+						<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='prelude-val'>Some</span>(<span class='number'>3</span>),<span class='ident'>Tree</span>::<span class='ident'>empty</span>(),<span class='ident'>Tree</span>::<span class='ident'>empty</span>()),
+					),
+					<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='prelude-val'>Some</span>(<span class='number'>4</span>),<span class='ident'>Tree</span>::<span class='ident'>empty</span>(),<span class='ident'>Tree</span>::<span class='ident'>empty</span>()),
+				)
+			),
+			<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>4</span>,<span class='prelude-val'>None</span>,
+				<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='prelude-val'>Some</span>(<span class='number'>5</span>),<span class='ident'>Tree</span>::<span class='ident'>empty</span>(),<span class='ident'>Tree</span>::<span class='ident'>empty</span>()),
+				<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='prelude-val'>Some</span>(<span class='number'>6</span>),<span class='ident'>Tree</span>::<span class='ident'>empty</span>(),<span class='ident'>Tree</span>::<span class='ident'>empty</span>()),
+			)
+		);
+		<span class='kw'>let</span> <span class='ident'>sum</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>fold_up</span>(<span class='kw-2'>&amp;</span><span class='op'>|</span><span class='ident'>l</span>,<span class='ident'>c</span>,<span class='ident'>r</span><span class='op'>|</span> {
+			<span class='ident'>l</span>.<span class='ident'>unwrap_or</span>(<span class='number'>0</span>) <span class='op'>+</span> <span class='ident'>c</span>.<span class='ident'>unwrap_or</span>(<span class='number'>0</span>) <span class='op'>+</span> <span class='ident'>r</span>.<span class='ident'>unwrap_or</span>(<span class='number'>0</span>)
+		});
+		<span class='kw'>let</span> <span class='ident'>depth</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>fold_up</span>(<span class='kw-2'>&amp;</span><span class='op'>|</span><span class='ident'>l</span>,<span class='ident'>c</span>,<span class='ident'>r</span><span class='op'>|</span> {
+			<span class='kw'>match</span> <span class='op'>*</span><span class='ident'>c</span> {
+				<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>max</span>(<span class='ident'>l</span>.<span class='ident'>unwrap</span>(),<span class='ident'>r</span>.<span class='ident'>unwrap</span>()) <span class='op'>+</span> <span class='number'>1</span>,
+				<span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='number'>1</span>,
+			}
+		});
+		<span class='kw'>let</span> <span class='ident'>in_order</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>fold_up</span>(<span class='kw-2'>&amp;</span><span class='op'>|</span><span class='ident'>l</span>,<span class='ident'>c</span>,<span class='ident'>r</span><span class='op'>|</span>{
+			<span class='kw'>match</span> <span class='op'>*</span><span class='ident'>c</span> {
+				<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>l</span>.<span class='ident'>unwrap</span>() <span class='op'>&gt;=</span> <span class='ident'>r</span>.<span class='ident'>unwrap</span>(),
+				<span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
+			}
+		});
+		<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='number'>21</span>), <span class='ident'>sum</span>);
+		<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='number'>5</span>), <span class='ident'>depth</span>);
+		<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='bool-val'>true</span>), <span class='ident'>in_order</span>);
+	}
+}
+
+
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

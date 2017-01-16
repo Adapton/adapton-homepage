@@ -299,6 +299,79 @@
 <span id="254">254</span>
 <span id="255">255</span>
 <span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>labdef</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>collections</span>::<span class='op'>*</span>;
@@ -407,16 +480,26 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>LazyMap</span> { }
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>EagerMap</span> { }
+
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>LazyFilter</span> { }
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>EagerFilter</span> { }
+
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Reverse</span> { }
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ListTreeMax</span> { }
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ListTreeSum</span> { }
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ListReverse</span> { }
+
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>LazyMergesort</span> { }
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>EagerMergesort</span> { }
+
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Quickhull</span> { }
 
@@ -446,9 +529,29 @@
   }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Compute</span><span class='op'>&lt;</span><span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,<span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>Reverse</span> {
+<span class='kw'>impl</span> <span class='ident'>Compute</span><span class='op'>&lt;</span><span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,<span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>ListReverse</span> {
   <span class='kw'>fn</span> <span class='ident'>compute</span>(<span class='ident'>inp</span>:<span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> {
     <span class='ident'>list_reverse</span>(<span class='ident'>inp</span>, <span class='ident'>list_nil</span>())
+  }
+}
+
+<span class='kw'>impl</span> <span class='ident'>Compute</span><span class='op'>&lt;</span><span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,<span class='ident'>usize</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ListTreeMax</span> {
+  <span class='kw'>fn</span> <span class='ident'>compute</span>(<span class='ident'>inp</span>:<span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
+    <span class='kw'>let</span> <span class='ident'>tree</span> : <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> <span class='op'>=</span> 
+      <span class='ident'>ns</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;tree_of_list&quot;</span>),
+         <span class='kw'>move</span><span class='op'>||</span> <span class='ident'>tree_of_list</span>(<span class='ident'>Dir2</span>::<span class='ident'>Left</span>,<span class='ident'>inp</span>));
+    <span class='ident'>monoid_of_tree</span>(<span class='ident'>tree</span>, <span class='number'>0</span>, 
+                   <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>x</span>,<span class='ident'>y</span><span class='op'>|</span> <span class='kw'>if</span> <span class='ident'>x</span> <span class='op'>&gt;</span> <span class='ident'>y</span> { <span class='ident'>x</span> } <span class='kw'>else</span> { <span class='ident'>y</span> }))
+  }
+}
+
+<span class='kw'>impl</span> <span class='ident'>Compute</span><span class='op'>&lt;</span><span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,<span class='ident'>usize</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>ListTreeSum</span> {
+  <span class='kw'>fn</span> <span class='ident'>compute</span>(<span class='ident'>inp</span>:<span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
+    <span class='kw'>let</span> <span class='ident'>tree</span> : <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> <span class='op'>=</span> 
+      <span class='ident'>ns</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;tree_of_list&quot;</span>),
+         <span class='kw'>move</span><span class='op'>||</span> <span class='ident'>tree_of_list</span>(<span class='ident'>Dir2</span>::<span class='ident'>Left</span>,<span class='ident'>inp</span>));
+    <span class='ident'>monoid_of_tree</span>(<span class='ident'>tree</span>, <span class='number'>0</span>, 
+                   <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>x</span>,<span class='ident'>y</span><span class='op'>|</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>y</span> ))
   }
 }
 
@@ -487,12 +590,13 @@
 
 <span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>testcomputer</span> {
-  ( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>inp</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>editst</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>out</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>dist</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>comp</span>:<span class='ident'>ty</span> ) <span class='op'>=&gt;</span> {{ 
+  ( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>url</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>inp</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>editst</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>out</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>dist</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>comp</span>:<span class='ident'>ty</span> ) <span class='op'>=&gt;</span> {{ 
     <span class='ident'>Box</span>::<span class='ident'>new</span>( 
       <span class='ident'>TestComputer</span>
         ::<span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>inp</span>,<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>editst</span>,<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>out</span>,<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>dist</span>,<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>comp</span><span class='op'>&gt;</span>
       { 
         <span class='ident'>identity</span>:<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>,
+        <span class='ident'>url</span>:<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>url</span>,
         <span class='ident'>input</span>:<span class='ident'>PhantomData</span>,
         <span class='ident'>editst</span>:<span class='ident'>PhantomData</span>,
         <span class='ident'>output</span>:<span class='ident'>PhantomData</span>,
@@ -502,58 +606,100 @@
   }}
 }
 
-
-<span class='doccomment'>/// This is the master list of all tests in the current Adapton Lab</span>
+<span class='comment'>// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span>
+<span class='doccomment'>/// `all_tests`: This is the master list of all tests in the current</span>
+<span class='doccomment'>/// Adapton Lab.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// To add a new test, just add a `testcomputer!` to the `vec!` in</span>
+<span class='doccomment'>/// this definition.  Doing so generally requires doing at least the</span>
+<span class='doccomment'>/// following:</span>
+<span class='doccomment'>/// </span>
+<span class='doccomment'>/// 1. Add a new (empty struct) type that implements the `Compute` trait</span>
+<span class='doccomment'>/// for some input- and output-type pair.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// 2. The input type must be a type parameter to some implementation</span>
+<span class='doccomment'>/// of the `Generate` and `Edit` traits, which you must also provide</span>
+<span class='doccomment'>/// to `testcomputer!`.  Together, these trait implementations give</span>
+<span class='doccomment'>/// the distribution of the input (how it is chosen, and how it</span>
+<span class='doccomment'>/// changes, respectively).</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// 3. The other arguments consist of the type of the `Editor` state</span>
+<span class='doccomment'>/// (e.g., a counter of type `usize` in many cases), and a name and</span>
+<span class='doccomment'>/// url to display in generated output.  The URL should link to the</span>
+<span class='doccomment'>/// rustdoc for this module, which in turn provides other related</span>
+<span class='doccomment'>/// documentation about Adapton Lab and Adapton.</span>
+<span class='comment'>// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>all_tests</span>() <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>LabDef</span><span class='op'>&gt;&gt;</span> {
   <span class='kw'>return</span> <span class='macro'>vec</span><span class='macro'>!</span>[
-    <span class='macro'>testcomputer</span><span class='macro'>!</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;list-eager-map&quot;</span>),
-                  <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>, <span class='ident'>usize</span>,
-                  <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
-                  <span class='ident'>UniformPrepend</span><span class='op'>&lt;</span>_,_<span class='op'>&gt;</span>,
-                  <span class='ident'>EagerMap</span>)
-      ,
-    <span class='macro'>testcomputer</span><span class='macro'>!</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;list-eager-filter&quot;</span>),
-                  <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>, <span class='ident'>usize</span>,
-                  <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
-                  <span class='ident'>UniformPrepend</span><span class='op'>&lt;</span>_,_<span class='op'>&gt;</span>,
-                  <span class='ident'>EagerFilter</span>)
-      ,
     <span class='macro'>testcomputer</span><span class='macro'>!</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;list-lazy-map&quot;</span>),
+                  <span class='prelude-val'>Some</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;http://adapton.org/rustdoc/adapton_lab/catalog/struct.LazyMap.html&quot;</span>)),
                   <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>, <span class='ident'>usize</span>,
                   <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
                   <span class='ident'>UniformPrepend</span><span class='op'>&lt;</span>_,_<span class='op'>&gt;</span>,
                   <span class='ident'>LazyMap</span>)
       ,
     <span class='macro'>testcomputer</span><span class='macro'>!</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;list-lazy-filter&quot;</span>),
+                  <span class='prelude-val'>Some</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;http://adapton.org/rustdoc/adapton_lab/catalog/struct.LazyFilter.html&quot;</span>)),
                   <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>, <span class='ident'>usize</span>,
                   <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
                   <span class='ident'>UniformPrepend</span><span class='op'>&lt;</span>_,_<span class='op'>&gt;</span>,
                   <span class='ident'>LazyFilter</span>)
       ,
-    <span class='macro'>testcomputer</span><span class='macro'>!</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;list-reverse&quot;</span>),
+    <span class='macro'>testcomputer</span><span class='macro'>!</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;list-tree-max&quot;</span>),
+                  <span class='prelude-val'>Some</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;http://adapton.org/rustdoc/adapton_lab/catalog/struct.ListTreeMax.html&quot;</span>)),
                   <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>, <span class='ident'>usize</span>,
-                  <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
+                  <span class='ident'>usize</span>,
                   <span class='ident'>UniformPrepend</span><span class='op'>&lt;</span>_,_<span class='op'>&gt;</span>,
-                  <span class='ident'>Reverse</span>)
+                  <span class='ident'>ListTreeMax</span>)
+      ,
+    <span class='macro'>testcomputer</span><span class='macro'>!</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;list-tree-sum&quot;</span>),
+                  <span class='prelude-val'>Some</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;http://adapton.org/rustdoc/adapton_lab/catalog/struct.ListTreeSum.html&quot;</span>)),
+                  <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>, <span class='ident'>usize</span>,
+                  <span class='ident'>usize</span>,
+                  <span class='ident'>UniformPrepend</span><span class='op'>&lt;</span>_,_<span class='op'>&gt;</span>,
+                  <span class='ident'>ListTreeSum</span>)
       ,
     <span class='macro'>testcomputer</span><span class='macro'>!</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;eager-mergesort&quot;</span>),
+                  <span class='prelude-val'>Some</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;http://adapton.org/rustdoc/adapton_lab/catalog/struct.EagerMergesort.html&quot;</span>)),
                   <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>, <span class='ident'>usize</span>,
                   <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
                   <span class='ident'>UniformPrepend</span><span class='op'>&lt;</span>_,_<span class='op'>&gt;</span>,
                   <span class='ident'>EagerMergesort</span>)
       ,
     <span class='macro'>testcomputer</span><span class='macro'>!</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;lazy-mergesort&quot;</span>),
+                  <span class='prelude-val'>Some</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;http://adapton.org/rustdoc/adapton_lab/catalog/struct.LazyMergesort.html&quot;</span>)),
                   <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>, <span class='ident'>usize</span>,
                   <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
                   <span class='ident'>UniformPrepend</span><span class='op'>&lt;</span>_,_<span class='op'>&gt;</span>,
                   <span class='ident'>LazyMergesort</span>)
       ,
-    <span class='macro'>testcomputer</span><span class='macro'>!</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;list-quickhull&quot;</span>),
-                  <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>Pt2D</span><span class='op'>&gt;</span>, <span class='ident'>usize</span>,
-                  <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>Pt2D</span><span class='op'>&gt;</span>,
+    <span class='macro'>testcomputer</span><span class='macro'>!</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;list-eager-map&quot;</span>),
+                  <span class='prelude-val'>Some</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;http://adapton.org/rustdoc/adapton_lab/catalog/struct.EagerMap.html&quot;</span>)),
+                  <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>, <span class='ident'>usize</span>,
+                  <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
                   <span class='ident'>UniformPrepend</span><span class='op'>&lt;</span>_,_<span class='op'>&gt;</span>,
-                  <span class='ident'>Quickhull</span>)
+                  <span class='ident'>EagerMap</span>)
       ,
+    <span class='macro'>testcomputer</span><span class='macro'>!</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;list-eager-filter&quot;</span>),
+                  <span class='prelude-val'>Some</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;http://adapton.org/rustdoc/adapton_lab/catalog/struct.EagerFilter.html&quot;</span>)),
+                  <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>, <span class='ident'>usize</span>,
+                  <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
+                  <span class='ident'>UniformPrepend</span><span class='op'>&lt;</span>_,_<span class='op'>&gt;</span>,
+                  <span class='ident'>EagerFilter</span>)
+      ,
+    <span class='macro'>testcomputer</span><span class='macro'>!</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;list-reverse&quot;</span>),
+                  <span class='prelude-val'>Some</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;http://adapton.org/rustdoc/adapton_lab/catalog/struct.ListReverse.html&quot;</span>)),
+                  <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>, <span class='ident'>usize</span>,
+                  <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
+                  <span class='ident'>UniformPrepend</span><span class='op'>&lt;</span>_,_<span class='op'>&gt;</span>,
+                  <span class='ident'>ListReverse</span>)
+      ,
+    <span class='comment'>// testcomputer!(name_of_str(&quot;list-quickhull&quot;),</span>
+    <span class='comment'>//               List&lt;Pt2D&gt;, usize,</span>
+    <span class='comment'>//               List&lt;Pt2D&gt;,</span>
+    <span class='comment'>//               UniformPrepend&lt;_,_&gt;,</span>
+    <span class='comment'>//               Quickhull)</span>
+    <span class='comment'>// ,</span>
   ]
 }
 </pre>

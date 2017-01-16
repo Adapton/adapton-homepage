@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/d5a5609/src/gauged_raz.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/4ba9f9d/src/gauged_raz.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>gauged_raz.rs.html -- source</title>
@@ -462,11 +462,36 @@
 <span id="417">417</span>
 <span id="418">418</span>
 <span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
 </pre><pre class='rust '>
-<span class='comment'>// Gauged RAZ - sequence</span>
-<span class='comment'>// - cursor access in low-const O(1) time</span>
-<span class='comment'>// - arbirary access in O(log n) time</span>
-<span class='comment'>// - combines tree cursor with stack</span>
+<span class='doccomment'>//! Gauged RAZ - random access sequence</span>
+<span class='doccomment'>//! - cursor access in low-const O(1) time</span>
+<span class='doccomment'>//! - arbirary access in O(log n) time</span>
+<span class='doccomment'>//! - combines tree cursor with stack</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Deref</span>;
@@ -474,6 +499,10 @@
 <span class='kw'>use</span> <span class='ident'>split_btree_cursor</span> <span class='kw'>as</span> <span class='ident'>tree</span>;
 <span class='kw'>use</span> <span class='ident'>archive_stack</span> <span class='kw'>as</span> <span class='ident'>stack</span>;
 
+<span class='doccomment'>/// Random access zipper</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// A cursor into a sequence, optimised for moving to </span>
+<span class='doccomment'>/// arbitrary points in the sequence</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Clone</span><span class='op'>&gt;</span> {
 	<span class='ident'>length</span>: <span class='ident'>usize</span>,
@@ -483,7 +512,9 @@
 	<span class='ident'>r_forest</span>: <span class='ident'>tree</span>::<span class='ident'>Cursor</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>,
 }
 
-<span class='comment'>// should this be private?</span>
+<span class='doccomment'>/// The data stored in the tree structure of the RAZ.</span>
+<span class='doccomment'>/// Currently public for testing purposes</span>
+<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 	<span class='ident'>Branch</span>{<span class='ident'>l_count</span>: <span class='ident'>usize</span>, <span class='ident'>r_count</span>: <span class='ident'>usize</span>},
 	<span class='ident'>Leaf</span>(<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>),
@@ -504,6 +535,9 @@
 	}
 }
 
+<span class='doccomment'>/// Tree form of a RAZ</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// used between refocusing, and for running global algorithms</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RazTree</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Clone</span><span class='op'>&gt;</span>{<span class='ident'>count</span>: <span class='ident'>usize</span>, <span class='ident'>tree</span>: <span class='ident'>tree</span>::<span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>}
 
@@ -515,15 +549,20 @@
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>:<span class='ident'>Clone</span><span class='op'>&gt;</span> <span class='ident'>RazTree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
+	<span class='doccomment'>/// the number if items in the sequence</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>len</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {<span class='self'>self</span>.<span class='ident'>count</span>}
+	<span class='doccomment'>/// focus on a location in the sequence to begin editing.</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// `0` is before the first element. This will return `None` if</span>
+	<span class='doccomment'>/// `pos` is larger than the number of elements.</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>focus</span>(<span class='self'>self</span>, <span class='kw-2'>mut</span> <span class='ident'>pos</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span> {
 		<span class='kw'>match</span> <span class='self'>self</span> { <span class='ident'>RazTree</span>{<span class='ident'>count</span>,<span class='ident'>tree</span>} <span class='op'>=&gt;</span> {
 			<span class='kw'>if</span> <span class='ident'>tree</span>.<span class='ident'>is_empty</span>() {
 				<span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='ident'>Raz</span>{
 					<span class='ident'>length</span>: <span class='number'>0</span>,
 					<span class='ident'>l_forest</span>: <span class='ident'>tree</span>::<span class='ident'>Cursor</span>::<span class='ident'>new</span>(),
-					<span class='ident'>l_stack</span>: <span class='ident'>stack</span>::<span class='ident'>AStack</span>::<span class='ident'>new</span>(),
-					<span class='ident'>r_stack</span>: <span class='ident'>stack</span>::<span class='ident'>AStack</span>::<span class='ident'>new</span>(),
+					<span class='ident'>l_stack</span>: <span class='ident'>stack</span>::<span class='ident'>AStack</span>::<span class='ident'>with_capacity</span>(<span class='number'>500</span>),
+					<span class='ident'>r_stack</span>: <span class='ident'>stack</span>::<span class='ident'>AStack</span>::<span class='ident'>with_capacity</span>(<span class='number'>500</span>),
 					<span class='ident'>r_forest</span>: <span class='ident'>tree</span>::<span class='ident'>Cursor</span>::<span class='ident'>new</span>(),
 				})
 			}
@@ -544,8 +583,8 @@
 				<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{..} <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
 				<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='kw-2'>ref</span> <span class='ident'>vec_ref</span>) <span class='op'>=&gt;</span> <span class='ident'>vec_ref</span>.<span class='ident'>split_at</span>(<span class='ident'>pos</span>)
 			};
-			<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>l_gstack</span> <span class='op'>=</span> <span class='ident'>stack</span>::<span class='ident'>AStack</span>::<span class='ident'>new</span>();
-			<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>r_gstack</span> <span class='op'>=</span> <span class='ident'>stack</span>::<span class='ident'>AStack</span>::<span class='ident'>new</span>();
+			<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>l_gstack</span> <span class='op'>=</span> <span class='ident'>stack</span>::<span class='ident'>AStack</span>::<span class='ident'>with_capacity</span>(<span class='number'>500</span>);
+			<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>r_gstack</span> <span class='op'>=</span> <span class='ident'>stack</span>::<span class='ident'>AStack</span>::<span class='ident'>with_capacity</span>(<span class='number'>500</span>);
 			<span class='ident'>l_gstack</span>.<span class='ident'>extend</span>(<span class='ident'>l_slice</span>);
 			<span class='ident'>r_gstack</span>.<span class='ident'>extend_rev</span>(<span class='ident'>r_slice</span>);
 			<span class='comment'>// step 3: integrate</span>
@@ -562,15 +601,18 @@
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>:<span class='ident'>Clone</span><span class='op'>&gt;</span> <span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
+	<span class='doccomment'>/// Create a new RAZ, for an empty sequence</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 		<span class='ident'>Raz</span>{
 			<span class='ident'>length</span>: <span class='number'>0</span>,
 			<span class='ident'>l_forest</span>: <span class='ident'>tree</span>::<span class='ident'>Cursor</span>::<span class='ident'>new</span>(),
-			<span class='ident'>l_stack</span>: <span class='ident'>stack</span>::<span class='ident'>AStack</span>::<span class='ident'>new</span>(),
-			<span class='ident'>r_stack</span>: <span class='ident'>stack</span>::<span class='ident'>AStack</span>::<span class='ident'>new</span>(),
+			<span class='ident'>l_stack</span>: <span class='ident'>stack</span>::<span class='ident'>AStack</span>::<span class='ident'>with_capacity</span>(<span class='number'>500</span>),
+			<span class='ident'>r_stack</span>: <span class='ident'>stack</span>::<span class='ident'>AStack</span>::<span class='ident'>with_capacity</span>(<span class='number'>500</span>),
 			<span class='ident'>r_forest</span>: <span class='ident'>tree</span>::<span class='ident'>Cursor</span>::<span class='ident'>new</span>(),
 		}
 	}
+	<span class='doccomment'>/// unfocus the RAZ before refocusing on a new location</span>
+	<span class='doccomment'>/// in the sequence.</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unfocus</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>RazTree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>l_lev</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
 		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>r_lev</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
@@ -651,28 +693,35 @@
 		<span class='ident'>RazTree</span>{<span class='ident'>count</span>: <span class='ident'>count</span>(<span class='ident'>tree</span>.<span class='ident'>peek</span>()), <span class='ident'>tree</span>: <span class='ident'>tree</span>}
 	}
 
+	<span class='doccomment'>/// add an element to the left of the cursor</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>push_left</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>elm</span>: <span class='ident'>E</span>) {
 		<span class='self'>self</span>.<span class='ident'>length</span> <span class='op'>+=</span> <span class='number'>1</span>;
 		<span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>push</span>(<span class='ident'>elm</span>);
 		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>active_len</span>() <span class='op'>%</span> <span class='number'>200</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='self'>self</span>.<span class='ident'>archive_left</span>(<span class='ident'>tree</span>::<span class='ident'>gen_level</span>()) }
 	}
+	<span class='doccomment'>/// add an element to the right of the cursor</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>push_right</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>elm</span>: <span class='ident'>E</span>) {
 		<span class='self'>self</span>.<span class='ident'>length</span> <span class='op'>+=</span> <span class='number'>1</span>;
 		<span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>push</span>(<span class='ident'>elm</span>);
 		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>active_len</span>() <span class='op'>%</span> <span class='number'>200</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='self'>self</span>.<span class='ident'>archive_right</span>(<span class='ident'>tree</span>::<span class='ident'>gen_level</span>()) }
 	}
+	<span class='doccomment'>/// peek at the element to the left of the cursor</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>peek_left</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 		<span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>peek</span>()
 	}
+	<span class='doccomment'>/// peek at the element to the left of the cursor</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>peek_right</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 		<span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>peek</span>()
 	}
+	<span class='doccomment'>/// mark the data at the left to be shared</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>archive_left</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>level</span>: <span class='ident'>tree</span>::<span class='ident'>Level</span>) {
 		<span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>archive</span>(<span class='ident'>level</span>);
 	}
+	<span class='doccomment'>/// mark the data at the right to be shared</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>archive_right</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>level</span>: <span class='ident'>tree</span>::<span class='ident'>Level</span>) {
 		<span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>archive</span>(<span class='ident'>level</span>);
 	}
+	<span class='doccomment'>/// remove and return an element to the left of the cursor</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pop_left</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span> {
 			<span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>l_forest</span>.<span class='ident'>up</span>() { <span class='kw'>return</span> <span class='prelude-val'>None</span> } <span class='kw'>else</span> {
@@ -687,6 +736,7 @@
 		<span class='self'>self</span>.<span class='ident'>length</span> <span class='op'>-=</span> <span class='number'>1</span>;
 		<span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>pop</span>()
 	}
+	<span class='doccomment'>/// remove and return an element to the right of the cursor</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pop_right</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span> {
 			<span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>r_forest</span>.<span class='ident'>up</span>() { <span class='kw'>return</span> <span class='prelude-val'>None</span> } <span class='kw'>else</span> {
