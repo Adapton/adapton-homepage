@@ -48,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/pmfp_collections/lib.rs.html#1-101' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/pmfp_collections/lib.rs.html#1-104' title='goto source code'>[src]</a></span></h1>
 <h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -69,6 +69,14 @@
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='mod' href='level_tree/index.html'
+                                  title='pmfp_collections::level_tree'>level_tree</a></td>
+                           <td class='docblock-short'>
+                                <p>a persistent, cannonical tree that keeps track of the
+&quot;level&quot; of each of its branches.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='mod' href='persist_raz/index.html'
                                   title='pmfp_collections::persist_raz'>persist_raz</a></td>
                            <td class='docblock-short'>
@@ -83,17 +91,22 @@
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='split_btree_cursor/index.html'
-                                  title='pmfp_collections::split_btree_cursor'>split_btree_cursor</a></td>
+                           <td><a class='mod' href='stack/index.html'
+                                  title='pmfp_collections::stack'>stack</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='stack/index.html'
-                                  title='pmfp_collections::stack'>stack</a></td>
+                           <td><a class='mod' href='tree_cursor/index.html'
+                                  title='pmfp_collections::tree_cursor'>tree_cursor</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Tree Cursor for <code>level_tree</code>
+- a cursor within a persistent, ordered, binary tree
+- optimised for splitting and combining trees at the cursor in a cannonical way
+- uses non-increasing levels for each subtree to maintain cannonical form
+- in the general case the most efficent levels will be drawn from 
+  a negative binomial distribution</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>

@@ -1,1 +1,1 @@
-initSidebarItems({"macro":[["cell_call",""],["eager",""],["memo",""],["prog_pt",""],["thunk",""]],"mod":[["collections",""],["engine",""],["macros",""]]});
+initSidebarItems({"macro":[["cell_call",""],["eager",""],["memo",""],["prog_pt",""],["thunk",""]],"mod":[["collections",""],["engine","Adapton's core calculus, implemented as a runtime library.  We implement two versions of this interface, which we refer to as _engines_: The **naive engine** and the **DCG engine**, implemented based on the algorithms from the Adapton papers."],["macros",""]]});

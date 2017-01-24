@@ -48,23 +48,24 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/adapton_lab/labviz.rs.html#25-30' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/adapton_lab/labviz.rs.html#26-31' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Div {
     pub tag: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>,
     pub classes: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;,
     pub extent: <a class='struct' href='https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../adapton_lab/labviz/struct.Div.html' title='adapton_lab::labviz::Div'>Div</a>&gt;&gt;,
     pub text: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;,
 }</pre><div class='docblock'><p>The <code>Div</code> struct represents a restricted form of a <code>&lt;div&gt;</code> element
-in HTML.  The field <code>tag</code> is a string, which corresponds to a a
-distinguished <code>tag</code> CSS class indicates the Rust datatype
+in HTML.  The field <code>tag</code> is a string, which corresponds to a
+distinguished <code>tag</code> CSS class that indicates the Rust datatype
 reflected into this <code>Div</code>.  The other CSS <code>classes</code> hold bits that
 signal various subcases (e.g., of <code>enum</code>s in the <code>reflect</code>
-module).  Finally, for Rust structures that have subfields and/or
+module).  For Rust structures that have subfields and/or
 substructure, the <code>Div</code>&#39;s <code>extent</code> field lists their reflections
 into <code>Div</code>s.  In principle, the produced <code>Div</code> structure has an
 equivalent amount of information to the corresponding Rust
 datatype, and could be &quot;parsed&quot; back into this Rust datatype later
-(let&#39;s not do that, though!).</p>
+(let&#39;s not do that, though!).  The text field is useful for <code>Div</code>
+versions of <code>Name</code>s, for giving the text of the name.</p>
 </div><h2 class='fields'>Fields</h2><span id='structfield.tag' class='structfield'>
                            <span id='tag.v' class='invisible'>
                            <code>tag: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></code>
@@ -77,15 +78,15 @@ datatype, and could be &quot;parsed&quot; back into this Rust datatype later
                            </span></span><span class='stab '></span><span id='structfield.text' class='structfield'>
                            <span id='text.v' class='invisible'>
                            <code>text: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code>
-                           </span></span><span class='stab '></span><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../adapton_lab/labviz/struct.Div.html' title='adapton_lab::labviz::Div'>Div</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/labviz.rs.html#24' title='goto source code'>[src]</a></span></h3>
+                           </span></span><span class='stab '></span><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../adapton_lab/labviz/struct.Div.html' title='adapton_lab::labviz::Div'>Div</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/labviz.rs.html#25' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class='method'><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></span></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../adapton_lab/labviz/struct.Div.html' title='adapton_lab::labviz::Div'>Div</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/labviz.rs.html#24' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../adapton_lab/labviz/struct.Div.html' title='adapton_lab::labviz::Div'>Div</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/labviz.rs.html#25' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class='method'><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../adapton_lab/labviz/struct.Div.html' title='adapton_lab::labviz::Div'>Div</a></code></span></h4>
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
 </div><h4 id='method.clone_from' class='method'><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
 <div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../adapton_lab/labviz/trait.WriteHTML.html' title='adapton_lab::labviz::WriteHTML'>WriteHTML</a> for <a class='struct' href='../../adapton_lab/labviz/struct.Div.html' title='adapton_lab::labviz::Div'>Div</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/labviz.rs.html#203-222' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../adapton_lab/labviz/trait.WriteHTML.html' title='adapton_lab::labviz::WriteHTML'>WriteHTML</a> for <a class='struct' href='../../adapton_lab/labviz/struct.Div.html' title='adapton_lab::labviz::Div'>Div</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/labviz.rs.html#347-366' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.write_html' class='method'><span id='write_html.v' class='invisible'><code>fn <a href='../../adapton_lab/labviz/trait.WriteHTML.html#tymethod.write_html' class='fnname'>write_html</a>&lt;Wr:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/std/io/trait.Write.html' title='std::io::Write'>Write</a>&gt;(&amp;self, wr: &amp;mut Wr)</code></span></h4>
 </div></section>
     <section id='search' class="content hidden"></section>

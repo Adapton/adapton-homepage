@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `LabState` struct in crate `adapton_lab`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, LabState">
+
+    <title>adapton_lab::labrun::LabState - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>adapton_lab</a>::<wbr><a href='index.html'>labrun</a></p><script>window.sidebarCurrent = {name: 'LabState', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>adapton_lab</a>::<wbr><a href='index.html'>labrun</a>::<wbr><a class='struct' href=''>LabState</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/adapton_lab/labrun.rs.html#26-36' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct LabState&lt;R:&nbsp;<a class='trait' href='../../rand/trait.Rng.html' title='rand::Rng'>Rng</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>, Input, EditSt, Output, Editor:&nbsp;<a class='trait' href='../../adapton_lab/labdef/trait.Generate.html' title='adapton_lab::labdef::Generate'>Generate</a>&lt;Input&gt; + <a class='trait' href='../../adapton_lab/labdef/trait.Edit.html' title='adapton_lab::labdef::Edit'>Edit</a>&lt;Input, EditSt&gt;, Archivist:&nbsp;<a class='trait' href='../../adapton_lab/labdef/trait.ComputeDemand.html' title='adapton_lab::labdef::ComputeDemand'>ComputeDemand</a>&lt;Input, Output&gt;&gt; {
+    pub params: <a class='struct' href='../../adapton_lab/labdef/struct.LabParams.html' title='adapton_lab::labdef::LabParams'>LabParams</a>,
+    pub rng: <a class='struct' href='https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;R&gt;,
+    pub change_batch_num: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>,
+    pub dcg_state: <a class='struct' href='../../adapton_lab/labrun/struct.LabEngineState.html' title='adapton_lab::labrun::LabEngineState'>LabEngineState</a>&lt;Input, EditSt, Output, Editor, Archivist&gt;,
+    pub naive_state: <a class='struct' href='../../adapton_lab/labrun/struct.LabEngineState.html' title='adapton_lab::labrun::LabEngineState'>LabEngineState</a>&lt;Input, EditSt, Output, Editor, Archivist&gt;,
+    pub samples: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../adapton_lab/labdef/struct.Sample.html' title='adapton_lab::labdef::Sample'>Sample</a>&gt;,
+}</pre><h2 class='fields'>Fields</h2><span id='structfield.params' class='structfield'>
+                           <span id='params.v' class='invisible'>
+                           <code>params: <a class='struct' href='../../adapton_lab/labdef/struct.LabParams.html' title='adapton_lab::labdef::LabParams'>LabParams</a></code>
+                           </span></span><span class='stab '></span><span id='structfield.rng' class='structfield'>
+                           <span id='rng.v' class='invisible'>
+                           <code>rng: <a class='struct' href='https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;R&gt;</code>
+                           </span></span><span class='stab '></span><span id='structfield.change_batch_num' class='structfield'>
+                           <span id='change_batch_num.v' class='invisible'>
+                           <code>change_batch_num: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code>
+                           </span></span><span class='stab '></span><span id='structfield.dcg_state' class='structfield'>
+                           <span id='dcg_state.v' class='invisible'>
+                           <code>dcg_state: <a class='struct' href='../../adapton_lab/labrun/struct.LabEngineState.html' title='adapton_lab::labrun::LabEngineState'>LabEngineState</a>&lt;Input, EditSt, Output, Editor, Archivist&gt;</code>
+                           </span></span><span class='stab '></span><span id='structfield.naive_state' class='structfield'>
+                           <span id='naive_state.v' class='invisible'>
+                           <code>naive_state: <a class='struct' href='../../adapton_lab/labrun/struct.LabEngineState.html' title='adapton_lab::labrun::LabEngineState'>LabEngineState</a>&lt;Input, EditSt, Output, Editor, Archivist&gt;</code>
+                           </span></span><span class='stab '></span><span id='structfield.samples' class='structfield'>
+                           <span id='samples.v' class='invisible'>
+                           <code>samples: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../adapton_lab/labdef/struct.Sample.html' title='adapton_lab::labdef::Sample'>Sample</a>&gt;</code>
+                           </span></span><span class='stab '></span><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;Input:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a>, EditSt, Output:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a>, Editor:&nbsp;<a class='trait' href='../../adapton_lab/labdef/trait.Generate.html' title='adapton_lab::labdef::Generate'>Generate</a>&lt;Input&gt; + <a class='trait' href='../../adapton_lab/labdef/trait.Edit.html' title='adapton_lab::labdef::Edit'>Edit</a>&lt;Input, EditSt&gt;, Archivist:&nbsp;<a class='trait' href='../../adapton_lab/labdef/trait.ComputeDemand.html' title='adapton_lab::labdef::ComputeDemand'>ComputeDemand</a>&lt;Input, Output&gt;&gt; <a class='trait' href='../../adapton_lab/labrun/trait.SampleGen.html' title='adapton_lab::labrun::SampleGen'>SampleGen</a> for <a class='struct' href='../../adapton_lab/labrun/struct.LabState.html' title='adapton_lab::labrun::LabState'>LabState</a>&lt;<a class='struct' href='../../rand/struct.StdRng.html' title='rand::StdRng'>StdRng</a>, Input, EditSt, Output, Editor, Archivist&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/labrun.rs.html#143-197' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'><p>Advances the LabState forward by one sample of each engine.  For
+each engine, we process the current input (either generating it,
+or editing it) and we compute a new output over this processed input.
+Optionally, we compare the outputs of the engines for equality.</p>
+</div><div class='impl-items'><h4 id='method.sample' class='method'><span id='sample.v' class='invisible'><code>fn <a href='../../adapton_lab/labrun/trait.SampleGen.html#tymethod.sample' class='fnname'>sample</a>(&amp;mut self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../adapton_lab/labdef/struct.Sample.html' title='adapton_lab::labdef::Sample'>Sample</a>&gt;</code></span></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "adapton_lab";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

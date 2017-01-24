@@ -48,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/adapton_lab/labdef.rs.html#1-130' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/adapton_lab/labdef.rs.html#1-170' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Defines lab parameters <code>LabParams</code> and <code>LabDef</code>, the parameters
 for running the test diagram from the <a href="https://github.com/cuplv/adapton-lab.rust">Adapton Lab
 README</a>.</p>
@@ -75,6 +75,17 @@ input (left vertical edge in <code>README.md</code> diagram).</p>
                                   title='adapton_lab::labdef::GenerateParams'>GenerateParams</a></td>
                            <td class='docblock-short'>
                                 <p>Parameters for generating and editing input; See <code>README.md</code> for more.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.LabDef.html'
+                                  title='adapton_lab::labdef::LabDef'>LabDef</a></td>
+                           <td class='docblock-short'>
+                                <p><em>lab definition</em>: generic notion of an incremental computation
+that can be evaluated and tested.  We instantiate this structure
+once for each test in our test suite.  We implement the <code>LabDef</code>
+trait generically for this structure.  See <code>catalog</code> module for
+example instances.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -114,15 +125,6 @@ sequenced across successive samples.  Given an input_seeds vector,
 there is one unique Rng sequence for each engine&#39;s sequence of
 samples.</p>
                            </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='struct' href='struct.TestComputer.html'
-                                  title='adapton_lab::labdef::TestComputer'>TestComputer</a></td>
-                           <td class='docblock-short'>
-                                <p>Generic notion of an Incremental Computation to Evaluate and Test.
-We instantiate this structure once for each test in our test suite.
-We implement the <code>LabDef</code> trait generically for this structure.</p>
-                           </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -144,6 +146,13 @@ See <code>README.md</code> for more.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='trait' href='trait.ComputeDemand.html'
+                                  title='adapton_lab::labdef::ComputeDemand'>ComputeDemand</a></td>
+                           <td class='docblock-short'>
+                                <p>Like Compute, but also provides a <code>demand</code> size, for lazy algorithms.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='trait' href='trait.Edit.html'
                                   title='adapton_lab::labdef::Edit'>Edit</a></td>
                            <td class='docblock-short'>
@@ -160,12 +169,11 @@ See <code>README.md</code> for more.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='trait' href='trait.LabDef.html'
-                                  title='adapton_lab::labdef::LabDef'>LabDef</a></td>
+                           <td><a class='trait' href='trait.Lab.html'
+                                  title='adapton_lab::labdef::Lab'>Lab</a></td>
                            <td class='docblock-short'>
-                                <p>Lab experiment definition: Hides the Input, Output and Compute types of a
-TestComputer, abstracting over them.
-See catalog module for example instances.</p>
+                                <p><em>lab</em>: Abstracts over parts of a lab definition of type <code>LabDef</code>:
+Hides the <code>Input</code>, <code>Output</code> and <code>Archivist</code> types of a <code>LabDef</code>.</p>
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>

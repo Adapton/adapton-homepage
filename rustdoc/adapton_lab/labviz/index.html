@@ -48,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/adapton_lab/labviz.rs.html#1-501' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/adapton_lab/labviz.rs.html#1-1086' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>This module of Adapton Lab extends Adapton&#39;s existing reflection
 (see <code>adapton::engine::reflect</code>) with further reflections.  In
 particular, we produce HTML output structure, for human user
@@ -60,16 +60,17 @@ interaction and consumption.</p>
                                   title='adapton_lab::labviz::Div'>Div</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>Div</code> struct represents a restricted form of a <code>&lt;div&gt;</code> element
-in HTML.  The field <code>tag</code> is a string, which corresponds to a a
-distinguished <code>tag</code> CSS class indicates the Rust datatype
+in HTML.  The field <code>tag</code> is a string, which corresponds to a
+distinguished <code>tag</code> CSS class that indicates the Rust datatype
 reflected into this <code>Div</code>.  The other CSS <code>classes</code> hold bits that
 signal various subcases (e.g., of <code>enum</code>s in the <code>reflect</code>
-module).  Finally, for Rust structures that have subfields and/or
+module).  For Rust structures that have subfields and/or
 substructure, the <code>Div</code>&#39;s <code>extent</code> field lists their reflections
 into <code>Div</code>s.  In principle, the produced <code>Div</code> structure has an
 equivalent amount of information to the corresponding Rust
 datatype, and could be &quot;parsed&quot; back into this Rust datatype later
-(let&#39;s not do that, though!).</p>
+(let&#39;s not do that, though!).  The text field is useful for <code>Div</code>
+versions of <code>Name</code>s, for giving the text of the name.</p>
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
@@ -82,8 +83,22 @@ datatype, and could be &quot;parsed&quot; back into this Rust datatype later
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
                        <tr class=' module-item'>
+                           <td><a class='fn' href='fn.div_of_alloc_tree.html'
+                                  title='adapton_lab::labviz::div_of_alloc_tree'>div_of_alloc_tree</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='fn' href='fn.div_of_edge.html'
                                   title='adapton_lab::labviz::div_of_edge'>div_of_edge</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.div_of_force_tree.html'
+                                  title='adapton_lab::labviz::div_of_force_tree'>div_of_force_tree</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
@@ -131,6 +146,13 @@ datatype, and could be &quot;parsed&quot; back into this Rust datatype later
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='fn' href='fn.div_of_value_tree.html'
+                                  title='adapton_lab::labviz::div_of_value_tree'>div_of_value_tree</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='fn' href='fn.style_string.html'
                                   title='adapton_lab::labviz::style_string'>style_string</a></td>
                            <td class='docblock-short'>
@@ -138,8 +160,43 @@ datatype, and could be &quot;parsed&quot; back into this Rust datatype later
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.write_test_results.html'
-                                  title='adapton_lab::labviz::write_test_results'>write_test_results</a></td>
+                           <td><a class='fn' href='fn.write_cr.html'
+                                  title='adapton_lab::labviz::write_cr'>write_cr</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.write_dcg_edge_tree.html'
+                                  title='adapton_lab::labviz::write_dcg_edge_tree'>write_dcg_edge_tree</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.write_lab_name.html'
+                                  title='adapton_lab::labviz::write_lab_name'>write_lab_name</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.write_lab_results.html'
+                                  title='adapton_lab::labviz::write_lab_results'>write_lab_results</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.write_lab_results_summary.html'
+                                  title='adapton_lab::labviz::write_lab_results_summary'>write_lab_results_summary</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.write_sample_dcg.html'
+                                  title='adapton_lab::labviz::write_sample_dcg'>write_sample_dcg</a></td>
                            <td class='docblock-short'>
                                 
                            </td>

@@ -48,12 +48,15 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/adapton_lab/labdef.rs.html#84-93' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/adapton_lab/labdef.rs.html#101-120' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct SampleParams {
     pub input_seeds: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;,
     pub generate_params: <a class='struct' href='../../adapton_lab/labdef/struct.GenerateParams.html' title='adapton_lab::labdef::GenerateParams'>GenerateParams</a>,
+    pub demand: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>,
     pub validate_output: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
     pub change_batch_size: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>,
+    pub reflect_trace: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub reflect_dcg: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
 }</pre><div class='docblock'><p>Parameters for collecting a single sample.  In addition to these
 parameters, the experiment maintains a Rng based on the
 input_seeds, below; this Rng is given to Edit::edit to generate
@@ -69,6 +72,13 @@ samples.</p>
                            <span id='generate_params.v' class='invisible'>
                            <code>generate_params: <a class='struct' href='../../adapton_lab/labdef/struct.GenerateParams.html' title='adapton_lab::labdef::GenerateParams'>GenerateParams</a></code>
                            </span></span><span class='stab '></span><div class='docblock'><p>Other parameters for generating the input.</p>
+</div><span id='structfield.demand' class='structfield'>
+                           <span id='demand.v' class='invisible'>
+                           <code>demand: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code>
+                           </span></span><span class='stab '></span><div class='docblock'><p><em>demand</em>: For lazy algorithms, the number of output elements to
+force, e.g., by producing a vector of output data.  Eager
+algorithms ignore this parameter (they always produce <em>all</em> of
+their output).</p>
 </div><span id='structfield.validate_output' class='structfield'>
                            <span id='validate_output.v' class='invisible'>
                            <code>validate_output: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code>
@@ -77,12 +87,21 @@ samples.</p>
                            <span id='change_batch_size.v' class='invisible'>
                            <code>change_batch_size: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code>
                            </span></span><span class='stab '></span><div class='docblock'><p>Size of each batch of changes.</p>
-</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../adapton_lab/labdef/struct.SampleParams.html' title='adapton_lab::labdef::SampleParams'>SampleParams</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/labdef.rs.html#83' title='goto source code'>[src]</a></span></h3>
+</div><span id='structfield.reflect_trace' class='structfield'>
+                           <span id='reflect_trace.v' class='invisible'>
+                           <code>reflect_trace: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code>
+                           </span></span><span class='stab '></span><div class='docblock'><p>Reflect the trace (See <code>adapton::engine::reflect::trace::Trace</code>).</p>
+</div><span id='structfield.reflect_dcg' class='structfield'>
+                           <span id='reflect_dcg.v' class='invisible'>
+                           <code>reflect_dcg: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code>
+                           </span></span><span class='stab '></span><div class='docblock'><p>Reflect the DCG (See <code>adapton::engine::reflect::DCG</code>), including
+its values (See <code>adapton::engine::reflect_val</code>).</p>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../adapton_lab/labdef/struct.SampleParams.html' title='adapton_lab::labdef::SampleParams'>SampleParams</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/labdef.rs.html#100' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class='method'><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../adapton_lab/labdef/struct.SampleParams.html' title='adapton_lab::labdef::SampleParams'>SampleParams</a></code></span></h4>
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
 </div><h4 id='method.clone_from' class='method'><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
 <div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../adapton_lab/labdef/struct.SampleParams.html' title='adapton_lab::labdef::SampleParams'>SampleParams</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/labdef.rs.html#83' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../adapton_lab/labdef/struct.SampleParams.html' title='adapton_lab::labdef::SampleParams'>SampleParams</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/labdef.rs.html#100' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class='method'><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></span></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div></section>

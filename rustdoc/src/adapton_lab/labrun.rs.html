@@ -258,6 +258,14 @@
 <span id="213">213</span>
 <span id="214">214</span>
 <span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
 </pre><pre class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>time</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rand</span>;
@@ -274,43 +282,42 @@
   <span class='kw'>fn</span> <span class='ident'>sample</span>(<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Sample</span><span class='op'>&gt;</span>;
 }
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>TestEngineState</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,
-                           <span class='ident'>InputDist</span>:<span class='ident'>Generate</span><span class='op'>&lt;</span><span class='ident'>Input</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>Edit</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span><span class='op'>&gt;</span>,
-                           <span class='ident'>Computer</span>:<span class='ident'>Compute</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>Output</span><span class='op'>&gt;&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>LabEngineState</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,
+                           <span class='ident'>Editor</span>:<span class='ident'>Generate</span><span class='op'>&lt;</span><span class='ident'>Input</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>Edit</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span><span class='op'>&gt;</span>,
+                           <span class='ident'>Archivist</span>:<span class='ident'>ComputeDemand</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>Output</span><span class='op'>&gt;&gt;</span> {
   <span class='kw'>pub</span> <span class='ident'>engine</span>:   <span class='ident'>Engine</span>,
   <span class='kw'>pub</span> <span class='ident'>input</span>:    <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>Input</span>,<span class='ident'>EditSt</span>)<span class='op'>&gt;</span>,
-  <span class='ident'>inputdist</span>:    <span class='ident'>PhantomData</span><span class='op'>&lt;</span><span class='ident'>InputDist</span><span class='op'>&gt;</span>,
-  <span class='ident'>computer</span>:     <span class='ident'>PhantomData</span><span class='op'>&lt;</span><span class='ident'>Computer</span><span class='op'>&gt;</span>,
+  <span class='ident'>inputdist</span>:    <span class='ident'>PhantomData</span><span class='op'>&lt;</span><span class='ident'>Editor</span><span class='op'>&gt;</span>,
+  <span class='ident'>computer</span>:     <span class='ident'>PhantomData</span><span class='op'>&lt;</span><span class='ident'>Archivist</span><span class='op'>&gt;</span>,
   <span class='ident'>output</span>:       <span class='ident'>PhantomData</span><span class='op'>&lt;</span><span class='ident'>Output</span><span class='op'>&gt;</span>,
 }
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>TestState</span><span class='op'>&lt;</span><span class='ident'>R</span>:<span class='ident'>Rng</span><span class='op'>+</span><span class='ident'>Clone</span>,
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>LabState</span><span class='op'>&lt;</span><span class='ident'>R</span>:<span class='ident'>Rng</span><span class='op'>+</span><span class='ident'>Clone</span>,
                      <span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,
-                     <span class='ident'>InputDist</span>:<span class='ident'>Generate</span><span class='op'>&lt;</span><span class='ident'>Input</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>Edit</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span><span class='op'>&gt;</span>,
-                     <span class='ident'>Computer</span>:<span class='ident'>Compute</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>Output</span><span class='op'>&gt;&gt;</span> {
+                     <span class='ident'>Editor</span>:<span class='ident'>Generate</span><span class='op'>&lt;</span><span class='ident'>Input</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>Edit</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span><span class='op'>&gt;</span>,
+                     <span class='ident'>Archivist</span>:<span class='ident'>ComputeDemand</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>Output</span><span class='op'>&gt;&gt;</span> {
   <span class='kw'>pub</span> <span class='ident'>params</span>:           <span class='ident'>LabParams</span>,
   <span class='kw'>pub</span> <span class='ident'>rng</span>:              <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>,
   <span class='kw'>pub</span> <span class='ident'>change_batch_num</span>: <span class='ident'>usize</span>,
-  <span class='kw'>pub</span> <span class='ident'>dcg_state</span>:   <span class='ident'>TestEngineState</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>InputDist</span>,<span class='ident'>Computer</span><span class='op'>&gt;</span>,
-  <span class='kw'>pub</span> <span class='ident'>naive_state</span>: <span class='ident'>TestEngineState</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>InputDist</span>,<span class='ident'>Computer</span><span class='op'>&gt;</span>,
+  <span class='kw'>pub</span> <span class='ident'>dcg_state</span>:   <span class='ident'>LabEngineState</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>Editor</span>,<span class='ident'>Archivist</span><span class='op'>&gt;</span>,
+  <span class='kw'>pub</span> <span class='ident'>naive_state</span>: <span class='ident'>LabEngineState</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>Editor</span>,<span class='ident'>Archivist</span><span class='op'>&gt;</span>,
   <span class='kw'>pub</span> <span class='ident'>samples</span>:     <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Sample</span><span class='op'>&gt;</span>,
 }
 
       
-<span class='kw'>fn</span> <span class='ident'>get_engine_metrics</span><span class='op'>&lt;</span><span class='ident'>X</span>,<span class='ident'>F</span>:<span class='ident'>FnOnce</span>() <span class='op'>-&gt;</span> <span class='ident'>X</span><span class='op'>&gt;</span> (<span class='ident'>thunk</span>:<span class='ident'>F</span>) <span class='op'>-&gt;</span> (<span class='ident'>X</span>,<span class='ident'>EngineMetrics</span>)
+<span class='kw'>fn</span> <span class='ident'>get_engine_metrics</span><span class='op'>&lt;</span><span class='ident'>X</span>,<span class='ident'>F</span>:<span class='ident'>FnOnce</span>() <span class='op'>-&gt;</span> <span class='ident'>X</span><span class='op'>&gt;</span> (<span class='ident'>params</span>:<span class='kw-2'>&amp;</span><span class='ident'>SampleParams</span>, <span class='ident'>thunk</span>:<span class='ident'>F</span>) <span class='op'>-&gt;</span> (<span class='ident'>X</span>,<span class='ident'>EngineMetrics</span>)
 {
+  <span class='kw'>if</span> <span class='ident'>params</span>.<span class='ident'>reflect_trace</span> { <span class='ident'>reflect</span>::<span class='ident'>dcg_reflect_begin</span>(); };
   <span class='kw'>let</span> <span class='ident'>time_start</span> <span class='op'>=</span> <span class='ident'>time</span>::<span class='ident'>precise_time_ns</span>();
-  
-  <span class='ident'>reflect</span>::<span class='ident'>dcg_reflect_begin</span>();
   <span class='kw'>let</span> (<span class='ident'>x</span>,<span class='ident'>cnt</span>) <span class='op'>=</span> <span class='ident'>cnt</span>(<span class='ident'>thunk</span>);
-  <span class='kw'>let</span> <span class='ident'>traces</span> <span class='op'>=</span> <span class='ident'>reflect</span>::<span class='ident'>dcg_reflect_end</span>();
-  <span class='comment'>//let traces = vec![];</span>
-
   <span class='kw'>let</span> <span class='ident'>time_end</span> <span class='op'>=</span> <span class='ident'>time</span>::<span class='ident'>precise_time_ns</span>();
+  <span class='kw'>let</span> <span class='ident'>traces</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>params</span>.<span class='ident'>reflect_trace</span> { <span class='ident'>reflect</span>::<span class='ident'>dcg_reflect_end</span>() } <span class='kw'>else</span> { <span class='macro'>vec</span><span class='macro'>!</span>[ ] };
+  <span class='kw'>let</span> <span class='ident'>dcg</span>    <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>params</span>.<span class='ident'>reflect_dcg</span>   { <span class='ident'>reflect</span>::<span class='ident'>dcg_reflect_now</span>() } <span class='kw'>else</span> { <span class='prelude-val'>None</span> };
   <span class='kw'>return</span> (<span class='ident'>x</span>, <span class='ident'>EngineMetrics</span>{
     <span class='ident'>time_ns</span>:<span class='ident'>time_end</span> <span class='op'>-</span> <span class='ident'>time_start</span>,
     <span class='ident'>engine_cnt</span>:<span class='ident'>cnt</span>,
-    <span class='ident'>dcg_traces</span>:<span class='ident'>traces</span>,
+    <span class='ident'>reflect_traces</span>:<span class='ident'>traces</span>,
+    <span class='ident'>reflect_dcg</span>:<span class='ident'>dcg</span>,
   })
 }
 
@@ -318,8 +325,8 @@
   <span class='op'>&lt;</span><span class='ident'>R</span>:<span class='ident'>Rng</span><span class='op'>+</span><span class='ident'>Clone</span>,
    <span class='ident'>Input</span>:<span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Debug</span>,
    <span class='ident'>EditSt</span>,<span class='ident'>Output</span>:<span class='ident'>Debug</span>,   
-   <span class='ident'>InputDist</span>:<span class='ident'>Generate</span><span class='op'>&lt;</span><span class='ident'>Input</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>Edit</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span><span class='op'>&gt;</span>,
-   <span class='ident'>Computer</span>:<span class='ident'>Compute</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>Output</span><span class='op'>&gt;</span>
+   <span class='ident'>Editor</span>:<span class='ident'>Generate</span><span class='op'>&lt;</span><span class='ident'>Input</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>Edit</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span><span class='op'>&gt;</span>,
+   <span class='ident'>Archivist</span>:<span class='ident'>ComputeDemand</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>Output</span><span class='op'>&gt;</span>
    <span class='op'>&gt;</span> 
   (<span class='ident'>rng</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>R</span>, <span class='ident'>params</span>:<span class='kw-2'>&amp;</span><span class='ident'>SampleParams</span>, <span class='ident'>input</span>:<span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>Input</span>,<span class='ident'>EditSt</span>)<span class='op'>&gt;</span>) <span class='op'>-&gt;</span> (<span class='ident'>Output</span>,<span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>EngineSample</span>) 
 {
@@ -328,32 +335,41 @@
   <span class='kw'>let</span> ((<span class='ident'>edited_input</span>, <span class='ident'>editst</span>), <span class='ident'>process_input</span>) : ((<span class='ident'>Input</span>,<span class='ident'>EditSt</span>),<span class='ident'>EngineMetrics</span>) <span class='op'>=</span> 
     <span class='kw'>match</span> <span class='ident'>input</span> {
       <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> 
-        <span class='ident'>get_engine_metrics</span>(
-          <span class='kw'>move</span> <span class='op'>||</span> ( <span class='ident'>InputDist</span>::<span class='ident'>generate</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>rng2</span>, <span class='kw-2'>&amp;</span><span class='ident'>params</span>.<span class='ident'>generate_params</span>), 
-                    <span class='ident'>InputDist</span>::<span class='ident'>edit_init</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>rng2</span>, <span class='kw-2'>&amp;</span><span class='ident'>params</span>.<span class='ident'>generate_params</span> ))),
+        <span class='ident'>get_engine_metrics</span>( <span class='ident'>params</span>,
+          <span class='kw'>move</span> <span class='op'>||</span> ( <span class='ident'>Editor</span>::<span class='ident'>generate</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>rng2</span>, <span class='kw-2'>&amp;</span><span class='ident'>params</span>.<span class='ident'>generate_params</span>), 
+                    <span class='ident'>Editor</span>::<span class='ident'>edit_init</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>rng2</span>, <span class='kw-2'>&amp;</span><span class='ident'>params</span>.<span class='ident'>generate_params</span> ))),
       <span class='prelude-val'>Some</span>((<span class='ident'>input</span>, <span class='ident'>editst</span>)) <span class='op'>=&gt;</span> 
-        <span class='ident'>get_engine_metrics</span>(
-          <span class='kw'>move</span> <span class='op'>||</span> <span class='ident'>InputDist</span>::<span class='ident'>edit</span>(<span class='ident'>input</span>, <span class='ident'>editst</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>rng2</span>, <span class='kw-2'>&amp;</span><span class='ident'>params</span>.<span class='ident'>generate_params</span>))
+        <span class='ident'>get_engine_metrics</span>( <span class='ident'>params</span>,
+          <span class='kw'>move</span> <span class='op'>||</span> <span class='ident'>Editor</span>::<span class='ident'>edit</span>(<span class='ident'>input</span>, <span class='ident'>editst</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>rng2</span>, <span class='kw-2'>&amp;</span><span class='ident'>params</span>.<span class='ident'>generate_params</span>))
     };
-  <span class='comment'>//println!(&quot;EngineSample::process_input: {:?}&quot;, process_input); // XXX Temp  </span>
 
-  <span class='kw'>let</span> <span class='ident'>input2</span> <span class='op'>=</span> <span class='ident'>edited_input</span>.<span class='ident'>clone</span>();
+  <span class='kw'>let</span> <span class='ident'>input2</span>  <span class='op'>=</span> <span class='ident'>edited_input</span>.<span class='ident'>clone</span>();
+  
+  <span class='kw'>let</span> <span class='ident'>input2r</span> <span class='op'>=</span> 
+    <span class='kw'>if</span> <span class='ident'>params</span>.<span class='ident'>reflect_dcg</span> { 
+      <span class='prelude-val'>Some</span>(<span class='ident'>reflect</span>::<span class='ident'>reflect_val</span>(<span class='kw-2'>&amp;</span><span class='ident'>input2</span>)) 
+    } <span class='kw'>else</span> { <span class='prelude-val'>None</span> };
+
   <span class='kw'>let</span> (<span class='ident'>output</span>, <span class='ident'>compute_output</span>): (<span class='ident'>Output</span>,<span class='ident'>EngineMetrics</span>) 
     <span class='op'>=</span> <span class='ident'>ns</span>(<span class='ident'>name_of_str</span>(<span class='string'>&quot;compute&quot;</span>),
-         <span class='kw'>move</span> <span class='op'>||</span> <span class='ident'>get_engine_metrics</span>(<span class='kw'>move</span> <span class='op'>||</span> <span class='ident'>Computer</span>::<span class='ident'>compute</span>(<span class='ident'>input2</span>) ));
+         <span class='kw'>move</span> <span class='op'>||</span> 
+         <span class='ident'>get_engine_metrics</span>( 
+           <span class='ident'>params</span>, <span class='kw'>move</span> <span class='op'>||</span> 
+             <span class='ident'>Archivist</span>::<span class='ident'>compute</span>(<span class='ident'>input2</span>, <span class='ident'>params</span>.<span class='ident'>demand</span>) 
+         ));
 
-  <span class='comment'>//println!(&quot;EngineSample::compute_output: {:?}&quot;, compute_output); // XXX Temp  </span>
-
-  <span class='kw'>if</span> <span class='bool-val'>false</span> {
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot; Input: {:?}&quot;</span>, <span class='ident'>edited_input</span>); <span class='comment'>// XXX Temp</span>
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Output: {:?}&quot;</span>, <span class='ident'>output</span>); <span class='comment'>// XXX Temp</span>
-  };
+  <span class='kw'>let</span> <span class='ident'>outputr</span> <span class='op'>=</span> 
+    <span class='kw'>if</span> <span class='ident'>params</span>.<span class='ident'>reflect_dcg</span> { 
+      <span class='prelude-val'>Some</span>(<span class='ident'>reflect</span>::<span class='ident'>reflect_val</span>(<span class='kw-2'>&amp;</span><span class='ident'>output</span>)) 
+    } <span class='kw'>else</span> { <span class='prelude-val'>None</span> };
   
   <span class='kw'>let</span> <span class='ident'>engine_sample</span> <span class='op'>=</span> <span class='ident'>EngineSample</span>{
     <span class='ident'>process_input</span>,
+    <span class='ident'>input</span>: <span class='ident'>input2r</span>,
     <span class='ident'>compute_output</span>,
+    <span class='ident'>output</span>: <span class='ident'>outputr</span>,
   };
-  <span class='comment'>//println!(&quot;{:?}&quot;, engine_sample); // XXX Temp</span>
+
   <span class='kw'>return</span> (<span class='ident'>output</span>, <span class='ident'>edited_input</span>, <span class='ident'>editst</span>, <span class='ident'>engine_sample</span>)
 }
 
@@ -361,25 +377,25 @@
   <span class='op'>&lt;</span><span class='ident'>Input</span>:<span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Debug</span>,
    <span class='ident'>EditSt</span>,
    <span class='ident'>Output</span>:<span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span>,
-   <span class='ident'>InputDist</span>:<span class='ident'>Generate</span><span class='op'>&lt;</span><span class='ident'>Input</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>Edit</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span><span class='op'>&gt;</span>,
-   <span class='ident'>Computer</span>:<span class='ident'>Compute</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>Output</span><span class='op'>&gt;&gt;</span> 
+   <span class='ident'>Editor</span>:<span class='ident'>Generate</span><span class='op'>&lt;</span><span class='ident'>Input</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>Edit</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span><span class='op'>&gt;</span>,
+   <span class='ident'>Archivist</span>:<span class='ident'>ComputeDemand</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>Output</span><span class='op'>&gt;&gt;</span> 
   (<span class='ident'>params</span>:<span class='kw-2'>&amp;</span><span class='ident'>LabParams</span>) 
-   <span class='op'>-&gt;</span> <span class='ident'>TestState</span><span class='op'>&lt;</span><span class='ident'>rand</span>::<span class='ident'>StdRng</span>,<span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>InputDist</span>,<span class='ident'>Computer</span><span class='op'>&gt;</span> 
+   <span class='op'>-&gt;</span> <span class='ident'>LabState</span><span class='op'>&lt;</span><span class='ident'>rand</span>::<span class='ident'>StdRng</span>,<span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>Editor</span>,<span class='ident'>Archivist</span><span class='op'>&gt;</span> 
 {
   <span class='comment'>// Create empty DCG; TODO-Minor-- Make the API for this better.</span>
   <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>init_dcg</span>(); <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>engine_is_dcg</span>());
   <span class='kw'>let</span> <span class='ident'>empty_dcg</span> <span class='op'>=</span> <span class='ident'>use_engine</span>(<span class='ident'>Engine</span>::<span class='ident'>Naive</span>); <span class='comment'>// TODO-Minor: Rename this operation: &quot;engine_swap&quot; or something </span>
   <span class='kw'>let</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>SeedableRng</span>::<span class='ident'>from_seed</span>(<span class='ident'>params</span>.<span class='ident'>sample_params</span>.<span class='ident'>input_seeds</span>.<span class='ident'>as_slice</span>());
-  <span class='comment'>//let editst_init = InputDist::edit_init(&amp;mut rng, &amp; params.sample_params.generate_params);</span>
-  <span class='ident'>TestState</span>{
+  <span class='comment'>//let editst_init = Editor::edit_init(&amp;mut rng, &amp; params.sample_params.generate_params);</span>
+  <span class='ident'>LabState</span>{
     <span class='ident'>params</span>:<span class='ident'>params</span>.<span class='ident'>clone</span>(),
     <span class='ident'>rng</span>:<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>rng</span>),
-    <span class='ident'>dcg_state</span>:<span class='ident'>TestEngineState</span>{
+    <span class='ident'>dcg_state</span>:<span class='ident'>LabEngineState</span>{
       <span class='ident'>input</span>:  <span class='prelude-val'>None</span>,
       <span class='ident'>engine</span>: <span class='ident'>empty_dcg</span>, <span class='comment'>// empty DCG      </span>
       <span class='ident'>output</span>: <span class='ident'>PhantomData</span>, <span class='ident'>inputdist</span>: <span class='ident'>PhantomData</span>, <span class='ident'>computer</span>: <span class='ident'>PhantomData</span>,      
     },
-    <span class='ident'>naive_state</span>:<span class='ident'>TestEngineState</span>{
+    <span class='ident'>naive_state</span>:<span class='ident'>LabEngineState</span>{
       <span class='ident'>input</span>:  <span class='prelude-val'>None</span>,
       <span class='ident'>engine</span>: <span class='ident'>Engine</span>::<span class='ident'>Naive</span>, <span class='comment'>// A constant</span>
       <span class='ident'>output</span>: <span class='ident'>PhantomData</span>, <span class='ident'>inputdist</span>: <span class='ident'>PhantomData</span>, <span class='ident'>computer</span>: <span class='ident'>PhantomData</span>,
@@ -389,22 +405,22 @@
   }
 }
 
-<span class='doccomment'>/// Advances the TestState forward by one sample of each engine.  For</span>
+<span class='doccomment'>/// Advances the LabState forward by one sample of each engine.  For</span>
 <span class='doccomment'>/// each engine, we process the current input (either generating it,</span>
 <span class='doccomment'>/// or editing it) and we compute a new output over this processed input.</span>
 <span class='doccomment'>/// Optionally, we compare the outputs of the engines for equality.</span>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>Input</span>:<span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Debug</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>:<span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span>,
-     <span class='ident'>InputDist</span>:<span class='ident'>Generate</span><span class='op'>&lt;</span><span class='ident'>Input</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>Edit</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span><span class='op'>&gt;</span>,
-     <span class='ident'>Computer</span>:<span class='ident'>Compute</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>Output</span><span class='op'>&gt;&gt;</span>
-  <span class='ident'>SampleGen</span> <span class='kw'>for</span> <span class='ident'>TestState</span><span class='op'>&lt;</span><span class='ident'>rand</span>::<span class='ident'>StdRng</span>,<span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>InputDist</span>,<span class='ident'>Computer</span><span class='op'>&gt;</span> {
+     <span class='ident'>Editor</span>:<span class='ident'>Generate</span><span class='op'>&lt;</span><span class='ident'>Input</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>Edit</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span><span class='op'>&gt;</span>,
+     <span class='ident'>Archivist</span>:<span class='ident'>ComputeDemand</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>Output</span><span class='op'>&gt;&gt;</span>
+  <span class='ident'>SampleGen</span> <span class='kw'>for</span> <span class='ident'>LabState</span><span class='op'>&lt;</span><span class='ident'>rand</span>::<span class='ident'>StdRng</span>,<span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>Editor</span>,<span class='ident'>Archivist</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>sample</span> (<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Sample</span><span class='op'>&gt;</span> {
       <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>change_batch_num</span> <span class='op'>&gt;</span> <span class='self'>self</span>.<span class='ident'>params</span>.<span class='ident'>change_batch_loopc</span> {
         <span class='prelude-val'>None</span> 
       } <span class='kw'>else</span> { <span class='comment'>// Collect the next sample, for each engine, using get_engine_sample.</span>
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>dcg_state</span> <span class='op'>=</span> <span class='ident'>TestEngineState</span>{ <span class='ident'>input</span>: <span class='prelude-val'>None</span>, <span class='ident'>engine</span>: <span class='ident'>Engine</span>::<span class='ident'>Naive</span>, 
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>dcg_state</span> <span class='op'>=</span> <span class='ident'>LabEngineState</span>{ <span class='ident'>input</span>: <span class='prelude-val'>None</span>, <span class='ident'>engine</span>: <span class='ident'>Engine</span>::<span class='ident'>Naive</span>, 
                                              <span class='ident'>output</span>: <span class='ident'>PhantomData</span>, <span class='ident'>inputdist</span>: <span class='ident'>PhantomData</span>, <span class='ident'>computer</span>: <span class='ident'>PhantomData</span> };
         <span class='ident'>swap</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>dcg_state</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>dcg_state</span> );
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>naive_state</span> <span class='op'>=</span> <span class='ident'>TestEngineState</span>{ <span class='ident'>input</span>: <span class='prelude-val'>None</span>, <span class='ident'>engine</span>: <span class='ident'>Engine</span>::<span class='ident'>Naive</span>, 
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>naive_state</span> <span class='op'>=</span> <span class='ident'>LabEngineState</span>{ <span class='ident'>input</span>: <span class='prelude-val'>None</span>, <span class='ident'>engine</span>: <span class='ident'>Engine</span>::<span class='ident'>Naive</span>, 
                                                <span class='ident'>output</span>: <span class='ident'>PhantomData</span>, <span class='ident'>inputdist</span>: <span class='ident'>PhantomData</span>, <span class='ident'>computer</span>: <span class='ident'>PhantomData</span> };
         <span class='ident'>swap</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>naive_state</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>naive_state</span> );
 
@@ -413,7 +429,7 @@
         <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>use_engine</span>(<span class='ident'>Engine</span>::<span class='ident'>Naive</span>); <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>engine_is_naive</span>());
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>rng</span>.<span class='ident'>clone</span>(); <span class='comment'>// Restore Rng</span>
         <span class='kw'>let</span> (<span class='ident'>naive_output</span>, <span class='ident'>naive_input_edited</span>, <span class='ident'>naive_editst</span>, <span class='ident'>naive_sample</span>) <span class='op'>=</span> 
-          <span class='ident'>get_engine_sample</span>::<span class='op'>&lt;</span><span class='ident'>rand</span>::<span class='ident'>StdRng</span>,<span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>InputDist</span>,<span class='ident'>Computer</span><span class='op'>&gt;</span>
+          <span class='ident'>get_engine_sample</span>::<span class='op'>&lt;</span><span class='ident'>rand</span>::<span class='ident'>StdRng</span>,<span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>Editor</span>,<span class='ident'>Archivist</span><span class='op'>&gt;</span>
           (<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>rng</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>params</span>.<span class='ident'>sample_params</span>, <span class='ident'>naive_state</span>.<span class='ident'>input</span>);
         <span class='self'>self</span>.<span class='ident'>naive_state</span>.<span class='ident'>input</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>((<span class='ident'>naive_input_edited</span>, <span class='ident'>naive_editst</span>)); <span class='comment'>// Save the input and input-editing state</span>
 
@@ -423,7 +439,7 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>engine_is_dcg</span>()); <span class='comment'>// This really is the DCG version</span>
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rng</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>rng</span>.<span class='ident'>clone</span>(); <span class='comment'>// Restore Rng</span>
         <span class='kw'>let</span> (<span class='ident'>dcg_output</span>, <span class='ident'>dcg_input_edited</span>, <span class='ident'>dcg_editst</span>, <span class='ident'>dcg_sample</span>) <span class='op'>=</span> 
-          <span class='ident'>get_engine_sample</span>::<span class='op'>&lt;</span><span class='ident'>rand</span>::<span class='ident'>StdRng</span>,<span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>InputDist</span>,<span class='ident'>Computer</span><span class='op'>&gt;</span>
+          <span class='ident'>get_engine_sample</span>::<span class='op'>&lt;</span><span class='ident'>rand</span>::<span class='ident'>StdRng</span>,<span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>Editor</span>,<span class='ident'>Archivist</span><span class='op'>&gt;</span>
           (<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>rng</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>params</span>.<span class='ident'>sample_params</span>, <span class='ident'>dcg_state</span>.<span class='ident'>input</span>);
         <span class='self'>self</span>.<span class='ident'>dcg_state</span>.<span class='ident'>engine</span> <span class='op'>=</span> <span class='ident'>use_engine</span>(<span class='ident'>Engine</span>::<span class='ident'>Naive</span>); <span class='comment'>// Swap out the DCG</span>
         <span class='self'>self</span>.<span class='ident'>dcg_state</span>.<span class='ident'>input</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>((<span class='ident'>dcg_input_edited</span>, <span class='ident'>dcg_editst</span>)); <span class='comment'>// Save the input and input-editing state</span>
@@ -450,16 +466,16 @@
   }
 
 <span class='doccomment'>/// Lab experiment implementation: Implements the LabDef trait for any</span>
-<span class='doccomment'>/// TestComputer instantiation.</span>
+<span class='doccomment'>/// LabArchivist instantiation.</span>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>Input</span>:<span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Debug</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>:<span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span>,
-     <span class='ident'>InputDist</span>:<span class='lifetime'>&#39;static</span><span class='op'>+</span><span class='ident'>Generate</span><span class='op'>&lt;</span><span class='ident'>Input</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>Edit</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span><span class='op'>&gt;</span>,
-     <span class='ident'>Computer</span>:<span class='lifetime'>&#39;static</span><span class='op'>+</span><span class='ident'>Compute</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>Output</span><span class='op'>&gt;&gt;</span>
-  <span class='ident'>LabDef</span> <span class='kw'>for</span> <span class='ident'>TestComputer</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>InputDist</span>,<span class='ident'>Computer</span><span class='op'>&gt;</span> {
+     <span class='ident'>Editor</span>:<span class='lifetime'>&#39;static</span><span class='op'>+</span><span class='ident'>Generate</span><span class='op'>&lt;</span><span class='ident'>Input</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>Edit</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span><span class='op'>&gt;</span>,
+     <span class='ident'>Archivist</span>:<span class='lifetime'>&#39;static</span><span class='op'>+</span><span class='ident'>ComputeDemand</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>Output</span><span class='op'>&gt;&gt;</span>
+  <span class='ident'>Lab</span> <span class='kw'>for</span> <span class='ident'>LabDef</span><span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>Editor</span>,<span class='ident'>Archivist</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>name</span>(<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Name</span> { <span class='self'>self</span>.<span class='ident'>identity</span>.<span class='ident'>clone</span>() }
     <span class='kw'>fn</span> <span class='ident'>url</span>(<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> { <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>url</span> }
     <span class='kw'>fn</span> <span class='ident'>run</span>(<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='self'>Self</span>, <span class='ident'>params</span>:<span class='kw-2'>&amp;</span><span class='ident'>LabParams</span>) <span class='op'>-&gt;</span> <span class='ident'>LabResults</span> 
     {            
-      <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='ident'>get_sample_gen</span>::<span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>InputDist</span>,<span class='ident'>Computer</span><span class='op'>&gt;</span>(<span class='ident'>params</span>);
+      <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='ident'>get_sample_gen</span>::<span class='op'>&lt;</span><span class='ident'>Input</span>,<span class='ident'>EditSt</span>,<span class='ident'>Output</span>,<span class='ident'>Editor</span>,<span class='ident'>Archivist</span><span class='op'>&gt;</span>(<span class='ident'>params</span>);
       <span class='kw'>loop</span> {
         <span class='comment'>//println!(&quot;{:?}&quot;, self.name());</span>
         <span class='kw'>let</span> <span class='ident'>sample</span> <span class='op'>=</span> (<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>st</span>).<span class='ident'>sample</span>();

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/4ba9f9d/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/1fce3b8/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -144,22 +144,28 @@
 <span id="99"> 99</span>
 <span id="100">100</span>
 <span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>test</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>core_intrinsics</span>)]</span>
 
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rand</span>;
-
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>pat</span>;
+<span class='attribute'>#[<span class='ident'>macro_use</span>]</span> <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>adapton</span>;
 
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>zip</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>stack</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>seqzip</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>persist_raz</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>split_btree_cursor</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>archive_stack</span>;
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>gauged_raz</span>;
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>zip</span>;                <span class='comment'>// trait for persistent zips</span>
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>stack</span>;              <span class='comment'>// persistent stack</span>
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>seqzip</span>;             <span class='comment'>// traits for persistent raz</span>
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>persist_raz</span>;        <span class='comment'>// monolithic single-item persistent raz</span>
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>level_tree</span>;         <span class='comment'>// persistent tree</span>
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>tree_cursor</span>;        <span class='comment'>// splittable cursor over tree (uses level_tree)</span>
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>archive_stack</span>;      <span class='comment'>// more complex stack (uses stack)</span>
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>gauged_raz</span>;         <span class='comment'>// raz of vectors using tree_cursor (uses archive_stack and tree_cursor)</span>
 
+
+<span class='comment'>// tests on early mods only (persist_raz)</span>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
 	<span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;

@@ -48,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../../src/adapton/engine.rs.html#77-128' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../../src/adapton/engine.rs.html#105-223' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Reflects the DCG engine, including both the effects of the
 programs running in it, and the internal effects of the engine
 cleaning and dirtying the DCG.  For the latter effects, see the
@@ -155,6 +155,13 @@ a thunk that has optionally produced a value.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='enum' href='enum.Const.html'
+                                  title='adapton::engine::reflect::Const'>Const</a></td>
+                           <td class='docblock-short'>
+                                <p>Primitive constants</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='enum' href='enum.Effect.html'
                                   title='adapton::engine::reflect::Effect'>Effect</a></td>
                            <td class='docblock-short'>
@@ -184,13 +191,6 @@ by the definitions in this module, and not identical to them.</p>
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
-                       <tr class=' module-item'>
-                           <td><a class='trait' href='trait.Data.html'
-                                  title='adapton::engine::reflect::Data'>Data</a></td>
-                           <td class='docblock-short'>
-                                <p>Reflected primitive data</p>
-                           </td>
-                       </tr>
                        <tr class=' module-item'>
                            <td><a class='trait' href='trait.Reflect.html'
                                   title='adapton::engine::reflect::Reflect'>Reflect</a></td>
@@ -225,7 +225,76 @@ forrest (of DCG traces).  See <code>dcg_reflect_begin()</code>.</p>
                            <td class='docblock-short'>
                                 <p>Reflect the DCG&#39;s internal structure now.  Does not reflect any
 engine effects over this DCG (e.g., no cleaning or dirtying),
-just the <em>program effects</em> recorded by the DCG&#39;s structure.</p>
+just the <em>program effects</em> recorded by the DCG&#39;s structure.
+Returns None if the engine is <code>Naive</code> and thus has no reflected
+state whatsoever.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.preds_of_node.html'
+                                  title='adapton::engine::reflect::preds_of_node'>preds_of_node</a></td>
+                           <td class='docblock-short'>
+                                <p>Get the <code>Pred</code>s of a <code>Node</code>, if they are defined.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.reflect_val.html'
+                                  title='adapton::engine::reflect::reflect_val'>reflect_val</a></td>
+                           <td class='docblock-short'>
+                                <p><em>Rust data and articulation reflection</em>: Transform any(*) Rust
+data that derives <code>Debug</code> into a reflected <code>Val</code>.  </p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.string_of_loc.html'
+                                  title='adapton::engine::reflect::string_of_loc'>string_of_loc</a></td>
+                           <td class='docblock-short'>
+                                <p>See doc for <code>write_loc</code>. Returns this output as a string.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.string_of_name.html'
+                                  title='adapton::engine::reflect::string_of_name'>string_of_name</a></td>
+                           <td class='docblock-short'>
+                                <p>See doc for <code>write_name</code>. Returns this output as a string.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.string_of_path.html'
+                                  title='adapton::engine::reflect::string_of_path'>string_of_path</a></td>
+                           <td class='docblock-short'>
+                                <p>See doc for <code>write_path</code>. Returns this output as a string.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.succs_of_node.html'
+                                  title='adapton::engine::reflect::succs_of_node'>succs_of_node</a></td>
+                           <td class='docblock-short'>
+                                <p>Get the <code>Succ</code>s of a <code>Node</code>, if they are defined.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.write_loc.html'
+                                  title='adapton::engine::reflect::write_loc'>write_loc</a></td>
+                           <td class='docblock-short'>
+                                <p>Write a concise human-readable version of the location (not the
+verbose, machine-parsable <code>Debug</code> version).  </p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.write_name.html'
+                                  title='adapton::engine::reflect::write_name'>write_name</a></td>
+                           <td class='docblock-short'>
+                                <p>Write a concise human-readable version of the name (not the
+verbose, machine-parsable <code>Debug</code> version).</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.write_path.html'
+                                  title='adapton::engine::reflect::write_path'>write_path</a></td>
+                           <td class='docblock-short'>
+                                <p>Write a concise human-readable version of the path (not the
+verbose, machine-parsable <code>Debug</code> version).</p>
                            </td>
                        </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
 <table>

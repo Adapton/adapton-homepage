@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/adapton.rust-b16351c49ab23a81/af837da/src/collections.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/adapton.rust-b16351c49ab23a81/39ceb54/src/collections.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>collections.rs.html -- source</title>
@@ -2770,6 +2770,48 @@
 <span id="2725">2725</span>
 <span id="2726">2726</span>
 <span id="2727">2727</span>
+<span id="2728">2728</span>
+<span id="2729">2729</span>
+<span id="2730">2730</span>
+<span id="2731">2731</span>
+<span id="2732">2732</span>
+<span id="2733">2733</span>
+<span id="2734">2734</span>
+<span id="2735">2735</span>
+<span id="2736">2736</span>
+<span id="2737">2737</span>
+<span id="2738">2738</span>
+<span id="2739">2739</span>
+<span id="2740">2740</span>
+<span id="2741">2741</span>
+<span id="2742">2742</span>
+<span id="2743">2743</span>
+<span id="2744">2744</span>
+<span id="2745">2745</span>
+<span id="2746">2746</span>
+<span id="2747">2747</span>
+<span id="2748">2748</span>
+<span id="2749">2749</span>
+<span id="2750">2750</span>
+<span id="2751">2751</span>
+<span id="2752">2752</span>
+<span id="2753">2753</span>
+<span id="2754">2754</span>
+<span id="2755">2755</span>
+<span id="2756">2756</span>
+<span id="2757">2757</span>
+<span id="2758">2758</span>
+<span id="2759">2759</span>
+<span id="2760">2760</span>
+<span id="2761">2761</span>
+<span id="2762">2762</span>
+<span id="2763">2763</span>
+<span id="2764">2764</span>
+<span id="2765">2765</span>
+<span id="2766">2766</span>
+<span id="2767">2767</span>
+<span id="2768">2768</span>
+<span id="2769">2769</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Debug</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::<span class='ident'>Hash</span>;
@@ -2894,6 +2936,14 @@
     }
   }
 }
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>list_name_op</span><span class='op'>&lt;</span><span class='ident'>X</span>, <span class='ident'>L</span>:<span class='ident'>ListIntro</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;&gt;</span>(<span class='ident'>n</span>:<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>, <span class='ident'>l</span>:<span class='ident'>L</span>) <span class='op'>-&gt;</span> <span class='ident'>L</span> {
+  <span class='kw'>match</span> <span class='ident'>n</span> {
+    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>l</span>,
+    <span class='prelude-val'>Some</span>(<span class='ident'>n</span>) <span class='op'>=&gt;</span> {
+      <span class='ident'>list_name</span>(<span class='ident'>n</span>, <span class='ident'>l</span>)
+    }
+  }
+}
 
 <span class='doccomment'>/// Lazily maps the list, guided by names in input list.</span>
 <span class='doccomment'>/// Creates lazy named thunks in output for each name in input.</span>
@@ -2957,8 +3007,11 @@
        }
      },
      <span class='op'>|</span><span class='ident'>n</span>, <span class='ident'>tl</span>, <span class='ident'>body</span><span class='op'>|</span> {
-       <span class='kw'>let</span> (<span class='ident'>rest</span>, _) <span class='op'>=</span> <span class='macro'>eager</span><span class='macro'>!</span>( <span class='ident'>n</span> <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='ident'>list_filter_eager</span> <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='op'>&lt;</span><span class='ident'>X</span>, <span class='ident'>Le</span>, <span class='ident'>Li</span>, <span class='ident'>F</span><span class='op'>&gt;</span>, <span class='ident'>l</span>:<span class='ident'>tl</span> ;; <span class='ident'>body</span>:<span class='ident'>body</span>.<span class='ident'>clone</span>() );
-       <span class='ident'>list_art</span>(<span class='ident'>rest</span>)
+       <span class='kw'>let</span> (<span class='ident'>rest</span>, _) <span class='op'>=</span> <span class='macro'>eager</span><span class='macro'>!</span>( 
+         <span class='ident'>n</span>.<span class='ident'>clone</span>() <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='ident'>list_filter_eager</span> <span class='op'>=&gt;</span><span class='op'>&gt;</span> 
+           <span class='op'>&lt;</span><span class='ident'>X</span>, <span class='ident'>Le</span>, <span class='ident'>Li</span>, <span class='ident'>F</span><span class='op'>&gt;</span>, <span class='ident'>l</span>:<span class='ident'>tl</span> ;; <span class='ident'>body</span>:<span class='ident'>body</span>.<span class='ident'>clone</span>() 
+       );
+       <span class='ident'>list_name</span>(<span class='ident'>n</span>, <span class='ident'>list_art</span>(<span class='ident'>rest</span>))
      })
 }
 
@@ -2979,8 +3032,8 @@
      },
      <span class='op'>|</span><span class='ident'>n</span>, <span class='ident'>tl</span>, <span class='ident'>body</span><span class='op'>|</span> {
        <span class='comment'>// We only memoize when we encounter a name in the input</span>
-       <span class='kw'>let</span> (<span class='ident'>t</span>,_) <span class='op'>=</span> <span class='macro'>eager</span><span class='macro'>!</span>( <span class='ident'>n</span> <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='ident'>list_map_eager</span> <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='op'>&lt;</span><span class='ident'>X</span>, <span class='ident'>Le</span>, <span class='ident'>Y</span>, <span class='ident'>Li</span>, <span class='ident'>F</span><span class='op'>&gt;</span>, <span class='ident'>l</span>:<span class='ident'>tl</span> ;; <span class='ident'>body</span>:<span class='ident'>body</span>.<span class='ident'>clone</span>() );
-       <span class='ident'>list_art</span>(<span class='ident'>t</span>)
+       <span class='kw'>let</span> (<span class='ident'>t</span>,_) <span class='op'>=</span> <span class='macro'>eager</span><span class='macro'>!</span>( <span class='ident'>n</span>.<span class='ident'>clone</span>() <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='ident'>list_map_eager</span> <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='op'>&lt;</span><span class='ident'>X</span>, <span class='ident'>Le</span>, <span class='ident'>Y</span>, <span class='ident'>Li</span>, <span class='ident'>F</span><span class='op'>&gt;</span>, <span class='ident'>l</span>:<span class='ident'>tl</span> ;; <span class='ident'>body</span>:<span class='ident'>body</span>.<span class='ident'>clone</span>() );
+       <span class='ident'>list_name</span>(<span class='ident'>n</span>, <span class='ident'>list_art</span>(<span class='ident'>t</span>))
      })
 }
 
@@ -3376,25 +3429,25 @@
    <span class='ident'>name</span>:<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>NameF</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>
   <span class='kw'>where</span>  <span class='ident'>NilF</span>:<span class='ident'>Fn</span>(<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>        ) <span class='op'>-&gt;</span> <span class='ident'>Res</span>
   ,     <span class='ident'>LeafF</span>:<span class='ident'>Fn</span>(<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>, <span class='ident'>Leaf</span>  ) <span class='op'>-&gt;</span> <span class='ident'>Res</span>
-  ,      <span class='ident'>BinF</span>:<span class='ident'>Fn</span>(      <span class='ident'>Lev</span>, <span class='ident'>Res</span>, <span class='ident'>Res</span> ) <span class='op'>-&gt;</span> <span class='ident'>Res</span>
-  ,     <span class='ident'>NameF</span>:<span class='ident'>Fn</span>(<span class='ident'>Name</span>, <span class='ident'>Lev</span>, <span class='ident'>Res</span>, <span class='ident'>Res</span> ) <span class='op'>-&gt;</span> <span class='ident'>Res</span>
+  ,      <span class='ident'>BinF</span>:<span class='ident'>Fn</span>(<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>, <span class='ident'>Lev</span>, <span class='ident'>Res</span>, <span class='ident'>Res</span> ) <span class='op'>-&gt;</span> <span class='ident'>Res</span>
+  ,     <span class='ident'>NameF</span>:<span class='ident'>Fn</span>(<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>, <span class='ident'>Name</span>, <span class='ident'>Lev</span>, <span class='ident'>Res</span>, <span class='ident'>Res</span> ) <span class='op'>-&gt;</span> <span class='ident'>Res</span>
 {
   <span class='ident'>T</span>::<span class='ident'>elim_arg</span>
     (<span class='ident'>tree</span>, (<span class='ident'>nm</span>,<span class='ident'>nil</span>,<span class='ident'>leaf</span>,<span class='ident'>bin</span>,<span class='ident'>name</span>),
      <span class='op'>|</span>(<span class='ident'>nm</span>,<span class='ident'>nil</span>,_,_,_)<span class='op'>|</span>    <span class='ident'>nil</span>(<span class='ident'>nm</span>),
      <span class='op'>|</span><span class='ident'>x</span>,(<span class='ident'>nm</span>,_,<span class='ident'>leaf</span>,_,_)<span class='op'>|</span> <span class='ident'>leaf</span>(<span class='ident'>nm</span>, <span class='ident'>x</span>),
      <span class='op'>|</span><span class='ident'>x</span>,<span class='ident'>l</span>,<span class='ident'>r</span>,(<span class='ident'>nm</span>,<span class='ident'>nil</span>,<span class='ident'>leaf</span>,<span class='ident'>bin</span>,<span class='ident'>name</span>)<span class='op'>|</span> {
-       <span class='kw'>let</span> <span class='ident'>resl</span> <span class='op'>=</span> <span class='ident'>tree_fold_up_nm_dn</span>(<span class='ident'>l</span>, <span class='ident'>nm</span>,   <span class='ident'>nil</span>.<span class='ident'>clone</span>(), <span class='ident'>leaf</span>.<span class='ident'>clone</span>(), <span class='ident'>bin</span>.<span class='ident'>clone</span>(), <span class='ident'>name</span>.<span class='ident'>clone</span>());
+       <span class='kw'>let</span> <span class='ident'>resl</span> <span class='op'>=</span> <span class='ident'>tree_fold_up_nm_dn</span>(<span class='ident'>l</span>, <span class='ident'>nm</span>.<span class='ident'>clone</span>(),   <span class='ident'>nil</span>.<span class='ident'>clone</span>(), <span class='ident'>leaf</span>.<span class='ident'>clone</span>(), <span class='ident'>bin</span>.<span class='ident'>clone</span>(), <span class='ident'>name</span>.<span class='ident'>clone</span>());
        <span class='kw'>let</span> <span class='ident'>resr</span> <span class='op'>=</span> <span class='ident'>tree_fold_up_nm_dn</span>(<span class='ident'>r</span>, <span class='prelude-val'>None</span>, <span class='ident'>nil</span>,         <span class='ident'>leaf</span>,         <span class='ident'>bin</span>.<span class='ident'>clone</span>(), <span class='ident'>name</span>);
-       <span class='kw'>let</span> <span class='ident'>res</span> <span class='op'>=</span> <span class='ident'>bin</span>(<span class='ident'>x</span>, <span class='ident'>resl</span>, <span class='ident'>resr</span>); <span class='comment'>// TODO: Should `bin` function accept a name?</span>
+       <span class='kw'>let</span> <span class='ident'>res</span> <span class='op'>=</span> <span class='ident'>bin</span>(<span class='ident'>nm</span>, <span class='ident'>x</span>, <span class='ident'>resl</span>, <span class='ident'>resr</span>); <span class='comment'>// TODO: Should `bin` function accept a name?</span>
        <span class='ident'>res</span>
      },
      <span class='op'>|</span><span class='ident'>n</span>,<span class='ident'>x</span>,<span class='ident'>l</span>,<span class='ident'>r</span>,(<span class='ident'>nm</span>,<span class='ident'>nil</span>,<span class='ident'>leaf</span>,<span class='ident'>bin</span>,<span class='ident'>name</span>)<span class='op'>|</span> {
        <span class='kw'>let</span> (<span class='ident'>n1</span>,<span class='ident'>n2</span>) <span class='op'>=</span> <span class='ident'>name_fork</span>(<span class='ident'>n</span>.<span class='ident'>clone</span>());
        <span class='kw'>let</span> <span class='ident'>nm2</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>n</span>.<span class='ident'>clone</span>());
-       <span class='kw'>let</span> <span class='ident'>resl</span> <span class='op'>=</span> <span class='macro'>memo</span><span class='macro'>!</span>(<span class='ident'>n1</span> <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='ident'>tree_fold_up_nm_dn</span>, <span class='ident'>tree</span>:<span class='ident'>l</span>, <span class='ident'>nm</span>:<span class='ident'>nm</span>  ;; <span class='ident'>nil</span>:<span class='ident'>nil</span>.<span class='ident'>clone</span>(), <span class='ident'>leaf</span>:<span class='ident'>leaf</span>.<span class='ident'>clone</span>(), <span class='ident'>bin</span>:<span class='ident'>bin</span>.<span class='ident'>clone</span>(), <span class='ident'>name</span>:<span class='ident'>name</span>.<span class='ident'>clone</span>());
+       <span class='kw'>let</span> <span class='ident'>resl</span> <span class='op'>=</span> <span class='macro'>memo</span><span class='macro'>!</span>(<span class='ident'>n1</span> <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='ident'>tree_fold_up_nm_dn</span>, <span class='ident'>tree</span>:<span class='ident'>l</span>, <span class='ident'>nm</span>:<span class='ident'>nm</span>.<span class='ident'>clone</span>()  ;; <span class='ident'>nil</span>:<span class='ident'>nil</span>.<span class='ident'>clone</span>(), <span class='ident'>leaf</span>:<span class='ident'>leaf</span>.<span class='ident'>clone</span>(), <span class='ident'>bin</span>:<span class='ident'>bin</span>.<span class='ident'>clone</span>(), <span class='ident'>name</span>:<span class='ident'>name</span>.<span class='ident'>clone</span>());
        <span class='kw'>let</span> <span class='ident'>resr</span> <span class='op'>=</span> <span class='macro'>memo</span><span class='macro'>!</span>(<span class='ident'>n2</span> <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='ident'>tree_fold_up_nm_dn</span>, <span class='ident'>tree</span>:<span class='ident'>r</span>, <span class='ident'>nm</span>:<span class='ident'>nm2</span> ;; <span class='ident'>nil</span>:<span class='ident'>nil</span>,         <span class='ident'>leaf</span>:<span class='ident'>leaf</span>,         <span class='ident'>bin</span>:<span class='ident'>bin</span>,         <span class='ident'>name</span>:<span class='ident'>name</span>.<span class='ident'>clone</span>());
-       <span class='kw'>let</span> <span class='ident'>res</span> <span class='op'>=</span> <span class='ident'>name</span>(<span class='ident'>n</span>, <span class='ident'>x</span>, <span class='ident'>resl</span>, <span class='ident'>resr</span>);
+       <span class='kw'>let</span> <span class='ident'>res</span> <span class='op'>=</span> <span class='ident'>name</span>(<span class='ident'>nm</span>.<span class='ident'>clone</span>(), <span class='ident'>n</span>, <span class='ident'>x</span>, <span class='ident'>resl</span>, <span class='ident'>resr</span>);
        <span class='ident'>res</span>
      }
      )
@@ -3644,7 +3697,15 @@
      )
 }
 
+<span class='doccomment'>/// Calls `vec_of_list` with the given `demand`</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>list_demand</span><span class='op'>&lt;</span><span class='ident'>X</span>:<span class='ident'>Clone</span>,<span class='ident'>L</span>:<span class='ident'>ListElim</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>
+ (<span class='ident'>list</span>:<span class='ident'>L</span>, <span class='ident'>demand</span>:<span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>NameElse</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;&gt;</span>
+{ 
+  <span class='ident'>vec_of_list</span>(<span class='ident'>list</span>, <span class='prelude-val'>Some</span>(<span class='ident'>demand</span>))
+}
 
+<span class='doccomment'>/// Attempts to force `limit` number of `Cons` cells of the list,</span>
+<span class='doccomment'>/// gathering these elements and any interposed `Name`s.</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>vec_of_list</span><span class='op'>&lt;</span><span class='ident'>X</span>:<span class='ident'>Clone</span>,<span class='ident'>L</span>:<span class='ident'>ListElim</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>
   (<span class='ident'>list</span>:<span class='ident'>L</span>, <span class='ident'>limit</span>:<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>NameElse</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;&gt;</span>
 {
@@ -3838,11 +3899,11 @@
 {
   <span class='ident'>L</span>::<span class='ident'>elim_arg</span>
     (<span class='ident'>l1</span>, (<span class='ident'>n1</span>,<span class='ident'>n2</span>,<span class='ident'>l2</span>),
-     <span class='comment'>/* Nil */</span>  <span class='op'>|</span>_,(_, _, <span class='ident'>l2</span>)<span class='op'>|</span> <span class='ident'>l2</span>,
+     <span class='comment'>/* Nil */</span>  <span class='op'>|</span>_,(<span class='ident'>_n1</span>, <span class='ident'>n2</span>,<span class='ident'>l2</span>)<span class='op'>|</span> <span class='ident'>list_name_op</span>(<span class='ident'>n2</span>, <span class='ident'>l2</span>),
      <span class='comment'>/* Cons */</span> <span class='op'>|</span><span class='ident'>h1</span>,<span class='ident'>t1</span>,(<span class='ident'>n1</span>,<span class='ident'>n2</span>,<span class='ident'>l2</span>)<span class='op'>|</span>
      <span class='ident'>L</span>::<span class='ident'>elim_arg</span>
      (<span class='ident'>l2</span>, (<span class='ident'>h1</span>,<span class='ident'>t1</span>,<span class='ident'>n1</span>,<span class='ident'>n2</span>),
-      <span class='comment'>/* Nil */</span>  <span class='op'>|</span>_,(<span class='ident'>h1</span>, <span class='ident'>t1</span>, _, _ )<span class='op'>|</span> <span class='ident'>L</span>::<span class='ident'>cons</span>(<span class='ident'>h1</span>,<span class='ident'>t1</span>),
+      <span class='comment'>/* Nil */</span>  <span class='op'>|</span>_,(<span class='ident'>h1</span>, <span class='ident'>t1</span>, <span class='ident'>n1</span>, <span class='ident'>_n2</span> )<span class='op'>|</span> <span class='ident'>list_name_op</span>(<span class='ident'>n1</span>, <span class='ident'>L</span>::<span class='ident'>cons</span>(<span class='ident'>h1</span>,<span class='ident'>t1</span>)),
       <span class='comment'>/* Cons */</span> <span class='op'>|</span><span class='ident'>h2</span>, <span class='ident'>t2</span>, (<span class='ident'>h1</span>, <span class='ident'>t1</span>, <span class='ident'>n1</span>, <span class='ident'>n2</span>)<span class='op'>|</span> {
         <span class='kw'>if</span> <span class='kw-2'>&amp;</span><span class='ident'>h1</span> <span class='op'>&lt;=</span> <span class='kw-2'>&amp;</span><span class='ident'>h2</span> {
           <span class='kw'>let</span> <span class='ident'>l2</span> <span class='op'>=</span> <span class='ident'>L</span>::<span class='ident'>cons</span>(<span class='ident'>h2</span>,<span class='ident'>t2</span>);
@@ -3941,10 +4002,33 @@
 {
   <span class='ident'>tree_fold_up_nm_dn</span>
     (<span class='ident'>tree</span>, <span class='ident'>nm</span>,
-     <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>n</span>,<span class='op'>|</span>         <span class='ident'>list_name_art_op</span>(<span class='ident'>n</span>,<span class='ident'>L</span>::<span class='ident'>nil</span>())),
-     <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>n</span>,<span class='ident'>x</span><span class='op'>|</span>        <span class='ident'>list_name_art_op</span>(<span class='ident'>n</span>, <span class='ident'>L</span>::<span class='ident'>singleton</span>(<span class='ident'>x</span>))),
-     <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span>_, <span class='ident'>l</span>, <span class='ident'>r</span><span class='op'>|</span>    { <span class='ident'>list_merge_wrapper</span>(<span class='prelude-val'>None</span>, <span class='ident'>l</span>, <span class='prelude-val'>None</span>, <span class='ident'>r</span>) }),
-     <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>n</span>, _, <span class='ident'>l</span>, <span class='ident'>r</span><span class='op'>|</span> { <span class='ident'>list_merge_wrapper</span>(<span class='prelude-val'>Some</span>(<span class='ident'>n</span>), <span class='ident'>l</span>, <span class='prelude-val'>None</span>, <span class='ident'>r</span>) }),
+     <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>m</span>,<span class='op'>|</span>         <span class='ident'>L</span>::<span class='ident'>nil</span>()),
+     <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>m</span>,<span class='ident'>x</span><span class='op'>|</span>        <span class='ident'>list_name_op</span>(<span class='ident'>m</span>, <span class='ident'>L</span>::<span class='ident'>singleton</span>(<span class='ident'>x</span>))),
+     <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>m</span>,    _, <span class='ident'>l</span>, <span class='ident'>r</span><span class='op'>|</span> { <span class='ident'>list_merge_wrapper</span>(<span class='prelude-val'>None</span>, <span class='ident'>l</span>, <span class='prelude-val'>None</span>, <span class='ident'>r</span>) }),
+     <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>m</span>, <span class='ident'>n</span>, _, <span class='ident'>l</span>, <span class='ident'>r</span><span class='op'>|</span> { <span class='ident'>list_merge_wrapper</span>(<span class='prelude-val'>None</span>, <span class='ident'>l</span>, <span class='prelude-val'>Some</span>(<span class='ident'>n</span>), <span class='ident'>r</span>) }),
+     )
+}
+
+<span class='doccomment'>/// Demand-driven sort over a tree&#39;s leaves, whose elements are `Ord`.</span>
+<span class='doccomment'>/// To the extent that the tree contains `name`s, the output is lazy, and thus sorts on-demand.</span>
+<span class='doccomment'>/// Demanding the first element is `O(n)` for a tree with `n` leaves.</span>
+<span class='doccomment'>/// Demanding the next element requires more comparisons, but fewer than the first element.</span>
+<span class='doccomment'>/// Demanding the last element requires only `O(1)` comparisons.</span>
+<span class='doccomment'>/// In total, the number of comparisons to demand the entire output is, as usual, `O(n ° log(n))`.</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>mergesort_list_of_tree3</span>
+  <span class='op'>&lt;</span> <span class='ident'>X</span>:<span class='ident'>Ord</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span>
+  , <span class='ident'>Lev</span>:<span class='ident'>Level</span>
+  , <span class='ident'>T</span>:<span class='ident'>TreeElim</span><span class='op'>&lt;</span><span class='ident'>Lev</span>,<span class='ident'>X</span><span class='op'>&gt;</span>
+  , <span class='ident'>L</span>:<span class='ident'>ListIntro</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>ListElim</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span><span class='op'>+</span><span class='lifetime'>&#39;static</span>
+  <span class='op'>&gt;</span>
+  (<span class='ident'>tree</span>:<span class='ident'>T</span>, <span class='ident'>nm</span>:<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>L</span>
+{
+  <span class='ident'>tree_fold_up_nm_dn</span>
+    (<span class='ident'>tree</span>, <span class='ident'>nm</span>,
+     <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>m</span>,<span class='op'>|</span>         <span class='ident'>L</span>::<span class='ident'>nil</span>()),
+     <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>m</span>,<span class='ident'>x</span><span class='op'>|</span>        <span class='ident'>list_name_op</span>(<span class='ident'>m</span>, <span class='ident'>L</span>::<span class='ident'>singleton</span>(<span class='ident'>x</span>))),
+     <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>m</span>,    _, <span class='ident'>l</span>, <span class='ident'>r</span><span class='op'>|</span> { <span class='ident'>list_merge_wrapper</span>(<span class='prelude-val'>None</span>, <span class='ident'>l</span>, <span class='prelude-val'>None</span>, <span class='ident'>r</span>) }),
+     <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>m</span>, <span class='ident'>n</span>, _, <span class='ident'>l</span>, <span class='ident'>r</span><span class='op'>|</span> { <span class='ident'>list_merge_wrapper</span>(<span class='prelude-val'>None</span>, <span class='ident'>l</span>, <span class='prelude-val'>None</span>, <span class='ident'>r</span>) }),
      )
 }
 

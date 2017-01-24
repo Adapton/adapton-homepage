@@ -48,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/adapton/collections.rs.html#1-2249' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/adapton/collections.rs.html#1-2291' title='goto source code'>[src]</a></span></h1>
 <h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -239,6 +239,13 @@ Retains all names from the original tree, even if they merely name empty sub-tre
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='fn' href='fn.list_demand.html'
+                                  title='adapton::collections::list_demand'>list_demand</a></td>
+                           <td class='docblock-short'>
+                                <p>Calls <code>vec_of_list</code> with the given <code>demand</code></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='fn' href='fn.list_filter_eager.html'
                                   title='adapton::collections::list_filter_eager'>list_filter_eager</a></td>
                            <td class='docblock-short'>
@@ -317,6 +324,13 @@ When the input lists are each sorted according to <code>Ord</code>; the output i
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.list_name_art_op.html'
                                   title='adapton::collections::list_name_art_op'>list_name_art_op</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.list_name_op.html'
+                                  title='adapton::collections::list_name_op'>list_name_op</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
@@ -422,6 +436,18 @@ In total, the number of comparisons to demand the entire output is, as usual, <c
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class='fn' href='fn.mergesort_list_of_tree3.html'
+                                  title='adapton::collections::mergesort_list_of_tree3'>mergesort_list_of_tree3</a></td>
+                           <td class='docblock-short'>
+                                <p>Demand-driven sort over a tree&#39;s leaves, whose elements are <code>Ord</code>.
+To the extent that the tree contains <code>name</code>s, the output is lazy, and thus sorts on-demand.
+Demanding the first element is <code>O(n)</code> for a tree with <code>n</code> leaves.
+Demanding the next element requires more comparisons, but fewer than the first element.
+Demanding the last element requires only <code>O(1)</code> comparisons.
+In total, the number of comparisons to demand the entire output is, as usual, <code>O(n ° log(n))</code>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class='fn' href='fn.monoid_of_tree.html'
                                   title='adapton::collections::monoid_of_tree'>monoid_of_tree</a></td>
                            <td class='docblock-short'>
@@ -484,7 +510,8 @@ The recursive argument <code>nm</code> provides the name for the left subtree, i
                            <td><a class='fn' href='fn.vec_of_list.html'
                                   title='adapton::collections::vec_of_list'>vec_of_list</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Attempts to force <code>limit</code> number of <code>Cons</code> cells of the list,
+gathering these elements and any interposed <code>Name</code>s.</p>
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
