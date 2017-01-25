@@ -1,0 +1,7335 @@
+
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<style>
+div { 
+  display: inline
+}
+body {
+  display: inline;
+  color: #aa88cc;
+  background: #552266;
+  font-family: sans-serif;
+  text-decoration: none;
+  padding: 0px;
+  margin: 0px;
+}
+body:visited {
+  color: #aa88cc;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+hr {
+  display: block;
+  float: left;
+  clear: both;
+  width: 0px;
+  border: none;
+}
+
+.lab-name {
+  color: #ccaadd;
+  margin: 1px;
+  padding: 1px;
+}
+.lab-name:visited {  
+  color: #ccaadd;
+}
+.lab-name:hover {
+  color: white;
+}
+
+.row {
+  display: block;
+}
+
+.labsum-title {
+  display: block;
+  margin: 8px;
+  font-size: 20px;
+}
+.labsum-row {
+  display: block;
+}
+.labsum-name {
+  display: table-cell;
+  margin: 8px;
+  padding: 2px;
+  width: 70%;
+}
+.lab-details {
+  display: table-cell;
+  font-size: 14px;
+  color: #ddbbee;
+  border: solid white 1px;
+  padding: 2px;
+  background-color: #441155;
+  margin: 3px;
+}
+
+.batch-name-lab {
+  font-size: 0px;
+  color: black;
+}
+.batch-name {
+  color: black;
+  font-size: 16px;
+  border: solid;
+  display: inline;
+  padding: 3px;
+  margin: 3px;
+  float: left;
+  background: #aa88aa;
+  width: 32px;
+}
+.time-ns {
+  font-size: 12px;
+  display: inline;
+}
+.time-ms {
+  font-size: 20px;
+  display: inline;
+}
+.overhead {
+  font-size: 30px;
+  display: inline;
+  color: #880000;
+  background: #ffcccc;
+  border: solid 1px red;
+}
+.speedup {
+  font-size: 30px;
+  display: inline;
+  color: #008800;
+  background: #ccffcc;
+  border: solid 1px green;
+}
+.time-ms {
+  font-size: 20px;
+  display: inline;
+}
+.editor {
+  color: black;
+  font-size: 14px;
+  border: solid;
+  display: block;
+  padding: 1px;
+  margin: 1px;
+  float: left;
+  width: 10%;
+  background: #aaaaaa;
+}
+.archivist {
+  color: black;
+  font-size: 14px;
+  border: solid;
+  display: block;
+  padding: 1px;
+  margin: 1px;
+  float: left;
+  width: 85%;
+  background: #dddddd;
+}
+.traces {
+  color: black;
+  font-size: 8px;
+  border: solid 0px;
+  display: block;
+  margin: 0px;
+  float: left;
+  width: 100%;
+}
+.traces:visited {
+  color: black;
+}
+
+.input-value, 
+.output-value,
+.traces-box,
+.archivist-alloc-tree-post-edit,
+.archivist-force-tree-post-edit, 
+.archivist-alloc-tree-post-update, 
+.archivist-force-tree-post-update  
+{
+  display: inline;
+  float: left;
+
+  padding: 0px;
+  margin: 2px;
+
+  color: #dd88ff;
+  background: #331144;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 0px;
+  border-color: #dd88ff;
+}
+
+.input-value, 
+.output-value {
+  width: 49%;
+}
+.traces-box {
+  width: 99%;
+}
+.archivist-alloc-tree-post-edit,
+.archivist-force-tree-post-edit, 
+.archivist-alloc-tree-post-update, 
+.archivist-force-tree-post-update  
+{
+  width: 24%;
+}
+
+.tool-label-toggles {
+  display: block;
+  float: right;
+}
+
+
+.trace, .force-tree, .alloc-tree {
+  color: black;
+  display: inline-block;
+  border-style: solid;
+  border-color: red;
+  border-width: 1px;
+  font-size: 0px;
+  padding: 0px;
+  margin: 1px;
+  border-radius: 5px;
+}
+.tr-effect { 
+  display: inline;
+  display: none;
+  font-size: 10px;
+  background-color: white;
+  border-radius: 2px;
+}
+.tr-symbols {  
+  font-size: 10px;
+  display: inline;
+  display: none;
+}
+
+.path {  
+  display: inline-block;
+  display: none;
+
+  margin: 0px;
+  padding: 1px;
+  border-radius: 1px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #664466;
+  background-color: #664466; 
+}
+
+.alloc-kind-thunk {
+  border-color: green;
+  border-radius:20px;
+}
+.alloc-kind-refcell {
+  border-color: green;
+  border-radius:0;
+}
+.tr-force-compcache-miss {  
+  background: #ccccff;
+  border-color: blue;
+  padding: 0px;
+}
+.tr-force-compcache-hit {  
+  background: #ccccff;
+  border-color: blue;
+  border-width: 4px;
+  padding: 3px;
+}
+.tr-force-refget {  
+  border-radius: 0;
+  border-color: blue;
+}
+.tr-clean-rec {  
+  background: #222244;
+  border-color: #aaaaff;
+  border-width: 1px; 
+}
+.tr-clean-eval {  
+  background: #8888ff;
+  border-color: white;
+  border-width: 4px; 
+}
+.tr-clean-edge {  
+  background: white;
+  border-color: #aaaaff;
+  border-width: 2px; 
+  padding: 3px;
+}
+.tr-alloc-loc-fresh {  
+  padding: 3px;
+  background: #ccffcc;
+}
+.tr-alloc-loc-exists {  
+  padding: 3px;
+  background: #ccffcc;
+  border-width: 4px;
+  border-color: green;
+}
+.tr-dirty {  
+  background: #550000;
+  border-color: #ffaaaa;
+  border-width: 1px;
+}
+.tr-remove {  
+  background: red;
+  border-color: black;
+  border-width: 2px;
+  padding: 2px;
+}
+
+.force-tree {
+  background: #ccccff;
+  border-color: blue;
+}
+.alloc-tree {
+  background: #ccffcc;
+  border-color: green;
+}
+
+.no-extent {
+  padding: 3px;
+}
+.page-title {
+  display: block;
+  font-size: 32px;
+  color: #ccaadd;
+  margin: 8px;
+}
+
+.val-name,
+.val-constr,
+.val-struct,
+.val-tuple,
+.val-vec,
+.val-art
+{
+  display: inline-block;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #dd88ff;
+  background-color: #220033;
+  padding: 1px;
+  margin: 1px;
+  border-radius 2px;  
+  font-size: 0px;  
+}
+.val-constr,
+.val-struct,
+.val-tuple,
+.val-vec {
+  border-color: #dd88ff;
+  background-color: #773388;
+}
+.val-art
+{
+  padding: 2px;
+}
+
+.name {
+  display: inline;
+  display: none;
+
+  font-size: 9px;
+  color: black;
+  background: white;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #664466; 
+  border-radius: 2px;
+  padding: 1px;
+  margin: 1px;
+}
+
+.val-const
+{
+  display: inline-block;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  color: black;
+  background-color: grey;
+  padding: 2px;
+  margin: 1px;
+  border-radius 5px;  
+  font-size: 8px;  
+}
+
+</style>
+
+<script>
+function togglePaths() {
+ var selection = document.getElementById("checkbox-1");
+ if (selection.checked) {
+   $('.path').css('display', 'inline-block')
+ } else {
+   $('.path').css('display', 'none')
+ }
+}
+
+function toggleNames() {
+ var selection = document.getElementById("checkbox-2");
+ if (selection.checked) {
+   $('.name').css('display', 'inline')
+ } else {
+   $('.name').css('display', 'none')
+ }
+}
+
+function toggleEffects() {
+ var selection = document.getElementById("checkbox-3");
+ if (selection.checked) {
+   $('.tr-effect').css('display', 'inline')
+ } else {
+   $('.tr-effect').css('display', 'none')
+ }
+}
+</script>
+</head>
+
+<body>
+
+<fieldset class="tool-label-toggles">
+ <legend>Toggle labels: </legend>
+ <label for="show-paths-checkbox">paths</label>
+ <input type="checkbox" name="show-paths-checkbox" id="checkbox-1" onchange="togglePaths()">
+ <label for="show-names-checkbox">names</label>
+ <input type="checkbox" name="show-names-checkbox" id="checkbox-2" onchange="toggleNames()">
+ <label for="show-effects-checkbox">effects</label>
+ <input type="checkbox" name="show-effects-checkbox" id="checkbox-3" onchange="toggleEffects()">
+</fieldset>
+
+<a href="../index.html">↰ Results summary</a>
+<hr/>
+<div class="lab-name"><a href="http://adapton.org/rustdoc/adapton_lab/catalog/struct.EditorOopsla2015Sec2.html" class="lab-name page-title">eg-oopsla2015-sec2</a></div>
+<div style="font-size:12px" class="batch-name"> step</div>
+<div style="font-size:20px" class="editor">Editor</div>
+<div style="font-size:20px" class="archivist">Archivist</div>
+<hr/>
+<div class="batch-name-lab">batch name<div class="batch-name">0</div></div>
+<div class="editor">
+<div class="time-ns-lab">time (ns): <div class="time-ns">185496</div></div>
+</div>
+<div class="archivist">
+<div class="row">
+<div class="time-ns-lab">Naive time (ns): <div class="time-ns">117455</div></div>
+<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.12</div></div>
+</div>
+<div class="row">
+<div class="time-ns-lab">DCG time (ns): <div class="time-ns">404498</div></div>
+<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.40</div></div>
+</div>
+<div class="overhead-lab">DCG Overhead: <div class="overhead">3.44</div></div>
+</div>
+<hr/>
+<hr/>
+<div class="input-value">
+<div class="label">Input:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___a ">
+___a
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___b ">
+___b
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-3 ">
+3
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___d ">
+___d
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="output-value">
+<div class="label">Output:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___alpha ">
+__compute___alpha
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___beta ">
+__compute___beta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-9 ">
+9
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___delta ">
+__compute___delta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="archivist-update-sep"></div>
+<div class="archivist-alloc-tree-post-update">
+<div class="label">Allocs, post-update:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-update">
+<div class="label">Forces, post-update:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="traces-box">
+<div class="label">Editor trace:</div>
+<div class="traces">
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocFresh)</a>
+</div>
+<div class="tr-symbols ">
+▣
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocFresh)</a>
+</div>
+<div class="tr-symbols ">
+▣
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocFresh)</a>
+</div>
+<div class="tr-symbols ">
+▣
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="traces-box">
+<div class="label">Archivist trace:</div>
+<div class="traces">
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocFresh)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheMiss)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(RefGet)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocFresh)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheMiss)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(RefGet)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocFresh)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheMiss)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(RefGet)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<hr/>
+<div class="batch-name-lab">batch name<div class="batch-name">1</div></div>
+<div class="editor">
+<div class="time-ns-lab">time (ns): <div class="time-ns">243524</div></div>
+</div>
+<div class="archivist">
+<div class="row">
+<div class="time-ns-lab">Naive time (ns): <div class="time-ns">29687</div></div>
+<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.03</div></div>
+</div>
+<div class="row">
+<div class="time-ns-lab">DCG time (ns): <div class="time-ns">479383</div></div>
+<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.48</div></div>
+</div>
+<div class="overhead-lab">DCG Overhead: <div class="overhead">16.15</div></div>
+</div>
+<hr/>
+<hr/>
+<div class="input-value">
+<div class="label">Input:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___a ">
+___a
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___b ">
+___b
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-2 ">
+2
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___c ">
+___c
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-3 ">
+3
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___d ">
+___d
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="output-value">
+<div class="label">Output:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___alpha ">
+__compute___alpha
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___beta ">
+__compute___beta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-4 ">
+4
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___gamma ">
+__compute___gamma
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-9 ">
+9
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___delta ">
+__compute___delta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="archivist-alloc-tree-post-edit">
+<div class="label">Allocs, post-edit:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-edit">
+<div class="label">Forces, post-edit:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-update-sep"></div>
+<div class="archivist-alloc-tree-post-update">
+<div class="label">Allocs, post-update:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-update">
+<div class="label">Forces, post-update:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="traces-box">
+<div class="label">Editor trace:</div>
+<div class="traces">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(RefGet)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(RefGet)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocFresh)</a>
+</div>
+<div class="tr-symbols ">
+▣
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-exists alloc-kind-refcell has-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+</div>
+<div class="tr-symbols ">
+▣
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-dirty has-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Dirty</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-dirty no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Dirty</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-exists alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+</div>
+<div class="tr-symbols ">
+▣
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="traces-box">
+<div class="label">Archivist trace:</div>
+<div class="traces">
+<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-hit has-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheHit)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-clean-rec has-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">CleanRec</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-clean-rec has-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">CleanRec</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-clean-eval has-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">CleanEval</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-remove no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Remove</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-remove no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Remove</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-remove no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Remove</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(RefGet)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocFresh)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-miss has-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheMiss)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(RefGet)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-hit no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheHit)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-clean-eval has-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">CleanEval</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+</div>
+</div>
+<div class="tr-extent ">
+<div class="trace  tr-remove no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Remove</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-remove no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Remove</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-remove no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Remove</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-refget no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(RefGet)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-hit no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheHit)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<hr/>
+<div class="batch-name-lab">batch name<div class="batch-name">2</div></div>
+<div class="editor">
+<div class="time-ns-lab">time (ns): <div class="time-ns">3408</div></div>
+</div>
+<div class="archivist">
+<div class="row">
+<div class="time-ns-lab">Naive time (ns): <div class="time-ns">18928</div></div>
+<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.02</div></div>
+</div>
+<div class="row">
+<div class="time-ns-lab">DCG time (ns): <div class="time-ns">253294</div></div>
+<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.25</div></div>
+</div>
+<div class="overhead-lab">DCG Overhead: <div class="overhead">13.38</div></div>
+</div>
+<hr/>
+<hr/>
+<div class="input-value">
+<div class="label">Input:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___a ">
+___a
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___b ">
+___b
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-2 ">
+2
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___c ">
+___c
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-3 ">
+3
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___d ">
+___d
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="output-value">
+<div class="label">Output:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___alpha ">
+__compute___alpha
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___beta ">
+__compute___beta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-4 ">
+4
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___gamma ">
+__compute___gamma
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-9 ">
+9
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___delta ">
+__compute___delta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="archivist-alloc-tree-post-edit">
+<div class="label">Allocs, post-edit:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-edit">
+<div class="label">Forces, post-edit:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-update-sep"></div>
+<div class="archivist-alloc-tree-post-update">
+<div class="label">Allocs, post-update:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-update">
+<div class="label">Forces, post-update:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="traces-box">
+<div class="label">Editor trace:</div>
+<div class="traces">
+</div>
+</div>
+<div class="traces-box">
+<div class="label">Archivist trace:</div>
+<div class="traces">
+<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-hit no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheHit)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<hr/>
+<div class="batch-name-lab">batch name<div class="batch-name">3</div></div>
+<div class="editor">
+<div class="time-ns-lab">time (ns): <div class="time-ns">8300</div></div>
+</div>
+<div class="archivist">
+<div class="row">
+<div class="time-ns-lab">Naive time (ns): <div class="time-ns">37759</div></div>
+<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.04</div></div>
+</div>
+<div class="row">
+<div class="time-ns-lab">DCG time (ns): <div class="time-ns">134810</div></div>
+<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.13</div></div>
+</div>
+<div class="overhead-lab">DCG Overhead: <div class="overhead">3.57</div></div>
+</div>
+<hr/>
+<hr/>
+<div class="input-value">
+<div class="label">Input:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___a ">
+___a
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___b ">
+___b
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-2 ">
+2
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___c ">
+___c
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-3 ">
+3
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___d ">
+___d
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="output-value">
+<div class="label">Output:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___alpha ">
+__compute___alpha
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___beta ">
+__compute___beta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-4 ">
+4
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___gamma ">
+__compute___gamma
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-9 ">
+9
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___delta ">
+__compute___delta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="archivist-alloc-tree-post-edit">
+<div class="label">Allocs, post-edit:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-edit">
+<div class="label">Forces, post-edit:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-update-sep"></div>
+<div class="archivist-alloc-tree-post-update">
+<div class="label">Allocs, post-update:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-update">
+<div class="label">Forces, post-update:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="traces-box">
+<div class="label">Editor trace:</div>
+<div class="traces">
+</div>
+</div>
+<div class="traces-box">
+<div class="label">Archivist trace:</div>
+<div class="traces">
+<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-hit no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheHit)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<hr/>
+<div class="batch-name-lab">batch name<div class="batch-name">4</div></div>
+<div class="editor">
+<div class="time-ns-lab">time (ns): <div class="time-ns">6721</div></div>
+</div>
+<div class="archivist">
+<div class="row">
+<div class="time-ns-lab">Naive time (ns): <div class="time-ns">144620</div></div>
+<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.14</div></div>
+</div>
+<div class="row">
+<div class="time-ns-lab">DCG time (ns): <div class="time-ns">145026</div></div>
+<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.15</div></div>
+</div>
+<div class="overhead-lab">DCG Overhead: <div class="overhead">1.00</div></div>
+</div>
+<hr/>
+<hr/>
+<div class="input-value">
+<div class="label">Input:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___a ">
+___a
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___b ">
+___b
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-2 ">
+2
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___c ">
+___c
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-3 ">
+3
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___d ">
+___d
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="output-value">
+<div class="label">Output:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___alpha ">
+__compute___alpha
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___beta ">
+__compute___beta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-4 ">
+4
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___gamma ">
+__compute___gamma
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-9 ">
+9
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___delta ">
+__compute___delta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="archivist-alloc-tree-post-edit">
+<div class="label">Allocs, post-edit:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-edit">
+<div class="label">Forces, post-edit:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-update-sep"></div>
+<div class="archivist-alloc-tree-post-update">
+<div class="label">Allocs, post-update:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-update">
+<div class="label">Forces, post-update:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="traces-box">
+<div class="label">Editor trace:</div>
+<div class="traces">
+</div>
+</div>
+<div class="traces-box">
+<div class="label">Archivist trace:</div>
+<div class="traces">
+<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-hit no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheHit)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<hr/>
+<div class="batch-name-lab">batch name<div class="batch-name">5</div></div>
+<div class="editor">
+<div class="time-ns-lab">time (ns): <div class="time-ns">7334</div></div>
+</div>
+<div class="archivist">
+<div class="row">
+<div class="time-ns-lab">Naive time (ns): <div class="time-ns">48023</div></div>
+<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.05</div></div>
+</div>
+<div class="row">
+<div class="time-ns-lab">DCG time (ns): <div class="time-ns">145945</div></div>
+<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.15</div></div>
+</div>
+<div class="overhead-lab">DCG Overhead: <div class="overhead">3.04</div></div>
+</div>
+<hr/>
+<hr/>
+<div class="input-value">
+<div class="label">Input:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___a ">
+___a
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___b ">
+___b
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-2 ">
+2
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___c ">
+___c
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-3 ">
+3
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___d ">
+___d
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="output-value">
+<div class="label">Output:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___alpha ">
+__compute___alpha
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___beta ">
+__compute___beta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-4 ">
+4
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___gamma ">
+__compute___gamma
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-9 ">
+9
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___delta ">
+__compute___delta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="archivist-alloc-tree-post-edit">
+<div class="label">Allocs, post-edit:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-edit">
+<div class="label">Forces, post-edit:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-update-sep"></div>
+<div class="archivist-alloc-tree-post-update">
+<div class="label">Allocs, post-update:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-update">
+<div class="label">Forces, post-update:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="traces-box">
+<div class="label">Editor trace:</div>
+<div class="traces">
+</div>
+</div>
+<div class="traces-box">
+<div class="label">Archivist trace:</div>
+<div class="traces">
+<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-hit no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheHit)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<hr/>
+<div class="batch-name-lab">batch name<div class="batch-name">6</div></div>
+<div class="editor">
+<div class="time-ns-lab">time (ns): <div class="time-ns">7284</div></div>
+</div>
+<div class="archivist">
+<div class="row">
+<div class="time-ns-lab">Naive time (ns): <div class="time-ns">40204</div></div>
+<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.04</div></div>
+</div>
+<div class="row">
+<div class="time-ns-lab">DCG time (ns): <div class="time-ns">230067</div></div>
+<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.23</div></div>
+</div>
+<div class="overhead-lab">DCG Overhead: <div class="overhead">5.72</div></div>
+</div>
+<hr/>
+<hr/>
+<div class="input-value">
+<div class="label">Input:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___a ">
+___a
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___b ">
+___b
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-2 ">
+2
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___c ">
+___c
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-3 ">
+3
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___d ">
+___d
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="output-value">
+<div class="label">Output:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___alpha ">
+__compute___alpha
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___beta ">
+__compute___beta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-4 ">
+4
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___gamma ">
+__compute___gamma
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-9 ">
+9
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___delta ">
+__compute___delta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="archivist-alloc-tree-post-edit">
+<div class="label">Allocs, post-edit:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-edit">
+<div class="label">Forces, post-edit:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-update-sep"></div>
+<div class="archivist-alloc-tree-post-update">
+<div class="label">Allocs, post-update:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-update">
+<div class="label">Forces, post-update:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="traces-box">
+<div class="label">Editor trace:</div>
+<div class="traces">
+</div>
+</div>
+<div class="traces-box">
+<div class="label">Archivist trace:</div>
+<div class="traces">
+<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-hit no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheHit)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<hr/>
+<div class="batch-name-lab">batch name<div class="batch-name">7</div></div>
+<div class="editor">
+<div class="time-ns-lab">time (ns): <div class="time-ns">6810</div></div>
+</div>
+<div class="archivist">
+<div class="row">
+<div class="time-ns-lab">Naive time (ns): <div class="time-ns">55758</div></div>
+<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.06</div></div>
+</div>
+<div class="row">
+<div class="time-ns-lab">DCG time (ns): <div class="time-ns">96853</div></div>
+<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.10</div></div>
+</div>
+<div class="overhead-lab">DCG Overhead: <div class="overhead">1.74</div></div>
+</div>
+<hr/>
+<hr/>
+<div class="input-value">
+<div class="label">Input:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___a ">
+___a
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___b ">
+___b
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-2 ">
+2
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___c ">
+___c
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-3 ">
+3
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___d ">
+___d
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="output-value">
+<div class="label">Output:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___alpha ">
+__compute___alpha
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___beta ">
+__compute___beta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-4 ">
+4
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___gamma ">
+__compute___gamma
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-9 ">
+9
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___delta ">
+__compute___delta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="archivist-alloc-tree-post-edit">
+<div class="label">Allocs, post-edit:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-edit">
+<div class="label">Forces, post-edit:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-update-sep"></div>
+<div class="archivist-alloc-tree-post-update">
+<div class="label">Allocs, post-update:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-update">
+<div class="label">Forces, post-update:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="traces-box">
+<div class="label">Editor trace:</div>
+<div class="traces">
+</div>
+</div>
+<div class="traces-box">
+<div class="label">Archivist trace:</div>
+<div class="traces">
+<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-hit no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheHit)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<hr/>
+<div class="batch-name-lab">batch name<div class="batch-name">8</div></div>
+<div class="editor">
+<div class="time-ns-lab">time (ns): <div class="time-ns">2601</div></div>
+</div>
+<div class="archivist">
+<div class="row">
+<div class="time-ns-lab">Naive time (ns): <div class="time-ns">20832</div></div>
+<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.02</div></div>
+</div>
+<div class="row">
+<div class="time-ns-lab">DCG time (ns): <div class="time-ns">142698</div></div>
+<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.14</div></div>
+</div>
+<div class="overhead-lab">DCG Overhead: <div class="overhead">6.85</div></div>
+</div>
+<hr/>
+<hr/>
+<div class="input-value">
+<div class="label">Input:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___a ">
+___a
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___b ">
+___b
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-2 ">
+2
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___c ">
+___c
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-3 ">
+3
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___d ">
+___d
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="output-value">
+<div class="label">Output:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___alpha ">
+__compute___alpha
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___beta ">
+__compute___beta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-4 ">
+4
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___gamma ">
+__compute___gamma
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-9 ">
+9
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___delta ">
+__compute___delta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="archivist-alloc-tree-post-edit">
+<div class="label">Allocs, post-edit:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-edit">
+<div class="label">Forces, post-edit:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-update-sep"></div>
+<div class="archivist-alloc-tree-post-update">
+<div class="label">Allocs, post-update:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-update">
+<div class="label">Forces, post-update:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="traces-box">
+<div class="label">Editor trace:</div>
+<div class="traces">
+</div>
+</div>
+<div class="traces-box">
+<div class="label">Archivist trace:</div>
+<div class="traces">
+<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-hit no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheHit)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<hr/>
+<div class="batch-name-lab">batch name<div class="batch-name">9</div></div>
+<div class="editor">
+<div class="time-ns-lab">time (ns): <div class="time-ns">8792</div></div>
+</div>
+<div class="archivist">
+<div class="row">
+<div class="time-ns-lab">Naive time (ns): <div class="time-ns">47907</div></div>
+<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.05</div></div>
+</div>
+<div class="row">
+<div class="time-ns-lab">DCG time (ns): <div class="time-ns">175671</div></div>
+<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.18</div></div>
+</div>
+<div class="overhead-lab">DCG Overhead: <div class="overhead">3.67</div></div>
+</div>
+<hr/>
+<hr/>
+<div class="input-value">
+<div class="label">Input:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___a ">
+___a
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___b ">
+___b
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-2 ">
+2
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___c ">
+___c
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-3 ">
+3
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___d ">
+___d
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="output-value">
+<div class="label">Output:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___alpha ">
+__compute___alpha
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___beta ">
+__compute___beta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-4 ">
+4
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___gamma ">
+__compute___gamma
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-9 ">
+9
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___delta ">
+__compute___delta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="archivist-alloc-tree-post-edit">
+<div class="label">Allocs, post-edit:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-edit">
+<div class="label">Forces, post-edit:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-update-sep"></div>
+<div class="archivist-alloc-tree-post-update">
+<div class="label">Allocs, post-update:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-update">
+<div class="label">Forces, post-update:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="traces-box">
+<div class="label">Editor trace:</div>
+<div class="traces">
+</div>
+</div>
+<div class="traces-box">
+<div class="label">Archivist trace:</div>
+<div class="traces">
+<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-hit no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheHit)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<hr/>
+<div class="batch-name-lab">batch name<div class="batch-name">10</div></div>
+<div class="editor">
+<div class="time-ns-lab">time (ns): <div class="time-ns">13557</div></div>
+</div>
+<div class="archivist">
+<div class="row">
+<div class="time-ns-lab">Naive time (ns): <div class="time-ns">34234</div></div>
+<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.03</div></div>
+</div>
+<div class="row">
+<div class="time-ns-lab">DCG time (ns): <div class="time-ns">761063</div></div>
+<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.76</div></div>
+</div>
+<div class="overhead-lab">DCG Overhead: <div class="overhead">22.23</div></div>
+</div>
+<hr/>
+<hr/>
+<div class="input-value">
+<div class="label">Input:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___a ">
+___a
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___b ">
+___b
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-2 ">
+2
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___c ">
+___c
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-3 ">
+3
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art ___d ">
+___d
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="output-value">
+<div class="label">Output:</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-0 ">
+0
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name alpha ">
+alpha
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___alpha ">
+__compute___alpha
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-1 ">
+1
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name beta ">
+beta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___beta ">
+__compute___beta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-4 ">
+4
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name gamma ">
+gamma
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___gamma ">
+__compute___gamma
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="val-constr constr-Cons ">
+Cons
+<div class="val-const  const-9 ">
+9
+</div>
+<div class="val-constr constr-Name ">
+Name
+<div class="name val-name delta ">
+delta
+</div>
+<div class="val-constr constr-Art ">
+Art
+<div class="val-art __compute___delta ">
+__compute___delta
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="val-constr constr-Nil ">
+Nil
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="archivist-alloc-tree-post-edit">
+<div class="label">Allocs, post-edit:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-edit">
+<div class="label">Forces, post-edit:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-update-sep"></div>
+<div class="archivist-alloc-tree-post-update">
+<div class="label">Allocs, post-update:</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="alloc-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="alloc-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="archivist-force-tree-post-update">
+<div class="label">Forces, post-update:</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  a">
+a
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  b">
+b
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  c">
+c
+</div>
+</div>
+</div>
+<div class="force-tree ">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="force-tree  no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  d">
+d
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
+<div class="traces-box">
+<div class="label">Editor trace:</div>
+<div class="traces">
+</div>
+</div>
+<div class="traces-box">
+<div class="label">Archivist trace:</div>
+<div class="traces">
+<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+</div>
+<div class="tr-symbols ">
+◯
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-force-compcache-hit no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheHit)</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-force succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha">
+alpha
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr/>
