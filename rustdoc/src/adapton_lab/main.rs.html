@@ -226,10 +226,42 @@
 <span id="181">181</span>
 <span id="182">182</span>
 <span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! For more information and instructions, see the [Adapton Lab</span>
 <span class='doccomment'>//! README](https://github.com/cuplv/adapton-lab.rust).</span>
-
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>box_patterns</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>field_init_shorthand</span>)]</span>
 <span class='comment'>//#![feature(rustc_private)]</span>
 <span class='comment'>//#![feature(custom_derive)]</span>
@@ -267,6 +299,7 @@
 
 <span class='kw'>use</span> <span class='ident'>labdef</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='ident'>reflect</span>::<span class='ident'>string_of_name</span>;
+<span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='ident'>name_of_string</span>;
 
 <span class='comment'>// fn csv_of_runtimes(path:&amp;str, samples: Vec&lt;Sample&gt;) {</span>
 <span class='comment'>//   let path = Path::new(path);</span>
@@ -312,14 +345,18 @@
 
 <span class='comment'>// TODO -- Put these implementations into a &#39;catalog&#39; module.</span>
 
+<span class='kw'>fn</span> <span class='ident'>run_lab</span>(<span class='ident'>params</span>:<span class='kw-2'>&amp;</span><span class='ident'>LabParams</span>, <span class='ident'>lab</span>:<span class='kw-2'>&amp;</span><span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Lab</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>LabResults</span> {
+  <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Running lab: {}&quot;</span>, <span class='ident'>string_of_name</span>( <span class='kw-2'>&amp;</span><span class='ident'>lab</span>.<span class='ident'>name</span>() ) );
+  <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>lab</span>.<span class='ident'>run</span>(<span class='ident'>params</span>);
+  <span class='ident'>labviz</span>::<span class='ident'>write_lab_results</span>(<span class='ident'>params</span>, <span class='ident'>lab</span>, <span class='kw-2'>&amp;</span><span class='ident'>result</span>);
+  <span class='ident'>result</span>
+}
+
 <span class='kw'>fn</span> <span class='ident'>run_all_labs</span>(<span class='ident'>params</span>:<span class='ident'>LabParams</span>) {
   <span class='kw'>let</span> <span class='ident'>labs</span>  <span class='op'>=</span> <span class='ident'>catalog</span>::<span class='ident'>all_labs</span>();
   <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>results</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
-  <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Params: {:?}&quot;</span>, <span class='ident'>params</span> );
   <span class='kw'>for</span> <span class='ident'>lab</span> <span class='kw'>in</span> <span class='ident'>labs</span>.<span class='ident'>iter</span>() {
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Running lab: {}&quot;</span>, <span class='ident'>string_of_name</span>( <span class='kw-2'>&amp;</span><span class='ident'>lab</span>.<span class='ident'>name</span>() ) );
-    <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>lab</span>.<span class='ident'>run</span>(<span class='kw-2'>&amp;</span><span class='ident'>params</span>);
-    <span class='ident'>labviz</span>::<span class='ident'>write_lab_results</span>(<span class='kw-2'>&amp;</span><span class='ident'>params</span>, <span class='ident'>lab</span>, <span class='kw-2'>&amp;</span><span class='ident'>result</span>);
+    <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>run_lab</span>(<span class='kw-2'>&amp;</span><span class='ident'>params</span>, <span class='kw-2'>&amp;</span><span class='ident'>lab</span>);
     <span class='ident'>results</span>.<span class='ident'>push</span>(<span class='ident'>result</span>);
   }  
   <span class='ident'>labviz</span>::<span class='ident'>write_lab_results_summary</span>(<span class='kw-2'>&amp;</span><span class='ident'>params</span>, <span class='kw-2'>&amp;</span><span class='ident'>labs</span>, <span class='kw-2'>&amp;</span><span class='ident'>results</span>);
@@ -349,6 +386,7 @@
     .<span class='ident'>args_from_usage</span>(<span class='string'>&quot;\
     --run-viz     &#39;run lab catalog for visualization: small input size, with reflection&#39;
     --run-bench   &#39;run lab catalog for benchmarking: large input size, without reflection&#39;
+    -L,  --lab=[labname]       &#39;determines the Editor and the Archivist, from the lab catalog&#39;
     -s,  --size=[size]         &#39;for the Editor: the initial input size generated by the Editor.&#39;
     -a,  --artfreq=[artfreq]   &#39;for the Editor: the frequency of articulations, measured in non-nominal constructors.&#39;
     -b,  --batch=[batch]       &#39;for the Editor: the number of edits that the Editor performs at once.&#39;
@@ -396,10 +434,36 @@
     <span class='kw'>let</span> <span class='ident'>l</span> <span class='op'>=</span> <span class='ident'>params</span>.<span class='ident'>change_batch_loopc</span> ;
     <span class='ident'>params</span>.<span class='ident'>change_batch_loopc</span> <span class='op'>=</span> 
       <span class='macro'>value_t</span><span class='macro'>!</span>(<span class='ident'>args</span>.<span class='ident'>value_of</span>(<span class='string'>&quot;loopc&quot;</span>),<span class='ident'>usize</span>).<span class='ident'>unwrap_or</span>( <span class='ident'>l</span> );
-  }
+  };
   <span class='comment'>// TODO check --validate</span>
 
-  <span class='ident'>run_all_labs</span>(<span class='ident'>params</span>) 
+
+  <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>run_one_lab</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
+  {
+    <span class='kw'>let</span> <span class='ident'>l</span> <span class='op'>=</span> <span class='macro'>value_t</span><span class='macro'>!</span>(<span class='ident'>args</span>.<span class='ident'>value_of</span>(<span class='string'>&quot;labname&quot;</span>),<span class='ident'>String</span>).<span class='ident'>unwrap_or</span>( <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;&quot;</span>) );
+    <span class='kw'>if</span> <span class='ident'>l</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span> {
+      <span class='kw'>for</span> <span class='ident'>lab</span> <span class='kw'>in</span> <span class='ident'>catalog</span>::<span class='ident'>all_labs</span>() {
+        <span class='kw'>if</span> <span class='ident'>lab</span>.<span class='ident'>name</span>() <span class='op'>==</span> <span class='ident'>name_of_string</span>(<span class='ident'>l</span>.<span class='ident'>clone</span>()) {
+          <span class='ident'>run_one_lab</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+          <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Lab params:\n\t{:?}&quot;</span>, <span class='ident'>params</span> );
+          <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>run_lab</span>( <span class='kw-2'>&amp;</span><span class='ident'>params</span>, <span class='kw-2'>&amp;</span><span class='ident'>lab</span> );        
+        }
+      };
+      <span class='kw'>if</span> <span class='op'>!</span> <span class='ident'>run_one_lab</span> {
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Error: couldn&#39;t find the lab `{}`.&quot;</span>, <span class='ident'>l</span>);
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Hint: Here&#39;s the full lab catalog:&quot;</span>);
+        <span class='kw'>for</span> <span class='ident'>lab</span> <span class='kw'>in</span> <span class='ident'>catalog</span>::<span class='ident'>all_labs</span>() {
+          <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot; - {:32}: {}&quot;</span>, <span class='ident'>string_of_name</span> (<span class='kw-2'>&amp;</span><span class='ident'>lab</span>.<span class='ident'>name</span>()), 
+                   <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>lab</span>.<span class='ident'>url</span>() { <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>s</span>) <span class='op'>=&gt;</span> <span class='ident'>s</span>, <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='string'>&quot;&quot;</span> } );
+        }
+        <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Error: couldn&#39;t find the lab `{}`.&quot;</span>, <span class='ident'>l</span>);
+      }
+    } <span class='kw'>else</span> { }
+  }
+  <span class='kw'>if</span> <span class='op'>!</span> <span class='ident'>run_one_lab</span> {
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Lab params:\n\t{:?}&quot;</span>, <span class='ident'>params</span> );
+    <span class='ident'>run_all_labs</span>(<span class='ident'>params</span>) 
+  }
 }
 
 <span class='kw'>fn</span> <span class='ident'>main</span> () {
