@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ExampleCleanDirty` struct in crate `adapton_lab`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ExampleCleanDirty">
+
+    <title>adapton_lab::catalog::ExampleCleanDirty - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>adapton_lab</a>::<wbr><a href='index.html'>catalog</a></p><script>window.sidebarCurrent = {name: 'ExampleCleanDirty', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>adapton_lab</a>::<wbr><a href='index.html'>catalog</a>::<wbr><a class='struct' href=''>ExampleCleanDirty</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/adapton_lab/catalog.rs.html#89' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct ExampleCleanDirty {}</pre><div class='docblock'><p>Simple example to explain Adapton&#39;s dirtying + cleaning algorithms.</p>
+
+<p>This example demonstrates how, when input changes, dirtying
+proceeds incrementally through the edges of the DCG, during
+cleaning.  We show a particular input change for this DCG where a
+subcomputation <code>h</code> is never dirtied nor cleaned by change
+propagation. We show another change to the same input where this
+subcomputation <code>h</code> <em>is</em> <em>eventually</em> dirtied and cleaned by
+Adapton, though not immediately.</p>
+
+<pre class='rust rust-example-rendered'>
+  <span class='kw-2'>ref</span> <span class='ident'>cell</span>
+  <span class='ident'>inp</span>
+  [ <span class='number'>2</span> ]
+    <span class='op'>^</span>
+    <span class='op'>|</span> <span class='ident'>force</span>                                                         
+    <span class='op'>|</span> <span class='number'>2</span>                                                      
+    <span class='op'>|</span>                 <span class='ident'>cell</span>                                   <span class='ident'>cell</span>
+    <span class='op'>|</span>    <span class='ident'>alloc</span> <span class='number'>4</span>       <span class='ident'>b</span>      <span class='ident'>force</span> <span class='number'>4</span>           <span class='ident'>alloc</span> <span class='number'>4</span>       <span class='ident'>c</span>
+   (<span class='ident'>g</span>)<span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-&gt;</span>[ <span class='number'>4</span> ]&lt;-<span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span>(<span class='ident'>h</span>)<span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-&gt;</span>[ <span class='number'>4</span> ]
+    <span class='op'>^</span>                                     <span class='op'>^</span>
+    <span class='op'>|</span> <span class='ident'>force</span>                               <span class='op'>|</span> <span class='ident'>force</span> <span class='ident'>h</span>,
+    <span class='op'>|</span> <span class='ident'>returns</span> <span class='ident'>b</span>                           <span class='op'>|</span> <span class='ident'>returns</span> <span class='ident'>c</span>
+    <span class='op'>|</span>                                     <span class='op'>|</span>
+   (<span class='ident'>f</span>)<span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>-</span><span class='op'>+</span>
+    <span class='op'>^</span>
+    <span class='op'>|</span> <span class='ident'>force</span> <span class='ident'>f</span>,
+    <span class='op'>|</span> <span class='ident'>returns</span> <span class='ident'>cell</span> <span class='ident'>c</span>
+    <span class='op'>|</span>
+ (<span class='ident'>root</span> <span class='ident'>of</span> <span class='ident'>demand</span>)</pre>
+
+<p>In this example DCG, thunk <code>f</code> allocates and forces two
+sub-computations, thunks <code>g</code> and <code>h</code>.  The first consumes the
+input <code>inp</code> and produces an intermediate result (ref cell <code>b</code>);
+the second consumes this intermediate result and produces a final
+result (ref cell <code>c</code>), which both thunks <code>h</code> and <code>f</code> return as
+their final result.</p>
+
+<p>When the input cell <code>inp</code> changes, e.g., from 2 to -2, thunks <code>f</code>
+and <code>g</code> are dirtied.  Thunk <code>g</code> is dirty because it consumes the
+changed input.  Thunk <code>f</code> is dirty because it demanded (consumed)
+the output of thunk <code>g</code> in the extent of its own computation.
+<em>Importantly, thunk <code>h</code> is <em>not</em> immediately dirtied when <code>inp</code>
+changes.</em></p>
+
+<p>In some very real sense, <code>inp</code> is an indirect (&quot;transitive&quot;) input
+to thunk <code>h</code>.  This fact may suggest that when <code>inp</code> is changed
+from 2 to -2, we should dirty thunk <code>h</code> immediately.  However,
+thunk <code>h</code> is related to this input only by reading a <em>different</em>
+ref cell (ref cell b) that dependents, indirectly, on <code>inp</code>, via
+the behavior of thunk <code>g</code>, on which thunk <code>h</code> does <em>not</em> directly
+depend (e.g., thunk <code>h</code> does not force thunk <code>g</code>).</p>
+
+<p>Rather, when thunk <code>f</code> is re-demanded (from the &quot;root of demand&quot;,
+maybe a larger DCG or a user), it will necessarily perform a
+cleaning process (aka, &quot;change propagation&quot;), re-executing <code>g</code>,
+its immediate dependent, which is dirty.  Since thunk <code>g</code> merely
+squares its input, and 2 and -2 both square to 4, the output of
+thunk <code>g</code> will not change in this case.  Consequently, the
+consumers of cell <code>b</code>, which holds this output, will not be
+dirtied or re-executed.  In this case, thunk <code>h</code> is this consumer.
+In situations like these, Adapton&#39;s dirtying + cleaning algorithms
+do not dirty nor clean thunk <code>h</code>.  (For some other change, e.g.,
+from 2 to 3, thunk <code>h</code> would <em>eventually</em> be dirtied and cleaned).</p>
+
+<p>In sum, under this change, after <code>f</code> is re-demanded, the cleaning
+process will first re-execute <code>g</code>, the immediate consumer of
+<code>inp</code>.  Thunk <code>g</code> will again allocate cell <code>b</code> to hold 4, the same
+value as before.  It also yields this same cell pointer (to cell
+<code>b</code>).  Consequently, thunk <code>f</code> is not re-executed, and is cleaned.
+Meanwhile, the outgoing (dependency) edges thunk of <code>h</code> are never
+dirited.</p>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../adapton_lab/catalog/struct.ExampleCleanDirty.html' title='adapton_lab::catalog::ExampleCleanDirty'>ExampleCleanDirty</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/catalog.rs.html#88' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class='method'><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../adapton_lab/catalog/struct.ExampleCleanDirty.html' title='adapton_lab::catalog::ExampleCleanDirty'>ExampleCleanDirty</a></code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class='method'><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../adapton_lab/catalog/struct.ExampleCleanDirty.html' title='adapton_lab::catalog::ExampleCleanDirty'>ExampleCleanDirty</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/catalog.rs.html#88' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class='method'><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../adapton_lab/labdef/trait.Generate.html' title='adapton_lab::labdef::Generate'>Generate</a>&lt;<a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>&gt;&gt; for <a class='struct' href='../../adapton_lab/catalog/struct.ExampleCleanDirty.html' title='adapton_lab::catalog::ExampleCleanDirty'>ExampleCleanDirty</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/catalog.rs.html#90-94' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.generate' class='method'><span id='generate.v' class='invisible'><code>fn <a href='../../adapton_lab/labdef/trait.Generate.html#tymethod.generate' class='fnname'>generate</a>&lt;R:&nbsp;<a class='trait' href='../../rand/trait.Rng.html' title='rand::Rng'>Rng</a>&gt;(_rng: &amp;mut R, _params: &amp;<a class='struct' href='../../adapton_lab/labdef/struct.GenerateParams.html' title='adapton_lab::labdef::GenerateParams'>GenerateParams</a>) -&gt; <a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>&gt;</code></span></h4>
+</div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../adapton_lab/labdef/trait.Edit.html' title='adapton_lab::labdef::Edit'>Edit</a>&lt;<a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>&gt;, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt; for <a class='struct' href='../../adapton_lab/catalog/struct.ExampleCleanDirty.html' title='adapton_lab::catalog::ExampleCleanDirty'>ExampleCleanDirty</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/catalog.rs.html#98-117' title='goto source code'>[src]</a></span></h3>
+<div class='docblock'><p>This editor helps in an example.  It creates an input cell holding
+the integer 2, and then edits this cell to hold -2.  Then it edits
+the cell to hold 3, then 2 again, and then loops.</p>
+</div><div class='impl-items'><h4 id='method.edit_init' class='method'><span id='edit_init.v' class='invisible'><code>fn <a href='../../adapton_lab/labdef/trait.Edit.html#tymethod.edit_init' class='fnname'>edit_init</a>&lt;R:&nbsp;<a class='trait' href='../../rand/trait.Rng.html' title='rand::Rng'>Rng</a>&gt;(_rng: &amp;mut R, _params: &amp;<a class='struct' href='../../adapton_lab/labdef/struct.GenerateParams.html' title='adapton_lab::labdef::GenerateParams'>GenerateParams</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></span></h4>
+<h4 id='method.edit' class='method'><span id='edit.v' class='invisible'><code>fn <a href='../../adapton_lab/labdef/trait.Edit.html#tymethod.edit' class='fnname'>edit</a>&lt;R:&nbsp;<a class='trait' href='../../rand/trait.Rng.html' title='rand::Rng'>Rng</a>&gt;(_inp: <a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _rng: &amp;mut R,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _params: &amp;<a class='struct' href='../../adapton_lab/labdef/struct.GenerateParams.html' title='adapton_lab::labdef::GenerateParams'>GenerateParams</a>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>&gt;, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a></code></span></h4>
+</div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../adapton_lab/labdef/trait.Compute.html' title='adapton_lab::labdef::Compute'>Compute</a>&lt;<a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>&gt;, <a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>&gt;&gt; for <a class='struct' href='../../adapton_lab/catalog/struct.ExampleCleanDirty.html' title='adapton_lab::catalog::ExampleCleanDirty'>ExampleCleanDirty</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/adapton_lab/catalog.rs.html#118-147' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.compute' class='method'><span id='compute.v' class='invisible'><code>fn <a href='../../adapton_lab/labdef/trait.Compute.html#tymethod.compute' class='fnname'>compute</a>(inp: <a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>&gt;) -&gt; <a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>&gt;</code></span></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "adapton_lab";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>
