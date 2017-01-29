@@ -831,7 +831,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>arg</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>n</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>name</span> <span class='op'>!=</span> <span class='ident'>n</span>,
                 <span class='string'>&quot;ArgGroup &#39;{}&#39; can not have same name as arg inside it&quot;</span>,
-                <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>name</span>);
+                <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='self'>self</span>.<span class='ident'>name</span>);
         <span class='self'>self</span>.<span class='ident'>args</span>.<span class='ident'>push</span>(<span class='ident'>n</span>);
         <span class='self'>self</span>
     }
@@ -1236,7 +1236,7 @@
                                 <span class='bool-val'>true</span>,
                                 <span class='prelude-val'>Some</span>(<span class='ident'>reqs</span>),
                                 <span class='prelude-val'>Some</span>(<span class='ident'>confs</span>));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>g</span>), <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>debug_str</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>g</span>), <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='ident'>debug_str</span>);
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>

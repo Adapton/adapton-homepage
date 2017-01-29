@@ -390,7 +390,7 @@
         <span class='ident'>o</span>.<span class='ident'>s</span>.<span class='ident'>long</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='string'>&quot;option&quot;</span>);
         <span class='ident'>o</span>.<span class='ident'>b</span>.<span class='ident'>settings</span>.<span class='ident'>set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>);
 
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>o</span>), <span class='string'>&quot;--option &lt;opt&gt;...&quot;</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>o</span>), <span class='string'>&quot;--option &lt;opt&gt;...&quot;</span>);
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
@@ -403,7 +403,7 @@
         <span class='ident'>o2</span>.<span class='ident'>s</span>.<span class='ident'>short</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='string'>&#39;o&#39;</span>);
         <span class='ident'>o2</span>.<span class='ident'>v</span>.<span class='ident'>val_names</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>v_names</span>);
 
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>o2</span>), <span class='string'>&quot;-o &lt;file&gt; &lt;name&gt;&quot;</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>o2</span>), <span class='string'>&quot;-o &lt;file&gt; &lt;name&gt;&quot;</span>);
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
@@ -417,7 +417,7 @@
         <span class='ident'>o2</span>.<span class='ident'>v</span>.<span class='ident'>val_names</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>v_names</span>);
         <span class='ident'>o2</span>.<span class='ident'>b</span>.<span class='ident'>settings</span>.<span class='ident'>set</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>Multiple</span>);
 
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>o2</span>), <span class='string'>&quot;-o &lt;file&gt; &lt;name&gt;&quot;</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>o2</span>), <span class='string'>&quot;-o &lt;file&gt; &lt;name&gt;&quot;</span>);
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
@@ -426,7 +426,7 @@
         <span class='ident'>o</span>.<span class='ident'>s</span>.<span class='ident'>long</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='string'>&quot;option&quot;</span>);
         <span class='ident'>o</span>.<span class='ident'>s</span>.<span class='ident'>aliases</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='macro'>vec</span><span class='macro'>!</span>[(<span class='string'>&quot;als&quot;</span>, <span class='bool-val'>true</span>)]);
 
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>o</span>), <span class='string'>&quot;--option &lt;opt&gt;&quot;</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>o</span>), <span class='string'>&quot;--option &lt;opt&gt;&quot;</span>);
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
@@ -435,7 +435,7 @@
         <span class='ident'>o</span>.<span class='ident'>s</span>.<span class='ident'>long</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='string'>&quot;option&quot;</span>);
         <span class='ident'>o</span>.<span class='ident'>s</span>.<span class='ident'>aliases</span> <span class='op'>=</span>
             <span class='prelude-val'>Some</span>(<span class='macro'>vec</span><span class='macro'>!</span>[(<span class='string'>&quot;als_not_visible&quot;</span>, <span class='bool-val'>false</span>), (<span class='string'>&quot;als2&quot;</span>, <span class='bool-val'>true</span>), (<span class='string'>&quot;als3&quot;</span>, <span class='bool-val'>true</span>), (<span class='string'>&quot;als4&quot;</span>, <span class='bool-val'>true</span>)]);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>o</span>), <span class='string'>&quot;--option &lt;opt&gt;&quot;</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>o</span>), <span class='string'>&quot;--option &lt;opt&gt;&quot;</span>);
     }
 }
 </pre>

@@ -234,7 +234,7 @@
                         <span class='ident'>OsStr</span>::<span class='ident'>from_bytes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span> <span class='op'>+</span> <span class='number'>1</span>..]));
             }
         }
-        (<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>, <span class='ident'>OsStr</span>::<span class='ident'>from_bytes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>as_bytes</span>()[<span class='self'>self</span>.<span class='ident'>len_</span>()..<span class='self'>self</span>.<span class='ident'>len_</span>()]))
+        (<span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='self'>self</span>, <span class='ident'>OsStr</span>::<span class='ident'>from_bytes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>as_bytes</span>()[<span class='self'>self</span>.<span class='ident'>len_</span>()..<span class='self'>self</span>.<span class='ident'>len_</span>()]))
     }
 
     <span class='kw'>fn</span> <span class='ident'>trim_left_matches</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>byte</span>: <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span> {
@@ -243,7 +243,7 @@
                 <span class='kw'>return</span> <span class='ident'>OsStr</span>::<span class='ident'>from_bytes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>as_bytes</span>()[<span class='ident'>i</span>..]);
             }
         }
-        <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>
+        <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='self'>self</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>split_at</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>i</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> (<span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>, <span class='kw-2'>&amp;</span><span class='ident'>OsStr</span>) {
@@ -281,7 +281,7 @@
         <span class='kw'>let</span> <span class='ident'>start</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pos</span>;
         <span class='kw'>for</span> <span class='ident'>b</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>val</span>[<span class='ident'>start</span>..] {
             <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>+=</span> <span class='number'>1</span>;
-            <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>b</span> <span class='op'>==</span> <span class='self'>self</span>.<span class='ident'>sep</span> {
+            <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>b</span> <span class='op'>==</span> <span class='self'>self</span>.<span class='ident'>sep</span> {
                 <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='ident'>OsStr</span>::<span class='ident'>from_bytes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>val</span>[<span class='ident'>start</span>..<span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>-</span> <span class='number'>1</span>]));
             }
         }
@@ -290,7 +290,7 @@
     <span class='kw'>fn</span> <span class='ident'>size_hint</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> (<span class='ident'>usize</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>) {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>count</span> <span class='op'>=</span> <span class='number'>0</span>;
         <span class='kw'>for</span> <span class='ident'>b</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>val</span>[<span class='self'>self</span>.<span class='ident'>pos</span>..] {
-            <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>b</span> <span class='op'>==</span> <span class='self'>self</span>.<span class='ident'>sep</span> {
+            <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>b</span> <span class='op'>==</span> <span class='self'>self</span>.<span class='ident'>sep</span> {
                 <span class='ident'>count</span> <span class='op'>+=</span> <span class='number'>1</span>;
             }
         }
@@ -309,7 +309,7 @@
         <span class='kw'>let</span> <span class='ident'>start</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pos</span>;
         <span class='kw'>for</span> <span class='ident'>b</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>val</span>[..<span class='self'>self</span>.<span class='ident'>pos</span>].<span class='ident'>iter</span>().<span class='ident'>rev</span>() {
             <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>-=</span> <span class='number'>1</span>;
-            <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>b</span> <span class='op'>==</span> <span class='self'>self</span>.<span class='ident'>sep</span> {
+            <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>b</span> <span class='op'>==</span> <span class='self'>self</span>.<span class='ident'>sep</span> {
                 <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='ident'>OsStr</span>::<span class='ident'>from_bytes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>val</span>[<span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>+</span> <span class='number'>1</span>..<span class='ident'>start</span>]));
             }
         }

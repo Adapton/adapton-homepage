@@ -48,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/adapton/engine.rs.html#1-2617' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/adapton/engine.rs.html#1-2686' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Adapton&#39;s core calculus, implemented as a runtime library.  We
 implement two versions of this interface, which we refer to as
 <em>engines</em>: The <strong>naive engine</strong> and the <strong>DCG engine</strong>,
@@ -76,6 +76,14 @@ filesystem.</p></li>
 </ul>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='manage/index.html'
+                                  title='adapton::engine::manage'>manage</a></td>
+                           <td class='docblock-short'>
+                                <p>Operations that monitor and alter the active engine.  Incremental
+applications should not use these operations directly.</p>
+                           </td>
+                       </tr>
                        <tr class=' module-item'>
                            <td><a class='mod' href='reflect/index.html'
                                   title='adapton::engine::reflect'>reflect</a></td>
@@ -148,60 +156,15 @@ data structures or computations.</p>
                            <td><a class='fn' href='fn.cell.html'
                                   title='adapton::engine::cell'>cell</a></td>
                            <td class='docblock-short'>
-                                <p>Creates a mutable articulation.</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.cnt.html'
-                                  title='adapton::engine::cnt'>cnt</a></td>
-                           <td class='docblock-short'>
-                                <p>Counts various engine cost metrics, returning a product of sums (<code>Cnt</code>)</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.engine_is_dcg.html'
-                                  title='adapton::engine::engine_is_dcg'>engine_is_dcg</a></td>
-                           <td class='docblock-short'>
-                                <p>True iff the current engine is a <code>DCG</code></p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.engine_is_naive.html'
-                                  title='adapton::engine::engine_is_naive'>engine_is_naive</a></td>
-                           <td class='docblock-short'>
-                                <p>True iff the current engine is <code>Naive</code></p>
+                                <p>Creates a named reference cell (an eager <code>Art&lt;_&gt;</code>) whose content
+can change over time.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.force.html'
                                   title='adapton::engine::force'>force</a></td>
                            <td class='docblock-short'>
-                                <p>Demand &amp; observe arts (all kinds): force</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.init_dcg.html'
-                                  title='adapton::engine::init_dcg'>init_dcg</a></td>
-                           <td class='docblock-short'>
-                                <p>Initializes global state with a fresh DCG-based engine; returns the old engine.
-The DCG is the central implementation structure behind Adapton.
-At a high level, it consists of a data dependence graph (the &quot;demanded computation graph&quot;), and an associated memoization table.</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.init_engine.html'
-                                  title='adapton::engine::init_engine'>init_engine</a></td>
-                           <td class='docblock-short'>
-                                <p>alias for <code>use_engine</code></p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.init_naive.html'
-                                  title='adapton::engine::init_naive'>init_naive</a></td>
-                           <td class='docblock-short'>
-                                <p>Initializes global state with a (&quot;fresh&quot;) Naive engine; returns the old engine.
-The naive engine is stateless, and performs no memoization and builds no dependence graphs.
-(Since the naive engine is stateless, every instance of the naive engine is equivalent to a &quot;fresh&quot; one).</p>
+                                <p>Demands and observes the value of an <code>&amp;Art&lt;T&gt;</code>, returning a (cloned) value of type <code>T</code>.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -223,13 +186,6 @@ The naive engine is stateless, and performs no memoization and builds no depende
                                   title='adapton::engine::name_fork4'>name_fork4</a></td>
                            <td class='docblock-short'>
                                 <p>Create four names from one</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.name_of_hash64.html'
-                                  title='adapton::engine::name_of_hash64'>name_of_hash64</a></td>
-                           <td class='docblock-short'>
-                                
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -285,7 +241,8 @@ The naive engine is stateless, and performs no memoization and builds no depende
                            <td><a class='fn' href='fn.put.html'
                                   title='adapton::engine::put'>put</a></td>
                            <td class='docblock-short'>
-                                <p>Creates immutable, eager articulation.</p>
+                                <p>Creates an unnamed, immutable reference cell (an eager <code>Art&lt;_&gt;</code>)
+whose content may not change over time.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -306,14 +263,8 @@ The naive engine is stateless, and performs no memoization and builds no depende
                            <td><a class='fn' href='fn.thunk.html'
                                   title='adapton::engine::thunk'>thunk</a></td>
                            <td class='docblock-short'>
-                                <p>Creates an articulated computation.</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.use_engine.html'
-                                  title='adapton::engine::use_engine'>use_engine</a></td>
-                           <td class='docblock-short'>
-                                <p>Initializes global state with a fresh DCG-based engine; returns the old engine</p>
+                                <p>Allocates a thunk, an <code>Art&lt;T&gt;</code> that consists of a suspended
+computation that produces a value of type <code>T</code>.</p>
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/adapton.rust-b16351c49ab23a81/39ceb54/src/engine.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/adapton.rust-b16351c49ab23a81/8c2e2f7/src/engine.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>engine.rs.html -- source</title>
@@ -2660,6 +2660,75 @@
 <span id="2615">2615</span>
 <span id="2616">2616</span>
 <span id="2617">2617</span>
+<span id="2618">2618</span>
+<span id="2619">2619</span>
+<span id="2620">2620</span>
+<span id="2621">2621</span>
+<span id="2622">2622</span>
+<span id="2623">2623</span>
+<span id="2624">2624</span>
+<span id="2625">2625</span>
+<span id="2626">2626</span>
+<span id="2627">2627</span>
+<span id="2628">2628</span>
+<span id="2629">2629</span>
+<span id="2630">2630</span>
+<span id="2631">2631</span>
+<span id="2632">2632</span>
+<span id="2633">2633</span>
+<span id="2634">2634</span>
+<span id="2635">2635</span>
+<span id="2636">2636</span>
+<span id="2637">2637</span>
+<span id="2638">2638</span>
+<span id="2639">2639</span>
+<span id="2640">2640</span>
+<span id="2641">2641</span>
+<span id="2642">2642</span>
+<span id="2643">2643</span>
+<span id="2644">2644</span>
+<span id="2645">2645</span>
+<span id="2646">2646</span>
+<span id="2647">2647</span>
+<span id="2648">2648</span>
+<span id="2649">2649</span>
+<span id="2650">2650</span>
+<span id="2651">2651</span>
+<span id="2652">2652</span>
+<span id="2653">2653</span>
+<span id="2654">2654</span>
+<span id="2655">2655</span>
+<span id="2656">2656</span>
+<span id="2657">2657</span>
+<span id="2658">2658</span>
+<span id="2659">2659</span>
+<span id="2660">2660</span>
+<span id="2661">2661</span>
+<span id="2662">2662</span>
+<span id="2663">2663</span>
+<span id="2664">2664</span>
+<span id="2665">2665</span>
+<span id="2666">2666</span>
+<span id="2667">2667</span>
+<span id="2668">2668</span>
+<span id="2669">2669</span>
+<span id="2670">2670</span>
+<span id="2671">2671</span>
+<span id="2672">2672</span>
+<span id="2673">2673</span>
+<span id="2674">2674</span>
+<span id="2675">2675</span>
+<span id="2676">2676</span>
+<span id="2677">2677</span>
+<span id="2678">2678</span>
+<span id="2679">2679</span>
+<span id="2680">2680</span>
+<span id="2681">2681</span>
+<span id="2682">2682</span>
+<span id="2683">2683</span>
+<span id="2684">2684</span>
+<span id="2685">2685</span>
+<span id="2686">2686</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Adapton&#39;s core calculus, implemented as a runtime library.  We</span>
 <span class='doccomment'>//! implement two versions of this interface, which we refer to as</span>
@@ -2704,7 +2773,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Write</span>;
 
-<span class='kw'>use</span> <span class='ident'>macros</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='ident'>macros</span>::<span class='kw-2'>*</span>;
 
 <span class='macro'>thread_local</span><span class='macro'>!</span>(<span class='kw'>static</span> <span class='ident'>GLOBALS</span>: <span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>Globals</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>Globals</span>{<span class='ident'>engine</span>:<span class='ident'>Engine</span>::<span class='ident'>Naive</span>}));
 <span class='macro'>thread_local</span><span class='macro'>!</span>(<span class='kw'>static</span> <span class='ident'>ROOT_NAME</span>: <span class='ident'>Name</span> <span class='op'>=</span> <span class='ident'>Name</span>{ <span class='ident'>hash</span>:<span class='number'>0</span>, <span class='ident'>symbol</span>: <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>NameSym</span>::<span class='ident'>Root</span>) });
@@ -2713,36 +2782,6 @@
 
 <span class='doccomment'>/// When this option is set to some, the engine will record a trace of its DCG effects.</span>
 <span class='macro'>thread_local</span><span class='macro'>!</span>(<span class='kw'>static</span> <span class='ident'>TRACES</span>: <span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TraceSt</span><span class='op'>&gt;&gt;</span> <span class='op'>=</span> <span class='ident'>RefCell</span>::<span class='ident'>new</span>( <span class='prelude-val'>None</span> ));
-
-
-<span class='comment'>// TODO: Put these initialization and &quot;engine control&quot; functions into</span>
-<span class='comment'>// a submodule called &quot;control&quot; (or &quot;meta&quot; or &quot;runtime&quot;, etc.).</span>
-
-<span class='doccomment'>/// Initializes global state with a fresh DCG-based engine; returns the old engine.</span>
-<span class='doccomment'>/// The DCG is the central implementation structure behind Adapton.</span>
-<span class='doccomment'>/// At a high level, it consists of a data dependence graph (the &quot;demanded computation graph&quot;), and an associated memoization table.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>init_dcg</span> () <span class='op'>-&gt;</span> <span class='ident'>Engine</span> { <span class='ident'>init_engine</span>(<span class='ident'>Engine</span>::<span class='ident'>DCG</span>(<span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>DCG</span>::<span class='ident'>new</span>()))) }
-
-<span class='doccomment'>/// Initializes global state with a (&quot;fresh&quot;) Naive engine; returns the old engine.</span>
-<span class='doccomment'>/// The naive engine is stateless, and performs no memoization and builds no dependence graphs.</span>
-<span class='doccomment'>/// (Since the naive engine is stateless, every instance of the naive engine is equivalent to a &quot;fresh&quot; one).</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>init_naive</span> () <span class='op'>-&gt;</span> <span class='ident'>Engine</span> { <span class='ident'>init_engine</span>(<span class='ident'>Engine</span>::<span class='ident'>Naive</span>) }
-
-<span class='doccomment'>/// Initializes global state with a fresh DCG-based engine; returns the old engine</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>use_engine</span> (<span class='ident'>engine</span>: <span class='ident'>Engine</span>) <span class='op'>-&gt;</span> <span class='ident'>Engine</span> {
-  <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
-  <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>engine</span> <span class='op'>=</span> <span class='ident'>engine</span>;
-  <span class='ident'>GLOBALS</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> {
-    <span class='ident'>mem</span>::<span class='ident'>swap</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>g</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>engine</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>engine</span>);
-  });
-  <span class='kw'>return</span> <span class='ident'>engine</span>
-}
-
-<span class='doccomment'>/// alias for `use_engine`</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>init_engine</span> (<span class='ident'>engine</span>: <span class='ident'>Engine</span>) <span class='op'>-&gt;</span> <span class='ident'>Engine</span> {
-  <span class='ident'>use_engine</span>(<span class='ident'>engine</span>)
-}
-
 
 
 <span class='doccomment'>/// Reflects the DCG engine, including both the effects of the</span>
@@ -2766,7 +2805,7 @@
 <span class='doccomment'>/// walking their values, recursively.</span>
 
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>reflect</span> {
-  <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>reflect</span>::<span class='op'>*</span>;
+  <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>reflect</span>::<span class='kw-2'>*</span>;
   <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::{<span class='ident'>Debug</span>,<span class='ident'>Write</span>};
   <span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>TraceSt</span>,<span class='ident'>TRACES</span>,<span class='ident'>GLOBALS</span>,<span class='ident'>Engine</span>};
   <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>parse_val</span>;
@@ -2842,7 +2881,7 @@
   <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>dcg_reflect_now</span>() <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>DCG</span><span class='op'>&gt;</span> {
     <span class='ident'>GLOBALS</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> {
       <span class='kw'>match</span> <span class='ident'>g</span>.<span class='ident'>borrow</span>().<span class='ident'>engine</span> {
-        <span class='ident'>Engine</span>::<span class='ident'>DCG</span>(<span class='kw-2'>ref</span> <span class='ident'>dcg</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>((<span class='op'>*</span><span class='ident'>dcg</span>.<span class='ident'>borrow</span>()).<span class='ident'>reflect</span>()),
+        <span class='ident'>Engine</span>::<span class='ident'>DCG</span>(<span class='kw-2'>ref</span> <span class='ident'>dcg</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>((<span class='kw-2'>*</span><span class='ident'>dcg</span>.<span class='ident'>borrow</span>()).<span class='ident'>reflect</span>()),
         <span class='ident'>Engine</span>::<span class='ident'>Naive</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
       }
     })
@@ -2851,11 +2890,11 @@
   <span class='doccomment'>/// Begin recording (reflections of) DCG effects.  See `dcg_reflect_end()`.</span>
   <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>dcg_reflect_begin</span>() {
     <span class='ident'>TRACES</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>tr</span><span class='op'>|</span> { 
-      <span class='kw'>let</span> <span class='ident'>check</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>tr</span>.<span class='ident'>borrow</span>() {
+      <span class='kw'>let</span> <span class='ident'>check</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>tr</span>.<span class='ident'>borrow</span>() {
         <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
         <span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>false</span> };
       <span class='kw'>if</span> <span class='ident'>check</span> { 
-        <span class='op'>*</span><span class='ident'>tr</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>TraceSt</span>{<span class='ident'>stack</span>:<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[])]})
+        <span class='kw-2'>*</span><span class='ident'>tr</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>TraceSt</span>{<span class='ident'>stack</span>:<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[])]})
       } <span class='kw'>else</span> { 
         <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;cannot currently nest calls to dcg_reflect_begin().&quot;</span>)
       }
@@ -2866,7 +2905,7 @@
   <span class='doccomment'>/// forrest (of DCG traces).  See `dcg_reflect_begin()`.</span>
   <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>dcg_reflect_end</span>() <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>trace</span>::<span class='ident'>Trace</span><span class='op'>&gt;</span> {
     <span class='ident'>TRACES</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>tr</span><span class='op'>|</span> { 
-      <span class='kw'>let</span> <span class='ident'>traces</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>tr</span>.<span class='ident'>borrow_mut</span>() {
+      <span class='kw'>let</span> <span class='ident'>traces</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>tr</span>.<span class='ident'>borrow_mut</span>() {
         <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;dcg_reflect_end() without a corresponding dcg_reflect_begin().&quot;</span>),
         <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>tr</span>) <span class='op'>=&gt;</span> { 
           <span class='comment'>// Assert that dcg_effect_(begin/end) are not mismatched.</span>
@@ -2877,8 +2916,8 @@
       <span class='kw'>match</span> <span class='ident'>traces</span> {
         <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
         <span class='prelude-val'>Some</span>(<span class='ident'>traces</span>) <span class='op'>=&gt;</span> {
-          <span class='op'>*</span><span class='ident'>tr</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='prelude-val'>None</span>;
-          <span class='op'>*</span><span class='ident'>traces</span>
+          <span class='kw-2'>*</span><span class='ident'>tr</span>.<span class='ident'>borrow_mut</span>() <span class='op'>=</span> <span class='prelude-val'>None</span>;
+          <span class='kw-2'>*</span><span class='ident'>traces</span>
         }
       }
     })
@@ -2892,7 +2931,7 @@
   ( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>eff</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>loc</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>succ</span>:<span class='ident'>expr</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>has_extent</span>:<span class='ident'>expr</span> ) <span class='op'>=&gt;</span> {{ 
     <span class='doccomment'>/// The beginning of an effect, with an option extent (nested effects)</span>
     <span class='ident'>TRACES</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>tr</span><span class='op'>|</span> {
-      <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>tr</span>.<span class='ident'>borrow_mut</span>() {
+      <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>tr</span>.<span class='ident'>borrow_mut</span>() {
         <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (),
         <span class='comment'>// Some ==&gt; We are building a trace</span>
         <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>ts</span>) <span class='op'>=&gt;</span> {            
@@ -2926,7 +2965,7 @@
     <span class='doccomment'>/// trace at the end (top) of the second top-most sequence of</span>
     <span class='doccomment'>/// traces.</span>
     <span class='ident'>TRACES</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>tr</span><span class='op'>|</span> {
-      <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>tr</span>.<span class='ident'>borrow_mut</span>() {
+      <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>tr</span>.<span class='ident'>borrow_mut</span>() {
         <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (),
         <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>tr</span>) <span class='op'>=&gt;</span> {
           <span class='kw'>let</span> <span class='ident'>trs</span> <span class='op'>=</span> <span class='ident'>tr</span>.<span class='ident'>stack</span>.<span class='ident'>pop</span>(); 
@@ -3003,8 +3042,8 @@
   <span class='kw'>fn</span> <span class='ident'>reflect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>reflect</span>::<span class='ident'>Loc</span> {
     <span class='ident'>reflect</span>::<span class='ident'>Loc</span> {
       <span class='ident'>path</span>:<span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>reflect</span>(),
-      <span class='ident'>name</span>:<span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>id</span> { 
-        <span class='ident'>ArtId</span>::<span class='ident'>Structural</span>(<span class='kw-2'>ref</span> <span class='ident'>hash</span>) <span class='op'>=&gt;</span> <span class='ident'>name_of_hash64</span>(<span class='op'>*</span><span class='ident'>hash</span>),
+      <span class='ident'>name</span>:<span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span>.<span class='ident'>id</span> { 
+        <span class='ident'>ArtId</span>::<span class='ident'>Structural</span>(<span class='kw-2'>ref</span> <span class='ident'>hash</span>) <span class='op'>=&gt;</span> <span class='ident'>name_of_hash64</span>(<span class='kw-2'>*</span><span class='ident'>hash</span>),
         <span class='ident'>ArtId</span>::<span class='ident'>Nominal</span>(<span class='kw-2'>ref</span> <span class='ident'>name</span>) <span class='op'>=&gt;</span> <span class='ident'>name</span>.<span class='ident'>clone</span>(),
       }
     }
@@ -3021,7 +3060,7 @@
 
 <span class='kw'>impl</span> <span class='ident'>Debug</span> <span class='kw'>for</span> <span class='ident'>ArtId</span> {
   <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
       <span class='ident'>ArtId</span>::<span class='ident'>Structural</span>(<span class='kw-2'>ref</span> <span class='ident'>hash</span>) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{}&quot;</span>, <span class='ident'>hash</span>),
       <span class='ident'>ArtId</span>::<span class='ident'>Nominal</span>(<span class='kw-2'>ref</span> <span class='ident'>name</span>) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>name</span>),
     }
@@ -3113,7 +3152,7 @@
 }
 
 <span class='kw'>fn</span> <span class='ident'>write_namesym</span><span class='op'>&lt;</span><span class='ident'>W</span>:<span class='ident'>Write</span><span class='op'>&gt;</span>(<span class='ident'>w</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>W</span>, <span class='ident'>n</span>:<span class='kw-2'>&amp;</span><span class='ident'>NameSym</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span> {
-  <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>n</span> {
+  <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>n</span> {
     <span class='ident'>NameSym</span>::<span class='ident'>Root</span> <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;/&quot;</span>),
     <span class='ident'>NameSym</span>::<span class='ident'>Hash64</span> <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;(Hash64)&quot;</span>),
     <span class='ident'>NameSym</span>::<span class='ident'>String</span>(<span class='kw-2'>ref</span> <span class='ident'>s</span>) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>w</span>, <span class='string'>&quot;{}&quot;</span>, <span class='ident'>s</span>),
@@ -3133,7 +3172,7 @@
 }
 <span class='kw'>impl</span> <span class='ident'>reflect</span>::<span class='ident'>Reflect</span><span class='op'>&lt;</span><span class='ident'>reflect</span>::<span class='ident'>Path</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Path</span> {
   <span class='kw'>fn</span> <span class='ident'>reflect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>reflect</span>::<span class='ident'>Path</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
       <span class='ident'>Path</span>::<span class='ident'>Empty</span> <span class='op'>=&gt;</span> <span class='macro'>vec</span><span class='macro'>!</span>[],
       <span class='ident'>Path</span>::<span class='ident'>Child</span>(<span class='kw-2'>ref</span> <span class='ident'>path</span>, <span class='kw-2'>ref</span> <span class='ident'>name</span>) <span class='op'>=&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>path</span>.<span class='ident'>reflect</span>();
@@ -3146,7 +3185,7 @@
 
 <span class='kw'>impl</span> <span class='ident'>Debug</span> <span class='kw'>for</span> <span class='ident'>Path</span> {
   <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
       <span class='ident'>Path</span>::<span class='ident'>Empty</span> <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;&quot;</span>),
       <span class='ident'>Path</span>::<span class='ident'>Child</span>(<span class='kw-2'>ref</span> <span class='ident'>p</span>, <span class='kw-2'>ref</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{:?},{:?}&quot;</span>, <span class='ident'>p</span>, <span class='ident'>n</span>),
     }
@@ -3212,7 +3251,7 @@
 }
 <span class='kw'>impl</span> <span class='ident'>reflect</span>::<span class='ident'>Reflect</span><span class='op'>&lt;</span><span class='ident'>reflect</span>::<span class='ident'>Effect</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Effect</span> {
   <span class='kw'>fn</span> <span class='ident'>reflect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>reflect</span>::<span class='ident'>Effect</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
       <span class='comment'>// TODO-Someday: Too many names for the same thing</span>
       <span class='comment'>// (force/observe/consume, and allocate/alloc/produce).</span>
       <span class='ident'>Effect</span>::<span class='ident'>Observe</span>  <span class='op'>=&gt;</span> <span class='ident'>reflect</span>::<span class='ident'>Effect</span>::<span class='ident'>Force</span>,
@@ -3251,7 +3290,7 @@
 }
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>X</span>:<span class='ident'>Debug</span><span class='op'>&gt;</span> <span class='ident'>reflect</span>::<span class='ident'>Reflect</span><span class='op'>&lt;</span><span class='ident'>reflect</span>::<span class='ident'>Node</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Node</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> {
   <span class='kw'>fn</span> <span class='ident'>reflect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>reflect</span>::<span class='ident'>Node</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
       <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> {
         <span class='ident'>reflect</span>::<span class='ident'>Node</span>::<span class='ident'>Comp</span>(
           <span class='ident'>reflect</span>::<span class='ident'>CompNode</span>{
@@ -3314,7 +3353,7 @@
 <span class='kw'>impl</span> <span class='ident'>reflect</span>::<span class='ident'>Reflect</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>reflect</span>::<span class='ident'>Pred</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>Effect</span>,<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Loc</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span> {
   <span class='kw'>fn</span> <span class='ident'>reflect</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>reflect</span>::<span class='ident'>Pred</span><span class='op'>&gt;</span> {
     <span class='self'>self</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>eff_loc</span><span class='op'>|</span> 
-                    <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>eff_loc</span> {
+                    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>eff_loc</span> {
                       (<span class='kw-2'>ref</span> <span class='ident'>eff</span>, <span class='kw-2'>ref</span> <span class='ident'>loc</span>) <span class='op'>=&gt;</span> {                    
                         <span class='ident'>reflect</span>::<span class='ident'>Pred</span>{
                           <span class='ident'>effect</span>:<span class='ident'>eff</span>.<span class='ident'>reflect</span>(),
@@ -3465,7 +3504,7 @@
     })
   }
   <span class='kw'>fn</span> <span class='ident'>prog_pt</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>ProgPt</span> {
-    <span class='kw-2'>&amp;</span> <span class='self'>self</span>.<span class='ident'>prog_pt</span>
+    <span class='op'>&amp;</span> <span class='self'>self</span>.<span class='ident'>prog_pt</span>
   }
   <span class='kw'>fn</span> <span class='ident'>eq</span> (<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>:<span class='kw-2'>&amp;</span><span class='ident'>Producer</span><span class='op'>&lt;</span><span class='ident'>Res</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>if</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>prog_pt</span> <span class='op'>==</span> <span class='ident'>other</span>.<span class='ident'>prog_pt</span>() {
@@ -3506,40 +3545,40 @@
 
 <span class='kw'>impl</span> <span class='op'>&lt;</span><span class='ident'>Res</span>:<span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span> <span class='ident'>GraphNode</span> <span class='kw'>for</span> <span class='ident'>Node</span><span class='op'>&lt;</span><span class='ident'>Res</span><span class='op'>&gt;</span> {
   <span class='kw'>fn</span> <span class='ident'>preds_alloc</span>(<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Loc</span><span class='op'>&gt;&gt;</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> { <span class='ident'>Node</span>::<span class='ident'>Mut</span>(<span class='kw-2'>ref</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='ident'>nd</span>.<span class='ident'>preds</span>.<span class='ident'>iter</span>().<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>effect</span>,<span class='kw-2'>ref</span> <span class='ident'>loc</span>)<span class='op'>|</span> <span class='kw'>if</span> <span class='ident'>effect</span> <span class='op'>==</span> <span class='kw-2'>&amp;</span><span class='ident'>Effect</span>::<span class='ident'>Allocate</span> { <span class='prelude-val'>Some</span>(<span class='ident'>loc</span>.<span class='ident'>clone</span>()) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> } ).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> { <span class='ident'>Node</span>::<span class='ident'>Mut</span>(<span class='kw-2'>ref</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='ident'>nd</span>.<span class='ident'>preds</span>.<span class='ident'>iter</span>().<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>effect</span>,<span class='kw-2'>ref</span> <span class='ident'>loc</span>)<span class='op'>|</span> <span class='kw'>if</span> <span class='ident'>effect</span> <span class='op'>==</span> <span class='kw-2'>&amp;</span><span class='ident'>Effect</span>::<span class='ident'>Allocate</span> { <span class='prelude-val'>Some</span>(<span class='ident'>loc</span>.<span class='ident'>clone</span>()) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> } ).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
                   <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='ident'>nd</span>.<span class='ident'>preds</span>.<span class='ident'>iter</span>().<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>effect</span>,<span class='kw-2'>ref</span> <span class='ident'>loc</span>)<span class='op'>|</span> <span class='kw'>if</span> <span class='ident'>effect</span> <span class='op'>==</span> <span class='kw-2'>&amp;</span><span class='ident'>Effect</span>::<span class='ident'>Allocate</span> { <span class='prelude-val'>Some</span>(<span class='ident'>loc</span>.<span class='ident'>clone</span>()) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> } ).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
                   <span class='ident'>Node</span>::<span class='ident'>Pure</span>(_) <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
                   _ <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
     }}
 
   <span class='kw'>fn</span> <span class='ident'>preds_obs</span>(<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Loc</span><span class='op'>&gt;&gt;</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> { <span class='ident'>Node</span>::<span class='ident'>Mut</span>(<span class='kw-2'>ref</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='ident'>nd</span>.<span class='ident'>preds</span>.<span class='ident'>iter</span>().<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>effect</span>,<span class='kw-2'>ref</span> <span class='ident'>loc</span>)<span class='op'>|</span> <span class='kw'>if</span> <span class='ident'>effect</span> <span class='op'>==</span> <span class='kw-2'>&amp;</span><span class='ident'>Effect</span>::<span class='ident'>Observe</span> { <span class='prelude-val'>Some</span>(<span class='ident'>loc</span>.<span class='ident'>clone</span>()) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> } ).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> { <span class='ident'>Node</span>::<span class='ident'>Mut</span>(<span class='kw-2'>ref</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='ident'>nd</span>.<span class='ident'>preds</span>.<span class='ident'>iter</span>().<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>effect</span>,<span class='kw-2'>ref</span> <span class='ident'>loc</span>)<span class='op'>|</span> <span class='kw'>if</span> <span class='ident'>effect</span> <span class='op'>==</span> <span class='kw-2'>&amp;</span><span class='ident'>Effect</span>::<span class='ident'>Observe</span> { <span class='prelude-val'>Some</span>(<span class='ident'>loc</span>.<span class='ident'>clone</span>()) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> } ).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
                   <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='ident'>nd</span>.<span class='ident'>preds</span>.<span class='ident'>iter</span>().<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>effect</span>,<span class='kw-2'>ref</span> <span class='ident'>loc</span>)<span class='op'>|</span> <span class='kw'>if</span> <span class='ident'>effect</span> <span class='op'>==</span> <span class='kw-2'>&amp;</span><span class='ident'>Effect</span>::<span class='ident'>Observe</span> { <span class='prelude-val'>Some</span>(<span class='ident'>loc</span>.<span class='ident'>clone</span>()) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> } ).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
                   <span class='ident'>Node</span>::<span class='ident'>Pure</span>(_) <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
                   _ <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
     }}
   <span class='kw'>fn</span> <span class='ident'>preds_insert</span> (<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span>, <span class='ident'>eff</span>:<span class='ident'>Effect</span>, <span class='ident'>loc</span>:<span class='kw-2'>&amp;</span><span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Loc</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> () {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> { <span class='ident'>Node</span>::<span class='ident'>Mut</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='ident'>nd</span>.<span class='ident'>preds</span>.<span class='ident'>push</span> ((<span class='ident'>eff</span>,<span class='ident'>loc</span>.<span class='ident'>clone</span>())),
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> { <span class='ident'>Node</span>::<span class='ident'>Mut</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='ident'>nd</span>.<span class='ident'>preds</span>.<span class='ident'>push</span> ((<span class='ident'>eff</span>,<span class='ident'>loc</span>.<span class='ident'>clone</span>())),
                   <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='ident'>nd</span>.<span class='ident'>preds</span>.<span class='ident'>push</span> ((<span class='ident'>eff</span>,<span class='ident'>loc</span>.<span class='ident'>clone</span>())),
                   <span class='ident'>Node</span>::<span class='ident'>Pure</span>(_) <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
                   _ <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
     }}
   <span class='kw'>fn</span> <span class='ident'>preds_remove</span> (<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span>, <span class='ident'>loc</span>:<span class='kw-2'>&amp;</span><span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Loc</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> () {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> { <span class='ident'>Node</span>::<span class='ident'>Mut</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='ident'>nd</span>.<span class='ident'>preds</span>.<span class='ident'>retain</span> (<span class='op'>|</span><span class='ident'>eff_pred</span><span class='op'>|</span>{ <span class='kw'>let</span> (_,<span class='kw-2'>ref</span> <span class='ident'>pred</span>) <span class='op'>=</span> <span class='op'>*</span><span class='ident'>eff_pred</span>; <span class='op'>*</span><span class='ident'>pred</span> <span class='op'>!=</span> <span class='op'>*</span><span class='ident'>loc</span> }),
-                  <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='ident'>nd</span>.<span class='ident'>preds</span>.<span class='ident'>retain</span> (<span class='op'>|</span><span class='ident'>eff_pred</span><span class='op'>|</span>{ <span class='kw'>let</span> (_, <span class='kw-2'>ref</span> <span class='ident'>pred</span>) <span class='op'>=</span> <span class='op'>*</span><span class='ident'>eff_pred</span>; <span class='op'>*</span><span class='ident'>pred</span> <span class='op'>!=</span> <span class='op'>*</span><span class='ident'>loc</span>}),
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> { <span class='ident'>Node</span>::<span class='ident'>Mut</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='ident'>nd</span>.<span class='ident'>preds</span>.<span class='ident'>retain</span> (<span class='op'>|</span><span class='ident'>eff_pred</span><span class='op'>|</span>{ <span class='kw'>let</span> (_,<span class='kw-2'>ref</span> <span class='ident'>pred</span>) <span class='op'>=</span> <span class='kw-2'>*</span><span class='ident'>eff_pred</span>; <span class='kw-2'>*</span><span class='ident'>pred</span> <span class='op'>!=</span> <span class='kw-2'>*</span><span class='ident'>loc</span> }),
+                  <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='ident'>nd</span>.<span class='ident'>preds</span>.<span class='ident'>retain</span> (<span class='op'>|</span><span class='ident'>eff_pred</span><span class='op'>|</span>{ <span class='kw'>let</span> (_, <span class='kw-2'>ref</span> <span class='ident'>pred</span>) <span class='op'>=</span> <span class='kw-2'>*</span><span class='ident'>eff_pred</span>; <span class='kw-2'>*</span><span class='ident'>pred</span> <span class='op'>!=</span> <span class='kw-2'>*</span><span class='ident'>loc</span>}),
                   <span class='ident'>Node</span>::<span class='ident'>Pure</span>(_) <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
                   _ <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
     }}
   <span class='kw'>fn</span> <span class='ident'>succs_def</span>(<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> { <span class='ident'>Node</span>::<span class='ident'>Comp</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>, _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> { <span class='ident'>Node</span>::<span class='ident'>Comp</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>, _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
     }}
   <span class='kw'>fn</span> <span class='ident'>succs_mut</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='kw-2'>mut</span> <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='kw-2'>mut</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Succ</span><span class='op'>&gt;</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> { <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>n</span>.<span class='ident'>succs</span>,
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> { <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>n</span>.<span class='ident'>succs</span>,
                   _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;undefined&quot;</span>),
     }
   }
   <span class='kw'>fn</span> <span class='ident'>succs</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Succ</span><span class='op'>&gt;</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> { <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>n</span>.<span class='ident'>succs</span>,
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> { <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>n</span>.<span class='ident'>succs</span>,
                   _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;undefined&quot;</span>),
     }
   }
@@ -3596,7 +3635,7 @@
 <span class='kw'>fn</span> <span class='ident'>loc_produce</span><span class='op'>&lt;</span><span class='ident'>Res</span>:<span class='lifetime'>&#39;static</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>PartialEq</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span>(<span class='ident'>g</span>:<span class='kw-2'>&amp;</span><span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>DCG</span><span class='op'>&gt;</span>, <span class='ident'>loc</span>:<span class='kw-2'>&amp;</span><span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Loc</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>
 {
   <span class='kw'>let</span> (<span class='ident'>producer</span>, <span class='ident'>prev_path</span>) <span class='op'>=</span> {
-    <span class='kw'>let</span> <span class='ident'>st</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>DCG</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>() ;
+    <span class='kw'>let</span> <span class='ident'>st</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>DCG</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>() ;
     <span class='kw'>let</span> <span class='ident'>succs</span> : <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Succ</span><span class='op'>&gt;</span> <span class='op'>=</span> {
       <span class='kw'>let</span> <span class='ident'>succs</span> : <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Succ</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
       <span class='kw'>let</span> <span class='ident'>node</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Node</span><span class='op'>&lt;</span><span class='ident'>Res</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>res_node_of_loc</span>( <span class='ident'>st</span>, <span class='ident'>loc</span> ) ;
@@ -3609,7 +3648,7 @@
     <span class='ident'>st</span>.<span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>loc</span>.<span class='ident'>path</span>.<span class='ident'>clone</span>() ;
     <span class='kw'>let</span> <span class='ident'>producer</span> : <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Producer</span><span class='op'>&lt;</span><span class='ident'>Res</span><span class='op'>&gt;&gt;</span> <span class='op'>=</span> {
       <span class='kw'>let</span> <span class='ident'>node</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Node</span><span class='op'>&lt;</span><span class='ident'>Res</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>res_node_of_loc</span>( <span class='ident'>st</span>, <span class='ident'>loc</span> ) ;
-      <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>node</span> {
+      <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>node</span> {
         <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='ident'>nd</span>.<span class='ident'>producer</span>.<span class='ident'>copy</span>(),
         _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;internal error&quot;</span>),
       }
@@ -3643,7 +3682,7 @@
   } ;
   {
     <span class='kw'>let</span> <span class='ident'>node</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Node</span><span class='op'>&lt;</span><span class='ident'>Res</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>res_node_of_loc</span>( <span class='ident'>st</span>, <span class='ident'>loc</span> ) ;
-    <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>node</span> {
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>node</span> {
       <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>node</span>) <span class='op'>=&gt;</span> {
         <span class='ident'>replace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>node</span>.<span class='ident'>succs</span>, <span class='ident'>frame</span>.<span class='ident'>succs</span>) ;
         <span class='ident'>replace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>node</span>.<span class='ident'>res</span>, <span class='prelude-val'>Some</span>(<span class='ident'>res</span>.<span class='ident'>clone</span>()))
@@ -3661,12 +3700,12 @@
 {
   <span class='kw'>for</span> <span class='ident'>succ</span> <span class='kw'>in</span> <span class='ident'>succs</span>.<span class='ident'>iter</span>() {
     <span class='kw'>let</span> <span class='ident'>dirty</span> <span class='op'>=</span> {
-      <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
+      <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
       <span class='ident'>get_succ_mut</span>(<span class='ident'>st</span>, <span class='ident'>loc</span>, <span class='ident'>succ</span>.<span class='ident'>effect</span>.<span class='ident'>clone</span>(), <span class='kw-2'>&amp;</span><span class='ident'>succ</span>.<span class='ident'>loc</span>).<span class='ident'>dirty</span>
     } ;
     <span class='kw'>if</span> <span class='ident'>dirty</span> {
       <span class='macro'>dcg_effect_begin</span><span class='macro'>!</span>(<span class='ident'>reflect</span>::<span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>CleanRec</span>, <span class='prelude-val'>Some</span>(<span class='ident'>loc</span>), <span class='ident'>succ</span>);
-      <span class='kw'>let</span> <span class='ident'>succ_dep</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span> <span class='ident'>succ</span>.<span class='ident'>dep</span> ;
+      <span class='kw'>let</span> <span class='ident'>succ_dep</span> <span class='op'>=</span> <span class='op'>&amp;</span> <span class='ident'>succ</span>.<span class='ident'>dep</span> ;
       <span class='kw'>let</span> <span class='ident'>res</span> <span class='op'>=</span> <span class='ident'>succ_dep</span>.<span class='ident'>clean</span>(<span class='ident'>g</span>, <span class='kw-2'>&amp;</span><span class='ident'>succ</span>.<span class='ident'>loc</span>) ;
       <span class='kw'>if</span> <span class='ident'>res</span>.<span class='ident'>changed</span> {        
         <span class='macro'>dcg_effect_begin</span><span class='macro'>!</span>(<span class='ident'>reflect</span>::<span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>CleanEval</span>, <span class='prelude-val'>Some</span>(<span class='ident'>loc</span>), <span class='ident'>succ</span>);
@@ -3677,7 +3716,7 @@
         <span class='kw'>return</span> <span class='ident'>DCGRes</span>{<span class='ident'>changed</span>:<span class='ident'>changed</span>}
       }
       <span class='kw'>else</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>st</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>DCG</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>st</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>DCG</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
         <span class='ident'>st</span>.<span class='ident'>cnt</span>.<span class='ident'>clean</span> <span class='op'>+=</span> <span class='number'>1</span> ;
         <span class='ident'>get_succ_mut</span>(<span class='ident'>st</span>, <span class='ident'>loc</span>, <span class='ident'>succ</span>.<span class='ident'>effect</span>.<span class='ident'>clone</span>(), <span class='kw-2'>&amp;</span><span class='ident'>succ</span>.<span class='ident'>loc</span>).<span class='ident'>dirty</span> <span class='op'>=</span> <span class='bool-val'>false</span> ;
         <span class='macro'>dcg_effect</span><span class='macro'>!</span>(<span class='ident'>reflect</span>::<span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>CleanEdge</span>, <span class='prelude-val'>Some</span>(<span class='ident'>loc</span>), <span class='ident'>succ</span>);
@@ -3701,9 +3740,9 @@
     <span class='comment'>//let stackLen = mut_dcg_of_globals.stack.len() ;</span>
     <span class='comment'>////debug!(&quot;{} change_prop begin: {:?}&quot;, engineMsg!(st), loc);</span>
     <span class='kw'>let</span> <span class='ident'>res_succs</span> <span class='op'>=</span> { <span class='comment'>// Handle cases where there is no internal computation to re-compute:</span>
-      <span class='kw'>let</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
+      <span class='kw'>let</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
       <span class='kw'>let</span> <span class='ident'>node</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Node</span><span class='op'>&lt;</span><span class='ident'>Res</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>res_node_of_loc</span>(<span class='ident'>st</span>, <span class='ident'>loc</span>) ;
-      <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>node</span> {
+      <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>node</span> {
         <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> {
           <span class='kw'>match</span> <span class='ident'>nd</span>.<span class='ident'>res</span> {
             <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>res</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>((<span class='ident'>res</span>.<span class='ident'>clone</span>(), <span class='ident'>nd</span>.<span class='ident'>succs</span>.<span class='ident'>clone</span> ())),
@@ -3835,7 +3874,7 @@
   <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>AbsArt</span>::<span class='ident'>Loc</span>(<span class='kw-2'>ref</span> <span class='ident'>loc</span>) <span class='op'>=</span> <span class='ident'>cell</span> { 
     <span class='kw'>let</span> <span class='ident'>changed</span> : <span class='ident'>bool</span> <span class='op'>=</span> {
       <span class='kw'>let</span> <span class='ident'>node</span> <span class='op'>=</span> <span class='ident'>res_node_of_loc</span>( <span class='ident'>st</span>, <span class='ident'>loc</span> ) ;
-      <span class='kw'>match</span> <span class='op'>*</span><span class='op'>*</span><span class='ident'>node</span> {
+      <span class='kw'>match</span> <span class='kw-2'>*</span><span class='kw-2'>*</span><span class='ident'>node</span> {
         <span class='ident'>Node</span>::<span class='ident'>Mut</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> {
           <span class='kw'>if</span> <span class='ident'>nd</span>.<span class='ident'>val</span> <span class='op'>==</span> <span class='ident'>val</span> {
             <span class='bool-val'>false</span>
@@ -3892,13 +3931,16 @@
   <span class='kw'>fn</span> <span class='ident'>put</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>&gt;</span> (<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span>, <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>AbsArt</span><span class='op'>&lt;</span><span class='ident'>T</span>,<span class='self'>Self</span>::<span class='ident'>Loc</span><span class='op'>&gt;</span> ;
   
   <span class='doccomment'>/// Creates a mutable articulation.</span>
-  <span class='kw'>fn</span> <span class='ident'>cell</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span> (<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span>, <span class='ident'>Name</span>, <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>AbsArt</span><span class='op'>&lt;</span><span class='ident'>T</span>,<span class='self'>Self</span>::<span class='ident'>Loc</span><span class='op'>&gt;</span> ;
+  <span class='kw'>fn</span> <span class='ident'>cell</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> (<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span>, <span class='ident'>Name</span>, <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>AbsArt</span><span class='op'>&lt;</span><span class='ident'>T</span>,<span class='self'>Self</span>::<span class='ident'>Loc</span><span class='op'>&gt;</span> ;
   
   <span class='doccomment'>/// Mutates a mutable articulation.</span>
   <span class='kw'>fn</span> <span class='ident'>set</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>&gt;</span> (<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span>, <span class='ident'>AbsArt</span><span class='op'>&lt;</span><span class='ident'>T</span>,<span class='self'>Self</span>::<span class='ident'>Loc</span><span class='op'>&gt;</span>, <span class='ident'>T</span>) ;
   
   <span class='doccomment'>/// Creates an articulated computation.</span>
-  <span class='kw'>fn</span> <span class='ident'>thunk</span><span class='op'>&lt;</span><span class='ident'>Arg</span>:<span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span>,<span class='ident'>Spurious</span>:<span class='ident'>Clone</span>,<span class='ident'>Res</span>:<span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span>
+  <span class='kw'>fn</span> <span class='ident'>thunk</span> <span class='op'>&lt;</span><span class='ident'>Arg</span>:<span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='lifetime'>&#39;static</span>,
+            <span class='ident'>Spurious</span>:<span class='ident'>Clone</span><span class='op'>+</span><span class='lifetime'>&#39;static</span>,
+            <span class='ident'>Res</span>:<span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span>
+            <span class='op'>&gt;</span>
     (<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>Self</span>,
      <span class='ident'>id</span>:<span class='ident'>ArtIdChoice</span>,
      <span class='ident'>prog_pt</span>:<span class='ident'>ProgPt</span>,
@@ -3907,7 +3949,7 @@
      <span class='op'>-&gt;</span> <span class='ident'>AbsArt</span><span class='op'>&lt;</span><span class='ident'>Res</span>,<span class='self'>Self</span>::<span class='ident'>Loc</span><span class='op'>&gt;</span> ;
   
   <span class='doccomment'>/// Demand &amp; observe arts (all kinds): force</span>
-  <span class='kw'>fn</span> <span class='ident'>force</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span> (<span class='ident'>g</span>:<span class='kw-2'>&amp;</span><span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>DCG</span><span class='op'>&gt;</span>, <span class='kw-2'>&amp;</span><span class='ident'>AbsArt</span><span class='op'>&lt;</span><span class='ident'>T</span>,<span class='self'>Self</span>::<span class='ident'>Loc</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> ;
+  <span class='kw'>fn</span> <span class='ident'>force</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> (<span class='ident'>g</span>:<span class='kw-2'>&amp;</span><span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>DCG</span><span class='op'>&gt;</span>, <span class='kw-2'>&amp;</span><span class='ident'>AbsArt</span><span class='op'>&lt;</span><span class='ident'>T</span>,<span class='self'>Self</span>::<span class='ident'>Loc</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> ;
 }
 
 <span class='kw'>impl</span> <span class='ident'>Adapton</span> <span class='kw'>for</span> <span class='ident'>DCG</span> {
@@ -3938,7 +3980,7 @@
     <span class='kw'>where</span> <span class='ident'>F</span>:<span class='ident'>FnOnce</span>() <span class='op'>-&gt;</span> <span class='ident'>T</span>
   {
     <span class='kw'>let</span> <span class='ident'>saved</span> <span class='op'>=</span> {
-      <span class='kw'>let</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
+      <span class='kw'>let</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
       <span class='kw'>let</span> <span class='ident'>saved</span> <span class='op'>=</span> <span class='ident'>st</span>.<span class='ident'>flags</span>.<span class='ident'>ignore_nominal_use_structural</span> ;
       <span class='ident'>st</span>.<span class='ident'>flags</span>.<span class='ident'>ignore_nominal_use_structural</span> <span class='op'>=</span> <span class='bool-val'>true</span> ;
       <span class='ident'>saved</span>
@@ -3952,7 +3994,7 @@
     <span class='kw'>where</span> <span class='ident'>F</span>:<span class='ident'>FnOnce</span>() <span class='op'>-&gt;</span> <span class='ident'>T</span>
   {
     <span class='kw'>let</span> <span class='ident'>saved</span> <span class='op'>=</span> {
-      <span class='kw'>let</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
+      <span class='kw'>let</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
       <span class='kw'>let</span> <span class='ident'>saved</span> <span class='op'>=</span> <span class='ident'>st</span>.<span class='ident'>path</span>.<span class='ident'>clone</span>();
       <span class='ident'>st</span>.<span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>Path</span>::<span class='ident'>Child</span>(<span class='ident'>st</span>.<span class='ident'>path</span>.<span class='ident'>clone</span>(), <span class='ident'>nm</span>)) ; <span class='comment'>// Todo-Minor: Avoid this clone.</span>
       <span class='ident'>saved</span>
@@ -3966,14 +4008,14 @@
     <span class='kw'>where</span> <span class='ident'>F</span>:<span class='ident'>FnOnce</span>() <span class='op'>-&gt;</span> <span class='ident'>Res</span>
   {    
     <span class='kw'>let</span> <span class='ident'>c</span> : <span class='ident'>Cnt</span> <span class='op'>=</span> {
-      <span class='kw'>let</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
+      <span class='kw'>let</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
       <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>st</span>.<span class='ident'>cnt</span>.<span class='ident'>clone</span>() ;
       <span class='ident'>st</span>.<span class='ident'>cnt</span> <span class='op'>=</span> <span class='ident'>Zero</span>::<span class='ident'>zero</span>();
       <span class='ident'>c</span>
     };
     <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>body</span>() ;
     <span class='kw'>let</span> <span class='ident'>d</span> : <span class='ident'>Cnt</span> <span class='op'>=</span> {
-      <span class='kw'>let</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();      
+      <span class='kw'>let</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();      
       <span class='kw'>let</span> <span class='ident'>d</span> : <span class='ident'>Cnt</span> <span class='op'>=</span> <span class='ident'>st</span>.<span class='ident'>cnt</span>.<span class='ident'>clone</span>() ;
       <span class='ident'>st</span>.<span class='ident'>cnt</span> <span class='op'>=</span> <span class='ident'>c</span> <span class='op'>+</span> <span class='ident'>d</span>.<span class='ident'>clone</span>();
       <span class='ident'>d</span>
@@ -4003,7 +4045,7 @@
       <span class='kw'>let</span> (<span class='ident'>do_dirty</span>, <span class='ident'>do_set</span>, <span class='ident'>succs</span>, <span class='ident'>do_insert</span>) <span class='op'>=</span>
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>table</span>.<span class='ident'>contains_key</span>(<span class='kw-2'>&amp;</span><span class='ident'>loc</span>) {
           <span class='kw'>let</span> <span class='ident'>node</span> : <span class='kw-2'>&amp;</span><span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span> <span class='op'>=</span> <span class='ident'>res_node_of_loc</span>(<span class='self'>self</span>, <span class='kw-2'>&amp;</span><span class='ident'>loc</span>) ;
-          <span class='kw'>match</span> <span class='op'>*</span><span class='op'>*</span><span class='ident'>node</span> {
+          <span class='kw'>match</span> <span class='kw-2'>*</span><span class='kw-2'>*</span><span class='ident'>node</span> {
             <span class='ident'>Node</span>::<span class='ident'>Mut</span>(_)       <span class='op'>=&gt;</span> { (<span class='bool-val'>false</span>, <span class='bool-val'>true</span>,  <span class='prelude-val'>None</span>, <span class='bool-val'>false</span>) }
             <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> { (<span class='bool-val'>true</span>,  <span class='bool-val'>false</span>, <span class='prelude-val'>Some</span>(<span class='ident'>nd</span>.<span class='ident'>succs</span>.<span class='ident'>clone</span>()),  <span class='bool-val'>true</span> ) }
             <span class='ident'>Node</span>::<span class='ident'>Pure</span>(_)      <span class='op'>=&gt;</span> { (<span class='bool-val'>false</span>, <span class='bool-val'>false</span>, <span class='prelude-val'>None</span>, <span class='bool-val'>false</span>) }
@@ -4149,7 +4191,7 @@
           <span class='prelude-val'>Some</span>(<span class='ident'>node</span>) <span class='op'>=&gt;</span> {
             <span class='kw'>let</span> <span class='ident'>node</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>GraphNode</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>node</span> ;
             <span class='kw'>let</span> <span class='ident'>res_nd</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Node</span><span class='op'>&lt;</span><span class='ident'>Res</span><span class='op'>&gt;&gt;</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>transmute</span>::<span class='op'>&lt;</span>_,_<span class='op'>&gt;</span>( <span class='ident'>node</span> ) } ;
-            <span class='kw'>match</span> <span class='op'>*</span><span class='op'>*</span> <span class='ident'>res_nd</span> {
+            <span class='kw'>match</span> <span class='kw-2'>*</span><span class='op'>*</span> <span class='ident'>res_nd</span> {
               <span class='ident'>Node</span>::<span class='ident'>Pure</span>(_)<span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
               <span class='ident'>Node</span>::<span class='ident'>Mut</span>(_) <span class='op'>=&gt;</span> {
                 (<span class='bool-val'>true</span>, <span class='bool-val'>true</span>) <span class='comment'>// Todo: Do we need to preserve preds?</span>
@@ -4244,22 +4286,22 @@
                                            <span class='ident'>art</span>:<span class='kw-2'>&amp;</span><span class='ident'>AbsArt</span><span class='op'>&lt;</span><span class='ident'>T</span>,<span class='self'>Self</span>::<span class='ident'>Loc</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span>
   {
     {
-      <span class='kw'>let</span> <span class='ident'>st</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>DCG</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
+      <span class='kw'>let</span> <span class='ident'>st</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>DCG</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
       <span class='ident'>wf</span>::<span class='ident'>check_dcg</span>(<span class='ident'>st</span>);
       <span class='ident'>drop</span>(<span class='ident'>st</span>)
     }
-    <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>art</span> {
-      <span class='ident'>AbsArt</span>::<span class='ident'>Rc</span>(<span class='kw-2'>ref</span> <span class='ident'>v</span>) <span class='op'>=&gt;</span> (<span class='op'>*</span><span class='op'>*</span><span class='ident'>v</span>).<span class='ident'>clone</span>(),
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>art</span> {
+      <span class='ident'>AbsArt</span>::<span class='ident'>Rc</span>(<span class='kw-2'>ref</span> <span class='ident'>v</span>) <span class='op'>=&gt;</span> (<span class='kw-2'>*</span><span class='kw-2'>*</span><span class='ident'>v</span>).<span class='ident'>clone</span>(),
       <span class='ident'>AbsArt</span>::<span class='ident'>Loc</span>(<span class='kw-2'>ref</span> <span class='ident'>loc</span>) <span class='op'>=&gt;</span> {
         <span class='kw'>let</span> (<span class='ident'>is_comp</span>, <span class='ident'>is_pure</span>, <span class='ident'>cached_result</span>) : (<span class='ident'>bool</span>, <span class='ident'>bool</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>) <span class='op'>=</span> {
-          <span class='kw'>let</span> <span class='ident'>st</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>DCG</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
+          <span class='kw'>let</span> <span class='ident'>st</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>DCG</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
           <span class='kw'>let</span> <span class='ident'>is_pure_opt</span> : <span class='ident'>bool</span> <span class='op'>=</span> <span class='ident'>st</span>.<span class='ident'>flags</span>.<span class='ident'>use_purity_optimization</span> ;
           <span class='kw'>let</span> <span class='ident'>node</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Node</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>res_node_of_loc</span>(<span class='ident'>st</span>, <span class='kw-2'>&amp;</span><span class='ident'>loc</span>) ;
-          <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>node</span> {
+          <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>node</span> {
             <span class='ident'>Node</span>::<span class='ident'>Pure</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> (<span class='bool-val'>false</span>, <span class='bool-val'>true</span>, <span class='prelude-val'>Some</span>(<span class='ident'>nd</span>.<span class='ident'>val</span>.<span class='ident'>clone</span>())),
             <span class='ident'>Node</span>::<span class='ident'>Mut</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>nd</span>)  <span class='op'>=&gt;</span> (<span class='bool-val'>false</span>, <span class='bool-val'>false</span>, <span class='prelude-val'>Some</span>(<span class='ident'>nd</span>.<span class='ident'>val</span>.<span class='ident'>clone</span>())),
             <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> {
-              <span class='kw'>let</span> <span class='ident'>is_pure</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>loc</span>.<span class='ident'>id</span> {
+              <span class='kw'>let</span> <span class='ident'>is_pure</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>loc</span>.<span class='ident'>id</span> {
                 <span class='ident'>ArtId</span>::<span class='ident'>Structural</span>(_) <span class='op'>=&gt;</span> <span class='ident'>nd</span>.<span class='ident'>succs</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='ident'>is_pure_opt</span>,
                 <span class='ident'>ArtId</span>::<span class='ident'>Nominal</span>(_)    <span class='op'>=&gt;</span> <span class='bool-val'>false</span> } ;
               (<span class='bool-val'>true</span>, <span class='ident'>is_pure</span>, <span class='ident'>nd</span>.<span class='ident'>res</span>.<span class='ident'>clone</span>()) },
@@ -4271,7 +4313,7 @@
             <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>is_comp</span>);
             <span class='macro'>dcg_effect_begin</span><span class='macro'>!</span>(
               <span class='ident'>reflect</span>::<span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Force</span>(<span class='ident'>reflect</span>::<span class='ident'>trace</span>::<span class='ident'>ForceCase</span>::<span class='ident'>CompCacheMiss</span>),
-              <span class='macro'>current_loc</span><span class='macro'>!</span>(<span class='op'>*</span><span class='ident'>g</span>.<span class='ident'>borrow</span>()),
+              <span class='macro'>current_loc</span><span class='macro'>!</span>(<span class='kw-2'>*</span><span class='ident'>g</span>.<span class='ident'>borrow</span>()),
               <span class='ident'>reflect</span>::<span class='ident'>Succ</span>{
                 <span class='ident'>loc</span>:<span class='ident'>loc</span>.<span class='ident'>reflect</span>(),
                 <span class='ident'>value</span>:<span class='ident'>reflect</span>::<span class='ident'>Val</span>::<span class='ident'>ValTODO</span>,
@@ -4287,7 +4329,7 @@
             <span class='kw'>if</span> <span class='ident'>is_comp</span> {
               <span class='macro'>dcg_effect_begin</span><span class='macro'>!</span>(
                 <span class='ident'>reflect</span>::<span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Force</span>(<span class='ident'>reflect</span>::<span class='ident'>trace</span>::<span class='ident'>ForceCase</span>::<span class='ident'>CompCacheHit</span>),
-                <span class='macro'>current_loc</span><span class='macro'>!</span>(<span class='op'>*</span><span class='ident'>g</span>.<span class='ident'>borrow</span>()),
+                <span class='macro'>current_loc</span><span class='macro'>!</span>(<span class='kw-2'>*</span><span class='ident'>g</span>.<span class='ident'>borrow</span>()),
                 <span class='ident'>reflect</span>::<span class='ident'>Succ</span>{
                   <span class='ident'>loc</span>:<span class='ident'>loc</span>.<span class='ident'>reflect</span>(),
                   <span class='ident'>value</span>:<span class='ident'>reflect</span>::<span class='ident'>Val</span>::<span class='ident'>ValTODO</span>,
@@ -4297,9 +4339,9 @@
               );
               <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>ProducerDep</span>{<span class='ident'>res</span>:<span class='ident'>res</span>.<span class='ident'>clone</span>()}.<span class='ident'>clean</span>(<span class='ident'>g</span>, <span class='kw-2'>&amp;</span><span class='ident'>loc</span>) ;
               <span class='macro'>dcg_effect_end</span><span class='macro'>!</span>();
-              <span class='kw'>let</span> <span class='ident'>st</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>DCG</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
+              <span class='kw'>let</span> <span class='ident'>st</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>DCG</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>();
               <span class='kw'>let</span> <span class='ident'>node</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Node</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>res_node_of_loc</span>(<span class='ident'>st</span>, <span class='kw-2'>&amp;</span><span class='ident'>loc</span>) ;
-              <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>node</span> {
+              <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>node</span> {
                 <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>nd</span>.<span class='ident'>res</span> {
                   <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(),
                   <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>res</span>) <span class='op'>=&gt;</span>
@@ -4311,7 +4353,7 @@
             <span class='kw'>else</span> {
               <span class='macro'>dcg_effect</span><span class='macro'>!</span>(
                 <span class='ident'>reflect</span>::<span class='ident'>trace</span>::<span class='ident'>Effect</span>::<span class='ident'>Force</span>(<span class='ident'>reflect</span>::<span class='ident'>trace</span>::<span class='ident'>ForceCase</span>::<span class='ident'>RefGet</span>),
-                <span class='macro'>current_loc</span><span class='macro'>!</span>(<span class='op'>*</span><span class='ident'>g</span>.<span class='ident'>borrow</span>()),
+                <span class='macro'>current_loc</span><span class='macro'>!</span>(<span class='kw-2'>*</span><span class='ident'>g</span>.<span class='ident'>borrow</span>()),
                 <span class='ident'>reflect</span>::<span class='ident'>Succ</span>{
                   <span class='ident'>loc</span>:<span class='ident'>loc</span>.<span class='ident'>reflect</span>(),
                   <span class='ident'>value</span>:<span class='ident'>reflect</span>::<span class='ident'>Val</span>::<span class='ident'>ValTODO</span>,
@@ -4322,7 +4364,7 @@
             }
           }
         } ;
-        <span class='kw'>let</span> <span class='ident'>st</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>DCG</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>() ;
+        <span class='kw'>let</span> <span class='ident'>st</span> : <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>DCG</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='ident'>g</span>.<span class='ident'>borrow_mut</span>() ;
         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>is_pure</span> { <span class='kw'>match</span> <span class='ident'>st</span>.<span class='ident'>stack</span>.<span class='ident'>last_mut</span>() { <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (), <span class='prelude-val'>Some</span>(<span class='ident'>frame</span>) <span class='op'>=&gt;</span> {
           <span class='kw'>let</span> <span class='ident'>succ</span> <span class='op'>=</span>
             <span class='ident'>Succ</span>{<span class='ident'>loc</span>:<span class='ident'>loc</span>.<span class='ident'>clone</span>(),
@@ -4363,14 +4405,17 @@
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>)]</span>
 <span class='kw'>enum</span> <span class='ident'>EnumArt</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-  <span class='ident'>Rc</span>(<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>),    <span class='comment'>// No entry in table. No dependency tracking.</span>
-  <span class='ident'>Loc</span>(<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Loc</span><span class='op'>&gt;</span>), <span class='comment'>// Location in table.</span>
-  <span class='ident'>Force</span>(<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Force</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span>), <span class='comment'>// A closure that is &#39;force-able&#39;</span>
+  <span class='doccomment'>/// No entry in table. No dependency tracking.</span>
+  <span class='ident'>Rc</span>(<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>),    
+  <span class='doccomment'>/// Location in table.</span>
+  <span class='ident'>Loc</span>(<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Loc</span><span class='op'>&gt;</span>), 
+  <span class='doccomment'>/// A closure that is &#39;force-able&#39;</span>
+  <span class='ident'>Force</span>(<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Force</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span>),
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Hash</span><span class='op'>&gt;</span> <span class='ident'>Hash</span> <span class='kw'>for</span> <span class='ident'>EnumArt</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
   <span class='kw'>fn</span> <span class='ident'>hash</span><span class='op'>&lt;</span><span class='ident'>H</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>hasher</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>H</span>) <span class='kw'>where</span> <span class='ident'>H</span>:<span class='ident'>Hasher</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
       <span class='ident'>EnumArt</span>::<span class='ident'>Rc</span>(<span class='kw-2'>ref</span> <span class='ident'>rc</span>)   <span class='op'>=&gt;</span> <span class='ident'>rc</span>.<span class='ident'>hash</span>( <span class='ident'>hasher</span> ),
       <span class='ident'>EnumArt</span>::<span class='ident'>Loc</span>(<span class='kw-2'>ref</span> <span class='ident'>loc</span>) <span class='op'>=&gt;</span> <span class='ident'>loc</span>.<span class='ident'>hash</span>( <span class='ident'>hasher</span> ),
       <span class='ident'>EnumArt</span>::<span class='ident'>Force</span>(<span class='kw-2'>ref</span> <span class='ident'>f</span>) <span class='op'>=&gt;</span> <span class='ident'>f</span>.<span class='ident'>hash_u64</span>().<span class='ident'>hash</span>( <span class='ident'>hasher</span> ),
@@ -4380,20 +4425,20 @@
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>PartialEq</span><span class='op'>&gt;</span> <span class='ident'>PartialEq</span> <span class='kw'>for</span> <span class='ident'>EnumArt</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
   <span class='kw'>fn</span> <span class='ident'>eq</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>:<span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
       <span class='ident'>EnumArt</span>::<span class='ident'>Rc</span>(<span class='kw-2'>ref</span> <span class='ident'>rc</span>) <span class='op'>=&gt;</span>
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>EnumArt</span>::<span class='ident'>Rc</span>(<span class='kw-2'>ref</span> <span class='ident'>rc2</span>) <span class='op'>=</span> <span class='op'>*</span><span class='ident'>other</span> { <span class='ident'>rc</span> <span class='op'>==</span> <span class='ident'>rc2</span> } <span class='kw'>else</span> { <span class='bool-val'>false</span> },
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>EnumArt</span>::<span class='ident'>Rc</span>(<span class='kw-2'>ref</span> <span class='ident'>rc2</span>) <span class='op'>=</span> <span class='kw-2'>*</span><span class='ident'>other</span> { <span class='ident'>rc</span> <span class='op'>==</span> <span class='ident'>rc2</span> } <span class='kw'>else</span> { <span class='bool-val'>false</span> },
       <span class='ident'>EnumArt</span>::<span class='ident'>Loc</span>(<span class='kw-2'>ref</span> <span class='ident'>loc</span>) <span class='op'>=&gt;</span>
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>EnumArt</span>::<span class='ident'>Loc</span>(<span class='kw-2'>ref</span> <span class='ident'>loc2</span>) <span class='op'>=</span> <span class='op'>*</span><span class='ident'>other</span> { <span class='ident'>loc</span> <span class='op'>==</span> <span class='ident'>loc2</span> } <span class='kw'>else</span> { <span class='bool-val'>false</span> },
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>EnumArt</span>::<span class='ident'>Loc</span>(<span class='kw-2'>ref</span> <span class='ident'>loc2</span>) <span class='op'>=</span> <span class='kw-2'>*</span><span class='ident'>other</span> { <span class='ident'>loc</span> <span class='op'>==</span> <span class='ident'>loc2</span> } <span class='kw'>else</span> { <span class='bool-val'>false</span> },
       <span class='ident'>EnumArt</span>::<span class='ident'>Force</span>(<span class='kw-2'>ref</span> <span class='ident'>f</span>) <span class='op'>=&gt;</span>
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>EnumArt</span>::<span class='ident'>Force</span>(<span class='kw-2'>ref</span> <span class='ident'>f2</span>) <span class='op'>=</span> <span class='op'>*</span><span class='ident'>other</span> { <span class='ident'>f</span>.<span class='ident'>eq</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='op'>*</span><span class='ident'>f2</span>) } <span class='kw'>else</span> { <span class='bool-val'>false</span> },
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='ident'>EnumArt</span>::<span class='ident'>Force</span>(<span class='kw-2'>ref</span> <span class='ident'>f2</span>) <span class='op'>=</span> <span class='kw-2'>*</span><span class='ident'>other</span> { <span class='ident'>f</span>.<span class='ident'>eq</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='kw-2'>*</span><span class='ident'>f2</span>) } <span class='kw'>else</span> { <span class='bool-val'>false</span> },
     }
   }
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Debug</span><span class='op'>&gt;</span> <span class='ident'>Debug</span> <span class='kw'>for</span> <span class='ident'>EnumArt</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
   <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
       <span class='ident'>EnumArt</span>::<span class='ident'>Rc</span>(<span class='kw-2'>ref</span> <span class='ident'>rc</span>)     <span class='op'>=&gt;</span> <span class='ident'>rc</span>.<span class='ident'>fmt</span>(<span class='ident'>f</span>),
       <span class='ident'>EnumArt</span>::<span class='ident'>Loc</span>(<span class='kw-2'>ref</span> <span class='ident'>loc</span>)   <span class='op'>=&gt;</span> <span class='ident'>loc</span>.<span class='ident'>fmt</span>(<span class='ident'>f</span>),
       <span class='ident'>EnumArt</span>::<span class='ident'>Force</span>(<span class='kw-2'>ref</span> <span class='ident'>frc</span>) <span class='op'>=&gt;</span> <span class='ident'>frc</span>.<span class='ident'>fmt</span>(<span class='ident'>f</span>),
@@ -4427,7 +4472,7 @@
   <span class='kw'>for</span> <span class='ident'>NaiveThunk</span><span class='op'>&lt;</span><span class='ident'>A</span>,<span class='ident'>S</span>,<span class='ident'>T</span><span class='op'>&gt;</span>
 {
   <span class='kw'>fn</span> <span class='ident'>force</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> {
-    (<span class='op'>*</span><span class='self'>self</span>.<span class='ident'>fn_box</span>)(<span class='self'>self</span>.<span class='ident'>arg</span>.<span class='ident'>clone</span>(), <span class='self'>self</span>.<span class='ident'>spurious</span>.<span class='ident'>clone</span>())
+    (<span class='kw-2'>*</span><span class='self'>self</span>.<span class='ident'>fn_box</span>)(<span class='self'>self</span>.<span class='ident'>arg</span>.<span class='ident'>clone</span>(), <span class='self'>self</span>.<span class='ident'>spurious</span>.<span class='ident'>clone</span>())
   }
   <span class='kw'>fn</span> <span class='ident'>copy</span>(<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Force</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span> {
     <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>NaiveThunk</span>{<span class='ident'>id</span>:<span class='self'>self</span>.<span class='ident'>id</span>.<span class='ident'>clone</span>(),
@@ -4437,10 +4482,10 @@
                         <span class='ident'>spurious</span>:<span class='self'>self</span>.<span class='ident'>spurious</span>.<span class='ident'>clone</span>()})
   }
   <span class='kw'>fn</span> <span class='ident'>prog_pt</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>ProgPt</span> {
-    <span class='kw-2'>&amp;</span> <span class='self'>self</span>.<span class='ident'>prog_pt</span>
+    <span class='op'>&amp;</span> <span class='self'>self</span>.<span class='ident'>prog_pt</span>
   }
   <span class='kw'>fn</span> <span class='ident'>id</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span>(<span class='self'>self</span>:<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>ArtIdChoice</span> {
-    <span class='kw-2'>&amp;</span> <span class='self'>self</span>.<span class='ident'>id</span>
+    <span class='op'>&amp;</span> <span class='self'>self</span>.<span class='ident'>id</span>
   }
   <span class='kw'>fn</span> <span class='ident'>hash_u64</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u64</span> {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>hasher</span> <span class='op'>=</span> <span class='ident'>DefaultHasher</span>::<span class='ident'>new</span>();
@@ -4502,7 +4547,10 @@
   <span class='ident'>Name</span>{ <span class='ident'>hash</span>:<span class='ident'>h</span>, <span class='ident'>symbol</span>:<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>p</span>) }
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_of_hash64</span>(<span class='ident'>h</span>:<span class='ident'>u64</span>) <span class='op'>-&gt;</span> <span class='ident'>Name</span> {
+<span class='doccomment'>/// Do not call this function directly; we introduced it in order to</span>
+<span class='doccomment'>/// get reflection to type-check.  We should think of ways to avoid</span>
+<span class='doccomment'>/// using this in the future.</span>
+<span class='kw'>fn</span> <span class='ident'>name_of_hash64</span>(<span class='ident'>h</span>:<span class='ident'>u64</span>) <span class='op'>-&gt;</span> <span class='ident'>Name</span> {
   <span class='comment'>// TODO: Get rid of need for Rc here; </span>
   <span class='comment'>// Rc should be optional in names?</span>
   <span class='ident'>Name</span>{ <span class='ident'>hash</span>:<span class='ident'>h</span>, <span class='ident'>symbol</span>:<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>NameSym</span>::<span class='ident'>Hash64</span>) }
@@ -4587,24 +4635,19 @@
     })    
   }
 
-<span class='doccomment'>/// Counts various engine cost metrics, returning a product of sums (`Cnt`)</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cnt</span><span class='op'>&lt;</span><span class='ident'>Res</span>,<span class='ident'>F</span><span class='op'>&gt;</span> (<span class='ident'>body</span>:<span class='ident'>F</span>) <span class='op'>-&gt;</span> (<span class='ident'>Res</span>, <span class='ident'>Cnt</span>)
-  <span class='kw'>where</span> <span class='ident'>F</span>:<span class='ident'>FnOnce</span>() <span class='op'>-&gt;</span> <span class='ident'>Res</span> {
-    <span class='ident'>GLOBALS</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> {
-      <span class='kw'>match</span> <span class='ident'>g</span>.<span class='ident'>borrow</span>().<span class='ident'>engine</span> {
-        <span class='ident'>Engine</span>::<span class='ident'>DCG</span>(<span class='kw-2'>ref</span> <span class='ident'>dcg</span>) <span class='op'>=&gt;</span> <span class='op'>&lt;</span><span class='ident'>DCG</span> <span class='kw'>as</span> <span class='ident'>Adapton</span><span class='op'>&gt;</span>::<span class='ident'>cnt</span>(<span class='ident'>dcg</span>,<span class='ident'>body</span>),
-        <span class='ident'>Engine</span>::<span class='ident'>Naive</span> <span class='op'>=&gt;</span> ((<span class='ident'>body</span>)(), <span class='ident'>Cnt</span>::<span class='ident'>zero</span>())
-      }
-    })
-  }
-
-<span class='doccomment'>/// Creates immutable, eager articulation.</span>
+<span class='doccomment'>/// Creates an unnamed, immutable reference cell (an eager `Art&lt;_&gt;`)</span>
+<span class='doccomment'>/// whose content may not change over time.</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>put</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>&gt;</span> (<span class='ident'>val</span>:<span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>Art</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
   <span class='ident'>Art</span>{<span class='ident'>art</span>:<span class='ident'>EnumArt</span>::<span class='ident'>Rc</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>val</span>))}
 }
 
-<span class='doccomment'>/// Creates a mutable articulation.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cell</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Hash</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>&gt;</span> (<span class='ident'>n</span>:<span class='ident'>Name</span>, <span class='ident'>val</span>:<span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>Art</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+<span class='doccomment'>/// Creates a named reference cell (an eager `Art&lt;_&gt;`) whose content</span>
+<span class='doccomment'>/// can change over time.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// From the editor&#39;s perspective, this cell is mutable.  From the</span>
+<span class='doccomment'>/// archivist&#39;s perspective, this cell is a &quot;one-shot&quot; reference cell:</span>
+<span class='doccomment'>/// Once allocated, it is immutable.</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cell</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Hash</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> (<span class='ident'>n</span>:<span class='ident'>Name</span>, <span class='ident'>val</span>:<span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>Art</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
   <span class='ident'>GLOBALS</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> {
     <span class='kw'>match</span> <span class='ident'>g</span>.<span class='ident'>borrow</span>().<span class='ident'>engine</span> {
       <span class='ident'>Engine</span>::<span class='ident'>DCG</span>(<span class='kw-2'>ref</span> <span class='ident'>dcg</span>) <span class='op'>=&gt;</span> {
@@ -4619,7 +4662,7 @@
 
 <span class='doccomment'>/// Mutates a mutable articulation.</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>&gt;</span> (<span class='ident'>a</span>:<span class='kw-2'>&amp;</span><span class='ident'>Art</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>, <span class='ident'>val</span>:<span class='ident'>T</span>) {
-  <span class='kw'>match</span> (<span class='op'>*</span><span class='ident'>a</span>).<span class='ident'>art</span> {
+  <span class='kw'>match</span> (<span class='kw-2'>*</span><span class='ident'>a</span>).<span class='ident'>art</span> {
     <span class='ident'>EnumArt</span>::<span class='ident'>Rc</span>(_)    <span class='op'>=&gt;</span> { <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;set: Cannot mutate immutable Rc articulation; use an DCG cell instead&quot;</span>) },
     <span class='ident'>EnumArt</span>::<span class='ident'>Force</span>(_) <span class='op'>=&gt;</span> { <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;set: Cannot mutate immutable Force articulation; use an DCG cell instead&quot;</span>) },
     <span class='ident'>EnumArt</span>::<span class='ident'>Loc</span>(<span class='kw-2'>ref</span> <span class='ident'>l</span>) <span class='op'>=&gt;</span> {
@@ -4635,7 +4678,42 @@
   }
 }
 
-<span class='doccomment'>/// Creates an articulated computation.</span>
+<span class='doccomment'>/// Allocates a thunk, an `Art&lt;T&gt;` that consists of a suspended</span>
+<span class='doccomment'>/// computation that produces a value of type `T`.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Use the macros `thunk!`, `memo!` and `eager!` to create and force</span>
+<span class='doccomment'>/// thunks with less typing.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// A full invocation of `thunk` consists of the following:</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>///  - It has an `id` of type `ArtIdChoice`, either giving a `Name`,</span>
+<span class='doccomment'>///    requesting structural identity, or requesting no caching</span>
+<span class='doccomment'>///    whatsoever.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>///  - Its code resides at a _program point_, of type `ProgPt`.  This</span>
+<span class='doccomment'>///    uniquely identifies the static elements of the suspended</span>
+<span class='doccomment'>///    computation (the code, but not the closing environment).</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>///  - It has a function for this code, of type</span>
+<span class='doccomment'>///    `Rc&lt;Box&lt;Fn(Art,Spurious) -&gt; Res &gt;&gt;`.  The `Rc&lt;_&gt;` is required</span>
+<span class='doccomment'>///    for cloning this function, which we generally want to do.  We</span>
+<span class='doccomment'>///    divide the arguments into the ordinary arguments of type `Arg`,</span>
+<span class='doccomment'>///    and additional &quot;spurious&quot; arguments.  When we judge whether a</span>
+<span class='doccomment'>///    thunk&#39;s closing environment is equal to another, we use the</span>
+<span class='doccomment'>///    type `Arg`.  When we judge whether the result of a thunk has</span>
+<span class='doccomment'>///    changed or not, we use the type `Res`.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>///  - Spurious arguments are not compared for equality, and are</span>
+<span class='doccomment'>///    ignored during the memo-matching process.  They are, however,</span>
+<span class='doccomment'>///    saved in the thunk and supplied to the suspended computation</span>
+<span class='doccomment'>///    when it runs.  Typically, these arguments consist of</span>
+<span class='doccomment'>///    higher-order functions that parameterize the thunk; we make</span>
+<span class='doccomment'>///    them spurious because (1) we cannot, and do not wish to compare</span>
+<span class='doccomment'>///    them for equality and (2) the triple of type (`ProgPt`,</span>
+<span class='doccomment'>///    `ArtIdChoice`, `Arg`) should determine these spurious</span>
+<span class='doccomment'>///    arguments, if any.  Because some arguments have no equality</span>
+<span class='doccomment'>///    relation, the presence of these arguments is sometimes a</span>
+<span class='doccomment'>///    necessary hack.</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>thunk</span><span class='op'>&lt;</span><span class='ident'>Arg</span>:<span class='ident'>Hash</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='lifetime'>&#39;static</span>,<span class='ident'>Spurious</span>:<span class='ident'>Clone</span><span class='op'>+</span><span class='lifetime'>&#39;static</span>,<span class='ident'>Res</span>:<span class='ident'>Hash</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>
   (<span class='ident'>id</span>:<span class='ident'>ArtIdChoice</span>,
    <span class='ident'>prog_pt</span>:<span class='ident'>ProgPt</span>,
@@ -4660,11 +4738,11 @@
   })
 }
 
-<span class='doccomment'>/// Demand &amp; observe arts (all kinds): force</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>force</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Hash</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>&gt;</span> (<span class='ident'>a</span>:<span class='kw-2'>&amp;</span><span class='ident'>Art</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> {
+<span class='doccomment'>/// Demands and observes the value of an `&amp;Art&lt;T&gt;`, returning a (cloned) value of type `T`.</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>force</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Hash</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> (<span class='ident'>a</span>:<span class='kw-2'>&amp;</span><span class='ident'>Art</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> {
   <span class='kw'>match</span> <span class='ident'>a</span>.<span class='ident'>art</span> {
     <span class='ident'>EnumArt</span>::<span class='ident'>Force</span>(<span class='kw-2'>ref</span> <span class='ident'>f</span>) <span class='op'>=&gt;</span> <span class='ident'>f</span>.<span class='ident'>force</span>(),
-    <span class='ident'>EnumArt</span>::<span class='ident'>Rc</span>(<span class='kw-2'>ref</span> <span class='ident'>rc</span>) <span class='op'>=&gt;</span> (<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='op'>*</span><span class='ident'>rc</span>).<span class='ident'>clone</span>(),
+    <span class='ident'>EnumArt</span>::<span class='ident'>Rc</span>(<span class='kw-2'>ref</span> <span class='ident'>rc</span>) <span class='op'>=&gt;</span> (<span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='kw-2'>*</span><span class='ident'>rc</span>).<span class='ident'>clone</span>(),
     <span class='ident'>EnumArt</span>::<span class='ident'>Loc</span>(<span class='kw-2'>ref</span> <span class='ident'>loc</span>) <span class='op'>=&gt;</span> {
       <span class='ident'>GLOBALS</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> {
         <span class='kw'>match</span> <span class='ident'>g</span>.<span class='ident'>borrow</span>().<span class='ident'>engine</span> {
@@ -4676,22 +4754,65 @@
   }
 }
 
-<span class='doccomment'>/// True iff the current engine is `Naive`</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>engine_is_naive</span> () <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-  <span class='ident'>GLOBALS</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> {
-    <span class='kw'>match</span> <span class='ident'>g</span>.<span class='ident'>borrow</span>().<span class='ident'>engine</span> {
-      <span class='ident'>Engine</span>::<span class='ident'>DCG</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
-      <span class='ident'>Engine</span>::<span class='ident'>Naive</span>  <span class='op'>=&gt;</span> <span class='bool-val'>true</span>
-    }})    
-}
+<span class='doccomment'>/// Operations that monitor and alter the active engine.  Incremental</span>
+<span class='doccomment'>/// applications should not use these operations directly.</span>
+<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>manage</span> {
+  <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
 
-<span class='doccomment'>/// True iff the current engine is a `DCG`</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>engine_is_dcg</span> () <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-  <span class='ident'>GLOBALS</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> {
-    <span class='kw'>match</span> <span class='ident'>g</span>.<span class='ident'>borrow</span>().<span class='ident'>engine</span> {
-      <span class='ident'>Engine</span>::<span class='ident'>DCG</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
-      <span class='ident'>Engine</span>::<span class='ident'>Naive</span>  <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
-    }})
+
+  <span class='doccomment'>/// Initializes global state with a fresh DCG-based engine; returns the old engine.</span>
+  <span class='doccomment'>/// The DCG is the central implementation structure behind Adapton.</span>
+  <span class='doccomment'>/// At a high level, it consists of a data dependence graph (the &quot;demanded computation graph&quot;), and an associated memoization table.</span>
+  <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>init_dcg</span> () <span class='op'>-&gt;</span> <span class='ident'>Engine</span> { <span class='ident'>init_engine</span>(<span class='ident'>Engine</span>::<span class='ident'>DCG</span>(<span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>DCG</span>::<span class='ident'>new</span>()))) }
+  
+  <span class='doccomment'>/// Initializes global state with a (&quot;fresh&quot;) Naive engine; returns the old engine.</span>
+  <span class='doccomment'>/// The naive engine is stateless, and performs no memoization and builds no dependence graphs.</span>
+  <span class='doccomment'>/// (Since the naive engine is stateless, every instance of the naive engine is equivalent to a &quot;fresh&quot; one).</span>
+  <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>init_naive</span> () <span class='op'>-&gt;</span> <span class='ident'>Engine</span> { <span class='ident'>init_engine</span>(<span class='ident'>Engine</span>::<span class='ident'>Naive</span>) }
+  
+  <span class='doccomment'>/// Initializes global state with a fresh DCG-based engine; returns the old engine</span>
+  <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>use_engine</span> (<span class='ident'>engine</span>: <span class='ident'>Engine</span>) <span class='op'>-&gt;</span> <span class='ident'>Engine</span> {
+    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>engine</span> <span class='op'>=</span> <span class='ident'>engine</span>;
+    <span class='ident'>GLOBALS</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> {
+      <span class='ident'>mem</span>::<span class='ident'>swap</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>g</span>.<span class='ident'>borrow_mut</span>().<span class='ident'>engine</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>engine</span>);
+    });
+    <span class='kw'>return</span> <span class='ident'>engine</span>
+  }
+  
+  <span class='doccomment'>/// alias for `use_engine`</span>
+  <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>init_engine</span> (<span class='ident'>engine</span>: <span class='ident'>Engine</span>) <span class='op'>-&gt;</span> <span class='ident'>Engine</span> {
+    <span class='ident'>use_engine</span>(<span class='ident'>engine</span>)
+  }  
+  
+  <span class='doccomment'>/// Counts various engine cost metrics, returning a product of sums (`Cnt`)</span>
+  <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cnt</span><span class='op'>&lt;</span><span class='ident'>Res</span>,<span class='ident'>F</span><span class='op'>&gt;</span> (<span class='ident'>body</span>:<span class='ident'>F</span>) <span class='op'>-&gt;</span> (<span class='ident'>Res</span>, <span class='ident'>Cnt</span>)
+    <span class='kw'>where</span> <span class='ident'>F</span>:<span class='ident'>FnOnce</span>() <span class='op'>-&gt;</span> <span class='ident'>Res</span> {
+    <span class='ident'>GLOBALS</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> {
+      <span class='kw'>match</span> <span class='ident'>g</span>.<span class='ident'>borrow</span>().<span class='ident'>engine</span> {
+        <span class='ident'>Engine</span>::<span class='ident'>DCG</span>(<span class='kw-2'>ref</span> <span class='ident'>dcg</span>) <span class='op'>=&gt;</span> <span class='op'>&lt;</span><span class='ident'>DCG</span> <span class='kw'>as</span> <span class='ident'>Adapton</span><span class='op'>&gt;</span>::<span class='ident'>cnt</span>(<span class='ident'>dcg</span>,<span class='ident'>body</span>),
+        <span class='ident'>Engine</span>::<span class='ident'>Naive</span> <span class='op'>=&gt;</span> ((<span class='ident'>body</span>)(), <span class='ident'>Cnt</span>::<span class='ident'>zero</span>())
+      }
+    })
+  }
+
+  <span class='doccomment'>/// True iff the current engine is `Naive`</span>
+  <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>engine_is_naive</span> () <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+    <span class='ident'>GLOBALS</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> {
+      <span class='kw'>match</span> <span class='ident'>g</span>.<span class='ident'>borrow</span>().<span class='ident'>engine</span> {
+        <span class='ident'>Engine</span>::<span class='ident'>DCG</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
+        <span class='ident'>Engine</span>::<span class='ident'>Naive</span>  <span class='op'>=&gt;</span> <span class='bool-val'>true</span>
+      }})    
+  }
+  
+  <span class='doccomment'>/// True iff the current engine is a `DCG`</span>
+  <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>engine_is_dcg</span> () <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+    <span class='ident'>GLOBALS</span>.<span class='ident'>with</span>(<span class='op'>|</span><span class='ident'>g</span><span class='op'>|</span> {
+      <span class='kw'>match</span> <span class='ident'>g</span>.<span class='ident'>borrow</span>().<span class='ident'>engine</span> {
+        <span class='ident'>Engine</span>::<span class='ident'>DCG</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
+        <span class='ident'>Engine</span>::<span class='ident'>Naive</span>  <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
+      }})
+  }
 }
 
 <span class='comment'>// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span>
@@ -4702,12 +4823,12 @@
   <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
   <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
   <span class='comment'>//use std::io;</span>
-  <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
+  <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='kw-2'>*</span>;
   <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>BufWriter</span>;
   <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
-  <span class='kw'>use</span> <span class='ident'>macros</span>::<span class='op'>*</span>;
+  <span class='kw'>use</span> <span class='ident'>macros</span>::<span class='kw-2'>*</span>;
 
-  <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
+  <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
 
   <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Eq</span>,<span class='ident'>PartialEq</span>,<span class='ident'>Clone</span>)]</span>
   <span class='kw'>enum</span> <span class='ident'>NodeStatus</span> {
@@ -4720,7 +4841,7 @@
   {
     <span class='kw'>let</span> <span class='ident'>old_status</span> <span class='op'>=</span> <span class='kw'>match</span>
       <span class='ident'>cs</span>.<span class='ident'>get</span>(<span class='ident'>loc</span>) { <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>NodeStatus</span>::<span class='ident'>Unknown</span>,
-                    <span class='prelude-val'>Some</span>(<span class='ident'>x</span>) <span class='op'>=&gt;</span> (<span class='op'>*</span><span class='ident'>x</span>).<span class='ident'>clone</span>() } ;
+                    <span class='prelude-val'>Some</span>(<span class='ident'>x</span>) <span class='op'>=&gt;</span> (<span class='kw-2'>*</span><span class='ident'>x</span>).<span class='ident'>clone</span>() } ;
     <span class='kw'>match</span> (<span class='ident'>old_status</span>, <span class='ident'>new_status</span>) {
       (<span class='ident'>NodeStatus</span>::<span class='ident'>Clean</span>, <span class='ident'>NodeStatus</span>::<span class='ident'>Dirty</span>) <span class='op'>|</span>
       (<span class='ident'>NodeStatus</span>::<span class='ident'>Dirty</span>, <span class='ident'>NodeStatus</span>::<span class='ident'>Clean</span>) <span class='op'>=&gt;</span> {
@@ -4872,10 +4993,10 @@
 
 <span class='doccomment'>/// Parses the output of Rust `Debug` strings into reflected `Val`</span>
 <span class='doccomment'>/// values.  We use this parse as a non-intrusive mechanism for</span>
-<span class='doccomment'>/// builing the reflected DCG.  Building this DCG consists of crawing</span>
-<span class='doccomment'>/// user-defined data structures in the process (reflecting them into</span>
-<span class='doccomment'>/// `Val` values), and following their articulations. We use the</span>
-<span class='doccomment'>/// values&#39; `Debug` strings to do this traversal.</span>
+<span class='doccomment'>/// building the values in the reflected DCG, which consists of</span>
+<span class='doccomment'>/// crawing user-defined data structures, and following their</span>
+<span class='doccomment'>/// articulations. We use the values&#39; `Debug` strings to do this</span>
+<span class='doccomment'>/// traversal.</span>
 <span class='kw'>mod</span> <span class='ident'>parse_val</span> {
   <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
   <span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='ident'>reflect</span>::{<span class='ident'>Loc</span>,<span class='ident'>Path</span>,<span class='ident'>Val</span>,<span class='ident'>ArtContent</span>,<span class='ident'>Const</span>};
@@ -4914,7 +5035,7 @@
     <span class='ident'>Comma</span>, 
   }
 
-  <span class='doccomment'>/// </span>
+  <span class='doccomment'>/// Tokenize the characters of input into lexical tokens of type `Tok`</span>
   <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>lex</span> (<span class='kw-2'>mut</span> <span class='ident'>chars</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Tok</span><span class='op'>&gt;</span> {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>toks</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
     <span class='ident'>chars</span>.<span class='ident'>reverse</span>(); <span class='comment'>// TODO rewrite to avoid this</span>
@@ -4951,7 +5072,7 @@
             )));
             <span class='kw'>continue</span>
           }
-          <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>c</span> <span class='op'>&gt;=</span> <span class='string'>&#39;0&#39;</span> <span class='op'>&amp;&amp;</span> <span class='ident'>c</span> <span class='op'>&lt;=</span> <span class='string'>&#39;9&#39;</span> {
+          <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;-&#39;</span> <span class='op'>||</span> (<span class='ident'>c</span> <span class='op'>&gt;=</span> <span class='string'>&#39;0&#39;</span> <span class='op'>&amp;&amp;</span> <span class='ident'>c</span> <span class='op'>&lt;=</span> <span class='string'>&#39;9&#39;</span>) {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>digs</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>c</span>];
             <span class='kw'>loop</span> {
               <span class='kw'>match</span> <span class='ident'>chars</span>.<span class='ident'>pop</span>() {
@@ -4968,10 +5089,17 @@
                 }
               }
             };
-            <span class='kw'>let</span> <span class='ident'>s</span> : <span class='ident'>String</span> <span class='op'>=</span> <span class='ident'>digs</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>();
-            <span class='ident'>toks</span>.<span class='ident'>push</span>(<span class='ident'>Tok</span>::<span class='ident'>Const</span>(<span class='ident'>Const</span>::<span class='ident'>Nat</span>( 
-              <span class='ident'>usize</span>::<span class='ident'>from_str_radix</span>(<span class='ident'>s</span>.<span class='ident'>as_str</span>(), <span class='number'>10</span>).<span class='ident'>unwrap</span>()
-            )));
+            <span class='kw'>if</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;-&#39;</span> {
+              <span class='kw'>let</span> <span class='ident'>s</span> : <span class='ident'>String</span> <span class='op'>=</span> <span class='ident'>digs</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>();
+              <span class='ident'>toks</span>.<span class='ident'>push</span>(<span class='ident'>Tok</span>::<span class='ident'>Const</span>(<span class='ident'>Const</span>::<span class='ident'>Num</span>( 
+                <span class='ident'>isize</span>::<span class='ident'>from_str_radix</span>(<span class='ident'>s</span>.<span class='ident'>as_str</span>(), <span class='number'>10</span>).<span class='ident'>unwrap</span>()
+              )));              
+            } <span class='kw'>else</span> {
+              <span class='kw'>let</span> <span class='ident'>s</span> : <span class='ident'>String</span> <span class='op'>=</span> <span class='ident'>digs</span>.<span class='ident'>into_iter</span>().<span class='ident'>collect</span>();
+              <span class='ident'>toks</span>.<span class='ident'>push</span>(<span class='ident'>Tok</span>::<span class='ident'>Const</span>(<span class='ident'>Const</span>::<span class='ident'>Nat</span>( 
+                <span class='ident'>usize</span>::<span class='ident'>from_str_radix</span>(<span class='ident'>s</span>.<span class='ident'>as_str</span>(), <span class='number'>10</span>).<span class='ident'>unwrap</span>()
+              )));
+            }
             <span class='kw'>continue</span>
           }
           <span class='kw'>else</span> <span class='kw'>if</span> (<span class='ident'>c</span> <span class='op'>&gt;=</span> <span class='string'>&#39;a&#39;</span> <span class='op'>&amp;&amp;</span> <span class='ident'>c</span> <span class='op'>&lt;=</span> <span class='string'>&#39;z&#39;</span>) <span class='op'>||</span>
@@ -5072,49 +5200,49 @@
   }
 
   <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>path_of_val</span> ( <span class='ident'>p</span>:<span class='kw-2'>&amp;</span><span class='ident'>Val</span> ) <span class='op'>-&gt;</span> <span class='ident'>Path</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>p</span> {
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>p</span> {
       <span class='ident'>Val</span>::<span class='ident'>Vec</span>( <span class='kw-2'>ref</span> <span class='ident'>vs</span> ) <span class='op'>=&gt;</span> <span class='ident'>vs</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>( <span class='ident'>name_of_val</span> ).<span class='ident'>collect</span>(),
       _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;expected a vector of values representing names&quot;</span>),
     }
   }
 
   <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_of_val</span> ( <span class='ident'>n</span>:<span class='kw-2'>&amp;</span><span class='ident'>Val</span> ) <span class='op'>-&gt;</span> <span class='ident'>Name</span> {
-    <span class='kw'>use</span> <span class='ident'>engine</span>::<span class='op'>*</span>;
+    <span class='kw'>use</span> <span class='ident'>engine</span>::<span class='kw-2'>*</span>;
 
-    <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>n</span> {
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>n</span> {
       <span class='ident'>Val</span>::<span class='ident'>Constr</span>( <span class='kw-2'>ref</span> <span class='ident'>cons_name</span>, <span class='kw-2'>ref</span> <span class='ident'>cons_args</span> ) <span class='op'>=&gt;</span> {
-        <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Root&quot;</span>) {
+        <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Root&quot;</span>) {
           <span class='ident'>name_unit</span>()
         }
-        <span class='kw'>else</span> <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Hash64&quot;</span>) {
+        <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Hash64&quot;</span>) {
           <span class='ident'>name_of_hash64</span>( <span class='number'>0</span> ) <span class='comment'>// TODO/XXX</span>
         }
-        <span class='kw'>else</span> <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;String&quot;</span>) {
+        <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;String&quot;</span>) {
           <span class='ident'>name_of_string</span>( <span class='kw'>match</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] {
             <span class='ident'>Val</span>::<span class='ident'>Const</span>( <span class='ident'>Const</span>::<span class='ident'>String</span>( <span class='kw-2'>ref</span> <span class='ident'>s</span> ) ) <span class='op'>=&gt;</span> <span class='ident'>s</span>.<span class='ident'>clone</span>(),
             _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;expected a String&quot;</span>),
           })
         }
-        <span class='kw'>else</span> <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Usize&quot;</span>) {
+        <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Usize&quot;</span>) {
           <span class='ident'>name_of_usize</span>( <span class='kw'>match</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] {
             <span class='ident'>Val</span>::<span class='ident'>Const</span>( <span class='ident'>Const</span>::<span class='ident'>Nat</span>( <span class='kw-2'>ref</span> <span class='ident'>n</span> ) ) <span class='op'>=&gt;</span> <span class='ident'>n</span>.<span class='ident'>clone</span>(),
             _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;expected a Nat&quot;</span>),
           })
         }
-        <span class='kw'>else</span> <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Isize&quot;</span>) {
+        <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Isize&quot;</span>) {
           <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;&quot;</span>)
         }
-        <span class='kw'>else</span> <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Pair&quot;</span>) {
-          <span class='kw'>let</span> <span class='ident'>n1</span> <span class='op'>=</span> <span class='ident'>name_of_val</span>( <span class='kw-2'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] );
-          <span class='kw'>let</span> <span class='ident'>n2</span> <span class='op'>=</span> <span class='ident'>name_of_val</span>( <span class='kw-2'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>1</span>] );
+        <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Pair&quot;</span>) {
+          <span class='kw'>let</span> <span class='ident'>n1</span> <span class='op'>=</span> <span class='ident'>name_of_val</span>( <span class='op'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] );
+          <span class='kw'>let</span> <span class='ident'>n2</span> <span class='op'>=</span> <span class='ident'>name_of_val</span>( <span class='op'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>1</span>] );
           <span class='ident'>name_pair</span>(<span class='ident'>n1</span>, <span class='ident'>n2</span>)
         }
-        <span class='kw'>else</span> <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;ForkL&quot;</span>) {
-          <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='ident'>name_of_val</span>( <span class='kw-2'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] );
+        <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;ForkL&quot;</span>) {
+          <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='ident'>name_of_val</span>( <span class='op'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] );
           <span class='ident'>name_fork</span>(<span class='ident'>n</span>).<span class='number'>0</span>
         }
-        <span class='kw'>else</span> <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;ForkR&quot;</span>) {
-          <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='ident'>name_of_val</span>( <span class='kw-2'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] );
+        <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;ForkR&quot;</span>) {
+          <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='ident'>name_of_val</span>( <span class='op'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] );
           <span class='ident'>name_fork</span>(<span class='ident'>n</span>).<span class='number'>1</span>
         }
         <span class='kw'>else</span> {
@@ -5127,17 +5255,17 @@
   }
 
   <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>name_option_of_val</span> ( <span class='ident'>n</span>:<span class='kw-2'>&amp;</span><span class='ident'>Val</span> ) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span> {
-    <span class='kw'>use</span> <span class='ident'>engine</span>::<span class='op'>*</span>;
+    <span class='kw'>use</span> <span class='ident'>engine</span>::<span class='kw-2'>*</span>;
     
-    <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>n</span> {
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>n</span> {
       <span class='ident'>Val</span>::<span class='ident'>Constr</span>( <span class='kw-2'>ref</span> <span class='ident'>cons_name</span>, <span class='kw-2'>ref</span> <span class='ident'>cons_args</span> ) <span class='op'>=&gt;</span> {
-        <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Root&quot;</span>) {
+        <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Root&quot;</span>) {
           <span class='prelude-val'>Some</span>(<span class='ident'>name_unit</span>())
         }
-        <span class='kw'>else</span> <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Hash64&quot;</span>) {
+        <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Hash64&quot;</span>) {
           <span class='prelude-val'>Some</span>(<span class='ident'>name_of_hash64</span>( <span class='number'>0</span> )) <span class='comment'>// XXX \ TODO -- We are actually missing the hash here!</span>
         }
-        <span class='kw'>else</span> <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;String&quot;</span>) {
+        <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;String&quot;</span>) {
           <span class='kw'>if</span> <span class='ident'>cons_args</span>.<span class='ident'>len</span>() <span class='op'>&lt;</span> <span class='number'>1</span> { <span class='prelude-val'>None</span> } <span class='kw'>else</span> {
             <span class='kw'>match</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] {            
               <span class='ident'>Val</span>::<span class='ident'>Const</span>( <span class='ident'>Const</span>::<span class='ident'>String</span>( <span class='kw-2'>ref</span> <span class='ident'>s</span> ) ) <span class='op'>=&gt;</span> 
@@ -5145,37 +5273,37 @@
               _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
             }}
         }
-        <span class='kw'>else</span> <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Usize&quot;</span>) {
+        <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Usize&quot;</span>) {
           <span class='kw'>if</span> <span class='ident'>cons_args</span>.<span class='ident'>len</span>() <span class='op'>&lt;</span> <span class='number'>1</span> { <span class='prelude-val'>None</span> } <span class='kw'>else</span> {
             <span class='kw'>match</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] {          
               <span class='ident'>Val</span>::<span class='ident'>Const</span>( <span class='ident'>Const</span>::<span class='ident'>Nat</span>( <span class='kw-2'>ref</span> <span class='ident'>n</span> ) ) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>( <span class='ident'>name_of_usize</span>( <span class='ident'>n</span>.<span class='ident'>clone</span>() ) ),
               _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
             }}
         }
-        <span class='kw'>else</span> <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Isize&quot;</span>) {
+        <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Isize&quot;</span>) {
           <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;TODO&quot;</span>)
         }
-        <span class='kw'>else</span> <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Pair&quot;</span>) {          
+        <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Pair&quot;</span>) {          
           <span class='kw'>if</span> <span class='ident'>cons_args</span>.<span class='ident'>len</span>() <span class='op'>&lt;</span> <span class='number'>2</span> { <span class='prelude-val'>None</span> } <span class='kw'>else</span> {
-            <span class='kw'>let</span> <span class='ident'>n1</span> <span class='op'>=</span> <span class='ident'>name_option_of_val</span>( <span class='kw-2'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] );
-            <span class='kw'>let</span> <span class='ident'>n2</span> <span class='op'>=</span> <span class='ident'>name_option_of_val</span>( <span class='kw-2'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>1</span>] );
+            <span class='kw'>let</span> <span class='ident'>n1</span> <span class='op'>=</span> <span class='ident'>name_option_of_val</span>( <span class='op'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] );
+            <span class='kw'>let</span> <span class='ident'>n2</span> <span class='op'>=</span> <span class='ident'>name_option_of_val</span>( <span class='op'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>1</span>] );
             <span class='kw'>if</span> <span class='ident'>cons_args</span>.<span class='ident'>len</span>() <span class='op'>&lt;</span> <span class='number'>2</span> { <span class='prelude-val'>None</span> } <span class='kw'>else</span> {
               <span class='kw'>match</span> (<span class='ident'>n1</span>,<span class='ident'>n2</span>) {
                 (<span class='prelude-val'>Some</span>(<span class='ident'>n1</span>),<span class='prelude-val'>Some</span>(<span class='ident'>n2</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>name_pair</span>(<span class='ident'>n1</span>, <span class='ident'>n2</span>)),
                 (_, _) <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
               }}}
         }
-        <span class='kw'>else</span> <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;ForkL&quot;</span>) {
+        <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;ForkL&quot;</span>) {
           <span class='kw'>if</span> <span class='ident'>cons_args</span>.<span class='ident'>len</span>() <span class='op'>&lt;</span> <span class='number'>1</span> { <span class='prelude-val'>None</span> } <span class='kw'>else</span> {
-            <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='ident'>name_option_of_val</span>( <span class='kw-2'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] );
+            <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='ident'>name_option_of_val</span>( <span class='op'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] );
             <span class='kw'>match</span> <span class='ident'>n</span> {
               <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
               <span class='prelude-val'>Some</span>(<span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>name_fork</span>(<span class='ident'>n</span>).<span class='number'>0</span>)
             }}
         }
-        <span class='kw'>else</span> <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;ForkR&quot;</span>) {
+        <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>cons_name</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;ForkR&quot;</span>) {
           <span class='kw'>if</span> <span class='ident'>cons_args</span>.<span class='ident'>len</span>() <span class='op'>&lt;</span> <span class='number'>1</span> { <span class='prelude-val'>None</span> } <span class='kw'>else</span> {
-            <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='ident'>name_option_of_val</span>( <span class='kw-2'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] );
+            <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='ident'>name_option_of_val</span>( <span class='op'>&amp;</span> <span class='ident'>cons_args</span>[<span class='number'>0</span>] );
             <span class='kw'>match</span> <span class='ident'>n</span> {
               <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
               <span class='prelude-val'>Some</span>(<span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>name_fork</span>(<span class='ident'>n</span>).<span class='number'>1</span>)
@@ -5198,20 +5326,28 @@
     <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>==</span> <span class='string'>&quot;Art&quot;</span> <span class='op'>&amp;&amp;</span> <span class='ident'>fields</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>1</span> { 
       <span class='kw'>match</span> <span class='ident'>fields</span>[<span class='number'>0</span>] { 
         (<span class='kw-2'>ref</span> <span class='ident'>nf</span>, <span class='kw-2'>ref</span> <span class='ident'>vf</span>) <span class='op'>=&gt;</span>
-          <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>nf</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;art&quot;</span>) {
-            <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>vf</span> { 
+          <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>nf</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;art&quot;</span>) {
+            <span class='comment'>// OK: it&#39;s a struct called Art with exactly one field</span>
+            <span class='comment'>// called art.  We are going to parse this into an Art.</span>
+
+            <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>vf</span> { 
               <span class='ident'>Val</span>::<span class='ident'>Struct</span>( <span class='kw-2'>ref</span> <span class='ident'>j</span>, <span class='kw-2'>ref</span> <span class='ident'>ws</span> ) <span class='op'>=&gt;</span> 
-                <span class='kw'>if</span> <span class='op'>*</span><span class='ident'>j</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Loc&quot;</span>) 
+                <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>j</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;Loc&quot;</span>) 
                 <span class='op'>&amp;&amp;</span> <span class='ident'>ws</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>2</span>
                 <span class='op'>&amp;&amp;</span> <span class='ident'>ws</span>[<span class='number'>0</span>].<span class='number'>0</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;path&quot;</span>) 
                 <span class='op'>&amp;&amp;</span> <span class='ident'>ws</span>[<span class='number'>1</span>].<span class='number'>0</span> <span class='op'>==</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;id&quot;</span>)
               {
                 <span class='comment'>// Now we are confident that the rest ought to parse.</span>
                 <span class='comment'>// Any further parse errors are panics.</span>
-                <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>path_of_val</span>( <span class='kw-2'>&amp;</span> <span class='ident'>ws</span>[<span class='number'>0</span>].<span class='number'>1</span> );
-                <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>name_of_val</span>( <span class='kw-2'>&amp;</span> <span class='ident'>ws</span>[<span class='number'>1</span>].<span class='number'>1</span> );
+                <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>path_of_val</span>( <span class='op'>&amp;</span> <span class='ident'>ws</span>[<span class='number'>0</span>].<span class='number'>1</span> );
+                <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>name_of_val</span>( <span class='op'>&amp;</span> <span class='ident'>ws</span>[<span class='number'>1</span>].<span class='number'>1</span> );
                 <span class='prelude-val'>Some</span>( <span class='ident'>Val</span>::<span class='ident'>Art</span>(<span class='ident'>Loc</span>{<span class='ident'>path</span>:<span class='ident'>path</span>, <span class='ident'>name</span>:<span class='ident'>name</span>}, <span class='ident'>ArtContent</span>::<span class='ident'>Unknown</span>) )
-              } <span class='kw'>else</span> { <span class='prelude-val'>None</span> },
+              } 
+
+
+              <span class='kw'>else</span> { 
+                <span class='prelude-val'>None</span> 
+              },
               _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
             }
           } <span class='kw'>else</span> { <span class='prelude-val'>None</span> }
@@ -5220,6 +5356,7 @@
 
   <span class='doccomment'>/// Parse a value from the tokens `toks` and return it.  Panic if the next tokens do not parse into value.</span>
   <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>parse_val_rec</span> (<span class='kw-2'>mut</span> <span class='ident'>toks</span>:<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Tok</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> (<span class='ident'>Val</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Tok</span><span class='op'>&gt;</span>) {
+    <span class='comment'>//println!(&quot;{:?}&quot;, toks);</span>
     <span class='kw'>let</span> (<span class='ident'>v</span>, <span class='ident'>toks</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>toks</span>.<span class='ident'>pop</span>() {
       <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;expected value; but, no more tokens&quot;</span>),
       <span class='prelude-val'>Some</span>(<span class='ident'>Tok</span>::<span class='ident'>Right</span>(<span class='ident'>r</span>)) <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;expected value, but found {:?} instead&quot;</span>, <span class='ident'>Tok</span>::<span class='ident'>Right</span>(<span class='ident'>r</span>)),
@@ -5273,6 +5410,7 @@
             <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;expected left balanced token, or comma, but instead found token {:?}&quot;</span>, <span class='ident'>t</span>)
           }}},
         <span class='prelude-val'>Some</span>(<span class='ident'>Tok</span>::<span class='ident'>Const</span>(<span class='ident'>Const</span>::<span class='ident'>Nat</span>(<span class='ident'>n</span>)))    <span class='op'>=&gt;</span> (<span class='ident'>Val</span>::<span class='ident'>Const</span>(<span class='ident'>Const</span>::<span class='ident'>Nat</span>(<span class='ident'>n</span>)), <span class='ident'>toks</span>),
+        <span class='prelude-val'>Some</span>(<span class='ident'>Tok</span>::<span class='ident'>Const</span>(<span class='ident'>Const</span>::<span class='ident'>Num</span>(<span class='ident'>n</span>)))    <span class='op'>=&gt;</span> (<span class='ident'>Val</span>::<span class='ident'>Const</span>(<span class='ident'>Const</span>::<span class='ident'>Num</span>(<span class='ident'>n</span>)), <span class='ident'>toks</span>),
         <span class='prelude-val'>Some</span>(<span class='ident'>Tok</span>::<span class='ident'>Const</span>(<span class='ident'>Const</span>::<span class='ident'>String</span>(<span class='ident'>s</span>))) <span class='op'>=&gt;</span> (<span class='ident'>Val</span>::<span class='ident'>Const</span>(<span class='ident'>Const</span>::<span class='ident'>String</span>(<span class='ident'>s</span>)), <span class='ident'>toks</span>)
     };
     (<span class='ident'>v</span>,<span class='ident'>toks</span>)
@@ -5320,27 +5458,6 @@
                     <code>struct</code>, <code>enum</code>,
                     <code>trait</code>, <code>type</code>, <code>macro</code>,
                     and <code>const</code>.
-                </p>
-
-                <p>
-                    Search functions by type signature (e.g.
-                    <code>vec -> usize</code> or <code>* -> vec</code>)
-                </p>
-            </div>
-        </div>
-    </aside>
-
-    
-
-    <script>
-        window.rootPath = "../../";
-        window.currentCrate = "adapton";
-    </script>
-    <script src="../../jquery.js"></script>
-    <script src="../../main.js"></script>
-    <script defer src="../../search-index.js"></script>
-</body>
-</html>      and <code>const</code>.
                 </p>
 
                 <p>

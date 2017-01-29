@@ -48,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/pmfp_collections/lib.rs.html#1-104' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/pmfp_collections/lib.rs.html#1-88' title='goto source code'>[src]</a></span></h1>
 <h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -62,10 +62,28 @@
                            <td><a class='mod' href='gauged_raz/index.html'
                                   title='pmfp_collections::gauged_raz'>gauged_raz</a></td>
                            <td class='docblock-short'>
-                                <p>Gauged RAZ - random access sequence
-- cursor access in low-const O(1) time
-- arbirary access in O(log n) time
-- combines tree cursor with stack</p>
+                                <p>Gauged RAZ - random access sequence</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='inc_gauged_raz/index.html'
+                                  title='pmfp_collections::inc_gauged_raz'>inc_gauged_raz</a></td>
+                           <td class='docblock-short'>
+                                <p>Temporary alteration of guaged_raz for incremental use</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='inc_level_tree/index.html'
+                                  title='pmfp_collections::inc_level_tree'>inc_level_tree</a></td>
+                           <td class='docblock-short'>
+                                <p>Temporary alteration of level_tree for incremental use</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='inc_tree_cursor/index.html'
+                                  title='pmfp_collections::inc_tree_cursor'>inc_tree_cursor</a></td>
+                           <td class='docblock-short'>
+                                <p>Temporary alteration of tree_cursor for incremental use</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -101,12 +119,14 @@
                            <td><a class='mod' href='tree_cursor/index.html'
                                   title='pmfp_collections::tree_cursor'>tree_cursor</a></td>
                            <td class='docblock-short'>
-                                <p>Tree Cursor for <code>level_tree</code>
-- a cursor within a persistent, ordered, binary tree
-- optimised for splitting and combining trees at the cursor in a cannonical way
-- uses non-increasing levels for each subtree to maintain cannonical form
-- in the general case the most efficent levels will be drawn from 
-  a negative binomial distribution</p>
+                                <p>Tree Cursor for <code>level_tree</code></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='trees/index.html'
+                                  title='pmfp_collections::trees'>trees</a></td>
+                           <td class='docblock-short'>
+                                <p>Traits for various flavors of persistent trees</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>

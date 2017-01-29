@@ -3117,7 +3117,7 @@
                 <span class='ident'>als</span>.<span class='ident'>push</span>((<span class='ident'>n</span>, <span class='bool-val'>false</span>));
             }
         } <span class='kw'>else</span> {
-            <span class='self'>self</span>.<span class='ident'>aliases</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>n</span><span class='op'>|</span> (<span class='op'>*</span><span class='ident'>n</span>, <span class='bool-val'>false</span>)).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
+            <span class='self'>self</span>.<span class='ident'>aliases</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>n</span><span class='op'>|</span> (<span class='kw-2'>*</span><span class='ident'>n</span>, <span class='bool-val'>false</span>)).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
         }
         <span class='self'>self</span>
     }
@@ -3171,7 +3171,7 @@
                 <span class='ident'>als</span>.<span class='ident'>push</span>((<span class='ident'>n</span>, <span class='bool-val'>true</span>));
             }
         } <span class='kw'>else</span> {
-            <span class='self'>self</span>.<span class='ident'>aliases</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>n</span><span class='op'>|</span> (<span class='op'>*</span><span class='ident'>n</span>, <span class='bool-val'>true</span>)).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
+            <span class='self'>self</span>.<span class='ident'>aliases</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>n</span><span class='op'>|</span> (<span class='kw-2'>*</span><span class='ident'>n</span>, <span class='bool-val'>true</span>)).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
         }
         <span class='self'>self</span>
     }
@@ -3473,7 +3473,7 @@
                 <span class='ident'>vec</span>.<span class='ident'>push</span>(<span class='ident'>s</span>);
             }
         } <span class='kw'>else</span> {
-            <span class='self'>self</span>.<span class='ident'>r_unless</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
+            <span class='self'>self</span>.<span class='ident'>r_unless</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='kw-2'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
         }
         <span class='self'>self</span>.<span class='ident'>setb</span>(<span class='ident'>ArgSettings</span>::<span class='ident'>RequiredUnlessAll</span>);
         <span class='self'>self</span>.<span class='ident'>required</span>(<span class='bool-val'>true</span>)
@@ -3549,7 +3549,7 @@
                 <span class='ident'>vec</span>.<span class='ident'>push</span>(<span class='ident'>s</span>);
             }
         } <span class='kw'>else</span> {
-            <span class='self'>self</span>.<span class='ident'>r_unless</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
+            <span class='self'>self</span>.<span class='ident'>r_unless</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='kw-2'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
         }
         <span class='self'>self</span>.<span class='ident'>required</span>(<span class='bool-val'>true</span>)
     }
@@ -3647,7 +3647,7 @@
                 <span class='ident'>vec</span>.<span class='ident'>push</span>(<span class='ident'>s</span>);
             }
         } <span class='kw'>else</span> {
-            <span class='self'>self</span>.<span class='ident'>blacklist</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
+            <span class='self'>self</span>.<span class='ident'>blacklist</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='kw-2'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
         }
         <span class='self'>self</span>
     }
@@ -3718,7 +3718,7 @@
                 <span class='ident'>vec</span>.<span class='ident'>push</span>(<span class='ident'>s</span>);
             }
         } <span class='kw'>else</span> {
-            <span class='self'>self</span>.<span class='ident'>overrides</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
+            <span class='self'>self</span>.<span class='ident'>overrides</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='kw-2'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
         }
         <span class='self'>self</span>
     }
@@ -3855,7 +3855,7 @@
                 <span class='ident'>vec</span>.<span class='ident'>push</span>(<span class='ident'>s</span>);
             }
         } <span class='kw'>else</span> {
-            <span class='self'>self</span>.<span class='ident'>requires</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
+            <span class='self'>self</span>.<span class='ident'>requires</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='kw-2'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
         }
         <span class='self'>self</span>
     }
@@ -4333,7 +4333,7 @@
                 <span class='ident'>vec</span>.<span class='ident'>push</span>(<span class='ident'>s</span>);
             }
         } <span class='kw'>else</span> {
-            <span class='self'>self</span>.<span class='ident'>possible_vals</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
+            <span class='self'>self</span>.<span class='ident'>possible_vals</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='kw-2'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
         }
         <span class='self'>self</span>
     }
@@ -4468,7 +4468,7 @@
                 <span class='ident'>vec</span>.<span class='ident'>push</span>(<span class='ident'>s</span>);
             }
         } <span class='kw'>else</span> {
-            <span class='self'>self</span>.<span class='ident'>groups</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='op'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
+            <span class='self'>self</span>.<span class='ident'>groups</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>names</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='kw-2'>*</span><span class='ident'>s</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>());
         }
         <span class='self'>self</span>
     }
@@ -4931,7 +4931,7 @@
         } <span class='kw'>else</span> {
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>vm</span> <span class='op'>=</span> <span class='ident'>VecMap</span>::<span class='ident'>new</span>();
             <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>n</span>) <span class='kw'>in</span> <span class='ident'>names</span>.<span class='ident'>iter</span>().<span class='ident'>enumerate</span>() {
-                <span class='ident'>vm</span>.<span class='ident'>insert</span>(<span class='ident'>i</span>, <span class='op'>*</span><span class='ident'>n</span>);
+                <span class='ident'>vm</span>.<span class='ident'>insert</span>(<span class='ident'>i</span>, <span class='kw-2'>*</span><span class='ident'>n</span>);
             }
             <span class='self'>self</span>.<span class='ident'>val_names</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>vm</span>);
         }

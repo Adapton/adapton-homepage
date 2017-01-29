@@ -1135,16 +1135,100 @@
 <span id="1090">1090</span>
 <span id="1091">1091</span>
 <span id="1092">1092</span>
+<span id="1093">1093</span>
+<span id="1094">1094</span>
+<span id="1095">1095</span>
+<span id="1096">1096</span>
+<span id="1097">1097</span>
+<span id="1098">1098</span>
+<span id="1099">1099</span>
+<span id="1100">1100</span>
+<span id="1101">1101</span>
+<span id="1102">1102</span>
+<span id="1103">1103</span>
+<span id="1104">1104</span>
+<span id="1105">1105</span>
+<span id="1106">1106</span>
+<span id="1107">1107</span>
+<span id="1108">1108</span>
+<span id="1109">1109</span>
+<span id="1110">1110</span>
+<span id="1111">1111</span>
+<span id="1112">1112</span>
+<span id="1113">1113</span>
+<span id="1114">1114</span>
+<span id="1115">1115</span>
+<span id="1116">1116</span>
+<span id="1117">1117</span>
+<span id="1118">1118</span>
+<span id="1119">1119</span>
+<span id="1120">1120</span>
+<span id="1121">1121</span>
+<span id="1122">1122</span>
+<span id="1123">1123</span>
+<span id="1124">1124</span>
+<span id="1125">1125</span>
+<span id="1126">1126</span>
+<span id="1127">1127</span>
+<span id="1128">1128</span>
+<span id="1129">1129</span>
+<span id="1130">1130</span>
+<span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
+<span id="1135">1135</span>
+<span id="1136">1136</span>
+<span id="1137">1137</span>
+<span id="1138">1138</span>
+<span id="1139">1139</span>
+<span id="1140">1140</span>
+<span id="1141">1141</span>
+<span id="1142">1142</span>
+<span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
+<span id="1158">1158</span>
+<span id="1159">1159</span>
+<span id="1160">1160</span>
+<span id="1161">1161</span>
+<span id="1162">1162</span>
+<span id="1163">1163</span>
+<span id="1164">1164</span>
+<span id="1165">1165</span>
+<span id="1166">1166</span>
+<span id="1167">1167</span>
+<span id="1168">1168</span>
+<span id="1169">1169</span>
+<span id="1170">1170</span>
+<span id="1171">1171</span>
+<span id="1172">1172</span>
+<span id="1173">1173</span>
+<span id="1174">1174</span>
+<span id="1175">1175</span>
+<span id="1176">1176</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>;
 <span class='comment'>//use std::io;</span>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>prelude</span>::<span class='kw-2'>*</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>BufWriter</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 
 <span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='ident'>Name</span>;
-<span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='ident'>reflect</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='ident'>reflect</span>::<span class='kw-2'>*</span>;
 <span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='ident'>reflect</span>::{<span class='ident'>trace</span>, <span class='ident'>string_of_name</span>, <span class='ident'>string_of_loc</span>};
 <span class='kw'>use</span> <span class='ident'>labdef</span>::{<span class='ident'>LabParams</span>,<span class='ident'>Lab</span>,<span class='ident'>LabResults</span>, <span class='ident'>Sample</span>};
 
@@ -1224,7 +1308,7 @@
   } <span class='kw'>else</span> {
     <span class='ident'>Div</span>{ <span class='ident'>tag</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;oploc&quot;</span>),
          <span class='ident'>classes</span>: <span class='macro'>vec</span><span class='macro'>!</span>[],
-         <span class='ident'>extent</span>: <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='kw'>match</span> <span class='op'>*</span><span class='ident'>ol</span> { 
+         <span class='ident'>extent</span>: <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>ol</span> { 
            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>vec</span><span class='macro'>!</span>[],
            <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>l</span>) <span class='op'>=&gt;</span> <span class='macro'>vec</span><span class='macro'>!</span>[ <span class='ident'>div_of_loc</span>(<span class='ident'>l</span>)]}),
          <span class='ident'>text</span>: <span class='prelude-val'>None</span>
@@ -1261,11 +1345,12 @@
 
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>div_of_value_tree</span> (<span class='ident'>dcg</span>:<span class='kw-2'>&amp;</span><span class='ident'>DCG</span>, <span class='ident'>visited</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>Loc</span>, ()<span class='op'>&gt;</span>, <span class='ident'>val</span>:<span class='kw-2'>&amp;</span><span class='ident'>Val</span>) <span class='op'>-&gt;</span> <span class='ident'>Div</span> {
   <span class='kw'>let</span> <span class='ident'>div</span> <span class='op'>=</span> <span class='ident'>Div</span> {
-    <span class='ident'>tag</span>: <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>val</span> {
+    <span class='ident'>tag</span>: <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>val</span> {
       <span class='ident'>Val</span>::<span class='ident'>Constr</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>, _) <span class='op'>=&gt;</span> { <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;val-constr constr-{}&quot;</span>, <span class='ident'>string_of_name</span>(<span class='ident'>n</span>) ) },
       <span class='ident'>Val</span>::<span class='ident'>Struct</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>, _) <span class='op'>=&gt;</span> { <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;val-struct struct-{}&quot;</span>, <span class='ident'>string_of_name</span>(<span class='ident'>n</span>) ) },
-      <span class='ident'>Val</span>::<span class='ident'>Const</span>( <span class='kw-2'>ref</span> <span class='ident'>c</span> )     <span class='op'>=&gt;</span> { <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;val-const  const-{}&quot;</span> , <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>c</span> {
+      <span class='ident'>Val</span>::<span class='ident'>Const</span>( <span class='kw-2'>ref</span> <span class='ident'>c</span> )     <span class='op'>=&gt;</span> { <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;val-const  const-{}&quot;</span> , <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>c</span> {
         <span class='ident'>Const</span>::<span class='ident'>Nat</span>( <span class='kw-2'>ref</span> <span class='ident'>n</span> ) <span class='op'>=&gt;</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>n</span>),
+        <span class='ident'>Const</span>::<span class='ident'>Num</span>( <span class='kw-2'>ref</span> <span class='ident'>n</span> ) <span class='op'>=&gt;</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>n</span>),
         <span class='ident'>Const</span>::<span class='ident'>String</span>( <span class='kw-2'>ref</span> <span class='ident'>s</span> ) <span class='op'>=&gt;</span> <span class='ident'>s</span>.<span class='ident'>clone</span>(),
       })},
       <span class='ident'>Val</span>::<span class='ident'>Tuple</span>(<span class='kw-2'>ref</span> <span class='ident'>vs</span>) <span class='op'>=&gt;</span> { <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;val-tuple tuple-{}&quot;</span>, <span class='ident'>vs</span>.<span class='ident'>len</span>()) },
@@ -1276,11 +1361,12 @@
     },
     <span class='ident'>classes</span>: <span class='macro'>vec</span><span class='macro'>!</span>[],
     <span class='ident'>text</span>: 
-      <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>val</span> {
+      <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>val</span> {
         <span class='ident'>Val</span>::<span class='ident'>Constr</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>, _) <span class='op'>=&gt;</span> { <span class='prelude-val'>Some</span>(<span class='ident'>string_of_name</span>(<span class='ident'>n</span>)) },
         <span class='ident'>Val</span>::<span class='ident'>Struct</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>, _) <span class='op'>=&gt;</span> { <span class='prelude-val'>Some</span>(<span class='ident'>string_of_name</span>(<span class='ident'>n</span>)) },
-        <span class='ident'>Val</span>::<span class='ident'>Const</span>( <span class='kw-2'>ref</span> <span class='ident'>c</span> )     <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='kw'>match</span> <span class='op'>*</span><span class='ident'>c</span> {
+        <span class='ident'>Val</span>::<span class='ident'>Const</span>( <span class='kw-2'>ref</span> <span class='ident'>c</span> )     <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>c</span> {
           <span class='ident'>Const</span>::<span class='ident'>Nat</span>( <span class='kw-2'>ref</span> <span class='ident'>n</span> ) <span class='op'>=&gt;</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>n</span>),
+          <span class='ident'>Const</span>::<span class='ident'>Num</span>( <span class='kw-2'>ref</span> <span class='ident'>n</span> ) <span class='op'>=&gt;</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>n</span>),
           <span class='ident'>Const</span>::<span class='ident'>String</span>( <span class='kw-2'>ref</span> <span class='ident'>s</span> ) <span class='op'>=&gt;</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>s</span>),
         }),
         <span class='ident'>Val</span>::<span class='ident'>Tuple</span>( _ ) <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
@@ -1295,7 +1381,7 @@
       },
     
     <span class='ident'>extent</span>: <span class='ident'>Box</span>::<span class='ident'>new</span>(
-      <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>val</span> {
+      <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>val</span> {
         <span class='ident'>Val</span>::<span class='ident'>Constr</span>(_, <span class='kw-2'>ref</span> <span class='ident'>vs</span>) <span class='op'>=&gt;</span> { <span class='kw'>let</span> <span class='ident'>ds</span> : <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>vs</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>( <span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='ident'>div_of_value_tree</span>(<span class='ident'>dcg</span>, <span class='ident'>visited</span>,  <span class='ident'>v</span>) ).<span class='ident'>collect</span>() ; <span class='ident'>ds</span> },
         <span class='ident'>Val</span>::<span class='ident'>Struct</span>(_, <span class='kw-2'>ref</span> <span class='ident'>fs</span>) <span class='op'>=&gt;</span> { <span class='kw'>let</span> <span class='ident'>ds</span> : <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>fs</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(  <span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>_f</span>, <span class='kw-2'>ref</span> <span class='ident'>v</span>) <span class='op'>|</span> 
                                                                          <span class='ident'>div_of_value_tree</span>(<span class='ident'>dcg</span>, <span class='ident'>visited</span>, <span class='kw-2'>&amp;</span><span class='ident'>v</span>) ).<span class='ident'>collect</span>() ; <span class='ident'>ds</span> },
@@ -1313,7 +1399,7 @@
                          <span class='ident'>extent</span>:<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[]),
             },
             <span class='prelude-val'>Some</span>(<span class='ident'>node</span>) <span class='op'>=&gt;</span> {
-              <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>node</span> {
+              <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>node</span> {
                 <span class='ident'>Node</span>::<span class='ident'>Pure</span>(<span class='kw-2'>ref</span> <span class='ident'>p</span>) <span class='op'>=&gt;</span> <span class='ident'>div_of_value_tree</span>(<span class='ident'>dcg</span>, <span class='ident'>visited</span>, <span class='kw-2'>&amp;</span><span class='ident'>p</span>.<span class='ident'>value</span>),
                 <span class='ident'>Node</span>::<span class='ident'>Ref</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='ident'>div_of_value_tree</span>(<span class='ident'>dcg</span>, <span class='ident'>visited</span>, <span class='kw-2'>&amp;</span><span class='ident'>n</span>.<span class='ident'>value</span>),
                 <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>n</span>.<span class='ident'>value</span> {
@@ -1397,6 +1483,62 @@
     }
   };
   <span class='kw'>if</span> <span class='ident'>no_extent</span> {
+    <span class='ident'>div</span>.<span class='ident'>classes</span>.<span class='ident'>push</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;no-extent&quot;</span>))
+  };
+  <span class='ident'>div</span>
+}
+
+
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>div_of_dcg_alloc</span> (<span class='ident'>loc</span>:<span class='kw-2'>&amp;</span><span class='ident'>Loc</span>, <span class='ident'>nd</span>:<span class='kw-2'>&amp;</span><span class='ident'>Node</span>) <span class='op'>-&gt;</span> <span class='ident'>Div</span> {
+  <span class='kw'>let</span> <span class='ident'>div</span> <span class='op'>=</span> <span class='ident'>Div</span> {
+    <span class='ident'>tag</span>:<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;dcg-node&quot;</span>),
+    <span class='ident'>text</span>:<span class='prelude-val'>None</span>,
+    <span class='ident'>classes</span>: <span class='macro'>vec</span><span class='macro'>!</span>[ <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>nd</span> {
+      <span class='ident'>Node</span>::<span class='ident'>Comp</span>(_) <span class='op'>=&gt;</span> <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;dcg-node-comp&quot;</span>),
+      <span class='ident'>Node</span>::<span class='ident'>Ref</span>(_) <span class='op'>=&gt;</span> <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;dcg-node-ref&quot;</span>),
+      <span class='ident'>Node</span>::<span class='ident'>Pure</span>(_) <span class='op'>=&gt;</span> <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;dcg-node-pure&quot;</span>),
+    }],
+    <span class='ident'>extent</span>: <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[ <span class='ident'>div_of_loc</span>( <span class='ident'>loc</span> ) ]),
+  };
+  <span class='ident'>div</span>
+}
+
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>div_of_dcg_succs</span> (<span class='ident'>dcg</span>:<span class='kw-2'>&amp;</span><span class='ident'>DCG</span>, <span class='ident'>visited</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>Loc</span>, ()<span class='op'>&gt;</span>, <span class='ident'>loc</span>:<span class='kw-2'>&amp;</span><span class='ident'>Loc</span>, 
+                         <span class='ident'>succs</span>: <span class='kw-2'>&amp;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Succ</span><span class='op'>&gt;</span>,
+                         <span class='ident'>extent</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Div</span><span class='op'>&gt;</span>) {  
+  <span class='kw'>for</span> <span class='ident'>succ</span> <span class='kw'>in</span> <span class='ident'>succs</span> {
+    <span class='kw'>match</span> <span class='ident'>succ</span>.<span class='ident'>effect</span> {
+      <span class='ident'>Effect</span>::<span class='ident'>Alloc</span> <span class='op'>=&gt;</span> {
+        <span class='kw'>let</span> <span class='ident'>node</span> <span class='op'>=</span> <span class='ident'>dcg</span>.<span class='ident'>table</span>.<span class='ident'>get</span>( <span class='ident'>loc</span> ).<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>succ_div</span> <span class='op'>=</span> <span class='ident'>div_of_dcg_alloc</span> (<span class='kw-2'>&amp;</span><span class='ident'>succ</span>.<span class='ident'>loc</span>, <span class='kw-2'>&amp;</span><span class='ident'>node</span>);
+        <span class='ident'>extent</span>.<span class='ident'>push</span>( <span class='ident'>succ_div</span> )
+      },
+      <span class='ident'>Effect</span>::<span class='ident'>Force</span> <span class='op'>=&gt;</span> {
+        <span class='kw'>let</span> <span class='ident'>succ_div</span> <span class='op'>=</span> <span class='ident'>div_of_dcg_loc</span> (<span class='ident'>dcg</span>, <span class='ident'>visited</span>, <span class='kw-2'>&amp;</span><span class='ident'>succ</span>.<span class='ident'>loc</span>);
+        <span class='ident'>extent</span>.<span class='ident'>push</span>( <span class='ident'>succ_div</span> )
+      }
+    }     
+  }
+}
+
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>div_of_dcg_loc</span> (<span class='ident'>dcg</span>:<span class='kw-2'>&amp;</span><span class='ident'>DCG</span>, <span class='ident'>visited</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>Loc</span>, ()<span class='op'>&gt;</span>, <span class='ident'>loc</span>:<span class='kw-2'>&amp;</span><span class='ident'>Loc</span>) <span class='op'>-&gt;</span> <span class='ident'>Div</span> {  
+  <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>div</span> <span class='op'>=</span> <span class='ident'>Div</span> {
+    <span class='ident'>tag</span>:<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;dcg-node&quot;</span>),
+    <span class='ident'>text</span>:<span class='prelude-val'>None</span>,
+    <span class='ident'>classes</span>: <span class='macro'>vec</span><span class='macro'>!</span>[],
+    <span class='ident'>extent</span>: <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[ <span class='ident'>div_of_loc</span>( <span class='ident'>loc</span> ) ]),
+  };
+  <span class='ident'>visited</span>.<span class='ident'>insert</span>( <span class='ident'>loc</span>.<span class='ident'>clone</span>(), () );
+  <span class='kw'>match</span> <span class='ident'>dcg</span>.<span class='ident'>table</span>.<span class='ident'>get</span>( <span class='ident'>loc</span> ) {
+    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;dangling pointer in reflected DCG!&quot;</span>),
+    <span class='prelude-val'>Some</span>( <span class='ident'>nd</span> ) <span class='op'>=&gt;</span> {
+      <span class='kw'>match</span> <span class='ident'>succs_of_node</span>( <span class='ident'>nd</span> ) {
+        <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (), <span class='comment'>// No succs; E.g., ref cells have no succs</span>
+        <span class='prelude-val'>Some</span>( <span class='ident'>succs</span> ) <span class='op'>=&gt;</span> { <span class='ident'>div_of_dcg_succs</span>(<span class='ident'>dcg</span>, <span class='ident'>visited</span>, <span class='ident'>loc</span>, <span class='ident'>succs</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>div</span>.<span class='ident'>extent</span>) }
+      }
+    }
+  };
+  <span class='kw'>if</span> <span class='ident'>div</span>.<span class='ident'>extent</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span> {
     <span class='ident'>div</span>.<span class='ident'>classes</span>.<span class='ident'>push</span>(<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;no-extent&quot;</span>))
   };
   <span class='ident'>div</span>
@@ -1559,13 +1701,20 @@
 
   <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;div class={:?}&gt;&lt;a href={:?} class={:?}&gt;{}&lt;/a&gt;&lt;/div&gt;&quot;</span>, 
            <span class='string'>&quot;lab-name&quot;</span>,
-           <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>laburl</span> {
+           <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>laburl</span> {
              <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>url</span>) <span class='op'>=&gt;</span> <span class='ident'>url</span>,
-             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw-2'>&amp;</span> <span class='ident'>catalog_url</span>
+             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='op'>&amp;</span> <span class='ident'>catalog_url</span>
            },
            <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;lab-name {}&quot;</span>, <span class='kw'>if</span> <span class='ident'>is_title</span> { <span class='string'>&quot;page-title&quot;</span> } <span class='kw'>else</span> { <span class='string'>&quot;&quot;</span> }), 
            <span class='ident'>labname</span>
   ).<span class='ident'>unwrap</span>();
+}
+
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>write_dcg_tree</span><span class='op'>&lt;</span><span class='ident'>W</span>:<span class='ident'>Write</span><span class='op'>&gt;</span> (<span class='ident'>writer</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>W</span>, <span class='ident'>dcg</span>:<span class='kw-2'>&amp;</span><span class='ident'>DCG</span>, <span class='ident'>traces</span>:<span class='kw-2'>&amp;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>trace</span>::<span class='ident'>Trace</span><span class='op'>&gt;</span>) {
+  <span class='kw'>for</span> <span class='ident'>tr</span> <span class='kw'>in</span> <span class='ident'>traces</span>.<span class='ident'>iter</span>() {
+    <span class='ident'>div_of_dcg_loc</span>(<span class='ident'>dcg</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>HashMap</span>::<span class='ident'>new</span>(), <span class='kw-2'>&amp;</span><span class='ident'>tr</span>.<span class='ident'>edge</span>.<span class='ident'>succ</span>.<span class='ident'>loc</span>)
+      .<span class='ident'>write_html</span>(<span class='ident'>writer</span>)
+  }
 }
 
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>write_dcg_edge_tree</span><span class='op'>&lt;</span><span class='ident'>W</span>:<span class='ident'>Write</span><span class='op'>&gt;</span> (<span class='ident'>writer</span>:<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>W</span>, <span class='ident'>dcg</span>:<span class='kw-2'>&amp;</span><span class='ident'>DCG</span>, <span class='ident'>traces</span>:<span class='kw-2'>&amp;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>trace</span>::<span class='ident'>Trace</span><span class='op'>&gt;</span>, <span class='ident'>effect</span>:<span class='ident'>Effect</span>) {
@@ -1630,6 +1779,16 @@
     <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>dcg_post_edit</span>) <span class='op'>=&gt;</span> {
       <span class='kw'>match</span> <span class='ident'>prev_sample</span> {
         <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>prev_sample</span>) <span class='op'>=&gt;</span> {
+          <span class='comment'>// // 0/4: alloc tree for compute, after this edit, but before the update</span>
+          <span class='comment'>// writeln!(writer, &quot;&lt;div class=\&quot;archivist-dcg-tree-post-edit\&quot;&gt;&quot;).unwrap();</span>
+          <span class='comment'>// writeln!(writer, &quot;&lt;div class=\&quot;label\&quot;&gt;{}&lt;/div&gt;&quot;, &quot;DCG, post-edit:&quot;).unwrap();</span>
+          <span class='comment'>// write_dcg_tree</span>
+          <span class='comment'>//   (writer, </span>
+          <span class='comment'>//    dcg_post_edit,</span>
+          <span class='comment'>//    &amp;prev_sample.dcg_sample.compute_output.reflect_traces,</span>
+          <span class='comment'>//   );</span>
+          <span class='comment'>// writeln!(writer, &quot;&lt;/div&gt;&quot;).unwrap();</span>
+
           <span class='comment'>// 1/4: alloc tree for compute, after this edit, but before the update</span>
           <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;div class=\&quot;archivist-alloc-tree-post-edit\&quot;&gt;&quot;</span>).<span class='ident'>unwrap</span>();
           <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;div class=\&quot;label\&quot;&gt;{}&lt;/div&gt;&quot;</span>, <span class='string'>&quot;Allocs, post-edit:&quot;</span>).<span class='ident'>unwrap</span>();
@@ -1733,18 +1892,23 @@
              <span class='ident'>sample</span>.<span class='ident'>batch_name</span>).<span class='ident'>unwrap</span>();
 
     <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;div class=\&quot;editor\&quot;&gt;&quot;</span>).<span class='ident'>unwrap</span>();
+    
+    <span class='kw'>if</span> <span class='bool-val'>true</span> {
     <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;div class=\&quot;time-ns-lab\&quot;&gt;time (ns): &lt;div class=\&quot;time-ns\&quot;&gt;{:?}&lt;/div&gt;&lt;/div&gt;&quot;</span>, 
              <span class='ident'>sample</span>.<span class='ident'>dcg_sample</span>.<span class='ident'>process_input</span>.<span class='ident'>time_ns</span>).<span class='ident'>unwrap</span>();    
+    }
     <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;/div&gt;&quot;</span>).<span class='ident'>unwrap</span>();
 
     <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;div class=\&quot;archivist\&quot;&gt;&quot;</span>).<span class='ident'>unwrap</span>();
 
+    <span class='kw'>if</span> <span class='bool-val'>true</span> {
     <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;div class=\&quot;row\&quot;&gt;&quot;</span>).<span class='ident'>unwrap</span>();
+    
     <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;div class=\&quot;time-ns-lab\&quot;&gt;Naive time (ns): &lt;div class=\&quot;time-ns\&quot;&gt;{:?}&lt;/div&gt;&lt;/div&gt;&quot;</span>, 
              <span class='ident'>sample</span>.<span class='ident'>naive_sample</span>.<span class='ident'>compute_output</span>.<span class='ident'>time_ns</span>).<span class='ident'>unwrap</span>();    
 
     <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;div class=\&quot;time-ms-lab\&quot;&gt;Naive time (ms): &lt;div class=\&quot;time-ms\&quot;&gt;{:.*}&lt;/div&gt;&lt;/div&gt;&quot;</span>, 
-             <span class='number'>2</span>, (<span class='ident'>sample</span>.<span class='ident'>naive_sample</span>.<span class='ident'>compute_output</span>.<span class='ident'>time_ns</span> <span class='kw'>as</span> <span class='ident'>f64</span>) <span class='op'>/</span> (<span class='number'>1000000</span> <span class='kw'>as</span> <span class='ident'>f64</span>)).<span class='ident'>unwrap</span>();    
+             <span class='number'>2</span>, (<span class='ident'>sample</span>.<span class='ident'>naive_sample</span>.<span class='ident'>compute_output</span>.<span class='ident'>time_ns</span> <span class='kw'>as</span> <span class='ident'>f64</span>) <span class='op'>/</span> (<span class='number'>1000_000</span> <span class='kw'>as</span> <span class='ident'>f64</span>)).<span class='ident'>unwrap</span>();
     <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;/div&gt;&quot;</span>).<span class='ident'>unwrap</span>();
              
     <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;div class=\&quot;row\&quot;&gt;&quot;</span>).<span class='ident'>unwrap</span>();
@@ -1752,7 +1916,7 @@
              <span class='ident'>sample</span>.<span class='ident'>dcg_sample</span>.<span class='ident'>compute_output</span>.<span class='ident'>time_ns</span>).<span class='ident'>unwrap</span>();    
 
     <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;div class=\&quot;time-ms-lab\&quot;&gt;DCG time (ms): &lt;div class=\&quot;time-ms\&quot;&gt;{:.*}&lt;/div&gt;&lt;/div&gt;&quot;</span>, 
-             <span class='number'>2</span>, (<span class='ident'>sample</span>.<span class='ident'>dcg_sample</span>.<span class='ident'>compute_output</span>.<span class='ident'>time_ns</span> <span class='kw'>as</span> <span class='ident'>f64</span>) <span class='op'>/</span> (<span class='number'>1000000</span> <span class='kw'>as</span> <span class='ident'>f64</span>)).<span class='ident'>unwrap</span>();    
+             <span class='number'>2</span>, (<span class='ident'>sample</span>.<span class='ident'>dcg_sample</span>.<span class='ident'>compute_output</span>.<span class='ident'>time_ns</span> <span class='kw'>as</span> <span class='ident'>f64</span>) <span class='op'>/</span> (<span class='number'>1000_000</span> <span class='kw'>as</span> <span class='ident'>f64</span>)).<span class='ident'>unwrap</span>();
     <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;/div&gt;&quot;</span>).<span class='ident'>unwrap</span>();
     
     <span class='kw'>if</span> <span class='ident'>sample</span>.<span class='ident'>naive_sample</span>.<span class='ident'>compute_output</span>.<span class='ident'>time_ns</span> <span class='op'>&lt;</span>
@@ -1765,6 +1929,8 @@
              <span class='number'>2</span>, ( (<span class='ident'>sample</span>.<span class='ident'>naive_sample</span>.<span class='ident'>compute_output</span>.<span class='ident'>time_ns</span>  <span class='kw'>as</span> <span class='ident'>f64</span>) <span class='op'>/</span> 
                    (<span class='ident'>sample</span>.<span class='ident'>dcg_sample</span>.<span class='ident'>compute_output</span>.<span class='ident'>time_ns</span> <span class='kw'>as</span> <span class='ident'>f64</span>) )).<span class='ident'>unwrap</span>();
     }    
+    }
+
     <span class='macro'>writeln</span><span class='macro'>!</span>(<span class='ident'>writer</span>, <span class='string'>&quot;&lt;/div&gt;&quot;</span>).<span class='ident'>unwrap</span>();
     <span class='ident'>write_cr</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>writer</span>);    
     
@@ -1994,6 +2160,8 @@ hr {
 .traces-box {
   width: 99%;
 }
+.archivist-dcg-tree-post-edit,
+.archivist-dcg-tree-post-update,
 .archivist-alloc-tree-post-edit,
 .archivist-force-tree-post-edit, 
 .archivist-alloc-tree-post-update, 

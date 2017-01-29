@@ -266,15 +266,17 @@
 <span id="221">221</span>
 <span id="222">222</span>
 <span id="223">223</span>
+<span id="224">224</span>
 </pre><pre class='rust '>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>time</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rand</span>;
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Debug</span>;
-<span class='kw'>use</span> <span class='ident'>labdef</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='ident'>labdef</span>::<span class='kw-2'>*</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>marker</span>::<span class='ident'>PhantomData</span>;
 
-<span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='kw-2'>*</span>;
+<span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='ident'>manage</span>::<span class='kw-2'>*</span>;
 <span class='kw'>use</span> <span class='ident'>rand</span>::{<span class='ident'>Rng</span>, <span class='ident'>SeedableRng</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>swap</span>;
 
@@ -445,7 +447,7 @@
         <span class='self'>self</span>.<span class='ident'>dcg_state</span>.<span class='ident'>input</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>((<span class='ident'>dcg_input_edited</span>, <span class='ident'>dcg_editst</span>)); <span class='comment'>// Save the input and input-editing state</span>
         
         <span class='comment'>// Save the Rng for the next sample.</span>
-        <span class='self'>self</span>.<span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='op'>*</span><span class='ident'>rng</span>);
+        <span class='self'>self</span>.<span class='ident'>rng</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='kw-2'>*</span><span class='ident'>rng</span>);
 
         <span class='comment'>// Compare the two outputs for equality</span>
         <span class='kw'>let</span> <span class='ident'>output_valid</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>params</span>.<span class='ident'>sample_params</span>.<span class='ident'>validate_output</span> { 

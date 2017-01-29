@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/1fce3b8/src/level_tree.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/97f8494/src/level_tree.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>level_tree.rs.html -- source</title>
@@ -230,24 +230,6 @@
 <span id="185">185</span>
 <span id="186">186</span>
 <span id="187">187</span>
-<span id="188">188</span>
-<span id="189">189</span>
-<span id="190">190</span>
-<span id="191">191</span>
-<span id="192">192</span>
-<span id="193">193</span>
-<span id="194">194</span>
-<span id="195">195</span>
-<span id="196">196</span>
-<span id="197">197</span>
-<span id="198">198</span>
-<span id="199">199</span>
-<span id="200">200</span>
-<span id="201">201</span>
-<span id="202">202</span>
-<span id="203">203</span>
-<span id="204">204</span>
-<span id="205">205</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! a persistent, cannonical tree that keeps track of the</span>
 <span class='doccomment'>//! &quot;level&quot; of each of its branches.</span>
@@ -259,30 +241,30 @@
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Deref</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
-<span class='kw'>use</span> <span class='ident'>rand</span>::<span class='ident'>Rng</span>;
-<span class='kw'>use</span> <span class='ident'>pat</span>::<span class='ident'>AsPattern</span>;
+
+<span class='kw'>use</span> <span class='ident'>trees</span>::{<span class='ident'>BinTree</span>,<span class='ident'>LevelTree</span>,<span class='ident'>Level</span>};
 
 <span class='doccomment'>/// A persistent tree with stable, internally defined structure</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>,<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
-	<span class='ident'>level</span>: <span class='ident'>u32</span>,
-	<span class='ident'>link</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>TreeNode</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>L</span>: <span class='ident'>Level</span>,<span class='ident'>E</span><span class='op'>&gt;</span> {
+	<span class='ident'>level</span>: <span class='ident'>L</span>,
+	<span class='ident'>link</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>TreeNode</span><span class='op'>&lt;</span><span class='ident'>L</span>,<span class='ident'>E</span><span class='op'>&gt;&gt;</span>
 }
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>,<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>)]</span>
-<span class='kw'>struct</span> <span class='ident'>TreeNode</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>{
+<span class='kw'>struct</span> <span class='ident'>TreeNode</span><span class='op'>&lt;</span><span class='ident'>L</span>: <span class='ident'>Level</span>,<span class='ident'>E</span><span class='op'>&gt;</span>{
 	<span class='ident'>data</span>: <span class='ident'>E</span>,
-	<span class='ident'>l_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>,
-	<span class='ident'>r_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>
+	<span class='ident'>l_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>L</span>,<span class='ident'>E</span><span class='op'>&gt;&gt;</span>,
+	<span class='ident'>r_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>L</span>,<span class='ident'>E</span><span class='op'>&gt;&gt;</span>
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>L</span>: <span class='ident'>Level</span>,<span class='ident'>E</span><span class='op'>&gt;</span> <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>L</span>,<span class='ident'>E</span><span class='op'>&gt;</span> {
 	<span class='doccomment'>/// build a new tree from components, return None if levels are inconsistent</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(
-		<span class='ident'>level</span>: <span class='ident'>u32</span>,
+		<span class='ident'>level</span>: <span class='ident'>L</span>,
 		<span class='ident'>data</span>: <span class='ident'>E</span>,
-		<span class='ident'>l_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>,
-		<span class='ident'>r_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>
-	) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span> {
+		<span class='ident'>l_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>L</span>,<span class='ident'>E</span><span class='op'>&gt;&gt;</span>,
+		<span class='ident'>r_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>L</span>,<span class='ident'>E</span><span class='op'>&gt;&gt;</span>
+	) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>L</span>,<span class='ident'>E</span><span class='op'>&gt;&gt;</span> {
 		<span class='kw'>let</span> <span class='ident'>target_level</span> <span class='op'>=</span> <span class='ident'>level</span>;
 		<span class='comment'>//check level</span>
 		<span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>Tree</span>{<span class='ident'>level</span>, ..}) <span class='op'>=</span> <span class='ident'>l_branch</span> {
@@ -301,29 +283,41 @@
 			})
 		})
 	}
+}
 
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>L</span>: <span class='ident'>Level</span>,<span class='ident'>E</span><span class='op'>&gt;</span> <span class='ident'>LevelTree</span><span class='op'>&lt;</span><span class='ident'>L</span>,<span class='ident'>E</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>L</span>,<span class='ident'>E</span><span class='op'>&gt;</span> {
+	<span class='kw'>fn</span> <span class='ident'>lev_make</span>(
+		<span class='ident'>level</span>: <span class='ident'>L</span>,
+		<span class='ident'>data</span>: <span class='ident'>E</span>,
+		<span class='ident'>l_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>,
+		<span class='ident'>r_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>
+	) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span> {
+		<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='ident'>level</span>,<span class='ident'>data</span>,<span class='ident'>l_branch</span>,<span class='ident'>r_branch</span>)
+	}
 	<span class='doccomment'>/// peek at the level of the root of this tree</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>level</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> { <span class='self'>self</span>.<span class='ident'>level</span> }
+	<span class='kw'>fn</span> <span class='ident'>level</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>L</span> { <span class='self'>self</span>.<span class='ident'>level</span> }
+}
 
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>L</span>: <span class='ident'>Level</span>, <span class='ident'>E</span><span class='op'>&gt;</span> <span class='ident'>BinTree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>L</span>,<span class='ident'>E</span><span class='op'>&gt;</span> {
 	<span class='doccomment'>/// obtain the left subtree if it exists</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>l_tree</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span> { (<span class='op'>*</span><span class='self'>self</span>.<span class='ident'>link</span>).<span class='ident'>l_branch</span>.<span class='ident'>clone</span>() }
+	<span class='kw'>fn</span> <span class='ident'>l_tree</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>L</span>,<span class='ident'>E</span><span class='op'>&gt;&gt;</span> { (<span class='kw-2'>*</span><span class='self'>self</span>.<span class='ident'>link</span>).<span class='ident'>l_branch</span>.<span class='ident'>clone</span>() }
 
 	<span class='doccomment'>/// obtain the right subtree if it exists</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>r_tree</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span> { (<span class='op'>*</span><span class='self'>self</span>.<span class='ident'>link</span>).<span class='ident'>r_branch</span>.<span class='ident'>clone</span>() }
+	<span class='kw'>fn</span> <span class='ident'>r_tree</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>L</span>,<span class='ident'>E</span><span class='op'>&gt;&gt;</span> { (<span class='kw-2'>*</span><span class='self'>self</span>.<span class='ident'>link</span>).<span class='ident'>r_branch</span>.<span class='ident'>clone</span>() }
 
 	<span class='doccomment'>/// peek at the data contained at the top node of the tree</span>
 	<span class='doccomment'>///</span>
 	<span class='doccomment'>/// this functionality is also available through Deref</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>peek</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>E</span> { <span class='kw-2'>&amp;</span>(<span class='op'>*</span><span class='self'>self</span>.<span class='ident'>link</span>).<span class='ident'>data</span> }
+	<span class='kw'>fn</span> <span class='ident'>peek</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>E</span> { <span class='kw-2'>&amp;</span>(<span class='kw-2'>*</span><span class='self'>self</span>.<span class='ident'>link</span>).<span class='ident'>data</span> }
 
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fold_up</span><span class='op'>&lt;</span><span class='ident'>R</span>,<span class='ident'>F</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node_calc</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='ident'>R</span>
+	<span class='kw'>fn</span> <span class='ident'>fold_up</span><span class='op'>&lt;</span><span class='ident'>R</span>,<span class='ident'>F</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>node_calc</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='ident'>R</span>
 	<span class='kw'>where</span>
-		<span class='ident'>F</span>: <span class='ident'>FnMut</span>(<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>,<span class='kw-2'>&amp;</span><span class='ident'>E</span>,<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>R</span>
+		<span class='ident'>F</span>: <span class='ident'>FnMut</span>(<span class='kw-2'>&amp;</span><span class='ident'>E</span>,<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>,<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>R</span>
 	{
-		<span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>link</span> { <span class='ident'>TreeNode</span>{ <span class='kw-2'>ref</span> <span class='ident'>data</span>, <span class='kw-2'>ref</span> <span class='ident'>l_branch</span>, <span class='kw-2'>ref</span> <span class='ident'>r_branch</span> } <span class='op'>=&gt;</span> {
+		<span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span>.<span class='ident'>link</span> { <span class='ident'>TreeNode</span>{ <span class='kw-2'>ref</span> <span class='ident'>data</span>, <span class='kw-2'>ref</span> <span class='ident'>l_branch</span>, <span class='kw-2'>ref</span> <span class='ident'>r_branch</span> } <span class='op'>=&gt;</span> {
 			<span class='kw'>let</span> <span class='ident'>l</span> <span class='op'>=</span> <span class='ident'>l_branch</span>.<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span> <span class='ident'>t</span>.<span class='ident'>fold_up</span>(<span class='ident'>node_calc</span>));
 			<span class='kw'>let</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>r_branch</span>.<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span> <span class='ident'>t</span>.<span class='ident'>fold_up</span>(<span class='ident'>node_calc</span>));
-			<span class='ident'>node_calc</span>(<span class='ident'>l</span>, <span class='ident'>data</span>, <span class='ident'>r</span>)
+			<span class='ident'>node_calc</span>(<span class='ident'>data</span>, <span class='ident'>l</span>, <span class='ident'>r</span>)
 		}}
 	}
 }
@@ -334,8 +328,9 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// ```</span>
 <span class='doccomment'>/// use pmfp_collections::level_tree::{self,Tree};</span>
+<span class='doccomment'>/// use pmfp_collections::trees::NegBin;</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// let tree = Tree::new(4,(),None,Tree::new(1,(),None,None)).unwrap();</span>
+<span class='doccomment'>/// let tree = Tree::new(NegBin(4),(),None,Tree::new(NegBin(1),(),None,None)).unwrap();</span>
 <span class='doccomment'>/// debug_assert!(level_tree::good_levels(&amp;tree),&quot;this section of code has a problem&quot;);</span>
 <span class='doccomment'>/// ```</span>
 <span class='doccomment'>///</span>
@@ -344,16 +339,16 @@
 <span class='doccomment'>/// right branch</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// also prints the levels of the failing trees and branchs</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>good_levels</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>(<span class='ident'>tree</span>: <span class='kw-2'>&amp;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>good_levels</span><span class='op'>&lt;</span><span class='ident'>L</span>: <span class='ident'>Level</span>, <span class='ident'>E</span><span class='op'>&gt;</span>(<span class='ident'>tree</span>: <span class='kw-2'>&amp;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>L</span>,<span class='ident'>E</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
 	<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>good</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
-	<span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>t</span>) <span class='op'>=</span> (<span class='op'>*</span><span class='ident'>tree</span>.<span class='ident'>link</span>).<span class='ident'>l_branch</span> {
+	<span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>t</span>) <span class='op'>=</span> (<span class='kw-2'>*</span><span class='ident'>tree</span>.<span class='ident'>link</span>).<span class='ident'>l_branch</span> {
 		<span class='kw'>if</span> <span class='ident'>t</span>.<span class='ident'>level</span> <span class='op'>&gt;</span> <span class='ident'>tree</span>.<span class='ident'>level</span> {
 			<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Tree with level {:?} has left branch with level {:?}&quot;</span>, <span class='ident'>tree</span>.<span class='ident'>level</span>, <span class='ident'>t</span>.<span class='ident'>level</span>);
 			<span class='ident'>good</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
 		}
 		<span class='kw'>if</span> <span class='op'>!</span><span class='ident'>good_levels</span>(<span class='ident'>t</span>) { <span class='ident'>good</span> <span class='op'>=</span> <span class='bool-val'>false</span> }
 	}
-	<span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>t</span>) <span class='op'>=</span> (<span class='op'>*</span><span class='ident'>tree</span>.<span class='ident'>link</span>).<span class='ident'>r_branch</span> {
+	<span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>t</span>) <span class='op'>=</span> (<span class='kw-2'>*</span><span class='ident'>tree</span>.<span class='ident'>link</span>).<span class='ident'>r_branch</span> {
 		<span class='kw'>if</span> <span class='ident'>t</span>.<span class='ident'>level</span> <span class='op'>&gt;=</span> <span class='ident'>tree</span>.<span class='ident'>level</span> {
 			<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Tree with level {:?} has right branch with level {:?}&quot;</span>, <span class='ident'>tree</span>.<span class='ident'>level</span>, <span class='ident'>t</span>.<span class='ident'>level</span>);
 			<span class='ident'>good</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
@@ -364,53 +359,22 @@
 }
 
 <span class='doccomment'>/// dereference to the data stored in this tree node</span>
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> <span class='ident'>Deref</span> <span class='kw'>for</span> <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>L</span>: <span class='ident'>Level</span>,<span class='ident'>E</span><span class='op'>&gt;</span> <span class='ident'>Deref</span> <span class='kw'>for</span> <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>L</span>,<span class='ident'>E</span><span class='op'>&gt;</span> {
 	<span class='kw'>type</span> <span class='ident'>Target</span> <span class='op'>=</span> <span class='ident'>E</span>;
 	<span class='kw'>fn</span> <span class='ident'>deref</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>E</span> {
 		<span class='self'>self</span>.<span class='ident'>peek</span>()
 	}
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>L</span>: <span class='ident'>Level</span>,<span class='ident'>E</span><span class='op'>&gt;</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>L</span>,<span class='ident'>E</span><span class='op'>&gt;</span> {
 	<span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
 		<span class='ident'>Tree</span>{<span class='ident'>level</span>: <span class='self'>self</span>.<span class='ident'>level</span>, <span class='ident'>link</span>: <span class='self'>self</span>.<span class='ident'>link</span>.<span class='ident'>clone</span>()}
 	}
 }
 
-<span class='doccomment'>/// deconstruction pattern</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// experimental deconstruction api to use with AsPattern trait</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>T</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
-	<span class='ident'>Owned</span>{<span class='ident'>level</span>: <span class='ident'>u32</span>, <span class='ident'>l_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>, <span class='ident'>data</span>: <span class='ident'>E</span>, <span class='ident'>r_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>},
-	<span class='ident'>Shared</span>(<span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>),
-}
-
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> <span class='ident'>AsPattern</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
-	<span class='kw'>fn</span> <span class='ident'>pat</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
-		<span class='kw'>match</span> <span class='ident'>Rc</span>::<span class='ident'>try_unwrap</span>(<span class='self'>self</span>.<span class='ident'>link</span>) {
-			<span class='prelude-val'>Ok</span>(<span class='ident'>TreeNode</span>{<span class='ident'>data</span>,<span class='ident'>l_branch</span>,<span class='ident'>r_branch</span>}) <span class='op'>=&gt;</span> {
-				<span class='ident'>T</span>::<span class='ident'>Owned</span>{<span class='ident'>level</span>: <span class='self'>self</span>.<span class='ident'>level</span>, <span class='ident'>l_branch</span>: <span class='ident'>l_branch</span>, <span class='ident'>data</span>: <span class='ident'>data</span>, <span class='ident'>r_branch</span>: <span class='ident'>r_branch</span>}
-			}
-			<span class='prelude-val'>Err</span>(<span class='ident'>t</span>) <span class='op'>=&gt;</span> <span class='ident'>T</span>::<span class='ident'>Shared</span>(<span class='ident'>Tree</span>{<span class='ident'>level</span>: <span class='self'>self</span>.<span class='ident'>level</span>, <span class='ident'>link</span>: <span class='ident'>t</span>})
-		}
-	}
-}
-
-<span class='doccomment'>/// generate a random level appropriate for a balanced binary tree</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// uses a negative binomial distribution, equivalent to the</span>
-<span class='doccomment'>/// height of nodes (root is highest) in a balanced binary tree.</span>
-<span class='doccomment'>/// </span>
-<span class='doccomment'>/// this will never generate a 0, reserving it for potential</span>
-<span class='doccomment'>/// use in tree leaves</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>gen_branch_level</span><span class='op'>&lt;</span><span class='ident'>R</span>:<span class='ident'>Rng</span><span class='op'>&gt;</span>(<span class='ident'>rng</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
-	<span class='kw'>let</span> <span class='ident'>num</span> <span class='op'>=</span> <span class='ident'>rng</span>.<span class='ident'>gen</span>::<span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>();
-	(<span class='ident'>num</span> <span class='op'>&lt;&lt;</span> <span class='number'>1</span>).<span class='ident'>trailing_zeros</span>() <span class='kw'>as</span> <span class='ident'>u32</span>
-}
-
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
-	<span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
+	<span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
 
   <span class='attribute'>#[<span class='ident'>test</span>]</span>
   <span class='kw'>fn</span> <span class='ident'>test_fold_up</span>() {
@@ -432,17 +396,17 @@
 				<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='prelude-val'>Some</span>(<span class='number'>6</span>),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
 			)
 		).<span class='ident'>unwrap</span>();
-		<span class='kw'>let</span> <span class='ident'>sum</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>fold_up</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span><span class='op'>|</span><span class='ident'>l</span>,<span class='ident'>c</span>,<span class='ident'>r</span><span class='op'>|</span> {
-			<span class='ident'>l</span>.<span class='ident'>unwrap_or</span>(<span class='number'>0</span>) <span class='op'>+</span> <span class='ident'>c</span>.<span class='ident'>unwrap_or</span>(<span class='number'>0</span>) <span class='op'>+</span> <span class='ident'>r</span>.<span class='ident'>unwrap_or</span>(<span class='number'>0</span>)
+		<span class='kw'>let</span> <span class='ident'>sum</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>fold_up</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span><span class='op'>|</span><span class='ident'>d</span>,<span class='ident'>l</span>,<span class='ident'>r</span><span class='op'>|</span> {
+			<span class='ident'>l</span>.<span class='ident'>unwrap_or</span>(<span class='number'>0</span>) <span class='op'>+</span> <span class='ident'>d</span>.<span class='ident'>unwrap_or</span>(<span class='number'>0</span>) <span class='op'>+</span> <span class='ident'>r</span>.<span class='ident'>unwrap_or</span>(<span class='number'>0</span>)
 		});
-		<span class='kw'>let</span> <span class='ident'>depth</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>fold_up</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span><span class='op'>|</span><span class='ident'>l</span>,<span class='ident'>c</span>,<span class='ident'>r</span><span class='op'>|</span> {
-			<span class='kw'>match</span> <span class='op'>*</span><span class='ident'>c</span> {
+		<span class='kw'>let</span> <span class='ident'>depth</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>fold_up</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span><span class='op'>|</span><span class='ident'>d</span>,<span class='ident'>l</span>,<span class='ident'>r</span><span class='op'>|</span> {
+			<span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>d</span> {
 				<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>max</span>(<span class='ident'>l</span>.<span class='ident'>unwrap</span>(),<span class='ident'>r</span>.<span class='ident'>unwrap</span>()) <span class='op'>+</span> <span class='number'>1</span>,
 				<span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='number'>1</span>,
 			}
 		});
-		<span class='kw'>let</span> <span class='ident'>in_order</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>fold_up</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span><span class='op'>|</span><span class='ident'>l</span>,<span class='ident'>c</span>,<span class='ident'>r</span><span class='op'>|</span>{
-			<span class='kw'>match</span> <span class='op'>*</span><span class='ident'>c</span> {
+		<span class='kw'>let</span> <span class='ident'>in_order</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>fold_up</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span><span class='op'>|</span><span class='ident'>d</span>,<span class='ident'>l</span>,<span class='ident'>r</span><span class='op'>|</span>{
+			<span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>d</span> {
 				<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>l</span>.<span class='ident'>unwrap</span>() <span class='op'>&gt;=</span> <span class='ident'>r</span>.<span class='ident'>unwrap</span>(),
 				<span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
 			}

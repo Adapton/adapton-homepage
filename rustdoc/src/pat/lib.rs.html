@@ -215,7 +215,7 @@
 		<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Clone</span><span class='op'>&gt;</span>(<span class='ident'>Link</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>);
 		<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>nil</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Clone</span><span class='op'>&gt;</span>() <span class='op'>-&gt;</span> <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> { <span class='ident'>List</span>(<span class='prelude-val'>None</span>) }
 		<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>cons</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Clone</span><span class='op'>&gt;</span>(<span class='ident'>elm</span>: <span class='ident'>T</span>, <span class='ident'>list</span>: <span class='kw-2'>&amp;</span><span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-			<span class='kw'>let</span> <span class='ident'>List</span>(<span class='kw-2'>ref</span> <span class='ident'>link</span>) <span class='op'>=</span> <span class='op'>*</span><span class='ident'>list</span>;
+			<span class='kw'>let</span> <span class='ident'>List</span>(<span class='kw-2'>ref</span> <span class='ident'>link</span>) <span class='op'>=</span> <span class='kw-2'>*</span><span class='ident'>list</span>;
 			<span class='ident'>List</span>(<span class='prelude-val'>Some</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>Node</span>{<span class='ident'>elm</span>:<span class='ident'>elm</span>.<span class='ident'>clone</span>(),<span class='ident'>next</span>:<span class='ident'>link</span>.<span class='ident'>clone</span>()})))
 		}
 
@@ -234,7 +234,7 @@
 				<span class='kw'>let</span> <span class='ident'>List</span>(<span class='ident'>link</span>) <span class='op'>=</span> <span class='self'>self</span>;
 				<span class='kw'>match</span> <span class='ident'>link</span> {
 					<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>L</span>::<span class='ident'>Nil</span>,
-					<span class='prelude-val'>Some</span>(<span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>n</span> {
+					<span class='prelude-val'>Some</span>(<span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>n</span> {
 						<span class='ident'>Node</span>{<span class='kw-2'>ref</span> <span class='ident'>elm</span>, <span class='kw-2'>ref</span> <span class='ident'>next</span>} <span class='op'>=&gt;</span> <span class='ident'>L</span>::<span class='ident'>Cons</span>(<span class='ident'>elm</span>.<span class='ident'>clone</span>(),<span class='ident'>List</span>(<span class='ident'>next</span>.<span class='ident'>clone</span>()))
 					}
 				}
@@ -250,11 +250,11 @@
 				<span class='kw'>let</span> <span class='ident'>List</span>(<span class='ident'>link</span>) <span class='op'>=</span> <span class='self'>self</span>;
 				<span class='kw'>match</span> <span class='ident'>link</span> {
 					<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>Count</span>::<span class='prelude-val'>None</span>,
-					<span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='op'>*</span><span class='op'>*</span><span class='ident'>n</span> { <span class='ident'>Node</span>{<span class='ident'>elm</span>:<span class='kw-2'>ref</span> <span class='ident'>elm1</span>, <span class='kw-2'>ref</span> <span class='ident'>next</span>} <span class='op'>=&gt;</span> { <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>next</span> {
+					<span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='kw-2'>*</span><span class='kw-2'>*</span><span class='ident'>n</span> { <span class='ident'>Node</span>{<span class='ident'>elm</span>:<span class='kw-2'>ref</span> <span class='ident'>elm1</span>, <span class='kw-2'>ref</span> <span class='ident'>next</span>} <span class='op'>=&gt;</span> { <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>next</span> {
 						<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>Count</span>::<span class='ident'>Single</span>(<span class='ident'>elm1</span>.<span class='ident'>clone</span>()),
-						<span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='op'>*</span><span class='op'>*</span><span class='ident'>n</span> { <span class='ident'>Node</span>{<span class='ident'>elm</span>:<span class='kw-2'>ref</span> <span class='ident'>elm2</span>, <span class='kw-2'>ref</span> <span class='ident'>next</span>} <span class='op'>=&gt;</span> { <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>next</span> {
+						<span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='kw-2'>*</span><span class='kw-2'>*</span><span class='ident'>n</span> { <span class='ident'>Node</span>{<span class='ident'>elm</span>:<span class='kw-2'>ref</span> <span class='ident'>elm2</span>, <span class='kw-2'>ref</span> <span class='ident'>next</span>} <span class='op'>=&gt;</span> { <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>next</span> {
 							<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>Count</span>::<span class='ident'>Double</span>(<span class='ident'>elm1</span>.<span class='ident'>clone</span>(),<span class='ident'>elm2</span>.<span class='ident'>clone</span>()),
-							<span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='op'>*</span><span class='op'>*</span><span class='ident'>n</span> { <span class='ident'>Node</span>{<span class='ident'>elm</span>:<span class='kw-2'>ref</span> <span class='ident'>elm3</span>, <span class='kw-2'>ref</span> <span class='ident'>next</span>} <span class='op'>=&gt;</span> { <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>next</span> {
+							<span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='kw-2'>*</span><span class='kw-2'>*</span><span class='ident'>n</span> { <span class='ident'>Node</span>{<span class='ident'>elm</span>:<span class='kw-2'>ref</span> <span class='ident'>elm3</span>, <span class='kw-2'>ref</span> <span class='ident'>next</span>} <span class='op'>=&gt;</span> { <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>next</span> {
 								<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>Count</span>::<span class='ident'>Triple</span>(<span class='ident'>elm1</span>.<span class='ident'>clone</span>(),<span class='ident'>elm2</span>.<span class='ident'>clone</span>(), <span class='ident'>elm3</span>.<span class='ident'>clone</span>()),
 								<span class='prelude-val'>Some</span>(..) <span class='op'>=&gt;</span> <span class='ident'>Count</span>::<span class='ident'>TooMany</span>,
 							}}}
@@ -266,10 +266,10 @@
 
 		<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Clone</span><span class='op'>&gt;</span> <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>{
 			<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>head</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span> {
-				<span class='kw'>let</span> <span class='ident'>List</span>(<span class='kw-2'>ref</span> <span class='ident'>link</span>) <span class='op'>=</span> <span class='op'>*</span><span class='self'>self</span>;
-				<span class='kw'>match</span> <span class='op'>*</span><span class='ident'>link</span> {
+				<span class='kw'>let</span> <span class='ident'>List</span>(<span class='kw-2'>ref</span> <span class='ident'>link</span>) <span class='op'>=</span> <span class='kw-2'>*</span><span class='self'>self</span>;
+				<span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>link</span> {
 					<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Attempt to access element of empty list&quot;</span>),
-					<span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='op'>*</span><span class='op'>*</span><span class='ident'>n</span> {
+					<span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>n</span>) <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='kw-2'>*</span><span class='kw-2'>*</span><span class='ident'>n</span> {
 						<span class='ident'>Node</span>{<span class='kw-2'>ref</span> <span class='ident'>elm</span>, ..} <span class='op'>=&gt;</span> <span class='ident'>elm</span>.<span class='ident'>clone</span>(),
 					}
 				}
@@ -278,13 +278,13 @@
 
 		<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>Clone</span><span class='op'>&gt;</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
 			<span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-				<span class='kw'>let</span> <span class='ident'>List</span>(<span class='kw-2'>ref</span> <span class='ident'>link</span>) <span class='op'>=</span> <span class='op'>*</span><span class='self'>self</span>;
+				<span class='kw'>let</span> <span class='ident'>List</span>(<span class='kw-2'>ref</span> <span class='ident'>link</span>) <span class='op'>=</span> <span class='kw-2'>*</span><span class='self'>self</span>;
 				<span class='ident'>List</span>(<span class='ident'>link</span>.<span class='ident'>clone</span>())
 			}
 		}
 	}
 
-	<span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
+	<span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
 	<span class='comment'>// fns</span>
 	<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>list</span>::{<span class='ident'>nil</span>,<span class='ident'>cons</span>};
 	<span class='comment'>// patterns</span>

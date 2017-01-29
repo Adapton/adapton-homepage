@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["gen_branch_level","generate a random level appropriate for a balanced binary tree"],["good_levels","Use good_levels to verify level consistancy when debugging"]],"struct":[["Tree","A persistent tree with stable, internally defined structure"]]});
