@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/adapton.rust-b16351c49ab23a81/8c2e2f7/src/collections.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/adapton/src/collections.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>collections.rs.html -- source</title>
@@ -2812,6 +2812,33 @@
 <span id="2767">2767</span>
 <span id="2768">2768</span>
 <span id="2769">2769</span>
+<span id="2770">2770</span>
+<span id="2771">2771</span>
+<span id="2772">2772</span>
+<span id="2773">2773</span>
+<span id="2774">2774</span>
+<span id="2775">2775</span>
+<span id="2776">2776</span>
+<span id="2777">2777</span>
+<span id="2778">2778</span>
+<span id="2779">2779</span>
+<span id="2780">2780</span>
+<span id="2781">2781</span>
+<span id="2782">2782</span>
+<span id="2783">2783</span>
+<span id="2784">2784</span>
+<span id="2785">2785</span>
+<span id="2786">2786</span>
+<span id="2787">2787</span>
+<span id="2788">2788</span>
+<span id="2789">2789</span>
+<span id="2790">2790</span>
+<span id="2791">2791</span>
+<span id="2792">2792</span>
+<span id="2793">2793</span>
+<span id="2794">2794</span>
+<span id="2795">2795</span>
+<span id="2796">2796</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Debug</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::<span class='ident'>Hash</span>;
@@ -3034,6 +3061,31 @@
        <span class='comment'>// We only memoize when we encounter a name in the input</span>
        <span class='kw'>let</span> (<span class='ident'>t</span>,_) <span class='op'>=</span> <span class='macro'>eager</span><span class='macro'>!</span>( <span class='ident'>n</span>.<span class='ident'>clone</span>() <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='ident'>list_map_eager</span> <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='op'>&lt;</span><span class='ident'>X</span>, <span class='ident'>Le</span>, <span class='ident'>Y</span>, <span class='ident'>Li</span>, <span class='ident'>F</span><span class='op'>&gt;</span>, <span class='ident'>l</span>:<span class='ident'>tl</span> ;; <span class='ident'>body</span>:<span class='ident'>body</span>.<span class='ident'>clone</span>() );
        <span class='ident'>list_name</span>(<span class='ident'>n</span>, <span class='ident'>list_art</span>(<span class='ident'>t</span>))
+     })
+}
+
+<span class='doccomment'>/// Eagerly maps the list.  Uses (eager) memoization for each name in</span>
+<span class='doccomment'>/// `l`.  Unlike list_map_eager, it allocates a reference cell for</span>
+<span class='doccomment'>/// each name, separate from the memoized thunk for the recursive</span>
+<span class='doccomment'>/// call.</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>list_map_eager2</span><span class='op'>&lt;</span><span class='ident'>X</span>:<span class='lifetime'>&#39;static</span>, <span class='ident'>Le</span>:<span class='lifetime'>&#39;static</span><span class='op'>+</span><span class='ident'>ListElim</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span>, 
+                       <span class='ident'>Y</span>:<span class='lifetime'>&#39;static</span>, <span class='ident'>Li</span>:<span class='lifetime'>&#39;static</span><span class='op'>+</span><span class='ident'>ListIntro</span><span class='op'>&lt;</span><span class='ident'>Y</span><span class='op'>&gt;</span>, 
+                       <span class='ident'>F</span>:<span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>
+  (<span class='ident'>l</span>:<span class='ident'>Le</span>, <span class='ident'>body</span>:<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Li</span>
+ <span class='kw'>where</span> <span class='ident'>F</span>:<span class='ident'>Fn</span>(<span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='ident'>Y</span>
+{
+  <span class='ident'>Le</span>::<span class='ident'>elim_arg</span>
+    (<span class='ident'>l</span>, <span class='ident'>body</span>,
+     <span class='op'>|</span>_,_<span class='op'>|</span> <span class='ident'>list_nil</span>(),
+     <span class='op'>|</span><span class='ident'>x</span>, <span class='ident'>tl</span>, <span class='ident'>body</span><span class='op'>|</span> {
+       <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='ident'>body</span>.<span class='ident'>clone</span>() (<span class='ident'>x</span>);
+       <span class='ident'>list_cons</span>(<span class='ident'>y</span>, <span class='ident'>list_map_eager2</span>(<span class='ident'>tl</span>, <span class='ident'>body</span>))
+     },
+     <span class='op'>|</span><span class='ident'>n</span>, <span class='ident'>tl</span>, <span class='ident'>body</span><span class='op'>|</span> {
+       <span class='comment'>// We only memoize when we encounter a name in the input</span>
+       <span class='kw'>let</span> (<span class='ident'>nm1</span>, <span class='ident'>nm2</span>, <span class='ident'>nm3</span>) <span class='op'>=</span> <span class='ident'>name_fork3</span>(<span class='ident'>n</span>.<span class='ident'>clone</span>());
+       <span class='kw'>let</span> <span class='ident'>t</span> <span class='op'>=</span> <span class='macro'>memo</span><span class='macro'>!</span>( <span class='ident'>nm2</span> <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='ident'>list_map_eager2</span> <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='op'>&lt;</span><span class='ident'>X</span>, <span class='ident'>Le</span>, <span class='ident'>Y</span>, <span class='ident'>Li</span>, <span class='ident'>F</span><span class='op'>&gt;</span>, <span class='ident'>l</span>:<span class='ident'>tl</span> ;; <span class='ident'>body</span>:<span class='ident'>body</span>.<span class='ident'>clone</span>() );
+       <span class='ident'>list_name</span>(<span class='ident'>nm1</span>, <span class='ident'>list_art</span>( <span class='ident'>cell</span>( <span class='ident'>nm3</span> , <span class='ident'>t</span>) ) )
      })
 }
 
@@ -4838,6 +4890,8 @@
   <span class='comment'>//      |st,art,_| format!(&quot;Art({})&quot;, {let l = st.force(art); Self::get_string(st, l)}),</span>
   <span class='comment'>//      )}  </span>
 }
+
+<span class='doccomment'>/// Encodes collections as they have appeared in papers, e.g., as in</span>
 
 <span class='doccomment'>/// Random Access Zipper (RAZ).</span>
 <span class='doccomment'>/// Purely functional sequences with global access (via a balanced</span>
