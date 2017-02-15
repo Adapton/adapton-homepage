@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/97f8494/src/tree_cursor.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/8029326/src/tree_cursor.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>tree_cursor.rs.html -- source</title>
@@ -503,7 +503,7 @@
 	<span class='doccomment'>/// right branches of a tree node, along with the old data in that node.</span>
 	<span class='doccomment'>/// For example, read size from left and right to get the new size of the branch,</span>
 	<span class='doccomment'>/// or copy the old data without modification for the new branch.</span>
-	<span class='kw'>fn</span> <span class='ident'>update</span>(<span class='ident'>l_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='self'>Self</span><span class='op'>&gt;</span>, <span class='ident'>old_data</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>, <span class='ident'>r_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='self'>Self</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+	<span class='kw'>fn</span> <span class='ident'>rebuild</span>(<span class='ident'>l_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='self'>Self</span><span class='op'>&gt;</span>, <span class='ident'>old_data</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>, <span class='ident'>r_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='self'>Self</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
 }
 <span class='doccomment'>/// marker that allows a default implementation of TreeUpdate if the data is also `Clone`</span>
 <span class='doccomment'>///</span>
@@ -511,7 +511,7 @@
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>DeriveTreeUpdate</span>{}
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>DeriveTreeUpdate</span> <span class='op'>+</span> <span class='ident'>Clone</span><span class='op'>&gt;</span> <span class='ident'>TreeUpdate</span> <span class='kw'>for</span> <span class='ident'>E</span> {
 	<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_variables</span>)]</span>
-	<span class='kw'>fn</span> <span class='ident'>update</span>(<span class='ident'>l_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='self'>Self</span><span class='op'>&gt;</span>, <span class='ident'>old_data</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>, <span class='ident'>r_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='self'>Self</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> { <span class='ident'>old_data</span>.<span class='ident'>clone</span>() }
+	<span class='kw'>fn</span> <span class='ident'>rebuild</span>(<span class='ident'>l_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='self'>Self</span><span class='op'>&gt;</span>, <span class='ident'>old_data</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>, <span class='ident'>r_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='self'>Self</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> { <span class='ident'>old_data</span>.<span class='ident'>clone</span>() }
 }
 
 <span class='doccomment'>/// cursor movement qualifier</span>
@@ -597,7 +597,7 @@
 
 	<span class='doccomment'>/// makes a new cursor at the given data, between the trees of the other cursors</span>
 	<span class='doccomment'>///</span>
-	<span class='doccomment'>/// The `update()` method of the data type will be called, with the `data`</span>
+	<span class='doccomment'>/// The `rebuild()` method of the data type will be called, with the `data`</span>
 	<span class='doccomment'>/// parameter passed here as the `old_data` to that method (along with joined branches).</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>join</span>(<span class='kw-2'>mut</span> <span class='ident'>l_cursor</span>: <span class='self'>Self</span>, <span class='ident'>level</span>: <span class='ident'>L</span>, <span class='ident'>data</span>: <span class='ident'>E</span>, <span class='kw-2'>mut</span> <span class='ident'>r_cursor</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
 		<span class='comment'>// step 1: remove center forests</span>
@@ -623,7 +623,7 @@
 		<span class='comment'>// step 3: build center tree</span>
 		<span class='kw'>let</span> <span class='ident'>tree</span> <span class='op'>=</span> <span class='ident'>Tree</span>::<span class='ident'>new</span>(
 			<span class='ident'>level</span>,
-			<span class='ident'>E</span>::<span class='ident'>update</span>(<span class='ident'>peek_op</span>(<span class='kw-2'>&amp;</span><span class='ident'>l_cursor</span>.<span class='ident'>tree</span>), <span class='kw-2'>&amp;</span><span class='ident'>data</span>, <span class='ident'>peek_op</span>(<span class='kw-2'>&amp;</span><span class='ident'>r_cursor</span>.<span class='ident'>tree</span>)),
+			<span class='ident'>E</span>::<span class='ident'>rebuild</span>(<span class='ident'>peek_op</span>(<span class='kw-2'>&amp;</span><span class='ident'>l_cursor</span>.<span class='ident'>tree</span>), <span class='kw-2'>&amp;</span><span class='ident'>data</span>, <span class='ident'>peek_op</span>(<span class='kw-2'>&amp;</span><span class='ident'>r_cursor</span>.<span class='ident'>tree</span>)),
 			<span class='ident'>l_cursor</span>.<span class='ident'>tree</span>.<span class='ident'>clone</span>(),
 			<span class='ident'>r_cursor</span>.<span class='ident'>tree</span>.<span class='ident'>clone</span>(),
 		);
@@ -724,7 +724,7 @@
 
 	<span class='doccomment'>/// move the cursor up towards the root of the underlying persistent tree</span>
 	<span class='doccomment'>///</span>
-	<span class='doccomment'>/// If the tree has been changed, the `update()` method of the tree&#39;s data</span>
+	<span class='doccomment'>/// If the tree has been changed, the `rebuild()` method of the tree&#39;s data</span>
 	<span class='doccomment'>/// type will be called as a new persistent node is created.</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>up</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
 		<span class='kw'>let</span> <span class='ident'>to_left</span> <span class='op'>=</span> <span class='kw'>match</span> (<span class='self'>self</span>.<span class='ident'>l_forest</span>.<span class='ident'>last</span>(), <span class='self'>self</span>.<span class='ident'>r_forest</span>.<span class='ident'>last</span>()) {
@@ -739,7 +739,7 @@
 					<span class='kw'>let</span> <span class='ident'>l_branch</span> <span class='op'>=</span> <span class='ident'>upper_tree</span>.<span class='ident'>l_tree</span>();
 					<span class='self'>self</span>.<span class='ident'>tree</span> <span class='op'>=</span> <span class='ident'>Tree</span>::<span class='ident'>new</span>(
 						<span class='ident'>upper_tree</span>.<span class='ident'>level</span>(),
-						<span class='ident'>E</span>::<span class='ident'>update</span>(<span class='ident'>peek_op</span>(<span class='kw-2'>&amp;</span><span class='ident'>l_branch</span>), <span class='ident'>upper_tree</span>.<span class='ident'>peek</span>(), <span class='ident'>peek_op</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>tree</span>)),
+						<span class='ident'>E</span>::<span class='ident'>rebuild</span>(<span class='ident'>peek_op</span>(<span class='kw-2'>&amp;</span><span class='ident'>l_branch</span>), <span class='ident'>upper_tree</span>.<span class='ident'>peek</span>(), <span class='ident'>peek_op</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>tree</span>)),
 						<span class='ident'>l_branch</span>,
 						<span class='self'>self</span>.<span class='ident'>tree</span>.<span class='ident'>take</span>(),
 					)
@@ -751,7 +751,7 @@
 					<span class='kw'>let</span> <span class='ident'>r_branch</span> <span class='op'>=</span> <span class='ident'>upper_tree</span>.<span class='ident'>r_tree</span>();
 					<span class='self'>self</span>.<span class='ident'>tree</span> <span class='op'>=</span> <span class='ident'>Tree</span>::<span class='ident'>new</span>(
 						<span class='ident'>upper_tree</span>.<span class='ident'>level</span>(),
-						<span class='ident'>E</span>::<span class='ident'>update</span>(<span class='ident'>peek_op</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>tree</span>), <span class='ident'>upper_tree</span>.<span class='ident'>peek</span>(), <span class='ident'>peek_op</span>(<span class='kw-2'>&amp;</span><span class='ident'>r_branch</span>)),
+						<span class='ident'>E</span>::<span class='ident'>rebuild</span>(<span class='ident'>peek_op</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>tree</span>), <span class='ident'>upper_tree</span>.<span class='ident'>peek</span>(), <span class='ident'>peek_op</span>(<span class='kw-2'>&amp;</span><span class='ident'>r_branch</span>)),
 						<span class='self'>self</span>.<span class='ident'>tree</span>.<span class='ident'>take</span>(),
 						<span class='ident'>r_branch</span>,
 					)

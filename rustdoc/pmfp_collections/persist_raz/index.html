@@ -48,8 +48,17 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/pmfp_collections/persist_raz.rs.html#3-490' title='goto source code'>[src]</a></span></h1>
-<h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+               </span><a class='srclink' href='../../src/pmfp_collections/persist_raz.rs.html#1-498' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Random access zipper, early version</p>
+
+<p>This version uses a tree structure to
+represent a sequence. The tree contains
+one element per leaf, so the search depth
+may be higher than the version in <code>gauged_raz</code>.
+This version is fully persistent, with
+every edit sharing all other data. Cloning
+is fast and expected</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Iter.html'

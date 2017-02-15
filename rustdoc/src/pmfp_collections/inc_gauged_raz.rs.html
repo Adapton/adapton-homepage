@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/97f8494/src/inc_gauged_raz.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/8029326/src/inc_gauged_raz.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>inc_gauged_raz.rs.html -- source</title>
@@ -761,6 +761,107 @@
 <span id="716">716</span>
 <span id="717">717</span>
 <span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Temporary alteration of guaged_raz for incremental use</span>
 <span class='doccomment'>//!</span>
@@ -773,21 +874,22 @@
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Debug</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::<span class='ident'>Hash</span>;
-<span class='kw'>use</span> <span class='ident'>rand</span>::<span class='ident'>thread_rng</span>;
 
 <span class='kw'>use</span> <span class='ident'>inc_tree_cursor</span> <span class='kw'>as</span> <span class='ident'>tree</span>;
 <span class='kw'>use</span> <span class='ident'>archive_stack</span> <span class='kw'>as</span> <span class='ident'>stack</span>;
+
+<span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='ident'>Name</span>;
 
 <span class='doccomment'>/// Random access zipper</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// A cursor into a sequence, optimised for moving to </span>
 <span class='doccomment'>/// arbitrary points in the sequence</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='lifetime'>&#39;static</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> {
 	<span class='ident'>length</span>: <span class='ident'>usize</span>,
 	<span class='ident'>l_forest</span>: <span class='ident'>tree</span>::<span class='ident'>Cursor</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>,
-	<span class='ident'>l_stack</span>: <span class='ident'>stack</span>::<span class='ident'>AStack</span><span class='op'>&lt;</span><span class='ident'>E</span>,<span class='ident'>u32</span><span class='op'>&gt;</span>,
-	<span class='ident'>r_stack</span>: <span class='ident'>stack</span>::<span class='ident'>AStack</span><span class='op'>&lt;</span><span class='ident'>E</span>,<span class='ident'>u32</span><span class='op'>&gt;</span>,
+	<span class='ident'>l_stack</span>: <span class='ident'>stack</span>::<span class='ident'>AStack</span><span class='op'>&lt;</span><span class='ident'>E</span>,(<span class='ident'>u32</span>,<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span>,
+	<span class='ident'>r_stack</span>: <span class='ident'>stack</span>::<span class='ident'>AStack</span><span class='op'>&lt;</span><span class='ident'>E</span>,(<span class='ident'>u32</span>,<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span>,
 	<span class='ident'>r_forest</span>: <span class='ident'>tree</span>::<span class='ident'>Cursor</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>,
 }
 
@@ -800,20 +902,20 @@
 	<span class='ident'>Leaf</span>(<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>),
 }
 
-<span class='kw'>fn</span> <span class='ident'>count</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span>(<span class='ident'>elm</span>: <span class='kw-2'>&amp;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
+<span class='kw'>fn</span> <span class='ident'>count</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(<span class='ident'>elm</span>: <span class='kw-2'>&amp;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
 	<span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>elm</span> {
 		<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='number'>0</span>,
 		<span class='prelude-val'>Some</span>(<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>,<span class='ident'>r_count</span>}) <span class='op'>=&gt;</span> <span class='ident'>l_count</span> <span class='op'>+</span> <span class='ident'>r_count</span>,
 		<span class='prelude-val'>Some</span>(<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='kw-2'>ref</span> <span class='ident'>vec</span>)) <span class='op'>=&gt;</span> <span class='ident'>vec</span>.<span class='ident'>len</span>(),
 	}
 }
-<span class='kw'>fn</span> <span class='ident'>count_tree_op</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span>(<span class='ident'>tree</span>: <span class='kw-2'>&amp;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>tree</span>::<span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
+<span class='kw'>fn</span> <span class='ident'>count_tree_op</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(<span class='ident'>tree</span>: <span class='kw-2'>&amp;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>tree</span>::<span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
 	<span class='ident'>count</span>(<span class='kw-2'>&amp;</span><span class='ident'>tree</span>.<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span><span class='ident'>t</span>.<span class='ident'>peek</span>()))
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span> <span class='ident'>tree</span>::<span class='ident'>TreeUpdate</span> <span class='kw'>for</span> <span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> <span class='ident'>tree</span>::<span class='ident'>TreeUpdate</span> <span class='kw'>for</span> <span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 	<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_variables</span>)]</span>
-	<span class='kw'>fn</span> <span class='ident'>update</span>(<span class='ident'>l_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>, <span class='ident'>old_data</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>, <span class='ident'>r_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+	<span class='kw'>fn</span> <span class='ident'>rebuild</span>(<span class='ident'>l_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>, <span class='ident'>old_data</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>, <span class='ident'>r_branch</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
 		<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>: <span class='ident'>count</span>(<span class='kw-2'>&amp;</span><span class='ident'>l_branch</span>), <span class='ident'>r_count</span>: <span class='ident'>count</span>(<span class='kw-2'>&amp;</span><span class='ident'>r_branch</span>)}
 	}
 }
@@ -824,7 +926,7 @@
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>,<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RazTree</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='lifetime'>&#39;static</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span>{<span class='ident'>count</span>: <span class='ident'>usize</span>, <span class='ident'>tree</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>tree</span>::<span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>}
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span> <span class='ident'>RazTree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> <span class='ident'>RazTree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 	<span class='doccomment'>/// the number if items in the sequence</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>len</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {<span class='self'>self</span>.<span class='ident'>count</span>}
 
@@ -833,16 +935,22 @@
 	<span class='doccomment'>/// This is calculated from data in leaves of a tree structure,</span>
 	<span class='doccomment'>/// so the operation must be associative. Returns None if there</span>
 	<span class='doccomment'>/// are no elements.</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fold_up</span><span class='op'>&lt;</span><span class='ident'>I</span>,<span class='ident'>R</span>,<span class='ident'>B</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='kw-2'>mut</span> <span class='ident'>init</span>: <span class='ident'>I</span>, <span class='kw-2'>mut</span> <span class='ident'>bin</span>: <span class='ident'>B</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>
-		<span class='kw'>where</span> <span class='ident'>I</span>: <span class='ident'>FnMut</span>(<span class='kw-2'>&amp;</span><span class='ident'>E</span>) <span class='op'>-&gt;</span> <span class='ident'>R</span>, <span class='ident'>B</span>: <span class='ident'>FnMut</span>(<span class='ident'>R</span>,<span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>R</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fold_up</span><span class='op'>&lt;</span><span class='ident'>I</span>,<span class='ident'>R</span>,<span class='ident'>B</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>init</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span>, <span class='ident'>bin</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>B</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>
+		<span class='kw'>where</span>
+			<span class='ident'>R</span>: <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='ident'>Debug</span>,
+			<span class='ident'>I</span>: <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>Fn</span>(<span class='kw-2'>&amp;</span><span class='ident'>E</span>) <span class='op'>-&gt;</span> <span class='ident'>R</span>,
+			<span class='ident'>B</span>: <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>Fn</span>(<span class='ident'>R</span>,<span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>R</span>
 	{
-		<span class='self'>self</span>.<span class='ident'>tree</span>.<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>tree</span><span class='op'>|</span> {
-			<span class='ident'>tree</span>.<span class='ident'>fold_up</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>|</span><span class='ident'>l</span>,<span class='ident'>c</span>,<span class='ident'>r</span><span class='op'>|</span>{
-				<span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>c</span> {
+		<span class='comment'>// TODO: memo! fold_up (only first rec call is not)</span>
+		<span class='self'>self</span>.<span class='ident'>tree</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>tree</span><span class='op'>|</span> {
+			<span class='ident'>tree</span>.<span class='ident'>fold_up</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='kw'>move</span> <span class='op'>|</span><span class='ident'>l</span>,<span class='ident'>c</span>,<span class='ident'>r</span><span class='op'>|</span>{
+				<span class='kw'>match</span> <span class='ident'>c</span> {
 					<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='kw-2'>ref</span> <span class='ident'>vec</span>) <span class='op'>=&gt;</span> {
 						<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>iter</span> <span class='op'>=</span> <span class='ident'>vec</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>elm</span><span class='op'>|</span><span class='ident'>init</span>(<span class='ident'>elm</span>));
 						<span class='kw'>let</span> <span class='ident'>first</span> <span class='op'>=</span> <span class='ident'>iter</span>.<span class='ident'>next</span>().<span class='ident'>expect</span>(<span class='string'>&quot;leaf with empty vec&quot;</span>);
-						<span class='ident'>iter</span>.<span class='ident'>fold</span>(<span class='ident'>first</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>bin</span>)
+						<span class='comment'>// eta expansion so that bin is moved into the FnMut</span>
+						<span class='comment'>// and *bin is moved into the FnOnce</span>
+						<span class='ident'>iter</span>.<span class='ident'>fold</span>(<span class='ident'>first</span>, <span class='op'>|</span><span class='ident'>x</span>,<span class='ident'>y</span><span class='op'>|</span>{ (<span class='kw-2'>*</span><span class='ident'>bin</span>)(<span class='ident'>x</span>,<span class='ident'>y</span>) })
 					},
 					<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{..} <span class='op'>=&gt;</span> { <span class='kw'>match</span> (<span class='ident'>l</span>,<span class='ident'>r</span>) {
 						(<span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>) <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;branch with no data&quot;</span>),
@@ -850,9 +958,34 @@
 						(<span class='prelude-val'>Some</span>(<span class='ident'>r1</span>),<span class='prelude-val'>Some</span>(<span class='ident'>r2</span>)) <span class='op'>=&gt;</span> <span class='ident'>bin</span>(<span class='ident'>r1</span>,<span class='ident'>r2</span>),
 					}},
 				}
-			})
+			}))
 		})
 	}
+
+	<span class='doccomment'>/// returns a new tree with data mapped from the old tree</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>map</span><span class='op'>&lt;</span><span class='ident'>R</span>,<span class='ident'>F</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>f</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>RazTree</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>
+		<span class='kw'>where</span>
+			<span class='ident'>R</span>: <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='ident'>Debug</span>,
+			<span class='ident'>F</span>: <span class='lifetime'>&#39;static</span> <span class='op'>+</span> <span class='ident'>Fn</span>(<span class='kw-2'>&amp;</span><span class='ident'>E</span>) <span class='op'>-&gt;</span> <span class='ident'>R</span>,
+	{
+		<span class='comment'>// TODO: memo! map (only the first rec call is not)</span>
+		<span class='ident'>RazTree</span>{<span class='ident'>count</span>: <span class='self'>self</span>.<span class='ident'>count</span>, <span class='ident'>tree</span>:
+			<span class='self'>self</span>.<span class='ident'>tree</span>.<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>tree</span><span class='op'>|</span> {
+				<span class='ident'>tree</span>.<span class='ident'>map</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='kw'>move</span> <span class='op'>|</span><span class='ident'>d</span><span class='op'>|</span>{
+					<span class='kw'>match</span> <span class='ident'>d</span> {
+						<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='kw-2'>ref</span> <span class='ident'>vec</span>) <span class='op'>=&gt;</span> {
+							<span class='kw'>let</span> <span class='ident'>mapped</span> <span class='op'>=</span> <span class='ident'>vec</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span><span class='ident'>f</span>(<span class='ident'>e</span>)).<span class='ident'>collect</span>();
+							<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>mapped</span>))
+						},
+						<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>,<span class='ident'>r_count</span>} <span class='op'>=&gt;</span> {
+							<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='ident'>l_count</span>,<span class='ident'>r_count</span>:<span class='ident'>r_count</span>}
+						},
+					}
+				}))
+			})
+		}
+	}
+
 
 	<span class='doccomment'>/// focus on a location in the sequence to begin editing.</span>
 	<span class='doccomment'>///</span>
@@ -910,7 +1043,7 @@
 
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span> <span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> <span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 	<span class='doccomment'>/// Create a new RAZ, for an empty sequence</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 		<span class='ident'>Raz</span>{
@@ -930,13 +1063,19 @@
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>unfocus</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>RazTree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>l_lev</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
 		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>r_lev</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
+		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>l_nm</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
+		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>r_nm</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
 		<span class='comment'>// step 1: reconstruct local array from stack</span>
-		<span class='kw'>let</span> <span class='ident'>l_vec</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>vec</span>,<span class='ident'>lev</span>)) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>next_archive</span>() {
+		<span class='kw'>let</span> <span class='ident'>l_vec</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>vec</span>,<span class='ident'>lev_nm</span>)) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>next_archive</span>() {
+			<span class='kw'>let</span> (<span class='ident'>lev</span>,<span class='ident'>nm</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>lev_nm</span> { <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>), <span class='prelude-val'>Some</span>((<span class='ident'>lev</span>,<span class='ident'>nm</span>)) <span class='op'>=&gt;</span> (<span class='prelude-val'>Some</span>(<span class='ident'>lev</span>),<span class='ident'>nm</span>)};
 			<span class='ident'>l_lev</span> <span class='op'>=</span> <span class='ident'>lev</span>;
+			<span class='ident'>l_nm</span> <span class='op'>=</span> <span class='ident'>nm</span>;
 			<span class='kw'>if</span> <span class='ident'>vec</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span> {<span class='prelude-val'>Some</span>(<span class='ident'>vec</span>)} <span class='kw'>else</span> {<span class='prelude-val'>None</span>}
 		} <span class='kw'>else</span> { <span class='prelude-val'>None</span> };
-		<span class='kw'>let</span> <span class='ident'>r_vec</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>vec</span>,<span class='ident'>lev</span>)) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>next_archive</span>() {
+		<span class='kw'>let</span> <span class='ident'>r_vec</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>vec</span>,<span class='ident'>lev_nm</span>)) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>next_archive</span>() {
+			<span class='kw'>let</span> (<span class='ident'>lev</span>,<span class='ident'>nm</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>lev_nm</span> { <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>), <span class='prelude-val'>Some</span>((<span class='ident'>lev</span>,<span class='ident'>nm</span>)) <span class='op'>=&gt;</span> (<span class='prelude-val'>Some</span>(<span class='ident'>lev</span>),<span class='ident'>nm</span>)};
 			<span class='ident'>r_lev</span> <span class='op'>=</span> <span class='ident'>lev</span>;
+			<span class='ident'>r_nm</span> <span class='op'>=</span> <span class='ident'>nm</span>;
 			<span class='kw'>if</span> <span class='ident'>vec</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span> {<span class='prelude-val'>Some</span>(<span class='ident'>vec</span>)} <span class='kw'>else</span> {<span class='prelude-val'>None</span>}
 		} <span class='kw'>else</span> { <span class='prelude-val'>None</span> };
 		<span class='kw'>let</span> <span class='ident'>vec</span> <span class='op'>=</span> <span class='kw'>match</span> (<span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>is_empty</span>(), <span class='ident'>l_vec</span>, <span class='ident'>r_vec</span>, <span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>is_empty</span>()) {
@@ -944,14 +1083,18 @@
 			(_,<span class='prelude-val'>None</span>,<span class='prelude-val'>Some</span>(<span class='kw-2'>mut</span> <span class='ident'>v</span>),_) <span class='op'>=&gt;</span> { <span class='ident'>v</span>.<span class='ident'>reverse</span>(); <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) },
 			(_,<span class='prelude-val'>Some</span>(<span class='kw-2'>mut</span> <span class='ident'>lv</span>),<span class='prelude-val'>Some</span>(<span class='kw-2'>mut</span> <span class='ident'>rv</span>),_) <span class='op'>=&gt;</span> {<span class='ident'>rv</span>.<span class='ident'>reverse</span>(); <span class='ident'>lv</span>.<span class='ident'>extend</span>(<span class='ident'>rv</span>); <span class='prelude-val'>Some</span>(<span class='ident'>lv</span>) },
 			(<span class='bool-val'>false</span>, <span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>, _) <span class='op'>=&gt;</span> {
-				<span class='kw'>let</span> (<span class='ident'>v</span>,<span class='ident'>lev</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>next_archive</span>().<span class='ident'>unwrap</span>();
+				<span class='kw'>let</span> (<span class='ident'>v</span>,<span class='ident'>lev_nm</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>next_archive</span>().<span class='ident'>unwrap</span>();
+				<span class='kw'>let</span> (<span class='ident'>lev</span>,<span class='ident'>nm</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>lev_nm</span> { <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>), <span class='prelude-val'>Some</span>((<span class='ident'>lev</span>,<span class='ident'>nm</span>)) <span class='op'>=&gt;</span> (<span class='prelude-val'>Some</span>(<span class='ident'>lev</span>),<span class='ident'>nm</span>)};
 				<span class='ident'>l_lev</span> <span class='op'>=</span> <span class='ident'>lev</span>;
+				<span class='ident'>l_nm</span> <span class='op'>=</span> <span class='ident'>nm</span>;
 				<span class='prelude-val'>Some</span>(<span class='ident'>v</span>)
 			},
 			(<span class='bool-val'>true</span>, <span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>, <span class='bool-val'>false</span>) <span class='op'>=&gt;</span> {
-				<span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>v</span>,<span class='ident'>lev</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>next_archive</span>().<span class='ident'>unwrap</span>();
+				<span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>v</span>,<span class='ident'>lev_nm</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>next_archive</span>().<span class='ident'>unwrap</span>();
 				<span class='ident'>v</span>.<span class='ident'>reverse</span>();
+				<span class='kw'>let</span> (<span class='ident'>lev</span>,<span class='ident'>nm</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>lev_nm</span> { <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>), <span class='prelude-val'>Some</span>((<span class='ident'>lev</span>,<span class='ident'>nm</span>)) <span class='op'>=&gt;</span> (<span class='prelude-val'>Some</span>(<span class='ident'>lev</span>),<span class='ident'>nm</span>)};
 				<span class='ident'>r_lev</span> <span class='op'>=</span> <span class='ident'>lev</span>;
+				<span class='ident'>r_nm</span> <span class='op'>=</span> <span class='ident'>nm</span>;
 				<span class='prelude-val'>Some</span>(<span class='ident'>v</span>)
 			},
 			_ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
@@ -959,19 +1102,23 @@
 		<span class='comment'>// step 2: build center tree</span>
 		<span class='kw'>let</span> <span class='ident'>tree</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>vec</span> {
 			<span class='comment'>// OPTIMIZE: linear algorithm</span>
-			<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cursor</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>v</span>)),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>).<span class='ident'>unwrap</span>().<span class='ident'>into</span>();
-			<span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>l_vec</span>,<span class='ident'>lev</span>)) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>next_archive</span>() {
-				<span class='kw'>let</span> <span class='ident'>l_curs</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>l_vec</span>)),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>).<span class='ident'>unwrap</span>().<span class='ident'>into</span>();
+			<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cursor</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>v</span>)),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>).<span class='ident'>unwrap</span>().<span class='ident'>into</span>();
+			<span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>l_vec</span>,<span class='ident'>lev_nm</span>)) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>next_archive</span>() {
+				<span class='kw'>let</span> (<span class='ident'>lev</span>,<span class='ident'>nm</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>lev_nm</span> { <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>), <span class='prelude-val'>Some</span>((<span class='ident'>lev</span>,<span class='ident'>nm</span>)) <span class='op'>=&gt;</span> (<span class='prelude-val'>Some</span>(<span class='ident'>lev</span>),<span class='ident'>nm</span>)};
+				<span class='kw'>let</span> <span class='ident'>l_curs</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>l_vec</span>)),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>).<span class='ident'>unwrap</span>().<span class='ident'>into</span>();
 				<span class='kw'>let</span> <span class='ident'>dummy</span> <span class='op'>=</span> <span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>: <span class='number'>0</span>, <span class='ident'>r_count</span>: <span class='number'>0</span>};
-				<span class='ident'>cursor</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Cursor</span>::<span class='ident'>join</span>(<span class='ident'>l_curs</span>,<span class='ident'>l_lev</span>.<span class='ident'>unwrap</span>(),<span class='ident'>dummy</span>,<span class='ident'>cursor</span>);
+				<span class='ident'>cursor</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Cursor</span>::<span class='ident'>join</span>(<span class='ident'>l_curs</span>,<span class='ident'>l_lev</span>.<span class='ident'>unwrap</span>(),<span class='ident'>l_nm</span>,<span class='ident'>dummy</span>,<span class='ident'>cursor</span>);
 				<span class='ident'>l_lev</span> <span class='op'>=</span> <span class='ident'>lev</span>;
+				<span class='ident'>l_nm</span> <span class='op'>=</span> <span class='ident'>nm</span>;
 			}
-			<span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='kw-2'>mut</span> <span class='ident'>r_vec</span>,<span class='ident'>lev</span>)) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>next_archive</span>() {
+			<span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='kw-2'>mut</span> <span class='ident'>r_vec</span>,<span class='ident'>lev_nm</span>)) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>next_archive</span>() {
+				<span class='kw'>let</span> (<span class='ident'>lev</span>,<span class='ident'>nm</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>lev_nm</span> { <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>), <span class='prelude-val'>Some</span>((<span class='ident'>lev</span>,<span class='ident'>nm</span>)) <span class='op'>=&gt;</span> (<span class='prelude-val'>Some</span>(<span class='ident'>lev</span>),<span class='ident'>nm</span>)};
 				<span class='ident'>r_vec</span>.<span class='ident'>reverse</span>();
-				<span class='kw'>let</span> <span class='ident'>r_curs</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>r_vec</span>)),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>).<span class='ident'>unwrap</span>().<span class='ident'>into</span>();
+				<span class='kw'>let</span> <span class='ident'>r_curs</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>r_vec</span>)),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>).<span class='ident'>unwrap</span>().<span class='ident'>into</span>();
 				<span class='kw'>let</span> <span class='ident'>dummy</span> <span class='op'>=</span> <span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>: <span class='number'>0</span>, <span class='ident'>r_count</span>: <span class='number'>0</span>};
-				<span class='ident'>cursor</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Cursor</span>::<span class='ident'>join</span>(<span class='ident'>cursor</span>,<span class='ident'>r_lev</span>.<span class='ident'>unwrap</span>(),<span class='ident'>dummy</span>,<span class='ident'>r_curs</span>);
+				<span class='ident'>cursor</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Cursor</span>::<span class='ident'>join</span>(<span class='ident'>cursor</span>,<span class='ident'>r_lev</span>.<span class='ident'>unwrap</span>(),<span class='ident'>r_nm</span>,<span class='ident'>dummy</span>,<span class='ident'>r_curs</span>);
 				<span class='ident'>r_lev</span> <span class='op'>=</span> <span class='ident'>lev</span>;
+				<span class='ident'>r_nm</span> <span class='op'>=</span> <span class='ident'>nm</span>;
 			}
 			<span class='kw'>while</span> <span class='ident'>cursor</span>.<span class='ident'>up</span>() {}
 			<span class='ident'>cursor</span>.<span class='ident'>at_tree</span>().<span class='ident'>unwrap</span>()
@@ -990,15 +1137,17 @@
 		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>join_cursor</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Cursor</span>::<span class='ident'>from</span>(<span class='ident'>tree</span>);
 		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>l_forest</span>.<span class='ident'>up</span>() {
 			<span class='kw'>let</span> <span class='ident'>lev</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>l_forest</span>.<span class='ident'>peek_level</span>().<span class='ident'>unwrap</span>();
+			<span class='kw'>let</span> <span class='ident'>nm</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>r_forest</span>.<span class='ident'>peek_name</span>();
 			<span class='self'>self</span>.<span class='ident'>l_forest</span>.<span class='ident'>down_left_force</span>(<span class='ident'>tree</span>::<span class='ident'>Force</span>::<span class='ident'>Discard</span>);
 			<span class='kw'>let</span> <span class='ident'>dummy</span> <span class='op'>=</span> <span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>: <span class='number'>0</span>, <span class='ident'>r_count</span>: <span class='number'>0</span>};
-			<span class='ident'>join_cursor</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Cursor</span>::<span class='ident'>join</span>(<span class='self'>self</span>.<span class='ident'>l_forest</span>,<span class='ident'>lev</span>,<span class='ident'>dummy</span>,<span class='ident'>join_cursor</span>);
+			<span class='ident'>join_cursor</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Cursor</span>::<span class='ident'>join</span>(<span class='self'>self</span>.<span class='ident'>l_forest</span>,<span class='ident'>lev</span>,<span class='ident'>nm</span>,<span class='ident'>dummy</span>,<span class='ident'>join_cursor</span>);
 		}
 		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>r_forest</span>.<span class='ident'>up</span>() {
 			<span class='kw'>let</span> <span class='ident'>lev</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>r_forest</span>.<span class='ident'>peek_level</span>().<span class='ident'>unwrap</span>();
+			<span class='kw'>let</span> <span class='ident'>nm</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>r_forest</span>.<span class='ident'>peek_name</span>();
 			<span class='self'>self</span>.<span class='ident'>r_forest</span>.<span class='ident'>down_right_force</span>(<span class='ident'>tree</span>::<span class='ident'>Force</span>::<span class='ident'>Discard</span>);
 			<span class='kw'>let</span> <span class='ident'>dummy</span> <span class='op'>=</span> <span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>: <span class='number'>0</span>, <span class='ident'>r_count</span>: <span class='number'>0</span>};
-			<span class='ident'>join_cursor</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Cursor</span>::<span class='ident'>join</span>(<span class='ident'>join_cursor</span>,<span class='ident'>lev</span>,<span class='ident'>dummy</span>,<span class='self'>self</span>.<span class='ident'>r_forest</span>);
+			<span class='ident'>join_cursor</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Cursor</span>::<span class='ident'>join</span>(<span class='ident'>join_cursor</span>,<span class='ident'>lev</span>,<span class='ident'>nm</span>,<span class='ident'>dummy</span>,<span class='self'>self</span>.<span class='ident'>r_forest</span>);
 		}
 		<span class='comment'>// step 4: convert to final tree</span>
 		<span class='kw'>while</span> <span class='ident'>join_cursor</span>.<span class='ident'>up</span>() {}
@@ -1007,16 +1156,17 @@
 	}
 
 	<span class='doccomment'>/// add an element to the left of the cursor</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>push_left</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>elm</span>: <span class='ident'>E</span>) {
+	<span class='doccomment'>/// returns number of non-archived elements</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>push_left</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>elm</span>: <span class='ident'>E</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
 		<span class='self'>self</span>.<span class='ident'>length</span> <span class='op'>+=</span> <span class='number'>1</span>;
 		<span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>push</span>(<span class='ident'>elm</span>);
-		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>active_len</span>() <span class='op'>%</span> <span class='number'>200</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='self'>self</span>.<span class='ident'>archive_left</span>(<span class='ident'>tree</span>::<span class='ident'>gen_level</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>thread_rng</span>())) }
+		<span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>active_len</span>()
 	}
 	<span class='doccomment'>/// add an element to the right of the cursor</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>push_right</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>elm</span>: <span class='ident'>E</span>) {
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>push_right</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>elm</span>: <span class='ident'>E</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
 		<span class='self'>self</span>.<span class='ident'>length</span> <span class='op'>+=</span> <span class='number'>1</span>;
 		<span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>push</span>(<span class='ident'>elm</span>);
-		<span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>active_len</span>() <span class='op'>%</span> <span class='number'>200</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='self'>self</span>.<span class='ident'>archive_right</span>(<span class='ident'>tree</span>::<span class='ident'>gen_level</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>thread_rng</span>())) }
+		<span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>active_len</span>()
 	}
 	<span class='doccomment'>/// peek at the element to the left of the cursor</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>peek_left</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
@@ -1027,12 +1177,12 @@
 		<span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>peek</span>()
 	}
 	<span class='doccomment'>/// mark the data at the left to be shared</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>archive_left</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>level</span>: <span class='ident'>u32</span>) {
-		<span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>archive</span>(<span class='ident'>level</span>);
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>archive_left</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>level</span>: <span class='ident'>u32</span>, <span class='ident'>name</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>) {
+		<span class='self'>self</span>.<span class='ident'>l_stack</span>.<span class='ident'>archive</span>((<span class='ident'>level</span>,<span class='ident'>name</span>));
 	}
 	<span class='doccomment'>/// mark the data at the right to be shared</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>archive_right</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>level</span>: <span class='ident'>u32</span>) {
-		<span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>archive</span>(<span class='ident'>level</span>);
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>archive_right</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>level</span>: <span class='ident'>u32</span>, <span class='ident'>name</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>) {
+		<span class='self'>self</span>.<span class='ident'>r_stack</span>.<span class='ident'>archive</span>((<span class='ident'>level</span>,<span class='ident'>name</span>));
 	}
 	<span class='doccomment'>/// remove and return an element to the left of the cursor</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pop_left</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
@@ -1074,17 +1224,18 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Deref</span>;
 
 <span class='doccomment'>/// convenience fn for making a tree from data</span>
-<span class='kw'>fn</span> <span class='ident'>leaf</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span>(<span class='ident'>v</span>:<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>ltree</span>::<span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span> {
-	<span class='ident'>ltree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>v</span>)),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>).<span class='ident'>unwrap</span>()
+<span class='kw'>fn</span> <span class='ident'>leaf</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(<span class='ident'>v</span>:<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>, <span class='ident'>n</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>ltree</span>::<span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span> {
+	<span class='ident'>ltree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>n</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>v</span>)),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>).<span class='ident'>unwrap</span>()
 }
 <span class='doccomment'>/// convenience fn for combining two trees as branches</span>
-<span class='kw'>fn</span> <span class='ident'>bin</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span>(
+<span class='kw'>fn</span> <span class='ident'>bin</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(
 	<span class='ident'>t1</span>: <span class='ident'>ltree</span>::<span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>,
 	<span class='ident'>l</span>:  <span class='ident'>u32</span>,
+	<span class='ident'>n</span>:  <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>,
 	<span class='ident'>t2</span>: <span class='ident'>ltree</span>::<span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>
 ) <span class='op'>-&gt;</span> <span class='ident'>ltree</span>::<span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span> {
 	<span class='ident'>ltree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(
-		<span class='ident'>l</span>, <span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='ident'>count</span>(<span class='kw-2'>&amp;</span><span class='prelude-val'>Some</span>(<span class='ident'>t1</span>.<span class='ident'>peek</span>())), <span class='ident'>r_count</span>: <span class='ident'>count</span>(<span class='kw-2'>&amp;</span><span class='prelude-val'>Some</span>(<span class='ident'>t2</span>.<span class='ident'>peek</span>()))},
+		<span class='ident'>l</span>,<span class='ident'>n</span>, <span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='ident'>count</span>(<span class='kw-2'>&amp;</span><span class='prelude-val'>Some</span>(<span class='ident'>t1</span>.<span class='ident'>peek</span>())), <span class='ident'>r_count</span>: <span class='ident'>count</span>(<span class='kw-2'>&amp;</span><span class='prelude-val'>Some</span>(<span class='ident'>t2</span>.<span class='ident'>peek</span>()))},
 		<span class='prelude-val'>Some</span>(<span class='ident'>t1</span>), <span class='prelude-val'>Some</span>(<span class='ident'>t2</span>)
 	).<span class='ident'>unwrap</span>()
 }
@@ -1094,24 +1245,24 @@
 <span class='doccomment'>/// Assume the head of the sequence is the edit point.</span>
 <span class='doccomment'>/// Rust&#39;s default Vec has the edit point at the tail of the data.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>AtHead</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span>(<span class='kw'>pub</span> <span class='ident'>stack</span>::<span class='ident'>AStack</span><span class='op'>&lt;</span><span class='ident'>T</span>,<span class='ident'>u32</span><span class='op'>&gt;</span>);
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>AtHead</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span>(<span class='kw'>pub</span> <span class='ident'>stack</span>::<span class='ident'>AStack</span><span class='op'>&lt;</span><span class='ident'>T</span>,(<span class='ident'>u32</span>,<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span>);
 <span class='doccomment'>/// Marker type for interpreting the stack as a sequence.</span>
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// Assume the tail of the sequence is the edit point.</span>
 <span class='doccomment'>/// Rust&#39;s default Vec has the edit point at the tail of the data.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>AtTail</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span>(<span class='kw'>pub</span> <span class='ident'>stack</span>::<span class='ident'>AStack</span><span class='op'>&lt;</span><span class='ident'>T</span>,<span class='ident'>u32</span><span class='op'>&gt;</span>);
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>AtTail</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span>(<span class='kw'>pub</span> <span class='ident'>stack</span>::<span class='ident'>AStack</span><span class='op'>&lt;</span><span class='ident'>T</span>,(<span class='ident'>u32</span>,<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span>);
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span> <span class='ident'>Deref</span> <span class='kw'>for</span> <span class='ident'>AtHead</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-	<span class='kw'>type</span> <span class='ident'>Target</span> <span class='op'>=</span> <span class='ident'>stack</span>::<span class='ident'>AStack</span><span class='op'>&lt;</span><span class='ident'>T</span>,<span class='ident'>u32</span><span class='op'>&gt;</span>;
+	<span class='kw'>type</span> <span class='ident'>Target</span> <span class='op'>=</span> <span class='ident'>stack</span>::<span class='ident'>AStack</span><span class='op'>&lt;</span><span class='ident'>T</span>,(<span class='ident'>u32</span>,<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span>;
 	<span class='kw'>fn</span> <span class='ident'>deref</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='self'>Self</span>::<span class='ident'>Target</span> { <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='number'>0</span> }
 }
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span> <span class='ident'>Deref</span> <span class='kw'>for</span> <span class='ident'>AtTail</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-	<span class='kw'>type</span> <span class='ident'>Target</span> <span class='op'>=</span> <span class='ident'>stack</span>::<span class='ident'>AStack</span><span class='op'>&lt;</span><span class='ident'>T</span>,<span class='ident'>u32</span><span class='op'>&gt;</span>;
+	<span class='kw'>type</span> <span class='ident'>Target</span> <span class='op'>=</span> <span class='ident'>stack</span>::<span class='ident'>AStack</span><span class='op'>&lt;</span><span class='ident'>T</span>,(<span class='ident'>u32</span>,<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span>;
 	<span class='kw'>fn</span> <span class='ident'>deref</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='self'>Self</span>::<span class='ident'>Target</span> { <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='number'>0</span> }
 }
 
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>AtTail</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>RazTree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>AtTail</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>RazTree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 	<span class='comment'>// we build this tree right to left</span>
 	<span class='comment'>// note that the left branch _cannot_ have</span>
 	<span class='comment'>// the same level as its parent</span>
@@ -1119,35 +1270,36 @@
 	<span class='comment'>// TODO: reimplement using (a new) peek_meta() to avoid half the code</span>
 	<span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>tailstack</span>: <span class='ident'>AtTail</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
 		<span class='kw'>let</span> <span class='ident'>AtTail</span>(<span class='kw-2'>mut</span> <span class='ident'>stack</span>) <span class='op'>=</span> <span class='ident'>tailstack</span>;
-		<span class='kw'>fn</span> <span class='ident'>from_stack</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span>(
-			<span class='ident'>stack</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>stack</span>::<span class='ident'>AStack</span><span class='op'>&lt;</span><span class='ident'>E</span>,<span class='ident'>u32</span><span class='op'>&gt;</span>,
+		<span class='kw'>fn</span> <span class='ident'>from_stack</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>(
+			<span class='ident'>stack</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>stack</span>::<span class='ident'>AStack</span><span class='op'>&lt;</span><span class='ident'>E</span>,(<span class='ident'>u32</span>,<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span>,
 			<span class='ident'>right_tree</span>: <span class='ident'>ltree</span>::<span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>,
 			<span class='ident'>mid_level</span>: <span class='ident'>u32</span>,
+			<span class='ident'>mid_name</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>,
 			<span class='ident'>top_level</span>: <span class='ident'>u32</span>
-		)	<span class='op'>-&gt;</span> (<span class='ident'>ltree</span>::<span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>) {
+		)	<span class='op'>-&gt;</span> (<span class='ident'>ltree</span>::<span class='ident'>Tree</span><span class='op'>&lt;</span><span class='ident'>TreeData</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>) {
 			<span class='kw'>match</span> <span class='ident'>stack</span>.<span class='ident'>next_archive</span>() {
 				<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>(), <span class='comment'>// if we have a level there will be more data</span>
 				<span class='prelude-val'>Some</span>((<span class='ident'>list</span>,<span class='ident'>meta</span>)) <span class='op'>=&gt;</span> { <span class='kw'>match</span> <span class='ident'>meta</span> {
-					<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='ident'>bin</span>(<span class='ident'>leaf</span>(<span class='ident'>list</span>), <span class='ident'>mid_level</span>, <span class='ident'>right_tree</span>), <span class='prelude-val'>None</span>),
-					<span class='prelude-val'>Some</span>(<span class='ident'>next_level</span>) <span class='op'>=&gt;</span> {
+					<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='ident'>bin</span>(<span class='ident'>leaf</span>(<span class='ident'>list</span>,<span class='prelude-val'>None</span>), <span class='ident'>mid_level</span>, <span class='ident'>mid_name</span>, <span class='ident'>right_tree</span>), <span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>),
+					<span class='prelude-val'>Some</span>((<span class='ident'>next_level</span>,<span class='ident'>next_name</span>)) <span class='op'>=&gt;</span> {
 						<span class='kw'>if</span> <span class='ident'>next_level</span> <span class='op'>&gt;=</span> <span class='ident'>top_level</span> {
-							<span class='kw'>let</span> <span class='ident'>tree</span> <span class='op'>=</span> <span class='ident'>bin</span>(<span class='ident'>leaf</span>(<span class='ident'>list</span>),<span class='ident'>mid_level</span>,<span class='ident'>right_tree</span>);
-							(<span class='ident'>tree</span>, <span class='prelude-val'>Some</span>(<span class='ident'>next_level</span>))
+							<span class='kw'>let</span> <span class='ident'>tree</span> <span class='op'>=</span> <span class='ident'>bin</span>(<span class='ident'>leaf</span>(<span class='ident'>list</span>,<span class='prelude-val'>None</span>),<span class='ident'>mid_level</span>,<span class='ident'>mid_name</span>,<span class='ident'>right_tree</span>);
+							(<span class='ident'>tree</span>, <span class='prelude-val'>Some</span>(<span class='ident'>next_level</span>),<span class='ident'>next_name</span>)
 						} <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>next_level</span> <span class='op'>&gt;=</span> <span class='ident'>mid_level</span> {
-							<span class='kw'>let</span> <span class='ident'>tree</span> <span class='op'>=</span> <span class='ident'>bin</span>(<span class='ident'>leaf</span>(<span class='ident'>list</span>),<span class='ident'>mid_level</span>,<span class='ident'>right_tree</span>);
-							<span class='kw'>return</span> <span class='ident'>from_stack</span>(<span class='ident'>stack</span>, <span class='ident'>tree</span>, <span class='ident'>next_level</span>, <span class='ident'>top_level</span>)
+							<span class='kw'>let</span> <span class='ident'>tree</span> <span class='op'>=</span> <span class='ident'>bin</span>(<span class='ident'>leaf</span>(<span class='ident'>list</span>,<span class='prelude-val'>None</span>),<span class='ident'>mid_level</span>,<span class='ident'>mid_name</span>,<span class='ident'>right_tree</span>);
+							<span class='kw'>return</span> <span class='ident'>from_stack</span>(<span class='ident'>stack</span>, <span class='ident'>tree</span>, <span class='ident'>next_level</span>, <span class='ident'>next_name</span>, <span class='ident'>top_level</span>)
 						} <span class='kw'>else</span> {
-							<span class='kw'>let</span> (<span class='ident'>left_tree</span>, <span class='ident'>left_level</span>) <span class='op'>=</span> <span class='ident'>from_stack</span>(
-								<span class='ident'>stack</span>, <span class='ident'>leaf</span>(<span class='ident'>list</span>), <span class='ident'>next_level</span>, <span class='ident'>mid_level</span>
+							<span class='kw'>let</span> (<span class='ident'>left_tree</span>, <span class='ident'>left_level</span>, <span class='ident'>left_name</span>) <span class='op'>=</span> <span class='ident'>from_stack</span>(
+								<span class='ident'>stack</span>, <span class='ident'>leaf</span>(<span class='ident'>list</span>,<span class='prelude-val'>None</span>), <span class='ident'>next_level</span>, <span class='ident'>next_name</span>, <span class='ident'>mid_level</span>
 							);
-							<span class='kw'>let</span> <span class='ident'>tree</span> <span class='op'>=</span> <span class='ident'>bin</span>(<span class='ident'>left_tree</span>, <span class='ident'>mid_level</span>, <span class='ident'>right_tree</span>);
+							<span class='kw'>let</span> <span class='ident'>tree</span> <span class='op'>=</span> <span class='ident'>bin</span>(<span class='ident'>left_tree</span>, <span class='ident'>mid_level</span>, <span class='ident'>mid_name</span>, <span class='ident'>right_tree</span>);
 							<span class='kw'>match</span> <span class='ident'>left_level</span> {
-								<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='ident'>tree</span>, <span class='prelude-val'>None</span>),
+								<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (<span class='ident'>tree</span>, <span class='prelude-val'>None</span>, <span class='prelude-val'>None</span>),
 								<span class='prelude-val'>Some</span>(<span class='ident'>left_level</span>) <span class='op'>=&gt;</span> {
 									<span class='kw'>if</span> <span class='ident'>left_level</span> <span class='op'>&gt;</span> <span class='ident'>top_level</span> {
-										(<span class='ident'>tree</span>, <span class='prelude-val'>Some</span>(<span class='ident'>left_level</span>))
+										(<span class='ident'>tree</span>, <span class='prelude-val'>Some</span>(<span class='ident'>left_level</span>), <span class='ident'>left_name</span>)
 									} <span class='kw'>else</span> {
-										<span class='kw'>return</span> <span class='ident'>from_stack</span>(<span class='ident'>stack</span>, <span class='ident'>tree</span>, <span class='ident'>left_level</span>, <span class='ident'>top_level</span>)
+										<span class='kw'>return</span> <span class='ident'>from_stack</span>(<span class='ident'>stack</span>, <span class='ident'>tree</span>, <span class='ident'>left_level</span>, <span class='ident'>left_name</span>, <span class='ident'>top_level</span>)
 									}
 								}
 							}
@@ -1156,15 +1308,16 @@
 				}}
 			}
 		}
-		<span class='kw'>let</span> (<span class='ident'>level</span>, <span class='ident'>first_tree</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>stack</span>.<span class='ident'>next_archive</span>() {
+		<span class='kw'>let</span> (<span class='ident'>level</span>, <span class='ident'>name</span>, <span class='ident'>first_tree</span>) <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>stack</span>.<span class='ident'>next_archive</span>() {
 			<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>RazTree</span>{<span class='ident'>count</span>: <span class='number'>0</span>, <span class='ident'>tree</span>: <span class='prelude-val'>None</span>},
 			<span class='prelude-val'>Some</span>((<span class='ident'>list</span>, <span class='ident'>meta</span>)) <span class='op'>=&gt;</span> { <span class='kw'>match</span> <span class='ident'>meta</span> {
-				<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>RazTree</span>{<span class='ident'>count</span>: <span class='ident'>list</span>.<span class='ident'>len</span>(), <span class='ident'>tree</span>: <span class='prelude-val'>Some</span>(<span class='ident'>leaf</span>(<span class='ident'>list</span>))},
-				<span class='prelude-val'>Some</span>(<span class='ident'>lev</span>) <span class='op'>=&gt;</span> (<span class='ident'>lev</span>, <span class='ident'>leaf</span>(<span class='ident'>list</span>))
+				<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='ident'>RazTree</span>{<span class='ident'>count</span>: <span class='ident'>list</span>.<span class='ident'>len</span>(), <span class='ident'>tree</span>: <span class='prelude-val'>Some</span>(<span class='ident'>leaf</span>(<span class='ident'>list</span>,<span class='prelude-val'>None</span>))},
+				<span class='prelude-val'>Some</span>((<span class='ident'>lev</span>,<span class='ident'>n</span>)) <span class='op'>=&gt;</span> (<span class='ident'>lev</span>, <span class='ident'>n</span>, <span class='ident'>leaf</span>(<span class='ident'>list</span>,<span class='prelude-val'>None</span>))
 			}}
 		};
-		<span class='kw'>let</span> (<span class='ident'>t</span>,<span class='ident'>l</span>) <span class='op'>=</span> <span class='ident'>from_stack</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>stack</span>, <span class='ident'>first_tree</span>, <span class='ident'>level</span>, <span class='ident'>u32</span>::<span class='ident'>max_value</span>());
+		<span class='kw'>let</span> (<span class='ident'>t</span>,<span class='ident'>l</span>,<span class='ident'>n</span>) <span class='op'>=</span> <span class='ident'>from_stack</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>stack</span>, <span class='ident'>first_tree</span>, <span class='ident'>level</span>, <span class='ident'>name</span>, <span class='ident'>u32</span>::<span class='ident'>max_value</span>());
 		<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>l</span>.<span class='ident'>is_none</span>());
+		<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>n</span>.<span class='ident'>is_none</span>());
 		<span class='ident'>RazTree</span>{<span class='ident'>count</span>: <span class='ident'>count</span>(<span class='kw-2'>&amp;</span><span class='prelude-val'>Some</span>(<span class='ident'>t</span>.<span class='ident'>peek</span>())), <span class='ident'>tree</span>: <span class='prelude-val'>Some</span>(<span class='ident'>t</span>)}
 	}
 }
@@ -1178,7 +1331,7 @@
 <span class='kw'>use</span> <span class='ident'>zip</span>::<span class='ident'>Zip</span>;
 <span class='kw'>use</span> <span class='ident'>seqzip</span>::{<span class='ident'>Seq</span>, <span class='ident'>SeqZip</span>};
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span> <span class='ident'>Zip</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> <span class='ident'>Zip</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 	<span class='kw'>fn</span> <span class='ident'>peek_l</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>E</span>,<span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> {
 		<span class='self'>self</span>.<span class='ident'>peek_left</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>elm</span><span class='op'>|</span> <span class='ident'>elm</span>.<span class='ident'>clone</span>()).<span class='ident'>ok_or</span>(<span class='string'>&quot;Gauged RAZ: no elements to peek at&quot;</span>)
 	}
@@ -1211,13 +1364,13 @@
 	}
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span> <span class='ident'>Seq</span><span class='op'>&lt;</span><span class='ident'>E</span>, <span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>RazTree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> <span class='ident'>Seq</span><span class='op'>&lt;</span><span class='ident'>E</span>, <span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>RazTree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 	<span class='kw'>fn</span> <span class='ident'>zip_to</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>loc</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>,<span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> {
 		<span class='self'>self</span>.<span class='ident'>clone</span>().<span class='ident'>focus</span>(<span class='ident'>loc</span>).<span class='ident'>ok_or</span>(<span class='string'>&quot;Gauged RAZ: focus out of range&quot;</span>)
 	}
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>&gt;</span> <span class='ident'>SeqZip</span><span class='op'>&lt;</span><span class='ident'>E</span>, <span class='ident'>RazTree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>E</span>: <span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Hash</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> <span class='ident'>SeqZip</span><span class='op'>&lt;</span><span class='ident'>E</span>, <span class='ident'>RazTree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>Raz</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 	<span class='kw'>fn</span> <span class='ident'>unzip</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>RazTree</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span> {
 		<span class='self'>self</span>.<span class='ident'>clone</span>().<span class='ident'>unfocus</span>()
 	}
@@ -1234,6 +1387,7 @@
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
 	<span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
 	<span class='kw'>use</span> <span class='ident'>inc_level_tree</span>::<span class='ident'>good_levels</span>;
+	<span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='kw-2'>*</span>;
 
   <span class='attribute'>#[<span class='ident'>test</span>]</span>
   <span class='kw'>fn</span> <span class='ident'>test_push_pop</span>() {
@@ -1252,20 +1406,20 @@
   <span class='kw'>fn</span> <span class='ident'>test_tree_focus</span>() {
   	<span class='kw'>let</span> <span class='ident'>tree</span> <span class='op'>=</span> <span class='ident'>RazTree</span>{
   		<span class='ident'>count</span>: <span class='number'>12</span>,
-  		<span class='ident'>tree</span>: <span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>5</span>,<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>8</span>, <span class='ident'>r_count</span>: <span class='number'>4</span>},
-  			<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>3</span>,<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>2</span>, <span class='ident'>r_count</span>: <span class='number'>6</span>},
-  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>1</span>,<span class='number'>2</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
-  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>2</span>,<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>4</span>, <span class='ident'>r_count</span>: <span class='number'>2</span>},
-  					<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>1</span>,<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>2</span>, <span class='ident'>r_count</span>: <span class='number'>2</span>},
-		  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>3</span>,<span class='number'>4</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
-		  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>5</span>,<span class='number'>6</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+  		<span class='ident'>tree</span>: <span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>5</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>5</span>)),<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>8</span>, <span class='ident'>r_count</span>: <span class='number'>4</span>},
+  			<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>3</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>3</span>)),<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>2</span>, <span class='ident'>r_count</span>: <span class='number'>6</span>},
+  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>1</span>,<span class='number'>2</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>2</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>2</span>)),<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>4</span>, <span class='ident'>r_count</span>: <span class='number'>2</span>},
+  					<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>1</span>)),<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>2</span>, <span class='ident'>r_count</span>: <span class='number'>2</span>},
+		  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>3</span>,<span class='number'>4</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+		  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>5</span>,<span class='number'>6</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
   					),
-  					<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>7</span>,<span class='number'>8</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+  					<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>7</span>,<span class='number'>8</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
   				)
   			),
-  			<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>4</span>,<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>: <span class='number'>2</span>, <span class='ident'>r_count</span>: <span class='number'>2</span>},
-  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>9</span>,<span class='number'>10</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
-  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>11</span>,<span class='number'>12</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+  			<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>4</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>4</span>)),<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>: <span class='number'>2</span>, <span class='ident'>r_count</span>: <span class='number'>2</span>},
+  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>9</span>,<span class='number'>10</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>11</span>,<span class='number'>12</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
   			)
   		)
   	};
@@ -1307,26 +1461,26 @@
   	<span class='comment'>// set same tree as focus example</span>
   	<span class='ident'>r</span>.<span class='ident'>push_left</span>(<span class='number'>3</span>);
   	<span class='ident'>r</span>.<span class='ident'>push_left</span>(<span class='number'>4</span>);
-  	<span class='ident'>r</span>.<span class='ident'>archive_left</span>(<span class='number'>1</span>);
+  	<span class='ident'>r</span>.<span class='ident'>archive_left</span>(<span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>1</span>)));
   	<span class='ident'>r</span>.<span class='ident'>push_right</span>(<span class='number'>8</span>);
   	<span class='ident'>r</span>.<span class='ident'>push_right</span>(<span class='number'>7</span>);
-  	<span class='ident'>r</span>.<span class='ident'>archive_right</span>(<span class='number'>2</span>);
+  	<span class='ident'>r</span>.<span class='ident'>archive_right</span>(<span class='number'>2</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>2</span>)));
   	<span class='ident'>r</span>.<span class='ident'>push_left</span>(<span class='number'>5</span>);
   	<span class='ident'>r</span>.<span class='ident'>push_right</span>(<span class='number'>6</span>);
   	<span class='ident'>t</span> <span class='op'>=</span> <span class='ident'>r</span>.<span class='ident'>unfocus</span>();
   	<span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>focus</span>(<span class='number'>0</span>).<span class='ident'>expect</span>(<span class='string'>&quot;focus on 0&quot;</span>);
   	<span class='ident'>r</span>.<span class='ident'>push_left</span>(<span class='number'>1</span>);
   	<span class='ident'>r</span>.<span class='ident'>push_left</span>(<span class='number'>2</span>);
-  	<span class='ident'>r</span>.<span class='ident'>archive_left</span>(<span class='number'>3</span>);
+  	<span class='ident'>r</span>.<span class='ident'>archive_left</span>(<span class='number'>3</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>3</span>)));
   	<span class='ident'>t</span> <span class='op'>=</span> <span class='ident'>r</span>.<span class='ident'>unfocus</span>();
 
   	<span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>focus</span>(<span class='number'>8</span>).<span class='ident'>expect</span>(<span class='string'>&quot;focus on 8&quot;</span>);
-  	<span class='ident'>r</span>.<span class='ident'>archive_left</span>(<span class='number'>5</span>);
+  	<span class='ident'>r</span>.<span class='ident'>archive_left</span>(<span class='number'>5</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>5</span>)));
   	<span class='ident'>r</span>.<span class='ident'>push_left</span>(<span class='number'>9</span>);
   	<span class='ident'>r</span>.<span class='ident'>push_left</span>(<span class='number'>10</span>);
   	<span class='ident'>r</span>.<span class='ident'>push_right</span>(<span class='number'>12</span>);
   	<span class='ident'>r</span>.<span class='ident'>push_right</span>(<span class='number'>11</span>);
-  	<span class='ident'>r</span>.<span class='ident'>archive_right</span>(<span class='number'>4</span>);
+  	<span class='ident'>r</span>.<span class='ident'>archive_right</span>(<span class='number'>4</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>4</span>)));
   	<span class='ident'>t</span> <span class='op'>=</span> <span class='ident'>r</span>.<span class='ident'>unfocus</span>();
 
   	<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>good_levels</span>(<span class='ident'>t</span>.<span class='ident'>tree</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>()));
@@ -1355,60 +1509,108 @@
   <span class='kw'>fn</span> <span class='ident'>test_fold</span>() {
   	<span class='kw'>let</span> <span class='ident'>tree</span> <span class='op'>=</span> <span class='ident'>RazTree</span>{
   		<span class='ident'>count</span>: <span class='number'>12</span>,
-  		<span class='ident'>tree</span>: <span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>5</span>,<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>8</span>, <span class='ident'>r_count</span>: <span class='number'>4</span>},
-  			<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>3</span>,<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>2</span>, <span class='ident'>r_count</span>: <span class='number'>6</span>},
-  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>1</span>,<span class='number'>2</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
-  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>2</span>,<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>4</span>, <span class='ident'>r_count</span>: <span class='number'>2</span>},
-  					<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>1</span>,<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>2</span>, <span class='ident'>r_count</span>: <span class='number'>2</span>},
-		  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>3</span>,<span class='number'>4</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
-		  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>5</span>,<span class='number'>6</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+  		<span class='ident'>tree</span>: <span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>5</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>5</span>)),<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>8</span>, <span class='ident'>r_count</span>: <span class='number'>4</span>},
+  			<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>3</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>3</span>)),<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>2</span>, <span class='ident'>r_count</span>: <span class='number'>6</span>},
+  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>1</span>,<span class='number'>2</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>2</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>2</span>)),<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>4</span>, <span class='ident'>r_count</span>: <span class='number'>2</span>},
+  					<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>1</span>)),<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>2</span>, <span class='ident'>r_count</span>: <span class='number'>2</span>},
+		  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>3</span>,<span class='number'>4</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+		  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>5</span>,<span class='number'>6</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
   					),
-  					<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>7</span>,<span class='number'>8</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+  					<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>7</span>,<span class='number'>8</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
   				)
   			),
-  			<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>4</span>,<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>: <span class='number'>2</span>, <span class='ident'>r_count</span>: <span class='number'>2</span>},
-  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>9</span>,<span class='number'>10</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
-  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>11</span>,<span class='number'>12</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+  			<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>4</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>4</span>)),<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>: <span class='number'>2</span>, <span class='ident'>r_count</span>: <span class='number'>2</span>},
+  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>9</span>,<span class='number'>10</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>11</span>,<span class='number'>12</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
   			)
   		)
   	};
   	<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>good_levels</span>(<span class='ident'>tree</span>.<span class='ident'>tree</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>()));
 
-  	<span class='kw'>let</span> <span class='ident'>max</span> <span class='op'>=</span> <span class='ident'>tree</span>.<span class='ident'>fold_up</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span>{<span class='kw-2'>*</span><span class='ident'>e</span>},<span class='op'>|</span><span class='ident'>e1</span>,<span class='ident'>e2</span><span class='op'>|</span>{::<span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>max</span>(<span class='ident'>e1</span>,<span class='ident'>e2</span>)}).<span class='ident'>unwrap</span>();
+  	<span class='kw'>let</span> <span class='ident'>max</span> <span class='op'>=</span> <span class='ident'>tree</span>.<span class='ident'>clone</span>().<span class='ident'>fold_up</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>e</span>:<span class='kw-2'>&amp;</span><span class='ident'>usize</span><span class='op'>|</span>{<span class='kw-2'>*</span><span class='ident'>e</span>}),<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>e1</span>:<span class='ident'>usize</span>,<span class='ident'>e2</span>:<span class='ident'>usize</span><span class='op'>|</span>{::<span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>max</span>(<span class='ident'>e1</span>,<span class='ident'>e2</span>)})).<span class='ident'>unwrap</span>();
   	<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>12</span>, <span class='ident'>max</span>);
 
-  	<span class='kw'>let</span> <span class='ident'>sum</span> <span class='op'>=</span> <span class='ident'>tree</span>.<span class='ident'>fold_up</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span>{<span class='kw-2'>*</span><span class='ident'>e</span>},<span class='op'>|</span><span class='ident'>e1</span>,<span class='ident'>e2</span><span class='op'>|</span>{<span class='ident'>e1</span><span class='op'>+</span><span class='ident'>e2</span>}).<span class='ident'>unwrap_or</span>(<span class='number'>0</span>);
+  	<span class='kw'>let</span> <span class='ident'>sum</span> <span class='op'>=</span> <span class='ident'>tree</span>.<span class='ident'>clone</span>().<span class='ident'>fold_up</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>e</span>:<span class='kw-2'>&amp;</span><span class='ident'>usize</span><span class='op'>|</span>{<span class='kw-2'>*</span><span class='ident'>e</span>}),<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>e1</span>:<span class='ident'>usize</span>,<span class='ident'>e2</span>:<span class='ident'>usize</span><span class='op'>|</span>{<span class='ident'>e1</span><span class='op'>+</span><span class='ident'>e2</span>})).<span class='ident'>unwrap_or</span>(<span class='number'>0</span>);
   	<span class='kw'>let</span> <span class='ident'>iter_sum</span>: <span class='ident'>usize</span> <span class='op'>=</span> (<span class='number'>1</span>..<span class='number'>13</span>).<span class='ident'>sum</span>();
   	<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>iter_sum</span>, <span class='ident'>sum</span>);
 
-  	<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>,<span class='ident'>Debug</span>)]</span>
+  	<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>,<span class='ident'>Debug</span>,<span class='ident'>Hash</span>,<span class='ident'>Clone</span>)]</span>
   	<span class='kw'>enum</span> <span class='ident'>EO</span> {<span class='ident'>Even</span>,<span class='ident'>Odd</span>}
-  	<span class='kw'>let</span> <span class='ident'>even_odd</span> <span class='op'>=</span> <span class='ident'>tree</span>.<span class='ident'>fold_up</span>(
-  		<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>e</span> <span class='op'>%</span> <span class='number'>2</span> <span class='op'>==</span> <span class='number'>0</span> {<span class='ident'>EO</span>::<span class='ident'>Even</span>} <span class='kw'>else</span> {<span class='ident'>EO</span>::<span class='ident'>Odd</span>} ,
-  		<span class='op'>|</span><span class='ident'>e1</span>,<span class='ident'>e2</span><span class='op'>|</span> <span class='kw'>if</span> <span class='ident'>e1</span> <span class='op'>==</span> <span class='ident'>e2</span> {<span class='ident'>EO</span>::<span class='ident'>Even</span>} <span class='kw'>else</span> {<span class='ident'>EO</span>::<span class='ident'>Odd</span>}
+  	<span class='kw'>let</span> <span class='ident'>even_odd</span> <span class='op'>=</span> <span class='ident'>tree</span>.<span class='ident'>clone</span>().<span class='ident'>fold_up</span>(
+  		<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>e</span>:<span class='kw-2'>&amp;</span><span class='ident'>usize</span><span class='op'>|</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>e</span> <span class='op'>%</span> <span class='number'>2</span> <span class='op'>==</span> <span class='number'>0</span> {<span class='ident'>EO</span>::<span class='ident'>Even</span>} <span class='kw'>else</span> {<span class='ident'>EO</span>::<span class='ident'>Odd</span>}),
+  		<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>e1</span>:<span class='ident'>EO</span>,<span class='ident'>e2</span>:<span class='ident'>EO</span><span class='op'>|</span> <span class='kw'>if</span> <span class='ident'>e1</span> <span class='op'>==</span> <span class='ident'>e2</span> {<span class='ident'>EO</span>::<span class='ident'>Even</span>} <span class='kw'>else</span> {<span class='ident'>EO</span>::<span class='ident'>Odd</span>})
   	).<span class='ident'>unwrap</span>();
   	<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>EO</span>::<span class='ident'>Even</span>, <span class='ident'>even_odd</span>);
 
   }
 
   <span class='attribute'>#[<span class='ident'>test</span>]</span>
+  <span class='kw'>fn</span> <span class='ident'>test_map</span>() {
+  	<span class='kw'>let</span> <span class='ident'>tree</span> <span class='op'>=</span> <span class='ident'>RazTree</span>{
+  		<span class='ident'>count</span>: <span class='number'>12</span>,
+  		<span class='ident'>tree</span>: <span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>5</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>5</span>)),<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>8</span>, <span class='ident'>r_count</span>: <span class='number'>4</span>},
+  			<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>3</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>3</span>)),<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>2</span>, <span class='ident'>r_count</span>: <span class='number'>6</span>},
+  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>1</span>,<span class='number'>2</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>2</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>2</span>)),<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>4</span>, <span class='ident'>r_count</span>: <span class='number'>2</span>},
+  					<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>1</span>)),<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>:<span class='number'>2</span>, <span class='ident'>r_count</span>: <span class='number'>2</span>},
+		  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>3</span>,<span class='number'>4</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+		  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>5</span>,<span class='number'>6</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+  					),
+  					<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>7</span>,<span class='number'>8</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+  				)
+  			),
+  			<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>4</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>4</span>)),<span class='ident'>TreeData</span>::<span class='ident'>Branch</span>{<span class='ident'>l_count</span>: <span class='number'>2</span>, <span class='ident'>r_count</span>: <span class='number'>2</span>},
+  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>9</span>,<span class='number'>10</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+  				<span class='ident'>tree</span>::<span class='ident'>Tree</span>::<span class='ident'>new</span>(<span class='number'>0</span>, <span class='prelude-val'>None</span>,<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>(<span class='number'>11</span>,<span class='number'>12</span>))),<span class='prelude-val'>None</span>,<span class='prelude-val'>None</span>),
+  			)
+  		)
+  	};
+
+  	<span class='kw'>let</span> <span class='ident'>plus1</span> <span class='op'>=</span> <span class='ident'>tree</span>.<span class='ident'>map</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>e</span>: <span class='kw-2'>&amp;</span><span class='ident'>usize</span><span class='op'>|</span><span class='kw-2'>*</span><span class='ident'>e</span><span class='op'>+</span><span class='number'>1</span>));
+  	<span class='kw'>let</span> <span class='ident'>sum</span> <span class='op'>=</span> <span class='ident'>plus1</span>.<span class='ident'>clone</span>().<span class='ident'>fold_up</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>e</span>:<span class='kw-2'>&amp;</span><span class='ident'>usize</span><span class='op'>|</span><span class='kw-2'>*</span><span class='ident'>e</span>),<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>e1</span>:<span class='ident'>usize</span>,<span class='ident'>e2</span>:<span class='ident'>usize</span><span class='op'>|</span><span class='ident'>e1</span><span class='op'>+</span><span class='ident'>e2</span>)).<span class='ident'>unwrap_or</span>(<span class='number'>0</span>);
+  	<span class='kw'>let</span> <span class='ident'>iter_sum</span>: <span class='ident'>usize</span> <span class='op'>=</span> (<span class='number'>2</span>..<span class='number'>14</span>).<span class='ident'>sum</span>();
+  	<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>iter_sum</span>, <span class='ident'>sum</span>);
+
+  	<span class='comment'>// check the structure</span>
+  	<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cursor</span> <span class='op'>=</span> <span class='ident'>tree</span>::<span class='ident'>Cursor</span>::<span class='ident'>from</span>(<span class='ident'>plus1</span>.<span class='ident'>tree</span>.<span class='ident'>unwrap</span>());
+  	<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>cursor</span>.<span class='ident'>down_left</span>());
+  	<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>cursor</span>.<span class='ident'>down_left</span>());
+  	<span class='kw'>match</span> <span class='ident'>cursor</span>.<span class='ident'>peek</span>() {
+  		<span class='prelude-val'>Some</span>(<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='kw-2'>ref</span> <span class='ident'>v</span>)) <span class='op'>=&gt;</span> {
+  			<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>2</span>,<span class='number'>3</span>], <span class='kw-2'>*</span><span class='kw-2'>*</span><span class='ident'>v</span>);
+  		},
+  		_ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Wrong data&quot;</span>)
+  	}
+  	<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>cursor</span>.<span class='ident'>up</span>());
+  	<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>cursor</span>.<span class='ident'>down_right</span>());
+  	<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>cursor</span>.<span class='ident'>down_left</span>());
+  	<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>cursor</span>.<span class='ident'>down_left</span>());
+  	<span class='kw'>match</span> <span class='ident'>cursor</span>.<span class='ident'>peek</span>() {
+  		<span class='prelude-val'>Some</span>(<span class='ident'>TreeData</span>::<span class='ident'>Leaf</span>(<span class='kw-2'>ref</span> <span class='ident'>v</span>)) <span class='op'>=&gt;</span> {
+  			<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>4</span>,<span class='number'>5</span>], <span class='kw-2'>*</span><span class='kw-2'>*</span><span class='ident'>v</span>);
+  		},
+  		_ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Wrong data&quot;</span>)
+  	}
+  }
+  <span class='attribute'>#[<span class='ident'>test</span>]</span>
   <span class='kw'>fn</span> <span class='ident'>test_from_stack</span>() {
   	<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stack</span> <span class='op'>=</span> <span class='ident'>stack</span>::<span class='ident'>AStack</span>::<span class='ident'>new</span>();
   	<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='number'>1</span>);
   	<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='number'>2</span>);
-  	<span class='ident'>stack</span>.<span class='ident'>archive</span>(<span class='number'>3</span>);
+  	<span class='ident'>stack</span>.<span class='ident'>archive</span>((<span class='number'>3</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>3</span>))));
   	<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='number'>3</span>);
   	<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='number'>4</span>);
-  	<span class='ident'>stack</span>.<span class='ident'>archive</span>(<span class='number'>1</span>);
+  	<span class='ident'>stack</span>.<span class='ident'>archive</span>((<span class='number'>1</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>1</span>))));
   	<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='number'>5</span>);
   	<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='number'>6</span>);
-  	<span class='ident'>stack</span>.<span class='ident'>archive</span>(<span class='number'>2</span>);
+  	<span class='ident'>stack</span>.<span class='ident'>archive</span>((<span class='number'>2</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>2</span>))));
   	<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='number'>7</span>);
   	<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='number'>8</span>);
-  	<span class='ident'>stack</span>.<span class='ident'>archive</span>(<span class='number'>5</span>);
+  	<span class='ident'>stack</span>.<span class='ident'>archive</span>((<span class='number'>5</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>5</span>))));
   	<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='number'>9</span>);
   	<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='number'>10</span>);
-  	<span class='ident'>stack</span>.<span class='ident'>archive</span>(<span class='number'>4</span>);
+  	<span class='ident'>stack</span>.<span class='ident'>archive</span>((<span class='number'>4</span>, <span class='prelude-val'>Some</span>(<span class='ident'>name_of_usize</span>(<span class='number'>4</span>))));
   	<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='number'>11</span>);
   	<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='number'>12</span>);
   	<span class='kw'>let</span> <span class='ident'>raz</span> <span class='op'>=</span> <span class='ident'>RazTree</span>::<span class='ident'>from</span>(<span class='ident'>AtTail</span>(<span class='ident'>stack</span>));
@@ -1417,7 +1619,7 @@
   	<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>good_levels</span>(<span class='ident'>raz</span>.<span class='ident'>tree</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>()));
   	
   	<span class='comment'>// check that all elements are represented</span>
-  	<span class='kw'>let</span> <span class='ident'>sum</span> <span class='op'>=</span> <span class='ident'>raz</span>.<span class='ident'>fold_up</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span><span class='kw-2'>*</span><span class='ident'>e</span>,<span class='op'>|</span><span class='ident'>e1</span>,<span class='ident'>e2</span><span class='op'>|</span><span class='ident'>e1</span><span class='op'>+</span><span class='ident'>e2</span>).<span class='ident'>unwrap_or</span>(<span class='number'>0</span>);
+  	<span class='kw'>let</span> <span class='ident'>sum</span> <span class='op'>=</span> <span class='ident'>raz</span>.<span class='ident'>clone</span>().<span class='ident'>fold_up</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>e</span>:<span class='kw-2'>&amp;</span><span class='ident'>usize</span><span class='op'>|</span><span class='kw-2'>*</span><span class='ident'>e</span>),<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>e1</span>:<span class='ident'>usize</span>,<span class='ident'>e2</span>:<span class='ident'>usize</span><span class='op'>|</span><span class='ident'>e1</span><span class='op'>+</span><span class='ident'>e2</span>)).<span class='ident'>unwrap_or</span>(<span class='number'>0</span>);
   	<span class='kw'>let</span> <span class='ident'>iter_sum</span>: <span class='ident'>usize</span> <span class='op'>=</span> (<span class='number'>1</span>..<span class='number'>13</span>).<span class='ident'>sum</span>();
   	<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>iter_sum</span>, <span class='ident'>sum</span>);
 

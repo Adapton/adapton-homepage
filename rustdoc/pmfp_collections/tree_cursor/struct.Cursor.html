@@ -70,7 +70,7 @@ on at the two branches of the returned tree</p>
 </div><h4 id='method.join' class='method'><span id='join.v' class='invisible'><code>fn <a href='#method.join' class='fnname'>join</a>(l_cursor: Self, level: L, data: E, r_cursor: Self) -&gt; Self</code></span></h4>
 <div class='docblock'><p>makes a new cursor at the given data, between the trees of the other cursors</p>
 
-<p>The <code>update()</code> method of the data type will be called, with the <code>data</code>
+<p>The <code>rebuild()</code> method of the data type will be called, with the <code>data</code>
 parameter passed here as the <code>old_data</code> to that method (along with joined branches).</p>
 </div><h4 id='method.at_tree' class='method'><span id='at_tree.v' class='invisible'><code>fn <a href='#method.at_tree' class='fnname'>at_tree</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../pmfp_collections/level_tree/struct.Tree.html' title='pmfp_collections::level_tree::Tree'>Tree</a>&lt;L, E&gt;&gt;</code></span></h4>
 <div class='docblock'><p>copies the focused node as a tree</p>
@@ -97,7 +97,7 @@ use the <code>Force</code> enum to determine the type of movement</p>
 </div><h4 id='method.up' class='method'><span id='up.v' class='invisible'><code>fn <a href='#method.up' class='fnname'>up</a>(&amp;mut self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
 <div class='docblock'><p>move the cursor up towards the root of the underlying persistent tree</p>
 
-<p>If the tree has been changed, the <code>update()</code> method of the tree&#39;s data
+<p>If the tree has been changed, the <code>rebuild()</code> method of the tree&#39;s data
 type will be called as a new persistent node is created.</p>
 </div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;L:&nbsp;<a class='trait' href='../../pmfp_collections/trees/trait.Level.html' title='pmfp_collections::trees::Level'>Level</a>, E:&nbsp;<a class='trait' href='../../pmfp_collections/tree_cursor/trait.TreeUpdate.html' title='pmfp_collections::tree_cursor::TreeUpdate'>TreeUpdate</a>&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../pmfp_collections/tree_cursor/struct.Cursor.html' title='pmfp_collections::tree_cursor::Cursor'>Cursor</a>&lt;L, E&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/pmfp_collections/tree_cursor.rs.html#31-40' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class='method'><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; Self</code></span></h4>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/97f8494/src/trees.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/8029326/src/trees.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>trees.rs.html -- source</title>
@@ -187,6 +187,13 @@
 <span id="142">142</span>
 <span id="143">143</span>
 <span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Traits for various flavors of persistent trees</span>
 
@@ -203,7 +210,8 @@
 <span class='doccomment'>/// An owned tree is really a link to a</span>
 <span class='doccomment'>/// shared node.</span>
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>BinTree</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='kw'>where</span> <span class='self'>Self</span>: <span class='ident'>Sized</span><span class='op'>+</span><span class='ident'>Clone</span> {
-	<span class='doccomment'>/// construct a new tree with existing nodes</span>
+	<span class='doccomment'>/// construct a new tree with existing nodes. The default</span>
+	<span class='doccomment'>/// implementation is a `panic!()` requesting use of a type constructor.</span>
 	<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_variables</span>)]</span>
 	<span class='kw'>fn</span> <span class='ident'>bin_make</span>(
 		<span class='ident'>data</span>: <span class='ident'>T</span>,
@@ -295,7 +303,10 @@
 	<span class='doccomment'>///</span>
 	<span class='doccomment'>/// This should return `None` if the levels are</span>
 	<span class='doccomment'>/// inappropriate. Left-branch levels must be lesser than</span>
-	<span class='doccomment'>/// the root and right-branch levels must not be greater. </span>
+	<span class='doccomment'>/// the root and right-branch levels must not be greater.</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// The default implementation is a `panic!()` requesting</span>
+	<span class='doccomment'>/// use of a type constructor.</span>
 	<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_variables</span>)]</span>
 	<span class='kw'>fn</span> <span class='ident'>lev_make</span>(
 		<span class='ident'>level</span>: <span class='ident'>L</span>,
@@ -318,6 +329,9 @@
 	<span class='doccomment'>///</span>
 	<span class='doccomment'>/// See `adapton` crate for uses of names.</span>
 	<span class='doccomment'>/// See `LevelTree` in this mod for use of levels.</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// The default implementation is a `panic!()` requesting</span>
+	<span class='doccomment'>/// use of a type constructor.</span>
 	<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>unused_variables</span>)]</span>
 	<span class='kw'>fn</span> <span class='ident'>nm_make</span>(
 		<span class='ident'>name</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>,

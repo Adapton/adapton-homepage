@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/97f8494/src/persist_raz.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/8029326/src/persist_raz.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>persist_raz.rs.html -- source</title>
@@ -558,8 +558,24 @@
 <span id="513">513</span>
 <span id="514">514</span>
 <span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
 </pre><pre class='rust '>
-<span class='comment'>// Random access zipper</span>
+<span class='doccomment'>//! Random access zipper, early version</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! This version uses a tree structure to</span>
+<span class='doccomment'>//! represent a sequence. The tree contains</span>
+<span class='doccomment'>//! one element per leaf, so the search depth</span>
+<span class='doccomment'>//! may be higher than the version in `gauged_raz`.</span>
+<span class='doccomment'>//! This version is fully persistent, with</span>
+<span class='doccomment'>//! every edit sharing all other data. Cloning</span>
+<span class='doccomment'>//! is fast and expected</span>
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>intrinsics</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;

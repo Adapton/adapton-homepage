@@ -48,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/pmfp_collections/trees.rs.html#103-119' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/pmfp_collections/trees.rs.html#104-123' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait LevelTree&lt;L:&nbsp;<a class='trait' href='../../pmfp_collections/trees/trait.Level.html' title='pmfp_collections::trees::Level'>Level</a>, T&gt;: <a class='trait' href='../../pmfp_collections/trees/trait.BinTree.html' title='pmfp_collections::trees::BinTree'>BinTree</a>&lt;T&gt; {
     fn <a href='#tymethod.level' class='fnname'>level</a>(&amp;self) -&gt; L;
 
@@ -70,7 +70,10 @@ will appear closer to the root than lesser levels.</p>
 
 <p>This should return <code>None</code> if the levels are
 inappropriate. Left-branch levels must be lesser than
-the root and right-branch levels must not be greater. </p>
+the root and right-branch levels must not be greater.</p>
+
+<p>The default implementation is a <code>panic!()</code> requesting
+use of a type constructor.</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>

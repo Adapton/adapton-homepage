@@ -48,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/pmfp_collections/lib.rs.html#1-88' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/pmfp_collections/lib.rs.html#1-126' title='goto source code'>[src]</a></span></h1>
 <h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -98,21 +98,21 @@
                            <td><a class='mod' href='persist_raz/index.html'
                                   title='pmfp_collections::persist_raz'>persist_raz</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Random access zipper, early version</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='mod' href='seqzip/index.html'
                                   title='pmfp_collections::seqzip'>seqzip</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Early work on traits for the raz</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='mod' href='stack/index.html'
                                   title='pmfp_collections::stack'>stack</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Persistent stack, modified slightly from &quot;Learning Rust With Entirely Too Many Linked Lists&quot;</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -133,7 +133,93 @@
                            <td><a class='mod' href='zip/index.html'
                                   title='pmfp_collections::zip'>zip</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Early work on traits for zippers</p>
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.inc_level.html'
+                                  title='pmfp_collections::inc_level'>inc_level</a></td>
+                           <td class='docblock-short'>
+                                <p>level generator for inc_* structures (others use <code>Rng::gen()</code>)</p>
+                           </td>
+                       </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.ArchiveStack.html'
+                                  title='pmfp_collections::ArchiveStack'>ArchiveStack</a></td>
+                           <td class='docblock-short'>
+                                <p>Cross between vector and persistent stack</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.IRaz.html'
+                                  title='pmfp_collections::IRaz'>IRaz</a></td>
+                           <td class='docblock-short'>
+                                <p>Incremental Raz - Experimental for use with Adapton</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.IRazTree.html'
+                                  title='pmfp_collections::IRazTree'>IRazTree</a></td>
+                           <td class='docblock-short'>
+                                <p>Unfocused <code>IRaz</code></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.PRaz.html'
+                                  title='pmfp_collections::PRaz'>PRaz</a></td>
+                           <td class='docblock-short'>
+                                <p>Persistent Raz - original design, simple but works</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.PRazTree.html'
+                                  title='pmfp_collections::PRazTree'>PRazTree</a></td>
+                           <td class='docblock-short'>
+                                <p>Unfocused <code>PRaz</code></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.Raz.html'
+                                  title='pmfp_collections::Raz'>Raz</a></td>
+                           <td class='docblock-short'>
+                                <p>Raz - Sequence editing. Vectorized leaves, manualy defined</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.RazTree.html'
+                                  title='pmfp_collections::RazTree'>RazTree</a></td>
+                           <td class='docblock-short'>
+                                <p>Unfocused <code>Raz</code></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.Stack.html'
+                                  title='pmfp_collections::Stack'>Stack</a></td>
+                           <td class='docblock-short'>
+                                <p>Functional programming&#39;s common list, persistent</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.TCursor.html'
+                                  title='pmfp_collections::TCursor'>TCursor</a></td>
+                           <td class='docblock-short'>
+                                <p>Cursor for use with <code>Tree</code></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.Tree.html'
+                                  title='pmfp_collections::Tree'>Tree</a></td>
+                           <td class='docblock-short'>
+                                <p>Persistent Tree, structured by Levels</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.Zipper.html'
+                                  title='pmfp_collections::Zipper'>Zipper</a></td>
+                           <td class='docblock-short'>
+                                <p>Stack-based sequence editing</p>
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>

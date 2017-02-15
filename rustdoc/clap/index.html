@@ -527,8 +527,8 @@ cannot break due to new features, or bumped minimum versions of Rust.</p>
 <h4 id='minimum-version-of-rust' class='section-header'><a href='#minimum-version-of-rust'>Minimum Version of Rust</a></h4>
 <p><code>clap</code> will officially support current stable Rust, minus two releases, but may work with prior
 releases as well. For example, current stable Rust at the time of this writing is 1.13.0,
-meaning <code>clap</code> is garunteed to compile with 1.11.0 and beyond. At the 1.14.0 release, <code>clap</code>
-will be garunteed to compile with 2.12.0 and beyond, etc.</p>
+meaning <code>clap</code> is guaranteed to compile with 1.11.0 and beyond. At the 1.14.0 release, <code>clap</code>
+will be guaranteed to compile with 2.12.0 and beyond, etc.</p>
 
 <p>Upon bumping the minimum version of Rust (assuming it&#39;s within the stable-2 range), it <em>must</em> be
 clearly annotated in the <code>CHANGELOG.md</code></p>
@@ -544,6 +544,13 @@ this repository for more information.</p>
                            <td class='docblock-short'>
                                 <p>Counts the number of comma-delimited expressions passed to it.  The result is a compile-time
 evaluable expression, suitable for use as a static array size, or the value of a <code>const</code>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.app_from_crate.html'
+                                  title='clap::app_from_crate'>app_from_crate</a></td>
+                           <td class='docblock-short'>
+                                <p>Allows you to build the <code>App</code> instance from your Cargo.toml at compile time.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -569,9 +576,22 @@ but without the parsing.</p>
                                   title='clap::crate_authors'>crate_authors</a></td>
                            <td class='docblock-short'>
                                 <p>Allows you to pull the authors for the app from your Cargo.toml at
-compile time as
-&quot;author1 lastname. <a href="mailto:author1@example.com">author1@example.com</a>&quot;,
-    &quot;author2 lastname. <a href="mailto:author2@example.com">author2@example.com</a>&quot;</p>
+compile time in the form:
+<code>&quot;author1 lastname &lt;author1@example.com&gt;:author2 lastname &lt;author2@example.com&gt;&quot;</code></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.crate_description.html'
+                                  title='clap::crate_description'>crate_description</a></td>
+                           <td class='docblock-short'>
+                                <p>Allows you to pull the description from your Cargo.toml at compile time.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='macro' href='macro.crate_name.html'
+                                  title='clap::crate_name'>crate_name</a></td>
+                           <td class='docblock-short'>
+                                <p>Allows you to pull the name from your Cargo.toml at compile time.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>

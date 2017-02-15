@@ -48,7 +48,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/pmfp_collections/trees.rs.html#15-43' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/pmfp_collections/trees.rs.html#15-44' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait BinTree&lt;T&gt; <span class='where fmt-newline'>where Self: <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html' title='core::marker::Sized'>Sized</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a></span> {
     fn <a href='#tymethod.l_tree' class='fnname'>l_tree</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;;
     fn <a href='#tymethod.r_tree' class='fnname'>r_tree</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;;
@@ -78,7 +78,8 @@ exist.</p>
 </div></div>
             <h2 id='provided-methods'>Provided Methods</h2>
             <div class='methods'>
-        <h3 id='method.bin_make' class='method'><span id='bin_make.v' class='invisible'><code>fn <a href='#method.bin_make' class='fnname'>bin_make</a>(data: T, l_branch: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;, r_branch: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;) -&gt; Self</code></span></h3><div class='docblock'><p>construct a new tree with existing nodes</p>
+        <h3 id='method.bin_make' class='method'><span id='bin_make.v' class='invisible'><code>fn <a href='#method.bin_make' class='fnname'>bin_make</a>(data: T, l_branch: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;, r_branch: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;Self&gt;) -&gt; Self</code></span></h3><div class='docblock'><p>construct a new tree with existing nodes. The default
+implementation is a <code>panic!()</code> requesting use of a type constructor.</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
