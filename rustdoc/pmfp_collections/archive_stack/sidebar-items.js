@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["AStack","Archive Stack"]]});
+initSidebarItems({"struct":[["AStack","Archive Stack"],["Iter",""]]});

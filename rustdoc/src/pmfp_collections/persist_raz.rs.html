@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/8029326/src/persist_raz.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/pmfp-collections.rust-de9bf9d7ef620fca/5c792e2/src/persist_raz.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>persist_raz.rs.html -- source</title>
@@ -565,7 +565,6 @@
 <span id="520">520</span>
 <span id="521">521</span>
 <span id="522">522</span>
-<span id="523">523</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Random access zipper, early version</span>
 <span class='doccomment'>//!</span>
@@ -577,7 +576,6 @@
 <span class='doccomment'>//! every edit sharing all other data. Cloning</span>
 <span class='doccomment'>//! is fast and expected</span>
 
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>intrinsics</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 <span class='comment'>//use std::fmt::Debug;</span>
 
@@ -628,7 +626,7 @@
 	<span class='comment'>// options[index] + 1 // level 0 is for empty trees and leaves</span>
 
 	<span class='kw'>let</span> <span class='ident'>num</span> <span class='op'>=</span> <span class='ident'>rand</span>::<span class='ident'>random</span>::<span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>();
-	<span class='kw'>let</span> <span class='ident'>bits</span> <span class='op'>=</span> <span class='kw'>unsafe</span>{ <span class='ident'>intrinsics</span>::<span class='ident'>ctlz</span>(<span class='ident'>num</span>)};
+	<span class='kw'>let</span> <span class='ident'>bits</span> <span class='op'>=</span> <span class='ident'>num</span>.<span class='ident'>leading_zeros</span>() <span class='kw'>as</span> <span class='ident'>usize</span>;
 	<span class='ident'>bits</span><span class='op'>+</span><span class='number'>1</span>
 }
 
