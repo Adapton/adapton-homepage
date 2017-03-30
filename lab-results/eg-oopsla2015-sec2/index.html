@@ -151,6 +151,8 @@ hr {
 
 .input-value, 
 .output-value,
+.archivist-dcg-tree-post-edit,
+.archivist-dcg-tree-post-update,
 .traces-box,
 .archivist-alloc-tree-post-edit,
 .archivist-force-tree-post-edit, 
@@ -178,21 +180,23 @@ hr {
 .traces-box {
   width: 99%;
 }
+.archivist-dcg-tree-post-edit,
+.archivist-dcg-tree-post-update {
+  width: 49%;
+}
 .archivist-alloc-tree-post-edit,
 .archivist-force-tree-post-edit, 
 .archivist-alloc-tree-post-update, 
-.archivist-force-tree-post-update  
-{
+.archivist-force-tree-post-update {
   width: 24%;
 }
-
 .tool-label-toggles {
   display: block;
   float: right;
 }
 
 
-.trace, .force-tree, .alloc-tree {
+.trace, .force-tree, .alloc-tree, .dcg-alloc-edge, .dcg-force-edge {
   color: black;
   display: inline-block;
   border-style: solid;
@@ -203,6 +207,34 @@ hr {
   margin: 1px;
   border-radius: 5px;
 }
+
+.dcg-force-edge {
+  border-color: blue;
+  border-width: 1px;
+}
+.dcg-node-comp {
+  background: #ccccff;
+  padding: 0px;
+}
+.dcg-node-ref {
+  border-radius: 0px;
+}
+.dcg-alloc-edge {
+  border-color: green;
+  background: #ccffcc;
+  border-width: 1px;
+  padding: 3px;
+}
+.dirty {
+  border-width: 2px;
+  border-color: red;
+  background: #ffcccc;
+}
+.editor-edge {
+  border-width: 2px;
+  border-color: black;
+}
+
 .tr-effect { 
   display: inline;
   display: none;
@@ -272,11 +304,17 @@ hr {
   padding: 3px;
   background: #ccffcc;
 }
-.tr-alloc-loc-exists {  
+.tr-alloc-loc-exists-same {  
   padding: 3px;
   background: #ccffcc;
   border-width: 4px;
   border-color: green;
+}
+.tr-alloc-loc-exists-diff {  
+  padding: 3px;
+  background: #ffcccc;
+  border-width: 4px;
+  border-color: red;
 }
 .tr-dirty {  
   background: #550000;
@@ -413,27 +451,10 @@ function toggleEffects() {
 
 <a href="../index.html">↰ Results summary</a>
 <hr/>
-<div class="lab-name"><a href="http://adapton.org/rustdoc/adapton_lab/catalog/struct.EditorOopsla2015Sec2.html" class="lab-name page-title">eg-oopsla2015-sec2</a></div>
+<div class="lab-name"><a href="" class="lab-name page-title">eg-oopsla2015-sec2</a></div>
 <div style="font-size:12px" class="batch-name"> step</div>
-<div style="font-size:20px" class="editor">Editor</div>
-<div style="font-size:20px" class="archivist">Archivist</div>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">0</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">185496</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">117455</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.12</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">404498</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.40</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">3.44</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -442,13 +463,9 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name alpha ">
 alpha
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___a ">
 ___a
 <div class="loc ">
@@ -463,13 +480,9 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name beta ">
 beta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___b ">
 ___b
 <div class="loc ">
@@ -484,13 +497,9 @@ Cons
 <div class="val-const  const-3 ">
 3
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name delta ">
 delta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___d ">
 ___d
 <div class="loc ">
@@ -510,12 +519,6 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <div class="output-value">
 <div class="label">Output:</div>
 <div class="val-constr constr-Cons ">
@@ -523,23 +526,19 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name alpha ">
-alpha
+<div class="name val-name alpha-l ">
+alpha-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___alpha ">
-__compute___alpha
+<div class="val-art __compute___alpha-r ">
+__compute___alpha-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  alpha">
-alpha
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -547,23 +546,19 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name beta ">
-beta
+<div class="name val-name beta-l ">
+beta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___beta ">
-__compute___beta
+<div class="val-art __compute___beta-r ">
+__compute___beta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  beta">
-beta
+<div class="name  beta-r">
+beta-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -571,23 +566,19 @@ Cons
 <div class="val-const  const-9 ">
 9
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name delta ">
-delta
+<div class="name val-name delta-l ">
+delta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___delta ">
-__compute___delta
+<div class="val-art __compute___delta-r ">
+__compute___delta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  delta">
-delta
+<div class="name  delta-r">
+delta-r
 </div>
 </div>
 <div class="val-constr constr-Nil ">
@@ -600,17 +591,13 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <hr/>
+<div class="archivist-alloc-tree-post-edit"></div>
+<div class="archivist-force-tree-post-edit"></div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -621,35 +608,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -660,7 +620,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -669,7 +629,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -680,7 +640,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -689,7 +661,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -700,7 +672,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -708,6 +692,42 @@ delta
 d
 </div>
 </div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
@@ -986,6 +1006,78 @@ d
 </div>
 </div>
 </div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocFresh)</a>
+</div>
+<div class="tr-symbols ">
+▣
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocFresh)</a>
+</div>
+<div class="tr-symbols ">
+▣
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocFresh)</a>
+</div>
+<div class="tr-symbols ">
+▣
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
+</div>
 </div>
 </div>
 </div>
@@ -997,21 +1089,6 @@ d
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">1</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">243524</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">29687</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.03</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">479383</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.48</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">16.15</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -1020,13 +1097,9 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name alpha ">
 alpha
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___a ">
 ___a
 <div class="loc ">
@@ -1041,13 +1114,9 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name beta ">
 beta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___b ">
 ___b
 <div class="loc ">
@@ -1062,13 +1131,9 @@ Cons
 <div class="val-const  const-2 ">
 2
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name gamma ">
 gamma
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___c ">
 ___c
 <div class="loc ">
@@ -1083,13 +1148,9 @@ Cons
 <div class="val-const  const-3 ">
 3
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name delta ">
 delta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___d ">
 ___d
 <div class="loc ">
@@ -1111,14 +1172,6 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <div class="output-value">
 <div class="label">Output:</div>
 <div class="val-constr constr-Cons ">
@@ -1126,23 +1179,19 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name alpha ">
-alpha
+<div class="name val-name alpha-l ">
+alpha-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___alpha ">
-__compute___alpha
+<div class="val-art __compute___alpha-r ">
+__compute___alpha-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  alpha">
-alpha
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -1150,23 +1199,19 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name beta ">
-beta
+<div class="name val-name beta-l ">
+beta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___beta ">
-__compute___beta
+<div class="val-art __compute___beta-r ">
+__compute___beta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  beta">
-beta
+<div class="name  beta-r">
+beta-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -1174,23 +1219,19 @@ Cons
 <div class="val-const  const-4 ">
 4
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name gamma ">
-gamma
+<div class="name val-name gamma-l ">
+gamma-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___gamma ">
-__compute___gamma
+<div class="val-art __compute___gamma-r ">
+__compute___gamma-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  gamma">
-gamma
+<div class="name  gamma-r">
+gamma-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -1198,23 +1239,19 @@ Cons
 <div class="val-const  const-9 ">
 9
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name delta ">
-delta
+<div class="name val-name delta-l ">
+delta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___delta ">
-__compute___delta
+<div class="val-art __compute___delta-r ">
+__compute___delta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  delta">
-delta
+<div class="name  delta-r">
+delta-r
 </div>
 </div>
 <div class="val-constr constr-Nil ">
@@ -1229,18 +1266,10 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -1251,35 +1280,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -1290,7 +1292,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -1299,7 +1301,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -1310,7 +1312,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  dirty dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  dirty dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -1319,7 +1333,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -1330,7 +1344,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -1339,14 +1365,50 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
+</div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -1357,47 +1419,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -1408,7 +1431,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -1417,7 +1440,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -1428,7 +1451,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -1437,7 +1472,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -1448,7 +1483,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -1457,7 +1504,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -1468,7 +1515,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -1477,6 +1536,54 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
@@ -1547,9 +1654,9 @@ c
 </div>
 </div>
 </div>
-<div class="trace  tr-alloc-loc-exists alloc-kind-refcell has-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-refcell has-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ▣
@@ -1615,9 +1722,9 @@ beta
 </div>
 </div>
 </div>
-<div class="trace  tr-alloc-loc-exists alloc-kind-refcell no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-refcell no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ▣
@@ -1641,9 +1748,9 @@ a
 <div class="traces-box">
 <div class="label">Archivist trace:</div>
 <div class="traces">
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -1737,17 +1844,14 @@ b
 </div>
 <div class="tr-symbols ">
 </div>
-<div class="edge ">
-<div class="oploc ">
-</div>
-<div class="succ  succ-force succ-dirty">
 <div class="loc ">
 <div class="path ">
+<div class="name  compute">
+compute
 </div>
-<div class="name  b">
-b
 </div>
-</div>
+<div class="name  beta">
+beta
 </div>
 </div>
 <div class="tr-extent ">
@@ -1812,6 +1916,29 @@ compute
 </div>
 <div class="name  delta">
 delta
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-remove no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Remove</a>
+</div>
+<div class="tr-symbols ">
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
 </div>
 </div>
 </div>
@@ -1904,9 +2031,9 @@ c
 </div>
 </div>
 </div>
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -1951,15 +2078,63 @@ delta
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="trace  tr-clean-eval has-extent">
+<div class="trace  tr-alloc-loc-fresh alloc-kind-refcell no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">CleanEval</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocFresh)</a>
+</div>
+<div class="tr-symbols ">
+▣
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-refcell no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
+</div>
+<div class="tr-symbols ">
+▣
+</div>
+<div class="edge ">
+<div class="oploc ">
+</div>
+<div class="succ  succ-alloc succ-not-dirty">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="trace  tr-clean-edge no-extent">
+<div class="tr-effect ">
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">CleanEdge</a>
 </div>
 <div class="tr-symbols ">
 </div>
@@ -1975,141 +2150,6 @@ compute
 </div>
 <div class="name  beta">
 beta
-</div>
-</div>
-</div>
-</div>
-<div class="tr-extent ">
-<div class="trace  tr-remove no-extent">
-<div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Remove</a>
-</div>
-<div class="tr-symbols ">
-</div>
-<div class="edge ">
-<div class="oploc ">
-</div>
-<div class="succ  succ-force succ-not-dirty">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  a">
-a
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="trace  tr-remove no-extent">
-<div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Remove</a>
-</div>
-<div class="tr-symbols ">
-</div>
-<div class="edge ">
-<div class="oploc ">
-</div>
-<div class="succ  succ-alloc succ-not-dirty">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="trace  tr-remove no-extent">
-<div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Remove</a>
-</div>
-<div class="tr-symbols ">
-</div>
-<div class="edge ">
-<div class="oploc ">
-</div>
-<div class="succ  succ-force succ-dirty">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="trace  tr-force-refget no-extent">
-<div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(RefGet)</a>
-</div>
-<div class="tr-symbols ">
-</div>
-<div class="edge ">
-<div class="oploc ">
-</div>
-<div class="succ  succ-force succ-not-dirty">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  a">
-a
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
-<div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
-</div>
-<div class="tr-symbols ">
-◯
-</div>
-<div class="edge ">
-<div class="oploc ">
-</div>
-<div class="succ  succ-alloc succ-not-dirty">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="trace  tr-force-compcache-hit no-extent">
-<div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Force(CompCacheHit)</a>
-</div>
-<div class="tr-symbols ">
-</div>
-<div class="edge ">
-<div class="oploc ">
-</div>
-<div class="succ  succ-force succ-not-dirty">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -2124,21 +2164,6 @@ beta
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">2</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">3408</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">18928</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.02</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">253294</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.25</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">13.38</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -2147,13 +2172,9 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name alpha ">
 alpha
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___a ">
 ___a
 <div class="loc ">
@@ -2168,13 +2189,9 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name beta ">
 beta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___b ">
 ___b
 <div class="loc ">
@@ -2189,13 +2206,9 @@ Cons
 <div class="val-const  const-2 ">
 2
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name gamma ">
 gamma
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___c ">
 ___c
 <div class="loc ">
@@ -2210,13 +2223,9 @@ Cons
 <div class="val-const  const-3 ">
 3
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name delta ">
 delta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___d ">
 ___d
 <div class="loc ">
@@ -2238,14 +2247,6 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <div class="output-value">
 <div class="label">Output:</div>
 <div class="val-constr constr-Cons ">
@@ -2253,23 +2254,19 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name alpha ">
-alpha
+<div class="name val-name alpha-l ">
+alpha-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___alpha ">
-__compute___alpha
+<div class="val-art __compute___alpha-r ">
+__compute___alpha-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  alpha">
-alpha
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -2277,23 +2274,19 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name beta ">
-beta
+<div class="name val-name beta-l ">
+beta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___beta ">
-__compute___beta
+<div class="val-art __compute___beta-r ">
+__compute___beta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  beta">
-beta
+<div class="name  beta-r">
+beta-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -2301,23 +2294,19 @@ Cons
 <div class="val-const  const-4 ">
 4
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name gamma ">
-gamma
+<div class="name val-name gamma-l ">
+gamma-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___gamma ">
-__compute___gamma
+<div class="val-art __compute___gamma-r ">
+__compute___gamma-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  gamma">
-gamma
+<div class="name  gamma-r">
+gamma-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -2325,23 +2314,19 @@ Cons
 <div class="val-const  const-9 ">
 9
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name delta ">
-delta
+<div class="name val-name delta-l ">
+delta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___delta ">
-__compute___delta
+<div class="val-art __compute___delta-r ">
+__compute___delta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  delta">
-delta
+<div class="name  delta-r">
+delta-r
 </div>
 </div>
 <div class="val-constr constr-Nil ">
@@ -2356,18 +2341,10 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2378,47 +2355,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2429,7 +2367,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -2438,7 +2376,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2449,7 +2387,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -2458,7 +2408,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2469,7 +2419,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -2478,7 +2440,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2489,7 +2451,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -2498,15 +2472,63 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2517,47 +2539,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2568,7 +2551,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -2577,7 +2560,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2588,7 +2571,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -2597,7 +2592,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2608,7 +2603,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -2617,7 +2624,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2628,7 +2635,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -2637,6 +2656,54 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
@@ -2651,9 +2718,9 @@ d
 <div class="traces-box">
 <div class="label">Archivist trace:</div>
 <div class="traces">
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -2703,21 +2770,6 @@ alpha
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">3</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">8300</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">37759</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.04</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">134810</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.13</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">3.57</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -2726,13 +2778,9 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name alpha ">
 alpha
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___a ">
 ___a
 <div class="loc ">
@@ -2747,13 +2795,9 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name beta ">
 beta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___b ">
 ___b
 <div class="loc ">
@@ -2768,13 +2812,9 @@ Cons
 <div class="val-const  const-2 ">
 2
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name gamma ">
 gamma
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___c ">
 ___c
 <div class="loc ">
@@ -2789,13 +2829,9 @@ Cons
 <div class="val-const  const-3 ">
 3
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name delta ">
 delta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___d ">
 ___d
 <div class="loc ">
@@ -2817,14 +2853,6 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <div class="output-value">
 <div class="label">Output:</div>
 <div class="val-constr constr-Cons ">
@@ -2832,23 +2860,19 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name alpha ">
-alpha
+<div class="name val-name alpha-l ">
+alpha-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___alpha ">
-__compute___alpha
+<div class="val-art __compute___alpha-r ">
+__compute___alpha-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  alpha">
-alpha
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -2856,23 +2880,19 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name beta ">
-beta
+<div class="name val-name beta-l ">
+beta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___beta ">
-__compute___beta
+<div class="val-art __compute___beta-r ">
+__compute___beta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  beta">
-beta
+<div class="name  beta-r">
+beta-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -2880,23 +2900,19 @@ Cons
 <div class="val-const  const-4 ">
 4
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name gamma ">
-gamma
+<div class="name val-name gamma-l ">
+gamma-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___gamma ">
-__compute___gamma
+<div class="val-art __compute___gamma-r ">
+__compute___gamma-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  gamma">
-gamma
+<div class="name  gamma-r">
+gamma-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -2904,23 +2920,19 @@ Cons
 <div class="val-const  const-9 ">
 9
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name delta ">
-delta
+<div class="name val-name delta-l ">
+delta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___delta ">
-__compute___delta
+<div class="val-art __compute___delta-r ">
+__compute___delta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  delta">
-delta
+<div class="name  delta-r">
+delta-r
 </div>
 </div>
 <div class="val-constr constr-Nil ">
@@ -2935,18 +2947,10 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2957,47 +2961,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3008,7 +2973,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3017,7 +2982,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3028,7 +2993,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3037,7 +3014,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3048,7 +3025,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3057,7 +3046,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3068,7 +3057,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3077,15 +3078,63 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3096,47 +3145,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3147,7 +3157,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3156,7 +3166,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3167,7 +3177,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3176,7 +3198,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3187,7 +3209,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3196,7 +3230,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3207,7 +3241,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3216,6 +3262,54 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
@@ -3230,9 +3324,9 @@ d
 <div class="traces-box">
 <div class="label">Archivist trace:</div>
 <div class="traces">
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -3282,21 +3376,6 @@ alpha
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">4</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">6721</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">144620</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.14</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">145026</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.15</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">1.00</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -3305,13 +3384,9 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name alpha ">
 alpha
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___a ">
 ___a
 <div class="loc ">
@@ -3326,13 +3401,9 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name beta ">
 beta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___b ">
 ___b
 <div class="loc ">
@@ -3347,13 +3418,9 @@ Cons
 <div class="val-const  const-2 ">
 2
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name gamma ">
 gamma
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___c ">
 ___c
 <div class="loc ">
@@ -3368,13 +3435,9 @@ Cons
 <div class="val-const  const-3 ">
 3
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name delta ">
 delta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___d ">
 ___d
 <div class="loc ">
@@ -3396,14 +3459,6 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <div class="output-value">
 <div class="label">Output:</div>
 <div class="val-constr constr-Cons ">
@@ -3411,23 +3466,19 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name alpha ">
-alpha
+<div class="name val-name alpha-l ">
+alpha-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___alpha ">
-__compute___alpha
+<div class="val-art __compute___alpha-r ">
+__compute___alpha-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  alpha">
-alpha
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -3435,23 +3486,19 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name beta ">
-beta
+<div class="name val-name beta-l ">
+beta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___beta ">
-__compute___beta
+<div class="val-art __compute___beta-r ">
+__compute___beta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  beta">
-beta
+<div class="name  beta-r">
+beta-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -3459,23 +3506,19 @@ Cons
 <div class="val-const  const-4 ">
 4
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name gamma ">
-gamma
+<div class="name val-name gamma-l ">
+gamma-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___gamma ">
-__compute___gamma
+<div class="val-art __compute___gamma-r ">
+__compute___gamma-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  gamma">
-gamma
+<div class="name  gamma-r">
+gamma-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -3483,23 +3526,19 @@ Cons
 <div class="val-const  const-9 ">
 9
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name delta ">
-delta
+<div class="name val-name delta-l ">
+delta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___delta ">
-__compute___delta
+<div class="val-art __compute___delta-r ">
+__compute___delta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  delta">
-delta
+<div class="name  delta-r">
+delta-r
 </div>
 </div>
 <div class="val-constr constr-Nil ">
@@ -3514,18 +3553,10 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3536,47 +3567,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3587,7 +3579,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3596,7 +3588,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3607,7 +3599,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3616,7 +3620,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3627,7 +3631,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3636,7 +3652,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3647,7 +3663,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3656,15 +3684,63 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3675,47 +3751,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3726,7 +3763,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3735,7 +3772,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3746,7 +3783,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3755,7 +3804,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3766,7 +3815,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3775,7 +3836,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3786,7 +3847,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -3795,6 +3868,54 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
@@ -3809,9 +3930,9 @@ d
 <div class="traces-box">
 <div class="label">Archivist trace:</div>
 <div class="traces">
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -3861,21 +3982,6 @@ alpha
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">5</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">7334</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">48023</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.05</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">145945</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.15</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">3.04</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -3884,13 +3990,9 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name alpha ">
 alpha
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___a ">
 ___a
 <div class="loc ">
@@ -3905,13 +4007,9 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name beta ">
 beta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___b ">
 ___b
 <div class="loc ">
@@ -3926,13 +4024,9 @@ Cons
 <div class="val-const  const-2 ">
 2
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name gamma ">
 gamma
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___c ">
 ___c
 <div class="loc ">
@@ -3947,13 +4041,9 @@ Cons
 <div class="val-const  const-3 ">
 3
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name delta ">
 delta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___d ">
 ___d
 <div class="loc ">
@@ -3975,14 +4065,6 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <div class="output-value">
 <div class="label">Output:</div>
 <div class="val-constr constr-Cons ">
@@ -3990,23 +4072,19 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name alpha ">
-alpha
+<div class="name val-name alpha-l ">
+alpha-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___alpha ">
-__compute___alpha
+<div class="val-art __compute___alpha-r ">
+__compute___alpha-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  alpha">
-alpha
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -4014,23 +4092,19 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name beta ">
-beta
+<div class="name val-name beta-l ">
+beta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___beta ">
-__compute___beta
+<div class="val-art __compute___beta-r ">
+__compute___beta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  beta">
-beta
+<div class="name  beta-r">
+beta-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -4038,23 +4112,19 @@ Cons
 <div class="val-const  const-4 ">
 4
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name gamma ">
-gamma
+<div class="name val-name gamma-l ">
+gamma-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___gamma ">
-__compute___gamma
+<div class="val-art __compute___gamma-r ">
+__compute___gamma-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  gamma">
-gamma
+<div class="name  gamma-r">
+gamma-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -4062,23 +4132,19 @@ Cons
 <div class="val-const  const-9 ">
 9
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name delta ">
-delta
+<div class="name val-name delta-l ">
+delta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___delta ">
-__compute___delta
+<div class="val-art __compute___delta-r ">
+__compute___delta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  delta">
-delta
+<div class="name  delta-r">
+delta-r
 </div>
 </div>
 <div class="val-constr constr-Nil ">
@@ -4093,18 +4159,10 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4115,47 +4173,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4166,7 +4185,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4175,7 +4194,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4186,7 +4205,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4195,7 +4226,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4206,7 +4237,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4215,7 +4258,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4226,7 +4269,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4235,15 +4290,63 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4254,47 +4357,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4305,7 +4369,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4314,7 +4378,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4325,7 +4389,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4334,7 +4410,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4345,7 +4421,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4354,7 +4442,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4365,7 +4453,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4374,6 +4474,54 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
@@ -4388,9 +4536,9 @@ d
 <div class="traces-box">
 <div class="label">Archivist trace:</div>
 <div class="traces">
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -4440,21 +4588,6 @@ alpha
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">6</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">7284</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">40204</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.04</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">230067</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.23</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">5.72</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -4463,13 +4596,9 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name alpha ">
 alpha
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___a ">
 ___a
 <div class="loc ">
@@ -4484,13 +4613,9 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name beta ">
 beta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___b ">
 ___b
 <div class="loc ">
@@ -4505,13 +4630,9 @@ Cons
 <div class="val-const  const-2 ">
 2
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name gamma ">
 gamma
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___c ">
 ___c
 <div class="loc ">
@@ -4526,13 +4647,9 @@ Cons
 <div class="val-const  const-3 ">
 3
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name delta ">
 delta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___d ">
 ___d
 <div class="loc ">
@@ -4554,14 +4671,6 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <div class="output-value">
 <div class="label">Output:</div>
 <div class="val-constr constr-Cons ">
@@ -4569,23 +4678,19 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name alpha ">
-alpha
+<div class="name val-name alpha-l ">
+alpha-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___alpha ">
-__compute___alpha
+<div class="val-art __compute___alpha-r ">
+__compute___alpha-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  alpha">
-alpha
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -4593,23 +4698,19 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name beta ">
-beta
+<div class="name val-name beta-l ">
+beta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___beta ">
-__compute___beta
+<div class="val-art __compute___beta-r ">
+__compute___beta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  beta">
-beta
+<div class="name  beta-r">
+beta-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -4617,23 +4718,19 @@ Cons
 <div class="val-const  const-4 ">
 4
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name gamma ">
-gamma
+<div class="name val-name gamma-l ">
+gamma-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___gamma ">
-__compute___gamma
+<div class="val-art __compute___gamma-r ">
+__compute___gamma-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  gamma">
-gamma
+<div class="name  gamma-r">
+gamma-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -4641,23 +4738,19 @@ Cons
 <div class="val-const  const-9 ">
 9
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name delta ">
-delta
+<div class="name val-name delta-l ">
+delta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___delta ">
-__compute___delta
+<div class="val-art __compute___delta-r ">
+__compute___delta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  delta">
-delta
+<div class="name  delta-r">
+delta-r
 </div>
 </div>
 <div class="val-constr constr-Nil ">
@@ -4672,18 +4765,10 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4694,47 +4779,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4745,7 +4791,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4754,7 +4800,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4765,7 +4811,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4774,7 +4832,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4785,7 +4843,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4794,7 +4864,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4805,7 +4875,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4814,15 +4896,63 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4833,47 +4963,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4884,7 +4975,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4893,7 +4984,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4904,7 +4995,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4913,7 +5016,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4924,7 +5027,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4933,7 +5048,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4944,7 +5059,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -4953,6 +5080,54 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
@@ -4967,9 +5142,9 @@ d
 <div class="traces-box">
 <div class="label">Archivist trace:</div>
 <div class="traces">
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -5019,21 +5194,6 @@ alpha
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">7</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">6810</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">55758</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.06</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">96853</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.10</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">1.74</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -5042,13 +5202,9 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name alpha ">
 alpha
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___a ">
 ___a
 <div class="loc ">
@@ -5063,13 +5219,9 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name beta ">
 beta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___b ">
 ___b
 <div class="loc ">
@@ -5084,13 +5236,9 @@ Cons
 <div class="val-const  const-2 ">
 2
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name gamma ">
 gamma
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___c ">
 ___c
 <div class="loc ">
@@ -5105,13 +5253,9 @@ Cons
 <div class="val-const  const-3 ">
 3
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name delta ">
 delta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___d ">
 ___d
 <div class="loc ">
@@ -5133,14 +5277,6 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <div class="output-value">
 <div class="label">Output:</div>
 <div class="val-constr constr-Cons ">
@@ -5148,23 +5284,19 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name alpha ">
-alpha
+<div class="name val-name alpha-l ">
+alpha-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___alpha ">
-__compute___alpha
+<div class="val-art __compute___alpha-r ">
+__compute___alpha-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  alpha">
-alpha
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -5172,23 +5304,19 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name beta ">
-beta
+<div class="name val-name beta-l ">
+beta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___beta ">
-__compute___beta
+<div class="val-art __compute___beta-r ">
+__compute___beta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  beta">
-beta
+<div class="name  beta-r">
+beta-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -5196,23 +5324,19 @@ Cons
 <div class="val-const  const-4 ">
 4
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name gamma ">
-gamma
+<div class="name val-name gamma-l ">
+gamma-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___gamma ">
-__compute___gamma
+<div class="val-art __compute___gamma-r ">
+__compute___gamma-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  gamma">
-gamma
+<div class="name  gamma-r">
+gamma-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -5220,23 +5344,19 @@ Cons
 <div class="val-const  const-9 ">
 9
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name delta ">
-delta
+<div class="name val-name delta-l ">
+delta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___delta ">
-__compute___delta
+<div class="val-art __compute___delta-r ">
+__compute___delta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  delta">
-delta
+<div class="name  delta-r">
+delta-r
 </div>
 </div>
 <div class="val-constr constr-Nil ">
@@ -5251,18 +5371,10 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5273,47 +5385,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5324,7 +5397,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -5333,7 +5406,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5344,7 +5417,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -5353,7 +5438,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5364,7 +5449,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -5373,7 +5470,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5384,7 +5481,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -5393,15 +5502,63 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5412,47 +5569,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5463,7 +5581,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -5472,7 +5590,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5483,7 +5601,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -5492,7 +5622,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5503,7 +5633,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -5512,7 +5654,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5523,7 +5665,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -5532,6 +5686,54 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
@@ -5546,9 +5748,9 @@ d
 <div class="traces-box">
 <div class="label">Archivist trace:</div>
 <div class="traces">
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -5598,21 +5800,6 @@ alpha
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">8</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">2601</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">20832</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.02</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">142698</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.14</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">6.85</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -5621,13 +5808,9 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name alpha ">
 alpha
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___a ">
 ___a
 <div class="loc ">
@@ -5642,13 +5825,9 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name beta ">
 beta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___b ">
 ___b
 <div class="loc ">
@@ -5663,13 +5842,9 @@ Cons
 <div class="val-const  const-2 ">
 2
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name gamma ">
 gamma
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___c ">
 ___c
 <div class="loc ">
@@ -5684,13 +5859,9 @@ Cons
 <div class="val-const  const-3 ">
 3
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name delta ">
 delta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___d ">
 ___d
 <div class="loc ">
@@ -5712,14 +5883,6 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <div class="output-value">
 <div class="label">Output:</div>
 <div class="val-constr constr-Cons ">
@@ -5727,23 +5890,19 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name alpha ">
-alpha
+<div class="name val-name alpha-l ">
+alpha-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___alpha ">
-__compute___alpha
+<div class="val-art __compute___alpha-r ">
+__compute___alpha-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  alpha">
-alpha
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -5751,23 +5910,19 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name beta ">
-beta
+<div class="name val-name beta-l ">
+beta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___beta ">
-__compute___beta
+<div class="val-art __compute___beta-r ">
+__compute___beta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  beta">
-beta
+<div class="name  beta-r">
+beta-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -5775,23 +5930,19 @@ Cons
 <div class="val-const  const-4 ">
 4
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name gamma ">
-gamma
+<div class="name val-name gamma-l ">
+gamma-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___gamma ">
-__compute___gamma
+<div class="val-art __compute___gamma-r ">
+__compute___gamma-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  gamma">
-gamma
+<div class="name  gamma-r">
+gamma-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -5799,23 +5950,19 @@ Cons
 <div class="val-const  const-9 ">
 9
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name delta ">
-delta
+<div class="name val-name delta-l ">
+delta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___delta ">
-__compute___delta
+<div class="val-art __compute___delta-r ">
+__compute___delta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  delta">
-delta
+<div class="name  delta-r">
+delta-r
 </div>
 </div>
 <div class="val-constr constr-Nil ">
@@ -5830,18 +5977,10 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5852,47 +5991,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5903,7 +6003,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -5912,7 +6012,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5923,7 +6023,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -5932,7 +6044,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5943,7 +6055,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -5952,7 +6076,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5963,7 +6087,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -5972,15 +6108,63 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5991,47 +6175,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6042,7 +6187,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -6051,7 +6196,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6062,7 +6207,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -6071,7 +6228,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6082,7 +6239,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -6091,7 +6260,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6102,7 +6271,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -6111,6 +6292,54 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
@@ -6125,9 +6354,9 @@ d
 <div class="traces-box">
 <div class="label">Archivist trace:</div>
 <div class="traces">
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -6177,21 +6406,6 @@ alpha
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">9</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">8792</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">47907</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.05</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">175671</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.18</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">3.67</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -6200,13 +6414,9 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name alpha ">
 alpha
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___a ">
 ___a
 <div class="loc ">
@@ -6221,13 +6431,9 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name beta ">
 beta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___b ">
 ___b
 <div class="loc ">
@@ -6242,13 +6448,9 @@ Cons
 <div class="val-const  const-2 ">
 2
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name gamma ">
 gamma
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___c ">
 ___c
 <div class="loc ">
@@ -6263,13 +6465,9 @@ Cons
 <div class="val-const  const-3 ">
 3
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name delta ">
 delta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___d ">
 ___d
 <div class="loc ">
@@ -6291,14 +6489,6 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <div class="output-value">
 <div class="label">Output:</div>
 <div class="val-constr constr-Cons ">
@@ -6306,23 +6496,19 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name alpha ">
-alpha
+<div class="name val-name alpha-l ">
+alpha-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___alpha ">
-__compute___alpha
+<div class="val-art __compute___alpha-r ">
+__compute___alpha-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  alpha">
-alpha
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -6330,23 +6516,19 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name beta ">
-beta
+<div class="name val-name beta-l ">
+beta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___beta ">
-__compute___beta
+<div class="val-art __compute___beta-r ">
+__compute___beta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  beta">
-beta
+<div class="name  beta-r">
+beta-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -6354,23 +6536,19 @@ Cons
 <div class="val-const  const-4 ">
 4
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name gamma ">
-gamma
+<div class="name val-name gamma-l ">
+gamma-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___gamma ">
-__compute___gamma
+<div class="val-art __compute___gamma-r ">
+__compute___gamma-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  gamma">
-gamma
+<div class="name  gamma-r">
+gamma-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -6378,23 +6556,19 @@ Cons
 <div class="val-const  const-9 ">
 9
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name delta ">
-delta
+<div class="name val-name delta-l ">
+delta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___delta ">
-__compute___delta
+<div class="val-art __compute___delta-r ">
+__compute___delta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  delta">
-delta
+<div class="name  delta-r">
+delta-r
 </div>
 </div>
 <div class="val-constr constr-Nil ">
@@ -6409,18 +6583,10 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6431,47 +6597,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6482,7 +6609,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -6491,7 +6618,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6502,7 +6629,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -6511,7 +6650,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6522,7 +6661,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -6531,7 +6682,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6542,7 +6693,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -6551,15 +6714,63 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6570,47 +6781,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6621,7 +6793,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -6630,7 +6802,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6641,7 +6813,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -6650,7 +6834,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6661,7 +6845,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -6670,7 +6866,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6681,7 +6877,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -6690,6 +6898,54 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
@@ -6704,9 +6960,9 @@ d
 <div class="traces-box">
 <div class="label">Archivist trace:</div>
 <div class="traces">
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -6756,21 +7012,6 @@ alpha
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">10</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">13557</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">34234</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.03</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">761063</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.76</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">22.23</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -6779,13 +7020,9 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name alpha ">
 alpha
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___a ">
 ___a
 <div class="loc ">
@@ -6800,13 +7037,9 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name beta ">
 beta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___b ">
 ___b
 <div class="loc ">
@@ -6821,13 +7054,9 @@ Cons
 <div class="val-const  const-2 ">
 2
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name gamma ">
 gamma
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___c ">
 ___c
 <div class="loc ">
@@ -6842,13 +7071,9 @@ Cons
 <div class="val-const  const-3 ">
 3
 </div>
-<div class="val-constr constr-Name ">
-Name
 <div class="name val-name delta ">
 delta
 </div>
-<div class="val-constr constr-Art ">
-Art
 <div class="val-art ___d ">
 ___d
 <div class="loc ">
@@ -6870,14 +7095,6 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <div class="output-value">
 <div class="label">Output:</div>
 <div class="val-constr constr-Cons ">
@@ -6885,23 +7102,19 @@ Cons
 <div class="val-const  const-0 ">
 0
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name alpha ">
-alpha
+<div class="name val-name alpha-l ">
+alpha-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___alpha ">
-__compute___alpha
+<div class="val-art __compute___alpha-r ">
+__compute___alpha-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  alpha">
-alpha
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -6909,23 +7122,19 @@ Cons
 <div class="val-const  const-1 ">
 1
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name beta ">
-beta
+<div class="name val-name beta-l ">
+beta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___beta ">
-__compute___beta
+<div class="val-art __compute___beta-r ">
+__compute___beta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  beta">
-beta
+<div class="name  beta-r">
+beta-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -6933,23 +7142,19 @@ Cons
 <div class="val-const  const-4 ">
 4
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name gamma ">
-gamma
+<div class="name val-name gamma-l ">
+gamma-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___gamma ">
-__compute___gamma
+<div class="val-art __compute___gamma-r ">
+__compute___gamma-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  gamma">
-gamma
+<div class="name  gamma-r">
+gamma-r
 </div>
 </div>
 <div class="val-constr constr-Cons ">
@@ -6957,23 +7162,19 @@ Cons
 <div class="val-const  const-9 ">
 9
 </div>
-<div class="val-constr constr-Name ">
-Name
-<div class="name val-name delta ">
-delta
+<div class="name val-name delta-l ">
+delta-l
 </div>
-<div class="val-constr constr-Art ">
-Art
-<div class="val-art __compute___delta ">
-__compute___delta
+<div class="val-art __compute___delta-r ">
+__compute___delta-r
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
 compute
 </div>
 </div>
-<div class="name  delta">
-delta
+<div class="name  delta-r">
+delta-r
 </div>
 </div>
 <div class="val-constr constr-Nil ">
@@ -6988,18 +7189,10 @@ Nil
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7010,47 +7203,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7061,7 +7215,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -7070,7 +7224,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7081,7 +7235,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -7090,7 +7256,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7101,7 +7267,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -7110,7 +7288,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7121,7 +7299,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -7130,15 +7320,63 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7149,47 +7387,8 @@ compute
 alpha
 </div>
 </div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
 </div>
-</div>
-<div class="name  beta">
-beta
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  gamma">
-gamma
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  delta">
-delta
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7200,7 +7399,7 @@ compute
 alpha
 </div>
 </div>
-<div class="force-tree  no-extent">
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -7209,7 +7408,7 @@ a
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7220,7 +7419,19 @@ compute
 beta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta">
+beta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -7229,7 +7440,7 @@ b
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7240,7 +7451,19 @@ compute
 gamma
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma">
+gamma
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -7249,7 +7472,7 @@ c
 </div>
 </div>
 </div>
-<div class="force-tree ">
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7260,7 +7483,19 @@ compute
 delta
 </div>
 </div>
-<div class="force-tree  no-extent">
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta">
+delta
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
 <div class="loc ">
 <div class="path ">
 </div>
@@ -7269,6 +7504,54 @@ d
 </div>
 </div>
 </div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  delta-r">
+delta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  gamma-r">
+gamma-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  beta-r">
+beta-r
+</div>
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-ref">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  alpha-r">
+alpha-r
 </div>
 </div>
 </div>
@@ -7283,9 +7566,9 @@ d
 <div class="traces-box">
 <div class="label">Archivist trace:</div>
 <div class="traces">
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯

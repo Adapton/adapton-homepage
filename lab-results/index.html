@@ -151,6 +151,8 @@ hr {
 
 .input-value, 
 .output-value,
+.archivist-dcg-tree-post-edit,
+.archivist-dcg-tree-post-update,
 .traces-box,
 .archivist-alloc-tree-post-edit,
 .archivist-force-tree-post-edit, 
@@ -178,21 +180,23 @@ hr {
 .traces-box {
   width: 99%;
 }
+.archivist-dcg-tree-post-edit,
+.archivist-dcg-tree-post-update {
+  width: 49%;
+}
 .archivist-alloc-tree-post-edit,
 .archivist-force-tree-post-edit, 
 .archivist-alloc-tree-post-update, 
-.archivist-force-tree-post-update  
-{
+.archivist-force-tree-post-update {
   width: 24%;
 }
-
 .tool-label-toggles {
   display: block;
   float: right;
 }
 
 
-.trace, .force-tree, .alloc-tree {
+.trace, .force-tree, .alloc-tree, .dcg-alloc-edge, .dcg-force-edge {
   color: black;
   display: inline-block;
   border-style: solid;
@@ -203,6 +207,34 @@ hr {
   margin: 1px;
   border-radius: 5px;
 }
+
+.dcg-force-edge {
+  border-color: blue;
+  border-width: 1px;
+}
+.dcg-node-comp {
+  background: #ccccff;
+  padding: 0px;
+}
+.dcg-node-ref {
+  border-radius: 0px;
+}
+.dcg-alloc-edge {
+  border-color: green;
+  background: #ccffcc;
+  border-width: 1px;
+  padding: 3px;
+}
+.dirty {
+  border-width: 2px;
+  border-color: red;
+  background: #ffcccc;
+}
+.editor-edge {
+  border-width: 2px;
+  border-color: black;
+}
+
 .tr-effect { 
   display: inline;
   display: none;
@@ -272,11 +304,17 @@ hr {
   padding: 3px;
   background: #ccffcc;
 }
-.tr-alloc-loc-exists {  
+.tr-alloc-loc-exists-same {  
   padding: 3px;
   background: #ccffcc;
   border-width: 4px;
   border-color: green;
+}
+.tr-alloc-loc-exists-diff {  
+  padding: 3px;
+  background: #ffcccc;
+  border-width: 4px;
+  border-color: red;
 }
 .tr-dirty {  
   background: #550000;
@@ -415,9 +453,30 @@ function toggleEffects() {
 <div class="labsum-title">Lab results summary</div>
 <div class="labsum-row">
 <div class="labsum-name">
-<div class="lab-name"><a href="http://adapton.org/rustdoc/adapton_lab/catalog/struct.EditorOopsla2015Sec2.html" class="lab-name ">eg-oopsla2015-sec2</a></div>
+<div class="lab-name"><a href="http://adapton.org/rustdoc/adapton_lab/catalog/struct.ExampleCleanDirty.html" class="lab-name ">eg-clean-dirty</a></div>
+</div>
+<a class="lab-details" href=./eg-clean-dirty/index.html>detailed results</a>
+</div>
+<hr/>
+<div class="labsum-row">
+<div class="labsum-name">
+<div class="lab-name"><a href="" class="lab-name ">eg-oopsla2015-sec2</a></div>
 </div>
 <a class="lab-details" href=./eg-oopsla2015-sec2/index.html>detailed results</a>
+</div>
+<hr/>
+<div class="labsum-row">
+<div class="labsum-name">
+<div class="lab-name"><a href="http://adapton.org/rustdoc/adapton_lab/catalog/struct.EditorOopsla2015Sec2.html" class="lab-name ">eg-oopsla2015-sec2-rev1</a></div>
+</div>
+<a class="lab-details" href=./eg-oopsla2015-sec2-rev1/index.html>detailed results</a>
+</div>
+<hr/>
+<div class="labsum-row">
+<div class="labsum-name">
+<div class="lab-name"><a href="http://adapton.org/rustdoc/adapton_lab/catalog/struct.EditorOopsla2015Sec2.html" class="lab-name ">eg-oopsla2015-sec2-rev2</a></div>
+</div>
+<a class="lab-details" href=./eg-oopsla2015-sec2-rev2/index.html>detailed results</a>
 </div>
 <hr/>
 <div class="labsum-row">
@@ -516,12 +575,5 @@ function toggleEffects() {
 <div class="lab-name"><a href="http://adapton.org/rustdoc/adapton_lab/catalog/struct.ListReverse.html" class="lab-name ">list-reverse</a></div>
 </div>
 <a class="lab-details" href=./list-reverse/index.html>detailed results</a>
-</div>
-<hr/>
-<div class="labsum-row">
-<div class="labsum-name">
-<div class="lab-name"><a href="http://adapton.org/rustdoc/adapton_lab/catalog/struct.RazMax.html" class="lab-name ">raz-max</a></div>
-</div>
-<a class="lab-details" href=./raz-max/index.html>detailed results</a>
 </div>
 <hr/>

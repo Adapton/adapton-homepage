@@ -151,6 +151,8 @@ hr {
 
 .input-value, 
 .output-value,
+.archivist-dcg-tree-post-edit,
+.archivist-dcg-tree-post-update,
 .traces-box,
 .archivist-alloc-tree-post-edit,
 .archivist-force-tree-post-edit, 
@@ -178,21 +180,23 @@ hr {
 .traces-box {
   width: 99%;
 }
+.archivist-dcg-tree-post-edit,
+.archivist-dcg-tree-post-update {
+  width: 49%;
+}
 .archivist-alloc-tree-post-edit,
 .archivist-force-tree-post-edit, 
 .archivist-alloc-tree-post-update, 
-.archivist-force-tree-post-update  
-{
+.archivist-force-tree-post-update {
   width: 24%;
 }
-
 .tool-label-toggles {
   display: block;
   float: right;
 }
 
 
-.trace, .force-tree, .alloc-tree {
+.trace, .force-tree, .alloc-tree, .dcg-alloc-edge, .dcg-force-edge {
   color: black;
   display: inline-block;
   border-style: solid;
@@ -203,6 +207,34 @@ hr {
   margin: 1px;
   border-radius: 5px;
 }
+
+.dcg-force-edge {
+  border-color: blue;
+  border-width: 1px;
+}
+.dcg-node-comp {
+  background: #ccccff;
+  padding: 0px;
+}
+.dcg-node-ref {
+  border-radius: 0px;
+}
+.dcg-alloc-edge {
+  border-color: green;
+  background: #ccffcc;
+  border-width: 1px;
+  padding: 3px;
+}
+.dirty {
+  border-width: 2px;
+  border-color: red;
+  background: #ffcccc;
+}
+.editor-edge {
+  border-width: 2px;
+  border-color: black;
+}
+
 .tr-effect { 
   display: inline;
   display: none;
@@ -272,11 +304,17 @@ hr {
   padding: 3px;
   background: #ccffcc;
 }
-.tr-alloc-loc-exists {  
+.tr-alloc-loc-exists-same {  
   padding: 3px;
   background: #ccffcc;
   border-width: 4px;
   border-color: green;
+}
+.tr-alloc-loc-exists-diff {  
+  padding: 3px;
+  background: #ffcccc;
+  border-width: 4px;
+  border-color: red;
 }
 .tr-dirty {  
   background: #550000;
@@ -415,25 +453,8 @@ function toggleEffects() {
 <hr/>
 <div class="lab-name"><a href="http://adapton.org/rustdoc/adapton_lab/catalog/struct.LazyMap.html" class="lab-name page-title">list-lazy-map</a></div>
 <div style="font-size:12px" class="batch-name"> step</div>
-<div style="font-size:20px" class="editor">Editor</div>
-<div style="font-size:20px" class="archivist">Archivist</div>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">0</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">282612</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">105539</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.11</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">1120728</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">1.12</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">10.62</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -780,10 +801,12 @@ Uneval'd
 </div>
 </div>
 <hr/>
+<div class="archivist-alloc-tree-post-edit"></div>
+<div class="archivist-force-tree-post-edit"></div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -794,7 +817,28 @@ compute
 7
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -805,7 +849,29 @@ compute
 6
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -816,7 +882,29 @@ compute
 5
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  5">
+5
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  5">
+5
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -827,7 +915,29 @@ compute
 4
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  4">
+4
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  4">
+4
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -838,7 +948,29 @@ compute
 3
 </div>
 </div>
-<div class="alloc-tree  no-extent">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  3">
+3
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  3">
+3
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -847,118 +979,6 @@ compute
 </div>
 <div class="name  2">
 2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  3">
-3
 </div>
 </div>
 </div>
@@ -1515,21 +1535,6 @@ compute
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">1</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">1790459</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">69753</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.07</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">280243</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.28</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">4.02</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -1923,9 +1928,9 @@ Uneval'd
 </div>
 </div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -1936,7 +1941,28 @@ compute
 7
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -1947,7 +1973,29 @@ compute
 6
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -1958,7 +2006,29 @@ compute
 5
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  5">
+5
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  5">
+5
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -1969,7 +2039,29 @@ compute
 4
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  4">
+4
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  4">
+4
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -1980,7 +2072,29 @@ compute
 3
 </div>
 </div>
-<div class="alloc-tree  no-extent">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  3">
+3
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  3">
+3
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -1989,127 +2103,15 @@ compute
 </div>
 <div class="name  2">
 2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  3">
-3
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2120,7 +2122,28 @@ compute
 8
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2131,7 +2154,29 @@ compute
 7
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2142,7 +2187,29 @@ compute
 6
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2153,7 +2220,29 @@ compute
 5
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  5">
+5
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  5">
+5
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2164,7 +2253,29 @@ compute
 4
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  4">
+4
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  4">
+4
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2173,130 +2284,6 @@ compute
 </div>
 <div class="name  3">
 3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  4">
-4
 </div>
 </div>
 </div>
@@ -2399,9 +2386,9 @@ compute
 </div>
 </div>
 </div>
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -2522,21 +2509,6 @@ compute
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">2</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">83313</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">38260</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.04</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">345669</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.35</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">9.03</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -2977,9 +2949,9 @@ Uneval'd
 </div>
 </div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -2990,7 +2962,28 @@ compute
 8
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3001,7 +2994,29 @@ compute
 7
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3012,7 +3027,29 @@ compute
 6
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3023,7 +3060,29 @@ compute
 5
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  5">
+5
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  5">
+5
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3034,7 +3093,29 @@ compute
 4
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  4">
+4
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  4">
+4
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3043,139 +3124,15 @@ compute
 </div>
 <div class="name  3">
 3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  4">
-4
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3186,7 +3143,28 @@ compute
 9
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3197,7 +3175,29 @@ compute
 8
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3208,7 +3208,29 @@ compute
 7
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3219,7 +3241,29 @@ compute
 6
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3230,7 +3274,29 @@ compute
 5
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  5">
+5
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  5">
+5
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -3239,142 +3305,6 @@ compute
 </div>
 <div class="name  4">
 4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  5">
-5
 </div>
 </div>
 </div>
@@ -3477,9 +3407,9 @@ compute
 </div>
 </div>
 </div>
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -3600,21 +3530,6 @@ compute
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">3</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">76040</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">49037</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.05</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">434980</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.43</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">8.87</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -4102,9 +4017,9 @@ Uneval'd
 </div>
 </div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4115,7 +4030,28 @@ compute
 9
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4126,7 +4062,29 @@ compute
 8
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4137,7 +4095,29 @@ compute
 7
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4148,7 +4128,29 @@ compute
 6
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4159,7 +4161,29 @@ compute
 5
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  5">
+5
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  5">
+5
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4168,151 +4192,15 @@ compute
 </div>
 <div class="name  4">
 4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  5">
-5
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4323,7 +4211,28 @@ compute
 10
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4334,7 +4243,29 @@ compute
 9
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4345,7 +4276,29 @@ compute
 8
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4356,7 +4309,29 @@ compute
 7
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4367,7 +4342,29 @@ compute
 6
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -4376,154 +4373,6 @@ compute
 </div>
 <div class="name  5">
 5
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  6">
-6
 </div>
 </div>
 </div>
@@ -4626,9 +4475,9 @@ compute
 </div>
 </div>
 </div>
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -4749,21 +4598,6 @@ compute
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">4</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">50925</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">48249</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.05</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">467036</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.47</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">9.68</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -5298,9 +5132,9 @@ Uneval'd
 </div>
 </div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5311,7 +5145,28 @@ compute
 10
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5322,7 +5177,29 @@ compute
 9
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5333,7 +5210,29 @@ compute
 8
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5344,7 +5243,29 @@ compute
 7
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5355,7 +5276,29 @@ compute
 6
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  6">
+6
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5364,163 +5307,15 @@ compute
 </div>
 <div class="name  5">
 5
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  6">
-6
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5531,7 +5326,28 @@ compute
 11
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5542,7 +5358,29 @@ compute
 10
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5553,7 +5391,29 @@ compute
 9
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5564,7 +5424,29 @@ compute
 8
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5575,7 +5457,29 @@ compute
 7
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -5584,166 +5488,6 @@ compute
 </div>
 <div class="name  6">
 6
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  7">
-7
 </div>
 </div>
 </div>
@@ -5846,9 +5590,9 @@ compute
 </div>
 </div>
 </div>
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -5969,21 +5713,6 @@ compute
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">5</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">200002</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">64154</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.06</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">231689</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.23</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">3.61</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -6565,9 +6294,9 @@ Uneval'd
 </div>
 </div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6578,7 +6307,28 @@ compute
 11
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6589,7 +6339,29 @@ compute
 10
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6600,7 +6372,29 @@ compute
 9
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6611,7 +6405,29 @@ compute
 8
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6622,7 +6438,29 @@ compute
 7
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  7">
+7
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6631,175 +6469,15 @@ compute
 </div>
 <div class="name  6">
 6
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  7">
-7
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6810,7 +6488,28 @@ compute
 12
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6821,7 +6520,29 @@ compute
 11
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6832,7 +6553,29 @@ compute
 10
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6843,7 +6586,29 @@ compute
 9
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6854,7 +6619,29 @@ compute
 8
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -6863,178 +6650,6 @@ compute
 </div>
 <div class="name  7">
 7
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  8">
-8
 </div>
 </div>
 </div>
@@ -7137,9 +6752,9 @@ compute
 </div>
 </div>
 </div>
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -7260,21 +6875,6 @@ compute
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">6</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">104369</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">58030</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.06</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">249738</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.25</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">4.30</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -7903,9 +7503,9 @@ Uneval'd
 </div>
 </div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7916,7 +7516,28 @@ compute
 12
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7927,7 +7548,29 @@ compute
 11
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7938,7 +7581,29 @@ compute
 10
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7949,7 +7614,29 @@ compute
 9
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7960,7 +7647,29 @@ compute
 8
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  8">
+8
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -7969,187 +7678,15 @@ compute
 </div>
 <div class="name  7">
 7
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  8">
-8
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -8160,7 +7697,28 @@ compute
 13
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -8171,7 +7729,29 @@ compute
 12
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -8182,7 +7762,29 @@ compute
 11
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -8193,7 +7795,29 @@ compute
 10
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -8204,7 +7828,29 @@ compute
 9
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -8213,190 +7859,6 @@ compute
 </div>
 <div class="name  8">
 8
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  9">
-9
 </div>
 </div>
 </div>
@@ -8499,9 +7961,9 @@ compute
 </div>
 </div>
 </div>
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -8622,21 +8084,6 @@ compute
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">7</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">81171</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">63669</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.06</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">251660</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.25</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">3.95</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -9312,9 +8759,9 @@ Uneval'd
 </div>
 </div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -9325,7 +8772,28 @@ compute
 13
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -9336,7 +8804,29 @@ compute
 12
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -9347,7 +8837,29 @@ compute
 11
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -9358,7 +8870,29 @@ compute
 10
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -9369,7 +8903,29 @@ compute
 9
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  9">
+9
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -9378,199 +8934,15 @@ compute
 </div>
 <div class="name  8">
 8
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  9">
-9
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -9581,7 +8953,28 @@ compute
 14
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  14">
+14
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  14">
+14
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -9592,7 +8985,29 @@ compute
 13
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -9603,7 +9018,29 @@ compute
 12
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -9614,7 +9051,29 @@ compute
 11
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -9625,7 +9084,29 @@ compute
 10
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -9634,202 +9115,6 @@ compute
 </div>
 <div class="name  9">
 9
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  14">
-14
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  14">
-14
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  10">
-10
 </div>
 </div>
 </div>
@@ -9932,9 +9217,9 @@ compute
 </div>
 </div>
 </div>
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -10055,21 +9340,6 @@ compute
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">8</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">458114</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">36884</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.04</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">1367145</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">1.37</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">37.07</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -10792,9 +10062,9 @@ Uneval'd
 </div>
 </div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -10805,7 +10075,28 @@ compute
 14
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  14">
+14
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  14">
+14
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -10816,7 +10107,29 @@ compute
 13
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -10827,7 +10140,29 @@ compute
 12
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -10838,7 +10173,29 @@ compute
 11
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -10849,7 +10206,29 @@ compute
 10
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  10">
+10
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -10858,211 +10237,15 @@ compute
 </div>
 <div class="name  9">
 9
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  14">
-14
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  14">
-14
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  10">
-10
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -11073,7 +10256,28 @@ compute
 15
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  15">
+15
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  15">
+15
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -11084,7 +10288,29 @@ compute
 14
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  14">
+14
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  14">
+14
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -11095,7 +10321,29 @@ compute
 13
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -11106,7 +10354,29 @@ compute
 12
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -11117,7 +10387,29 @@ compute
 11
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -11126,214 +10418,6 @@ compute
 </div>
 <div class="name  10">
 10
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  15">
-15
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  15">
-15
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  14">
-14
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  14">
-14
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  11">
-11
 </div>
 </div>
 </div>
@@ -11436,9 +10520,9 @@ compute
 </div>
 </div>
 </div>
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -11559,21 +10643,6 @@ compute
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">9</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">51332</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">35743</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.04</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">304854</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.30</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">8.53</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -12343,9 +11412,9 @@ Uneval'd
 </div>
 </div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -12356,7 +11425,28 @@ compute
 15
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  15">
+15
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  15">
+15
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -12367,7 +11457,29 @@ compute
 14
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  14">
+14
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  14">
+14
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -12378,7 +11490,29 @@ compute
 13
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -12389,7 +11523,29 @@ compute
 12
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -12400,7 +11556,29 @@ compute
 11
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  11">
+11
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -12409,223 +11587,15 @@ compute
 </div>
 <div class="name  10">
 10
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  15">
-15
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  15">
-15
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  14">
-14
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  14">
-14
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  11">
-11
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -12636,7 +11606,28 @@ compute
 16
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  16">
+16
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  16">
+16
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -12647,7 +11638,29 @@ compute
 15
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  15">
+15
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  15">
+15
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -12658,7 +11671,29 @@ compute
 14
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  14">
+14
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  14">
+14
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -12669,7 +11704,29 @@ compute
 13
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -12680,7 +11737,29 @@ compute
 12
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -12689,226 +11768,6 @@ compute
 </div>
 <div class="name  11">
 11
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  16">
-16
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  16">
-16
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  15">
-15
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  15">
-15
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  14">
-14
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  14">
-14
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  12">
-12
 </div>
 </div>
 </div>
@@ -13011,9 +11870,9 @@ compute
 </div>
 </div>
 </div>
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
@@ -13134,21 +11993,6 @@ compute
 <hr/>
 <hr/>
 <div class="batch-name-lab">batch name<div class="batch-name">10</div></div>
-<div class="editor">
-<div class="time-ns-lab">time (ns): <div class="time-ns">111503</div></div>
-</div>
-<div class="archivist">
-<div class="row">
-<div class="time-ns-lab">Naive time (ns): <div class="time-ns">54153</div></div>
-<div class="time-ms-lab">Naive time (ms): <div class="time-ms">0.05</div></div>
-</div>
-<div class="row">
-<div class="time-ns-lab">DCG time (ns): <div class="time-ns">247926</div></div>
-<div class="time-ms-lab">DCG time (ms): <div class="time-ms">0.25</div></div>
-</div>
-<div class="overhead-lab">DCG Overhead: <div class="overhead">4.58</div></div>
-</div>
-<hr/>
 <hr/>
 <div class="input-value">
 <div class="label">Input:</div>
@@ -13965,9 +12809,9 @@ Uneval'd
 </div>
 </div>
 <hr/>
-<div class="archivist-alloc-tree-post-edit">
-<div class="label">Allocs, post-edit:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-edit">
+<div class="label">DCG, post-edit:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -13978,7 +12822,28 @@ compute
 16
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  16">
+16
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  16">
+16
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -13989,7 +12854,29 @@ compute
 15
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  15">
+15
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  15">
+15
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -14000,7 +12887,29 @@ compute
 14
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  14">
+14
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  14">
+14
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -14011,7 +12920,29 @@ compute
 13
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -14022,7 +12953,29 @@ compute
 12
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  12">
+12
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -14031,235 +12984,15 @@ compute
 </div>
 <div class="name  11">
 11
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-edit">
-<div class="label">Forces, post-edit:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  16">
-16
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  16">
-16
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  15">
-15
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  15">
-15
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  14">
-14
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  14">
-14
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  12">
-12
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  12">
-12
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="archivist-update-sep"></div>
-<div class="archivist-alloc-tree-post-update">
-<div class="label">Allocs, post-update:</div>
-<div class="alloc-tree ">
+<div class="archivist-dcg-tree-post-update">
+<div class="label">DCG, post-compute:</div>
+<div class="dcg-alloc-edge  clean editor-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -14270,7 +13003,28 @@ compute
 17
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  17">
+17
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  17">
+17
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -14281,7 +13035,29 @@ compute
 16
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  16">
+16
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  16">
+16
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -14292,7 +13068,29 @@ compute
 15
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  15">
+15
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  15">
+15
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -14303,7 +13101,29 @@ compute
 14
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  14">
+14
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  14">
+14
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -14314,7 +13134,29 @@ compute
 13
 </div>
 </div>
-<div class="alloc-tree ">
+</div>
+</div>
+<div class="dcg-force-edge  clean editor-edge dcg-node-comp">
+<div class="loc ">
+<div class="path ">
+<div class="name  compute">
+compute
+</div>
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+<div class="dcg-force-edge  clean dcg-edge dcg-node-ref no-extent">
+<div class="loc ">
+<div class="path ">
+</div>
+<div class="name  13">
+13
+</div>
+</div>
+</div>
+<div class="dcg-alloc-edge  clean dcg-edge dcg-node-comp">
 <div class="loc ">
 <div class="path ">
 <div class="name  compute">
@@ -14323,238 +13165,6 @@ compute
 </div>
 <div class="name  12">
 12
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  11">
-11
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  10">
-10
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  9">
-9
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  8">
-8
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  7">
-7
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  6">
-6
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  5">
-5
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  4">
-4
-</div>
-</div>
-<div class="alloc-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  3">
-3
-</div>
-</div>
-<div class="alloc-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  2">
-2
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="archivist-force-tree-post-update">
-<div class="label">Forces, post-update:</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  17">
-17
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  17">
-17
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  16">
-16
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  16">
-16
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  15">
-15
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  15">
-15
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  14">
-14
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  14">
-14
-</div>
-</div>
-</div>
-</div>
-<div class="force-tree ">
-<div class="loc ">
-<div class="path ">
-<div class="name  compute">
-compute
-</div>
-</div>
-<div class="name  13">
-13
-</div>
-</div>
-<div class="force-tree  no-extent">
-<div class="loc ">
-<div class="path ">
-</div>
-<div class="name  13">
-13
 </div>
 </div>
 </div>
@@ -14657,9 +13267,9 @@ compute
 </div>
 </div>
 </div>
-<div class="trace  tr-alloc-loc-exists alloc-kind-thunk no-extent">
+<div class="trace  tr-alloc-loc-exists-same alloc-kind-thunk no-extent">
 <div class="tr-effect ">
-<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists)</a>
+<a href="http://adapton.org/rustdoc/adapton/engine/reflect/trace/enum.Effect.html">Alloc(LocExists(SameContent))</a>
 </div>
 <div class="tr-symbols ">
 ◯
