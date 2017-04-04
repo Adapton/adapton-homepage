@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["AtHead","Marker type for interpreting the stack as a sequence."],["AtTail","Marker type for interpreting the stack as a sequence."],["IterL",""],["IterR",""],["Raz","Random access zipper"],["RazTree","Tree form of a RAZ"]]});

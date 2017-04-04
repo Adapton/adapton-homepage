@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/Users/hammer/adapton/src/reflect.rs`.">
+    <meta name="description" content="Source to the Rust file `src/reflect.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>reflect.rs.html -- source</title>
@@ -419,6 +419,21 @@
 <span id="374">374</span>
 <span id="375">375</span>
 <span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::<span class='ident'>Hash</span>;
 <span class='kw'>use</span> <span class='ident'>engine</span>::<span class='ident'>Name</span>;
@@ -578,6 +593,15 @@
   <span class='kw'>pub</span> <span class='ident'>effect</span>: <span class='ident'>Effect</span>,
   <span class='doccomment'>/// The value either produced or consumed by this `Effect`</span>
   <span class='kw'>pub</span> <span class='ident'>value</span>:  <span class='ident'>Val</span>,
+  <span class='doccomment'>/// Duplicate edge invariant: If this edge is a duplicate according</span>
+  <span class='doccomment'>/// to this flag, then it is preceded by an edge with the same</span>
+  <span class='doccomment'>/// effect `effect`, targeting the same location `loc`.</span>
+  <span class='doccomment'>/// Furthermore, because of the (precise naming) semantics of</span>
+  <span class='doccomment'>/// Adapton and its programs, the observed value `value` and `dirty`</span>
+  <span class='doccomment'>/// statuses are always the same across duplicated edges.  Hence,</span>
+  <span class='doccomment'>/// the engine does not store these duplicate edges: They are</span>
+  <span class='doccomment'>/// completely redundant.</span>
+  <span class='kw'>pub</span> <span class='ident'>is_dup</span>: <span class='ident'>bool</span>,
 }
 
 <span class='comment'>// Note: Can&#39;t implement Reflect&lt;T&gt; for T, since that conflicts with</span>
@@ -685,7 +709,13 @@
     <span class='doccomment'>/// The allocation matched the location of a prior allocation. its</span>
     <span class='doccomment'>/// content may or may not also match.  The `bool` indicates the two</span>
     <span class='doccomment'>/// cases: `true` means same content, `false` means changed content.</span>
-    <span class='ident'>LocExists</span>,
+    <span class='ident'>LocExists</span>(<span class='ident'>ChangeFlag</span>),      
+  }
+
+  <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
+  <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ChangeFlag</span> {
+      <span class='ident'>ContentDiff</span>,
+      <span class='ident'>ContentSame</span>,
   }
 
   <span class='doccomment'>/// Distinguish ref cell allocations from thunk allocations</span>

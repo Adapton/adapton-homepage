@@ -48,12 +48,13 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../../src/adapton/reflect.rs.html#149-159' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../../src/adapton/reflect.rs.html#149-168' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Succ {
     pub dirty: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
     pub loc: <a class='struct' href='../../../adapton/engine/reflect/struct.Loc.html' title='adapton::engine::reflect::Loc'>Loc</a>,
     pub effect: <a class='enum' href='../../../adapton/engine/reflect/enum.Effect.html' title='adapton::engine::reflect::Effect'>Effect</a>,
     pub value: <a class='enum' href='../../../adapton/engine/reflect/enum.Val.html' title='adapton::engine::reflect::Val'>Val</a>,
+    pub is_dup: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
 }</pre><div class='docblock'><p>Reflected version of <code>engine::Succ</code>.  Unlike the real engine&#39;s
 <code>Succ</code> type, this version stores a reflected value (of type
 <code>Val</code>).</p>
@@ -74,6 +75,17 @@ the edge are dirty too.</p>
                            <span id='value.v' class='invisible'>
                            <code>value: <a class='enum' href='../../../adapton/engine/reflect/enum.Val.html' title='adapton::engine::reflect::Val'>Val</a></code>
                            </span></span><span class='stab '></span><div class='docblock'><p>The value either produced or consumed by this <code>Effect</code></p>
+</div><span id='structfield.is_dup' class='structfield'>
+                           <span id='is_dup.v' class='invisible'>
+                           <code>is_dup: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code>
+                           </span></span><span class='stab '></span><div class='docblock'><p>Duplicate edge invariant: If this edge is a duplicate according
+to this flag, then it is preceded by an edge with the same
+effect <code>effect</code>, targeting the same location <code>loc</code>.
+Furthermore, because of the (precise naming) semantics of
+Adapton and its programs, the observed value <code>value</code> and <code>dirty</code>
+statuses are always the same across duplicated edges.  Hence,
+the engine does not store these duplicate edges: They are
+completely redundant.</p>
 </div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../../adapton/engine/reflect/struct.Succ.html' title='adapton::engine::reflect::Succ'>Succ</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/adapton/reflect.rs.html#148' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class='method'><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></span></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
@@ -93,7 +105,7 @@ the edge are dirty too.</p>
 <div class='docblock'><p>Feeds this value into the state given, updating the hasher as necessary.</p>
 </div><h4 id='method.hash_slice' class='method'><span id='hash_slice.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[Self]</a>, state: &amp;mut H) <span class='where fmt-newline'>where H: <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html' title='core::hash::Hasher'>Hasher</a></span></code><div class='since' title='Stable since Rust version 1.3.0'>1.3.0</div></span></h4>
 <div class='docblock'><p>Feeds a slice of this type into the state provided.</p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../../adapton/engine/reflect/trait.Reflect.html' title='adapton::engine::reflect::Reflect'>Reflect</a>&lt;<a class='struct' href='../../../adapton/engine/reflect/struct.Succ.html' title='adapton::engine::reflect::Succ'>Succ</a>&gt; for <a class='struct' href='../../../adapton/engine/reflect/struct.Succ.html' title='adapton::engine::reflect::Succ'>Succ</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/adapton/reflect.rs.html#165-169' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../../adapton/engine/reflect/trait.Reflect.html' title='adapton::engine::reflect::Reflect'>Reflect</a>&lt;<a class='struct' href='../../../adapton/engine/reflect/struct.Succ.html' title='adapton::engine::reflect::Succ'>Succ</a>&gt; for <a class='struct' href='../../../adapton/engine/reflect/struct.Succ.html' title='adapton::engine::reflect::Succ'>Succ</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/adapton/reflect.rs.html#174-178' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.reflect' class='method'><span id='reflect.v' class='invisible'><code>fn <a href='../../../adapton/engine/reflect/trait.Reflect.html#tymethod.reflect' class='fnname'>reflect</a>(&amp;self) -&gt; <a class='struct' href='../../../adapton/engine/reflect/struct.Succ.html' title='adapton::engine::reflect::Succ'>Succ</a></code></span></h4>
 </div></section>
     <section id='search' class="content hidden"></section>

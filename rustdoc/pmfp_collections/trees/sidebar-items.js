@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["NegBin","Wrapper around u8 to generate random `Level`s appropriate for a balanced binary tree. "]],"trait":[["BinTree","General trait for a persistent binary tree"],["Level","Levels for the LevelTree"],["LevelTree","A binary tree with \"levels\" for each node"],["NominalTree","A binary tree with incremental, named links"]]});

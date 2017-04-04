@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["Force","cursor movement qualifier"]],"struct":[["Cursor","tree cursor, centered on a node of the underlying persistent tree"]],"trait":[["DeriveTreeUpdate","marker that allows a default implementation of TreeUpdate if the data is also `Clone`"],["TreeUpdate","Used for updating data when the tree is mutated"]]});

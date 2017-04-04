@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["BS","Bit Strings are length/value pairs, so that bit strings with leading zeros aren't conflated."]],"trait":[["BitString",""]]});
