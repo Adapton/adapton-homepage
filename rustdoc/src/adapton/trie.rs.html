@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `src/trie.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/adapton.rust-b16351c49ab23a81/d27287b/src/trie.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>trie.rs.html -- source</title>
@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -536,499 +536,499 @@
 <span id="491">491</span>
 <span id="492">492</span>
 <span id="493">493</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Debug</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::{<span class='ident'>Hash</span>, <span class='ident'>Hasher</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>hash_map</span>::<span class='ident'>DefaultHasher</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>min</span>;
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">hash_map</span>::<span class="ident">DefaultHasher</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">rc</span>::<span class="ident">Rc</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">min</span>;
 
-<span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>collections</span>::{<span class='ident'>ListIntro</span>, <span class='ident'>ListElim</span>, <span class='ident'>list_fold</span>};
-<span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>bitstring</span>::<span class='kw-2'>*</span>;
-<span class='kw'>use</span> <span class='ident'>adapton</span>::<span class='ident'>engine</span>::<span class='kw-2'>*</span>;
-<span class='kw'>use</span> <span class='ident'>macros</span>::<span class='kw-2'>*</span>;
+<span class="kw">use</span> <span class="ident">adapton</span>::<span class="ident">collections</span>::{<span class="ident">ListIntro</span>, <span class="ident">ListElim</span>, <span class="ident">list_fold</span>};
+<span class="kw">use</span> <span class="ident">adapton</span>::<span class="ident">bitstring</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">adapton</span>::<span class="ident">engine</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">macros</span>::<span class="kw-2">*</span>;
 
-<span class='doccomment'>/// Probablistically Balanced Trie</span>
-<span class='doccomment'>/// Rough implementation of probabilistic tries from OOPSLA 2015 paper.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// See also: [Tries in OCaml](http://github.com/plum-umd/adapton.ocaml)</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>,<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>,<span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Trie</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> {
-    <span class='ident'>Nil</span>(<span class='ident'>BS</span>),
-    <span class='ident'>Leaf</span>(<span class='ident'>BS</span>, <span class='ident'>X</span>),
-    <span class='ident'>Bin</span>(<span class='ident'>BS</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Trie</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;&gt;</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Trie</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;&gt;</span>),
-    <span class='ident'>Root</span>(<span class='ident'>Meta</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Trie</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;&gt;</span>),
-    <span class='ident'>Name</span>(<span class='ident'>Name</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Trie</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;&gt;</span>),
-    <span class='ident'>Art</span>(<span class='ident'>Art</span><span class='op'>&lt;</span><span class='ident'>Trie</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;&gt;</span>),
+<span class="doccomment">/// Probablistically Balanced Trie</span>
+<span class="doccomment">/// Rough implementation of probabilistic tries from OOPSLA 2015 paper.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// See also: [Tries in OCaml](http://github.com/plum-umd/adapton.ocaml)</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>,<span class="ident">PartialEq</span>,<span class="ident">Eq</span>,<span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Trie</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> {
+    <span class="ident">Nil</span>(<span class="ident">BS</span>),
+    <span class="ident">Leaf</span>(<span class="ident">BS</span>, <span class="ident">X</span>),
+    <span class="ident">Bin</span>(<span class="ident">BS</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Trie</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;&gt;</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Trie</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;&gt;</span>),
+    <span class="ident">Root</span>(<span class="ident">Meta</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Trie</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;&gt;</span>),
+    <span class="ident">Name</span>(<span class="ident">Name</span>, <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Trie</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;&gt;</span>),
+    <span class="ident">Art</span>(<span class="ident">Art</span><span class="op">&lt;</span><span class="ident">Trie</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;&gt;</span>),
 }
 
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>PLACEMENT_SEED</span>: <span class='ident'>u64</span> <span class='op'>=</span> <span class='number'>42</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PLACEMENT_SEED</span>: <span class="ident">u64</span> <span class="op">=</span> <span class="number">42</span>;
 
-<span class='doccomment'>/// Metadata held by the root node.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>,<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>,<span class='ident'>Hash</span>,<span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Meta</span> {
-    <span class='kw'>pub</span> <span class='ident'>min_depth</span>: <span class='ident'>i64</span>,
+<span class="doccomment">/// Metadata held by the root node.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>,<span class="ident">PartialEq</span>,<span class="ident">Eq</span>,<span class="ident">Hash</span>,<span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Meta</span> {
+    <span class="kw">pub</span> <span class="ident">min_depth</span>: <span class="ident">i64</span>,
 }
 
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>MetaT</span> {
-    <span class='kw'>fn</span> <span class='ident'>hash_seeded</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>u64</span>);
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">MetaT</span> {
+    <span class="kw">fn</span> <span class="ident">hash_seeded</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">u64</span>);
 }
 
-<span class='kw'>impl</span> <span class='ident'>MetaT</span> <span class='kw'>for</span> <span class='ident'>Meta</span> {
-    <span class='kw'>fn</span> <span class='ident'>hash_seeded</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>seed</span>: <span class='ident'>u64</span>) {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>hasher</span> <span class='op'>=</span> <span class='ident'>DefaultHasher</span>::<span class='ident'>new</span>();
-        <span class='ident'>seed</span>.<span class='ident'>hash</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>hasher</span>);
-        <span class='string'>&quot;Adapton.Trie.Meta&quot;</span>.<span class='ident'>hash</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>hasher</span>);
-        <span class='self'>self</span>.<span class='ident'>min_depth</span>.<span class='ident'>hash</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>hasher</span>);
+<span class="kw">impl</span> <span class="ident">MetaT</span> <span class="kw">for</span> <span class="ident">Meta</span> {
+    <span class="kw">fn</span> <span class="ident">hash_seeded</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">seed</span>: <span class="ident">u64</span>) {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hasher</span> <span class="op">=</span> <span class="ident">DefaultHasher</span>::<span class="ident">new</span>();
+        <span class="ident">seed</span>.<span class="ident">hash</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">hasher</span>);
+        <span class="string">&quot;Adapton.Trie.Meta&quot;</span>.<span class="ident">hash</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">hasher</span>);
+        <span class="self">self</span>.<span class="ident">min_depth</span>.<span class="ident">hash</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">hasher</span>);
     }
 }
 
-<span class='comment'>// impl&lt;X: Debug + Hash + PartialEq + Eq + Clone + &#39;static&gt; PartialEq for Trie&lt;X&gt; {</span>
-<span class='comment'>//     fn eq(&amp;self, other: &amp;Trie&lt;X&gt;) -&gt; bool {</span>
-<span class='comment'>//         match (self, other) {</span>
-<span class='comment'>//             (&amp;Trie::Nil(ref bs_self), &amp;Trie::Nil(ref bs_other)) =&gt; bs_self == bs_other,</span>
-<span class='comment'>//             (&amp;Trie::Leaf(ref bs_self, ref e_self), &amp;Trie::Leaf(ref bs_other, ref e_other)) =&gt; {</span>
-<span class='comment'>//                 let bs_equal = bs_self == bs_other;</span>
-<span class='comment'>//                 let b = bs_equal &amp;&amp; e_self == e_other;</span>
-<span class='comment'>//                 // println!(&quot;{:?}\n{}\n{:?}&quot;, self, b, other);</span>
-<span class='comment'>//                 b</span>
-<span class='comment'>//             }</span>
-<span class='comment'>//             (&amp;Trie::Bin(ref bs, ref left, ref right),</span>
-<span class='comment'>//              &amp;Trie::Bin(ref bs_other, ref left_other, ref right_other)) =&gt; {</span>
-<span class='comment'>//                 let b = bs == bs_other &amp;&amp; left == left_other &amp;&amp; right == right_other;</span>
-<span class='comment'>//                 // println!(&quot;{:?}\n{}\n{:?}&quot;, self, b, other);</span>
-<span class='comment'>//                 b</span>
-<span class='comment'>//             }</span>
-<span class='comment'>//             (&amp;Trie::Root(ref md, ref t), &amp;Trie::Root(ref md_other, ref t_other)) =&gt; {</span>
-<span class='comment'>//                 let b = md == md_other &amp;&amp; t == t_other;</span>
-<span class='comment'>//                 // println!(&quot;{:?}\n{}\n{:?}&quot;, t, b, t_other);</span>
-<span class='comment'>//                 b</span>
-<span class='comment'>//             }</span>
-<span class='comment'>//             (&amp;Trie::Name(ref nm, ref t), &amp;Trie::Name(ref nm_other, ref t_other)) =&gt; {</span>
-<span class='comment'>//                 let b = nm == nm_other &amp;&amp; t == t_other;</span>
-<span class='comment'>//                 // println!(&quot;{:?}\n{}\n{:?}&quot;, t, b, t_other);</span>
-<span class='comment'>//                 b</span>
-<span class='comment'>//             }</span>
-<span class='comment'>//             (&amp;Trie::Art(ref a), &amp;Trie::Art(ref a_other)) =&gt; {</span>
-<span class='comment'>//                 let b = a == a_other;</span>
-<span class='comment'>//                 // println!(&quot;{:?}\n{}\n{:?}&quot;, a, b, a_other);</span>
-<span class='comment'>//                 b</span>
-<span class='comment'>//             }</span>
-<span class='comment'>//             (t, t_other) =&gt; {</span>
-<span class='comment'>//                 // println!(&quot;{:?}\n!=\n{:?}&quot;, t, t_other);</span>
-<span class='comment'>//                 false</span>
-<span class='comment'>//             }</span>
-<span class='comment'>//         }</span>
-<span class='comment'>//     }</span>
-<span class='comment'>// }</span>
+<span class="comment">// impl&lt;X: Debug + Hash + PartialEq + Eq + Clone + &#39;static&gt; PartialEq for Trie&lt;X&gt; {</span>
+<span class="comment">//     fn eq(&amp;self, other: &amp;Trie&lt;X&gt;) -&gt; bool {</span>
+<span class="comment">//         match (self, other) {</span>
+<span class="comment">//             (&amp;Trie::Nil(ref bs_self), &amp;Trie::Nil(ref bs_other)) =&gt; bs_self == bs_other,</span>
+<span class="comment">//             (&amp;Trie::Leaf(ref bs_self, ref e_self), &amp;Trie::Leaf(ref bs_other, ref e_other)) =&gt; {</span>
+<span class="comment">//                 let bs_equal = bs_self == bs_other;</span>
+<span class="comment">//                 let b = bs_equal &amp;&amp; e_self == e_other;</span>
+<span class="comment">//                 // println!(&quot;{:?}\n{}\n{:?}&quot;, self, b, other);</span>
+<span class="comment">//                 b</span>
+<span class="comment">//             }</span>
+<span class="comment">//             (&amp;Trie::Bin(ref bs, ref left, ref right),</span>
+<span class="comment">//              &amp;Trie::Bin(ref bs_other, ref left_other, ref right_other)) =&gt; {</span>
+<span class="comment">//                 let b = bs == bs_other &amp;&amp; left == left_other &amp;&amp; right == right_other;</span>
+<span class="comment">//                 // println!(&quot;{:?}\n{}\n{:?}&quot;, self, b, other);</span>
+<span class="comment">//                 b</span>
+<span class="comment">//             }</span>
+<span class="comment">//             (&amp;Trie::Root(ref md, ref t), &amp;Trie::Root(ref md_other, ref t_other)) =&gt; {</span>
+<span class="comment">//                 let b = md == md_other &amp;&amp; t == t_other;</span>
+<span class="comment">//                 // println!(&quot;{:?}\n{}\n{:?}&quot;, t, b, t_other);</span>
+<span class="comment">//                 b</span>
+<span class="comment">//             }</span>
+<span class="comment">//             (&amp;Trie::Name(ref nm, ref t), &amp;Trie::Name(ref nm_other, ref t_other)) =&gt; {</span>
+<span class="comment">//                 let b = nm == nm_other &amp;&amp; t == t_other;</span>
+<span class="comment">//                 // println!(&quot;{:?}\n{}\n{:?}&quot;, t, b, t_other);</span>
+<span class="comment">//                 b</span>
+<span class="comment">//             }</span>
+<span class="comment">//             (&amp;Trie::Art(ref a), &amp;Trie::Art(ref a_other)) =&gt; {</span>
+<span class="comment">//                 let b = a == a_other;</span>
+<span class="comment">//                 // println!(&quot;{:?}\n{}\n{:?}&quot;, a, b, a_other);</span>
+<span class="comment">//                 b</span>
+<span class="comment">//             }</span>
+<span class="comment">//             (t, t_other) =&gt; {</span>
+<span class="comment">//                 // println!(&quot;{:?}\n!=\n{:?}&quot;, t, t_other);</span>
+<span class="comment">//                 false</span>
+<span class="comment">//             }</span>
+<span class="comment">//         }</span>
+<span class="comment">//     }</span>
+<span class="comment">// }</span>
 
-<span class='comment'>// impl&lt;X: Debug + Hash + PartialEq + Eq + Clone + &#39;static&gt; Eq for Trie&lt;X&gt; {}</span>
+<span class="comment">// impl&lt;X: Debug + Hash + PartialEq + Eq + Clone + &#39;static&gt; Eq for Trie&lt;X&gt; {}</span>
 
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>TrieIntro</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span>: <span class='ident'>Debug</span> <span class='op'>+</span> <span class='ident'>Hash</span> <span class='op'>+</span> <span class='ident'>PartialEq</span> <span class='op'>+</span> <span class='ident'>Eq</span> <span class='op'>+</span> <span class='ident'>Clone</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> {
-    <span class='kw'>fn</span> <span class='ident'>nil</span>(<span class='ident'>BS</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>leaf</span>(<span class='ident'>BS</span>, <span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>bin</span>(<span class='ident'>BS</span>, <span class='self'>Self</span>, <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>root</span>(<span class='ident'>Meta</span>, <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">TrieIntro</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>: <span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Hash</span> <span class="op">+</span> <span class="ident">PartialEq</span> <span class="op">+</span> <span class="ident">Eq</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
+    <span class="kw">fn</span> <span class="ident">nil</span>(<span class="ident">BS</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
+    <span class="kw">fn</span> <span class="ident">leaf</span>(<span class="ident">BS</span>, <span class="ident">X</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
+    <span class="kw">fn</span> <span class="ident">bin</span>(<span class="ident">BS</span>, <span class="self">Self</span>, <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
+    <span class="kw">fn</span> <span class="ident">root</span>(<span class="ident">Meta</span>, <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
 
-    <span class='comment'>// requisite &quot;adaptonic&quot; constructors: `name` and `art`:</span>
-    <span class='kw'>fn</span> <span class='ident'>name</span>(<span class='ident'>Name</span>, <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>art</span>(<span class='ident'>Art</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class="comment">// requisite &quot;adaptonic&quot; constructors: `name` and `art`:</span>
+    <span class="kw">fn</span> <span class="ident">name</span>(<span class="ident">Name</span>, <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
+    <span class="kw">fn</span> <span class="ident">art</span>(<span class="ident">Art</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>empty</span>(<span class='ident'>Meta</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>singleton</span>(<span class='ident'>Meta</span>, <span class='ident'>Name</span>, <span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>extend</span>(<span class='ident'>Name</span>, <span class='self'>Self</span>, <span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class="kw">fn</span> <span class="ident">empty</span>(<span class="ident">Meta</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
+    <span class="kw">fn</span> <span class="ident">singleton</span>(<span class="ident">Meta</span>, <span class="ident">Name</span>, <span class="ident">X</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
+    <span class="kw">fn</span> <span class="ident">extend</span>(<span class="ident">Name</span>, <span class="self">Self</span>, <span class="ident">X</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
 }
 
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>TrieElim</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span>: <span class='ident'>Debug</span> <span class='op'>+</span> <span class='ident'>Hash</span> <span class='op'>+</span> <span class='ident'>PartialEq</span> <span class='op'>+</span> <span class='ident'>Eq</span> <span class='op'>+</span> <span class='ident'>Clone</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> {
-    <span class='kw'>fn</span> <span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='self'>Self</span>, <span class='kw-2'>&amp;</span><span class='ident'>X</span>, <span class='ident'>i64</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span>;
-    <span class='kw'>fn</span> <span class='ident'>is_empty</span>(<span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
-    <span class='kw'>fn</span> <span class='ident'>split_atomic</span>(<span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">TrieElim</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>: <span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Hash</span> <span class="op">+</span> <span class="ident">PartialEq</span> <span class="op">+</span> <span class="ident">Eq</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
+    <span class="kw">fn</span> <span class="ident">find</span>(<span class="kw-2">&amp;</span><span class="self">Self</span>, <span class="kw-2">&amp;</span><span class="ident">X</span>, <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>;
+    <span class="kw">fn</span> <span class="ident">split_atomic</span>(<span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>elim</span><span class='op'>&lt;</span><span class='ident'>Res</span>, <span class='ident'>NilC</span>, <span class='ident'>LeafC</span>, <span class='ident'>BinC</span>, <span class='ident'>RootC</span>, <span class='ident'>NameC</span><span class='op'>&gt;</span>(<span class='self'>Self</span>, <span class='ident'>NilC</span>, <span class='ident'>LeafC</span>, <span class='ident'>BinC</span>, <span class='ident'>RootC</span>, <span class='ident'>NameC</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>
-        <span class='kw'>where</span> <span class='ident'>NilC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>BS</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>LeafC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>BS</span>, <span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>BinC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>BS</span>, <span class='self'>Self</span>, <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>RootC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>Meta</span>, <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>NameC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>Name</span>, <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>;
+    <span class="kw">fn</span> <span class="ident">elim</span><span class="op">&lt;</span><span class="ident">Res</span>, <span class="ident">NilC</span>, <span class="ident">LeafC</span>, <span class="ident">BinC</span>, <span class="ident">RootC</span>, <span class="ident">NameC</span><span class="op">&gt;</span>(<span class="self">Self</span>, <span class="ident">NilC</span>, <span class="ident">LeafC</span>, <span class="ident">BinC</span>, <span class="ident">RootC</span>, <span class="ident">NameC</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>
+        <span class="kw">where</span> <span class="ident">NilC</span>: <span class="ident">FnOnce</span>(<span class="ident">BS</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">LeafC</span>: <span class="ident">FnOnce</span>(<span class="ident">BS</span>, <span class="ident">X</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">BinC</span>: <span class="ident">FnOnce</span>(<span class="ident">BS</span>, <span class="self">Self</span>, <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">RootC</span>: <span class="ident">FnOnce</span>(<span class="ident">Meta</span>, <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">NameC</span>: <span class="ident">FnOnce</span>(<span class="ident">Name</span>, <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>elim_arg</span><span class='op'>&lt;</span><span class='ident'>Arg</span>, <span class='ident'>Res</span>, <span class='ident'>NilC</span>, <span class='ident'>LeafC</span>, <span class='ident'>BinC</span>, <span class='ident'>RootC</span>, <span class='ident'>NameC</span><span class='op'>&gt;</span>(<span class='self'>Self</span>,
-                                                           <span class='ident'>Arg</span>,
-                                                           <span class='ident'>NilC</span>,
-                                                           <span class='ident'>LeafC</span>,
-                                                           <span class='ident'>BinC</span>,
-                                                           <span class='ident'>RootC</span>,
-                                                           <span class='ident'>NameC</span>)
-                                                           <span class='op'>-&gt;</span> <span class='ident'>Res</span>
-        <span class='kw'>where</span> <span class='ident'>NilC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>BS</span>, <span class='ident'>Arg</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>LeafC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>BS</span>, <span class='ident'>X</span>, <span class='ident'>Arg</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>BinC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>BS</span>, <span class='self'>Self</span>, <span class='self'>Self</span>, <span class='ident'>Arg</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>RootC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>Meta</span>, <span class='self'>Self</span>, <span class='ident'>Arg</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>NameC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>Name</span>, <span class='self'>Self</span>, <span class='ident'>Arg</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>;
+    <span class="kw">fn</span> <span class="ident">elim_arg</span><span class="op">&lt;</span><span class="ident">Arg</span>, <span class="ident">Res</span>, <span class="ident">NilC</span>, <span class="ident">LeafC</span>, <span class="ident">BinC</span>, <span class="ident">RootC</span>, <span class="ident">NameC</span><span class="op">&gt;</span>(<span class="self">Self</span>,
+                                                           <span class="ident">Arg</span>,
+                                                           <span class="ident">NilC</span>,
+                                                           <span class="ident">LeafC</span>,
+                                                           <span class="ident">BinC</span>,
+                                                           <span class="ident">RootC</span>,
+                                                           <span class="ident">NameC</span>)
+                                                           <span class="op">-&gt;</span> <span class="ident">Res</span>
+        <span class="kw">where</span> <span class="ident">NilC</span>: <span class="ident">FnOnce</span>(<span class="ident">BS</span>, <span class="ident">Arg</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">LeafC</span>: <span class="ident">FnOnce</span>(<span class="ident">BS</span>, <span class="ident">X</span>, <span class="ident">Arg</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">BinC</span>: <span class="ident">FnOnce</span>(<span class="ident">BS</span>, <span class="self">Self</span>, <span class="self">Self</span>, <span class="ident">Arg</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">RootC</span>: <span class="ident">FnOnce</span>(<span class="ident">Meta</span>, <span class="self">Self</span>, <span class="ident">Arg</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">NameC</span>: <span class="ident">FnOnce</span>(<span class="ident">Name</span>, <span class="self">Self</span>, <span class="ident">Arg</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>elim_ref</span><span class='op'>&lt;</span><span class='ident'>Res</span>, <span class='ident'>NilC</span>, <span class='ident'>LeafC</span>, <span class='ident'>BinC</span>, <span class='ident'>RootC</span>, <span class='ident'>NameC</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>Self</span>,
-                                                      <span class='ident'>NilC</span>,
-                                                      <span class='ident'>LeafC</span>,
-                                                      <span class='ident'>BinC</span>,
-                                                      <span class='ident'>RootC</span>,
-                                                      <span class='ident'>NameC</span>)
-                                                      <span class='op'>-&gt;</span> <span class='ident'>Res</span>
-        <span class='kw'>where</span> <span class='ident'>NilC</span>: <span class='ident'>FnOnce</span>(<span class='kw-2'>&amp;</span><span class='ident'>BS</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>LeafC</span>: <span class='ident'>FnOnce</span>(<span class='kw-2'>&amp;</span><span class='ident'>BS</span>, <span class='kw-2'>&amp;</span><span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>BinC</span>: <span class='ident'>FnOnce</span>(<span class='kw-2'>&amp;</span><span class='ident'>BS</span>, <span class='kw-2'>&amp;</span><span class='self'>Self</span>, <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>RootC</span>: <span class='ident'>FnOnce</span>(<span class='kw-2'>&amp;</span><span class='ident'>Meta</span>, <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>NameC</span>: <span class='ident'>FnOnce</span>(<span class='kw-2'>&amp;</span><span class='ident'>Name</span>, <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>;
+    <span class="kw">fn</span> <span class="ident">elim_ref</span><span class="op">&lt;</span><span class="ident">Res</span>, <span class="ident">NilC</span>, <span class="ident">LeafC</span>, <span class="ident">BinC</span>, <span class="ident">RootC</span>, <span class="ident">NameC</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">Self</span>,
+                                                      <span class="ident">NilC</span>,
+                                                      <span class="ident">LeafC</span>,
+                                                      <span class="ident">BinC</span>,
+                                                      <span class="ident">RootC</span>,
+                                                      <span class="ident">NameC</span>)
+                                                      <span class="op">-&gt;</span> <span class="ident">Res</span>
+        <span class="kw">where</span> <span class="ident">NilC</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="ident">BS</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">LeafC</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="ident">BS</span>, <span class="kw-2">&amp;</span><span class="ident">X</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">BinC</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="ident">BS</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">RootC</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="ident">Meta</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">NameC</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="ident">Name</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>;
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>X</span>: <span class='ident'>Debug</span> <span class='op'>+</span> <span class='ident'>Hash</span> <span class='op'>+</span> <span class='ident'>PartialEq</span> <span class='op'>+</span> <span class='ident'>Eq</span> <span class='op'>+</span> <span class='ident'>Clone</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> <span class='ident'>Trie</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>mfn</span>(<span class='ident'>nm</span>: <span class='ident'>Name</span>, <span class='ident'>meta</span>: <span class='ident'>Meta</span>, <span class='ident'>trie</span>: <span class='self'>Self</span>, <span class='ident'>bs</span>: <span class='ident'>BS</span>, <span class='ident'>elt</span>: <span class='ident'>X</span>, <span class='ident'>hash</span>: <span class='ident'>u64</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='kw'>match</span> <span class='ident'>trie</span> {
-            <span class='ident'>Trie</span>::<span class='ident'>Nil</span>(_) <span class='kw'>if</span> <span class='ident'>BS</span>::<span class='ident'>length</span>(<span class='ident'>bs</span>) <span class='op'>&lt;</span> <span class='ident'>meta</span>.<span class='ident'>min_depth</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>h_</span> <span class='op'>=</span> <span class='ident'>hash</span> <span class='op'>&gt;&gt;</span> <span class='number'>1</span>;
-                <span class='kw'>let</span> <span class='ident'>bs0</span> <span class='op'>=</span> <span class='ident'>BS</span>::<span class='ident'>prepend</span>(<span class='number'>0</span>, <span class='ident'>bs</span>);
-                <span class='kw'>let</span> <span class='ident'>bs1</span> <span class='op'>=</span> <span class='ident'>BS</span>::<span class='ident'>prepend</span>(<span class='number'>1</span>, <span class='ident'>bs</span>);
-                <span class='kw'>let</span> <span class='ident'>mt0</span> <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>nil</span>(<span class='ident'>bs0</span>);
-                <span class='kw'>let</span> <span class='ident'>mt1</span> <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>nil</span>(<span class='ident'>bs1</span>);
-                <span class='kw'>if</span> <span class='ident'>hash</span> <span class='op'>%</span> <span class='number'>2</span> <span class='op'>==</span> <span class='number'>0</span> {
-                    <span class='self'>Self</span>::<span class='ident'>bin</span>(<span class='ident'>bs</span>, <span class='self'>Self</span>::<span class='ident'>mfn</span>(<span class='ident'>nm</span>, <span class='ident'>meta</span>, <span class='ident'>mt0</span>, <span class='ident'>bs0</span>, <span class='ident'>elt</span>, <span class='ident'>h_</span>), <span class='ident'>mt1</span>)
-                } <span class='kw'>else</span> {
-                    <span class='self'>Self</span>::<span class='ident'>bin</span>(<span class='ident'>bs</span>, <span class='ident'>mt0</span>, <span class='self'>Self</span>::<span class='ident'>mfn</span>(<span class='ident'>nm</span>, <span class='ident'>meta</span>, <span class='ident'>mt1</span>, <span class='ident'>bs1</span>, <span class='ident'>elt</span>, <span class='ident'>h_</span>))
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>: <span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Hash</span> <span class="op">+</span> <span class="ident">PartialEq</span> <span class="op">+</span> <span class="ident">Eq</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">Trie</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">mfn</span>(<span class="ident">nm</span>: <span class="ident">Name</span>, <span class="ident">meta</span>: <span class="ident">Meta</span>, <span class="ident">trie</span>: <span class="self">Self</span>, <span class="ident">bs</span>: <span class="ident">BS</span>, <span class="ident">elt</span>: <span class="ident">X</span>, <span class="ident">hash</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">match</span> <span class="ident">trie</span> {
+            <span class="ident">Trie</span>::<span class="ident">Nil</span>(_) <span class="kw">if</span> <span class="ident">BS</span>::<span class="ident">length</span>(<span class="ident">bs</span>) <span class="op">&lt;</span> <span class="ident">meta</span>.<span class="ident">min_depth</span> <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">h_</span> <span class="op">=</span> <span class="ident">hash</span> <span class="op">&gt;&gt;</span> <span class="number">1</span>;
+                <span class="kw">let</span> <span class="ident">bs0</span> <span class="op">=</span> <span class="ident">BS</span>::<span class="ident">prepend</span>(<span class="number">0</span>, <span class="ident">bs</span>);
+                <span class="kw">let</span> <span class="ident">bs1</span> <span class="op">=</span> <span class="ident">BS</span>::<span class="ident">prepend</span>(<span class="number">1</span>, <span class="ident">bs</span>);
+                <span class="kw">let</span> <span class="ident">mt0</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">nil</span>(<span class="ident">bs0</span>);
+                <span class="kw">let</span> <span class="ident">mt1</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">nil</span>(<span class="ident">bs1</span>);
+                <span class="kw">if</span> <span class="ident">hash</span> <span class="op">%</span> <span class="number">2</span> <span class="op">==</span> <span class="number">0</span> {
+                    <span class="self">Self</span>::<span class="ident">bin</span>(<span class="ident">bs</span>, <span class="self">Self</span>::<span class="ident">mfn</span>(<span class="ident">nm</span>, <span class="ident">meta</span>, <span class="ident">mt0</span>, <span class="ident">bs0</span>, <span class="ident">elt</span>, <span class="ident">h_</span>), <span class="ident">mt1</span>)
+                } <span class="kw">else</span> {
+                    <span class="self">Self</span>::<span class="ident">bin</span>(<span class="ident">bs</span>, <span class="ident">mt0</span>, <span class="self">Self</span>::<span class="ident">mfn</span>(<span class="ident">nm</span>, <span class="ident">meta</span>, <span class="ident">mt1</span>, <span class="ident">bs1</span>, <span class="ident">elt</span>, <span class="ident">h_</span>))
                 }
             }
-            <span class='ident'>Trie</span>::<span class='ident'>Nil</span>(_) <span class='op'>=&gt;</span> <span class='ident'>Trie</span>::<span class='ident'>Leaf</span>(<span class='ident'>bs</span>, <span class='ident'>elt</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Leaf</span>(_, <span class='ident'>e</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>depth</span> <span class='op'>=</span> <span class='ident'>BS</span>::<span class='ident'>length</span>(<span class='ident'>bs</span>);
-                <span class='kw'>if</span> <span class='ident'>depth</span> <span class='op'>&gt;=</span> <span class='ident'>BS</span>::<span class='ident'>MAX_LEN</span> <span class='op'>||</span> <span class='ident'>e</span> <span class='op'>==</span> <span class='ident'>elt</span> {
-                    <span class='self'>Self</span>::<span class='ident'>leaf</span>(<span class='ident'>bs</span>, <span class='ident'>e</span>)
-                } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>depth</span> <span class='op'>&lt;</span> <span class='ident'>BS</span>::<span class='ident'>MAX_LEN</span> {
-                    <span class='self'>Self</span>::<span class='ident'>mfn</span>(<span class='ident'>nm</span>,
-                              <span class='ident'>meta</span>,
-                              <span class='self'>Self</span>::<span class='ident'>split_atomic</span>(<span class='self'>Self</span>::<span class='ident'>leaf</span>(<span class='ident'>bs</span>, <span class='ident'>e</span>)),
-                              <span class='ident'>bs</span>,
-                              <span class='ident'>elt</span>,
-                              <span class='ident'>hash</span>)
-                } <span class='kw'>else</span> {
-                    <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Bad value found in nadd:\nLeaf(bs, e)\n{:?}&quot;</span>,
-                           <span class='self'>Self</span>::<span class='ident'>leaf</span>(<span class='ident'>bs</span>, <span class='ident'>e</span>));
+            <span class="ident">Trie</span>::<span class="ident">Nil</span>(_) <span class="op">=&gt;</span> <span class="ident">Trie</span>::<span class="ident">Leaf</span>(<span class="ident">bs</span>, <span class="ident">elt</span>),
+            <span class="ident">Trie</span>::<span class="ident">Leaf</span>(_, <span class="ident">e</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">depth</span> <span class="op">=</span> <span class="ident">BS</span>::<span class="ident">length</span>(<span class="ident">bs</span>);
+                <span class="kw">if</span> <span class="ident">depth</span> <span class="op">&gt;=</span> <span class="ident">BS</span>::<span class="ident">MAX_LEN</span> <span class="op">||</span> <span class="ident">e</span> <span class="op">==</span> <span class="ident">elt</span> {
+                    <span class="self">Self</span>::<span class="ident">leaf</span>(<span class="ident">bs</span>, <span class="ident">e</span>)
+                } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">depth</span> <span class="op">&lt;</span> <span class="ident">BS</span>::<span class="ident">MAX_LEN</span> {
+                    <span class="self">Self</span>::<span class="ident">mfn</span>(<span class="ident">nm</span>,
+                              <span class="ident">meta</span>,
+                              <span class="self">Self</span>::<span class="ident">split_atomic</span>(<span class="self">Self</span>::<span class="ident">leaf</span>(<span class="ident">bs</span>, <span class="ident">e</span>)),
+                              <span class="ident">bs</span>,
+                              <span class="ident">elt</span>,
+                              <span class="ident">hash</span>)
+                } <span class="kw">else</span> {
+                    <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Bad value found in nadd:\nLeaf(bs, e)\n{:?}&quot;</span>,
+                           <span class="self">Self</span>::<span class="ident">leaf</span>(<span class="ident">bs</span>, <span class="ident">e</span>));
                 }
             }
-            <span class='ident'>Trie</span>::<span class='ident'>Bin</span>(<span class='ident'>bs</span>, <span class='ident'>left</span>, <span class='ident'>right</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>h_</span> <span class='op'>=</span> <span class='ident'>hash</span> <span class='op'>&gt;&gt;</span> <span class='number'>1</span>;
-                <span class='kw'>if</span> <span class='ident'>hash</span> <span class='op'>%</span> <span class='number'>2</span> <span class='op'>==</span> <span class='number'>0</span> {
-                    <span class='kw'>let</span> <span class='ident'>l</span> <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>mfn</span>(<span class='ident'>nm</span>, <span class='ident'>meta</span>, <span class='kw-2'>*</span><span class='ident'>left</span>, <span class='ident'>BS</span>::<span class='ident'>prepend</span>(<span class='number'>0</span>, <span class='ident'>bs</span>), <span class='ident'>elt</span>, <span class='ident'>h_</span>);
-                    <span class='self'>Self</span>::<span class='ident'>bin</span>(<span class='ident'>bs</span>, <span class='ident'>l</span>, <span class='kw-2'>*</span><span class='ident'>right</span>)
-                } <span class='kw'>else</span> {
-                    <span class='kw'>let</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>mfn</span>(<span class='ident'>nm</span>, <span class='ident'>meta</span>, <span class='kw-2'>*</span><span class='ident'>right</span>, <span class='ident'>BS</span>::<span class='ident'>prepend</span>(<span class='number'>1</span>, <span class='ident'>bs</span>), <span class='ident'>elt</span>, <span class='ident'>h_</span>);
-                    <span class='self'>Self</span>::<span class='ident'>bin</span>(<span class='ident'>bs</span>, <span class='kw-2'>*</span><span class='ident'>left</span>, <span class='ident'>r</span>)
+            <span class="ident">Trie</span>::<span class="ident">Bin</span>(<span class="ident">bs</span>, <span class="ident">left</span>, <span class="ident">right</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">h_</span> <span class="op">=</span> <span class="ident">hash</span> <span class="op">&gt;&gt;</span> <span class="number">1</span>;
+                <span class="kw">if</span> <span class="ident">hash</span> <span class="op">%</span> <span class="number">2</span> <span class="op">==</span> <span class="number">0</span> {
+                    <span class="kw">let</span> <span class="ident">l</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">mfn</span>(<span class="ident">nm</span>, <span class="ident">meta</span>, <span class="kw-2">*</span><span class="ident">left</span>, <span class="ident">BS</span>::<span class="ident">prepend</span>(<span class="number">0</span>, <span class="ident">bs</span>), <span class="ident">elt</span>, <span class="ident">h_</span>);
+                    <span class="self">Self</span>::<span class="ident">bin</span>(<span class="ident">bs</span>, <span class="ident">l</span>, <span class="kw-2">*</span><span class="ident">right</span>)
+                } <span class="kw">else</span> {
+                    <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">mfn</span>(<span class="ident">nm</span>, <span class="ident">meta</span>, <span class="kw-2">*</span><span class="ident">right</span>, <span class="ident">BS</span>::<span class="ident">prepend</span>(<span class="number">1</span>, <span class="ident">bs</span>), <span class="ident">elt</span>, <span class="ident">h_</span>);
+                    <span class="self">Self</span>::<span class="ident">bin</span>(<span class="ident">bs</span>, <span class="kw-2">*</span><span class="ident">left</span>, <span class="ident">r</span>)
                 }
             }
-            <span class='ident'>Trie</span>::<span class='ident'>Name</span>(_, <span class='kw'>box</span> <span class='ident'>Trie</span>::<span class='ident'>Art</span>(<span class='ident'>a</span>)) <span class='op'>=&gt;</span> <span class='self'>Self</span>::<span class='ident'>mfn</span>(<span class='ident'>nm</span>, <span class='ident'>meta</span>, <span class='ident'>force</span>(<span class='kw-2'>&amp;</span><span class='ident'>a</span>), <span class='ident'>bs</span>, <span class='ident'>elt</span>, <span class='ident'>hash</span>),
-            <span class='ident'>t</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Bad value found in nadd:\n{:?}\n&quot;</span>, <span class='ident'>t</span>),
+            <span class="ident">Trie</span>::<span class="ident">Name</span>(_, <span class="kw">box</span> <span class="ident">Trie</span>::<span class="ident">Art</span>(<span class="ident">a</span>)) <span class="op">=&gt;</span> <span class="self">Self</span>::<span class="ident">mfn</span>(<span class="ident">nm</span>, <span class="ident">meta</span>, <span class="ident">force</span>(<span class="kw-2">&amp;</span><span class="ident">a</span>), <span class="ident">bs</span>, <span class="ident">elt</span>, <span class="ident">hash</span>),
+            <span class="ident">t</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Bad value found in nadd:\n{:?}\n&quot;</span>, <span class="ident">t</span>),
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>root_mfn</span>(_: <span class='ident'>Name</span>, <span class='ident'>nm</span>: <span class='ident'>Name</span>, <span class='ident'>trie</span>: <span class='self'>Self</span>, <span class='ident'>elt</span>: <span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='kw'>match</span> <span class='ident'>trie</span> {
-            <span class='ident'>Trie</span>::<span class='ident'>Name</span>(_, <span class='kw'>box</span> <span class='ident'>Trie</span>::<span class='ident'>Art</span>(<span class='ident'>a</span>)) <span class='op'>=&gt;</span> {
-                <span class='kw'>match</span> <span class='ident'>force</span>(<span class='kw-2'>&amp;</span><span class='ident'>a</span>) {
-                    <span class='ident'>Trie</span>::<span class='ident'>Root</span>(<span class='ident'>meta</span>, <span class='ident'>t</span>) <span class='op'>=&gt;</span> {
-                        <span class='kw'>let</span> (<span class='ident'>nm</span>, <span class='ident'>nm_</span>) <span class='op'>=</span> <span class='ident'>name_fork</span>(<span class='ident'>nm</span>);
-                        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>hasher</span> <span class='op'>=</span> <span class='ident'>DefaultHasher</span>::<span class='ident'>new</span>();
-                        <span class='ident'>elt</span>.<span class='ident'>hash</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>hasher</span>);
-                        <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>mfn</span>(<span class='ident'>nm_</span>,
-                                          <span class='ident'>meta</span>.<span class='ident'>clone</span>(),
-                                          <span class='kw-2'>*</span><span class='ident'>t</span>,
-                                          <span class='ident'>BS</span> {
-                                              <span class='ident'>length</span>: <span class='number'>0</span>,
-                                              <span class='ident'>value</span>: <span class='number'>0</span>,
+    <span class="kw">fn</span> <span class="ident">root_mfn</span>(_: <span class="ident">Name</span>, <span class="ident">nm</span>: <span class="ident">Name</span>, <span class="ident">trie</span>: <span class="self">Self</span>, <span class="ident">elt</span>: <span class="ident">X</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">match</span> <span class="ident">trie</span> {
+            <span class="ident">Trie</span>::<span class="ident">Name</span>(_, <span class="kw">box</span> <span class="ident">Trie</span>::<span class="ident">Art</span>(<span class="ident">a</span>)) <span class="op">=&gt;</span> {
+                <span class="kw">match</span> <span class="ident">force</span>(<span class="kw-2">&amp;</span><span class="ident">a</span>) {
+                    <span class="ident">Trie</span>::<span class="ident">Root</span>(<span class="ident">meta</span>, <span class="ident">t</span>) <span class="op">=&gt;</span> {
+                        <span class="kw">let</span> (<span class="ident">nm</span>, <span class="ident">nm_</span>) <span class="op">=</span> <span class="ident">name_fork</span>(<span class="ident">nm</span>);
+                        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hasher</span> <span class="op">=</span> <span class="ident">DefaultHasher</span>::<span class="ident">new</span>();
+                        <span class="ident">elt</span>.<span class="ident">hash</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">hasher</span>);
+                        <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">mfn</span>(<span class="ident">nm_</span>,
+                                          <span class="ident">meta</span>.<span class="ident">clone</span>(),
+                                          <span class="kw-2">*</span><span class="ident">t</span>,
+                                          <span class="ident">BS</span> {
+                                              <span class="ident">length</span>: <span class="number">0</span>,
+                                              <span class="ident">value</span>: <span class="number">0</span>,
                                           },
-                                          <span class='ident'>elt</span>,
-                                          <span class='ident'>hasher</span>.<span class='ident'>finish</span>());
-                        <span class='self'>Self</span>::<span class='ident'>root</span>(<span class='ident'>meta</span>, <span class='self'>Self</span>::<span class='ident'>name</span>(<span class='ident'>nm</span>, <span class='self'>Self</span>::<span class='ident'>art</span>(<span class='ident'>put</span>(<span class='ident'>a</span>))))
+                                          <span class="ident">elt</span>,
+                                          <span class="ident">hasher</span>.<span class="ident">finish</span>());
+                        <span class="self">Self</span>::<span class="ident">root</span>(<span class="ident">meta</span>, <span class="self">Self</span>::<span class="ident">name</span>(<span class="ident">nm</span>, <span class="self">Self</span>::<span class="ident">art</span>(<span class="ident">put</span>(<span class="ident">a</span>))))
                     }
-                    <span class='ident'>t</span> @ <span class='ident'>Trie</span>::<span class='ident'>Name</span>(_, <span class='kw'>box</span> <span class='ident'>Trie</span>::<span class='ident'>Art</span>(_)) <span class='op'>=&gt;</span> <span class='self'>Self</span>::<span class='ident'>root_mfn</span>(<span class='ident'>nm</span>.<span class='ident'>clone</span>(), <span class='ident'>nm</span>, <span class='ident'>t</span>, <span class='ident'>elt</span>),
-                    <span class='ident'>t</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Non-root node entry to `Trie.extend&#39;: {:?}&quot;</span>, <span class='ident'>t</span>),
+                    <span class="ident">t</span> @ <span class="ident">Trie</span>::<span class="ident">Name</span>(_, <span class="kw">box</span> <span class="ident">Trie</span>::<span class="ident">Art</span>(_)) <span class="op">=&gt;</span> <span class="self">Self</span>::<span class="ident">root_mfn</span>(<span class="ident">nm</span>.<span class="ident">clone</span>(), <span class="ident">nm</span>, <span class="ident">t</span>, <span class="ident">elt</span>),
+                    <span class="ident">t</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Non-root node entry to `Trie.extend&#39;: {:?}&quot;</span>, <span class="ident">t</span>),
                 }
             }
-            _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;None-name node at entry to `Trie.extend&#39;&quot;</span>),
+            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;None-name node at entry to `Trie.extend&#39;&quot;</span>),
         }
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>X</span>: <span class='ident'>Debug</span> <span class='op'>+</span> <span class='ident'>Hash</span> <span class='op'>+</span> <span class='ident'>PartialEq</span> <span class='op'>+</span> <span class='ident'>Eq</span> <span class='op'>+</span> <span class='ident'>Clone</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> <span class='ident'>TrieIntro</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Trie</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>nil</span>(<span class='ident'>bs</span>: <span class='ident'>BS</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='ident'>Trie</span>::<span class='ident'>Nil</span>(<span class='ident'>bs</span>)
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>: <span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Hash</span> <span class="op">+</span> <span class="ident">PartialEq</span> <span class="op">+</span> <span class="ident">Eq</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">TrieIntro</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Trie</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">nil</span>(<span class="ident">bs</span>: <span class="ident">BS</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Trie</span>::<span class="ident">Nil</span>(<span class="ident">bs</span>)
     }
-    <span class='kw'>fn</span> <span class='ident'>leaf</span>(<span class='ident'>bs</span>: <span class='ident'>BS</span>, <span class='ident'>x</span>: <span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='ident'>Trie</span>::<span class='ident'>Leaf</span>(<span class='ident'>bs</span>, <span class='ident'>x</span>)
+    <span class="kw">fn</span> <span class="ident">leaf</span>(<span class="ident">bs</span>: <span class="ident">BS</span>, <span class="ident">x</span>: <span class="ident">X</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Trie</span>::<span class="ident">Leaf</span>(<span class="ident">bs</span>, <span class="ident">x</span>)
     }
-    <span class='kw'>fn</span> <span class='ident'>bin</span>(<span class='ident'>bs</span>: <span class='ident'>BS</span>, <span class='ident'>l</span>: <span class='self'>Self</span>, <span class='ident'>r</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='ident'>Trie</span>::<span class='ident'>Bin</span>(<span class='ident'>bs</span>, <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>l</span>), <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>r</span>))
+    <span class="kw">fn</span> <span class="ident">bin</span>(<span class="ident">bs</span>: <span class="ident">BS</span>, <span class="ident">l</span>: <span class="self">Self</span>, <span class="ident">r</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Trie</span>::<span class="ident">Bin</span>(<span class="ident">bs</span>, <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">l</span>), <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">r</span>))
     }
-    <span class='kw'>fn</span> <span class='ident'>root</span>(<span class='ident'>meta</span>: <span class='ident'>Meta</span>, <span class='ident'>trie</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='ident'>Trie</span>::<span class='ident'>Root</span>(<span class='ident'>meta</span>, <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>trie</span>))
+    <span class="kw">fn</span> <span class="ident">root</span>(<span class="ident">meta</span>: <span class="ident">Meta</span>, <span class="ident">trie</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Trie</span>::<span class="ident">Root</span>(<span class="ident">meta</span>, <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">trie</span>))
     }
-    <span class='kw'>fn</span> <span class='ident'>name</span>(<span class='ident'>nm</span>: <span class='ident'>Name</span>, <span class='ident'>trie</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='ident'>Trie</span>::<span class='ident'>Name</span>(<span class='ident'>nm</span>, <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>trie</span>))
+    <span class="kw">fn</span> <span class="ident">name</span>(<span class="ident">nm</span>: <span class="ident">Name</span>, <span class="ident">trie</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Trie</span>::<span class="ident">Name</span>(<span class="ident">nm</span>, <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">trie</span>))
     }
-    <span class='kw'>fn</span> <span class='ident'>art</span>(<span class='ident'>art</span>: <span class='ident'>Art</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='ident'>Trie</span>::<span class='ident'>Art</span>(<span class='ident'>art</span>)
+    <span class="kw">fn</span> <span class="ident">art</span>(<span class="ident">art</span>: <span class="ident">Art</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">Trie</span>::<span class="ident">Art</span>(<span class="ident">art</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>empty</span>(<span class='ident'>meta</span>: <span class='ident'>Meta</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='kw'>if</span> <span class='ident'>meta</span>.<span class='ident'>min_depth</span> <span class='op'>&gt;</span> <span class='ident'>BS</span>::<span class='ident'>MAX_LEN</span> {
-            <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Cannot make Adapton.Trie with min_depth &gt; {} (given {})&quot;</span>,
-                     <span class='ident'>BS</span>::<span class='ident'>MAX_LEN</span>,
-                     <span class='ident'>meta</span>.<span class='ident'>min_depth</span>);
+    <span class="kw">fn</span> <span class="ident">empty</span>(<span class="ident">meta</span>: <span class="ident">Meta</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">if</span> <span class="ident">meta</span>.<span class="ident">min_depth</span> <span class="op">&gt;</span> <span class="ident">BS</span>::<span class="ident">MAX_LEN</span> {
+            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Cannot make Adapton.Trie with min_depth &gt; {} (given {})&quot;</span>,
+                     <span class="ident">BS</span>::<span class="ident">MAX_LEN</span>,
+                     <span class="ident">meta</span>.<span class="ident">min_depth</span>);
         }
-        <span class='kw'>let</span> <span class='ident'>min</span> <span class='op'>=</span> <span class='ident'>min</span>(<span class='ident'>meta</span>.<span class='ident'>min_depth</span>, <span class='ident'>BS</span>::<span class='ident'>MAX_LEN</span>);
-        <span class='kw'>let</span> <span class='ident'>meta</span> <span class='op'>=</span> <span class='ident'>Meta</span> { <span class='ident'>min_depth</span>: <span class='ident'>min</span> };
-        <span class='kw'>let</span> <span class='ident'>nm</span> <span class='op'>=</span> <span class='ident'>name_of_str</span>(<span class='string'>&quot;empty&quot;</span>);
-        <span class='kw'>let</span> (<span class='ident'>nm1</span>, <span class='ident'>nm2</span>) <span class='op'>=</span> <span class='ident'>name_fork</span>(<span class='ident'>nm</span>);
-        <span class='kw'>let</span> <span class='ident'>mtbs</span> <span class='op'>=</span> <span class='ident'>BS</span> {
-            <span class='ident'>length</span>: <span class='number'>0</span>,
-            <span class='ident'>value</span>: <span class='number'>0</span>,
+        <span class="kw">let</span> <span class="ident">min</span> <span class="op">=</span> <span class="ident">min</span>(<span class="ident">meta</span>.<span class="ident">min_depth</span>, <span class="ident">BS</span>::<span class="ident">MAX_LEN</span>);
+        <span class="kw">let</span> <span class="ident">meta</span> <span class="op">=</span> <span class="ident">Meta</span> { <span class="ident">min_depth</span>: <span class="ident">min</span> };
+        <span class="kw">let</span> <span class="ident">nm</span> <span class="op">=</span> <span class="ident">name_of_str</span>(<span class="string">&quot;empty&quot;</span>);
+        <span class="kw">let</span> (<span class="ident">nm1</span>, <span class="ident">nm2</span>) <span class="op">=</span> <span class="ident">name_fork</span>(<span class="ident">nm</span>);
+        <span class="kw">let</span> <span class="ident">mtbs</span> <span class="op">=</span> <span class="ident">BS</span> {
+            <span class="ident">length</span>: <span class="number">0</span>,
+            <span class="ident">value</span>: <span class="number">0</span>,
         };
-        <span class='kw'>let</span> <span class='ident'>nil_art</span> <span class='op'>=</span> <span class='macro'>thunk</span><span class='macro'>!</span>(<span class='ident'>nm2</span>.<span class='ident'>clone</span>() <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='self'>Self</span>::<span class='ident'>nil</span>, <span class='ident'>bs</span>:<span class='ident'>mtbs</span>);
-        <span class='kw'>let</span> <span class='ident'>root_art</span> <span class='op'>=</span> <span class='macro'>thunk</span><span class='macro'>!</span>(<span class='ident'>nm1</span>.<span class='ident'>clone</span>() <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='self'>Self</span>::<span class='ident'>root</span>, <span class='ident'>meta</span>:<span class='ident'>meta</span>,
-                              <span class='ident'>trie</span>:<span class='self'>Self</span>::<span class='ident'>name</span>(<span class='ident'>nm2</span>, <span class='self'>Self</span>::<span class='ident'>art</span>(<span class='ident'>nil_art</span>)));
-        <span class='self'>Self</span>::<span class='ident'>name</span>(<span class='ident'>nm1</span>.<span class='ident'>clone</span>(), <span class='self'>Self</span>::<span class='ident'>art</span>(<span class='ident'>root_art</span>))
+        <span class="kw">let</span> <span class="ident">nil_art</span> <span class="op">=</span> <span class="macro">thunk</span><span class="macro">!</span>(<span class="ident">nm2</span>.<span class="ident">clone</span>() <span class="op">=&gt;</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">nil</span>, <span class="ident">bs</span>:<span class="ident">mtbs</span>);
+        <span class="kw">let</span> <span class="ident">root_art</span> <span class="op">=</span> <span class="macro">thunk</span><span class="macro">!</span>(<span class="ident">nm1</span>.<span class="ident">clone</span>() <span class="op">=&gt;</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">root</span>, <span class="ident">meta</span>:<span class="ident">meta</span>,
+                              <span class="ident">trie</span>:<span class="self">Self</span>::<span class="ident">name</span>(<span class="ident">nm2</span>, <span class="self">Self</span>::<span class="ident">art</span>(<span class="ident">nil_art</span>)));
+        <span class="self">Self</span>::<span class="ident">name</span>(<span class="ident">nm1</span>.<span class="ident">clone</span>(), <span class="self">Self</span>::<span class="ident">art</span>(<span class="ident">root_art</span>))
     }
 
-    <span class='kw'>fn</span> <span class='ident'>singleton</span>(<span class='ident'>meta</span>: <span class='ident'>Meta</span>, <span class='ident'>nm</span>: <span class='ident'>Name</span>, <span class='ident'>elt</span>: <span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='self'>Self</span>::<span class='ident'>extend</span>(<span class='ident'>nm</span>, <span class='ident'>TrieIntro</span>::<span class='ident'>empty</span>(<span class='ident'>meta</span>), <span class='ident'>elt</span>)
+    <span class="kw">fn</span> <span class="ident">singleton</span>(<span class="ident">meta</span>: <span class="ident">Meta</span>, <span class="ident">nm</span>: <span class="ident">Name</span>, <span class="ident">elt</span>: <span class="ident">X</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">extend</span>(<span class="ident">nm</span>, <span class="ident">TrieIntro</span>::<span class="ident">empty</span>(<span class="ident">meta</span>), <span class="ident">elt</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>extend</span>(<span class='ident'>nm</span>: <span class='ident'>Name</span>, <span class='ident'>trie</span>: <span class='self'>Self</span>, <span class='ident'>elt</span>: <span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='kw'>let</span> (<span class='ident'>nm</span>, <span class='ident'>nm_</span>) <span class='op'>=</span> <span class='ident'>name_fork</span>(<span class='ident'>nm</span>);
-        <span class='comment'>// let a = Self::root_mfn(nm.clone(), nm_, trie, elt);</span>
-        <span class='kw'>let</span> <span class='ident'>root_mfn_art</span> <span class='op'>=</span> <span class='ident'>put</span>(<span class='self'>Self</span>::<span class='ident'>root_mfn</span>(<span class='ident'>nm</span>.<span class='ident'>clone</span>(), <span class='ident'>nm_</span>, <span class='ident'>trie</span>, <span class='ident'>elt</span>));
-        <span class='self'>Self</span>::<span class='ident'>name</span>(<span class='ident'>nm</span>, <span class='self'>Self</span>::<span class='ident'>art</span>(<span class='ident'>root_mfn_art</span>))
+    <span class="kw">fn</span> <span class="ident">extend</span>(<span class="ident">nm</span>: <span class="ident">Name</span>, <span class="ident">trie</span>: <span class="self">Self</span>, <span class="ident">elt</span>: <span class="ident">X</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> (<span class="ident">nm</span>, <span class="ident">nm_</span>) <span class="op">=</span> <span class="ident">name_fork</span>(<span class="ident">nm</span>);
+        <span class="comment">// let a = Self::root_mfn(nm.clone(), nm_, trie, elt);</span>
+        <span class="kw">let</span> <span class="ident">root_mfn_art</span> <span class="op">=</span> <span class="ident">put</span>(<span class="self">Self</span>::<span class="ident">root_mfn</span>(<span class="ident">nm</span>.<span class="ident">clone</span>(), <span class="ident">nm_</span>, <span class="ident">trie</span>, <span class="ident">elt</span>));
+        <span class="self">Self</span>::<span class="ident">name</span>(<span class="ident">nm</span>, <span class="self">Self</span>::<span class="ident">art</span>(<span class="ident">root_mfn_art</span>))
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>X</span>: <span class='ident'>Debug</span> <span class='op'>+</span> <span class='ident'>Hash</span> <span class='op'>+</span> <span class='ident'>PartialEq</span> <span class='op'>+</span> <span class='ident'>Eq</span> <span class='op'>+</span> <span class='ident'>Clone</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> <span class='ident'>Hash</span> <span class='kw'>for</span> <span class='ident'>Trie</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>hash</span><span class='op'>&lt;</span><span class='ident'>H</span>: <span class='ident'>Hasher</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>state</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>H</span>) {
-        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
-            <span class='ident'>Trie</span>::<span class='ident'>Nil</span>(<span class='ident'>bs</span>) <span class='op'>=&gt;</span> <span class='ident'>bs</span>.<span class='ident'>hash</span>(<span class='ident'>state</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Leaf</span>(<span class='ident'>bs</span>, <span class='kw-2'>ref</span> <span class='ident'>x</span>) <span class='op'>=&gt;</span> {
-                <span class='ident'>x</span>.<span class='ident'>hash</span>(<span class='ident'>state</span>);
-                <span class='ident'>bs</span>.<span class='ident'>hash</span>(<span class='ident'>state</span>)
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>: <span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Hash</span> <span class="op">+</span> <span class="ident">PartialEq</span> <span class="op">+</span> <span class="ident">Eq</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">Hash</span> <span class="kw">for</span> <span class="ident">Trie</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">hash</span><span class="op">&lt;</span><span class="ident">H</span>: <span class="ident">Hasher</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">H</span>) {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Trie</span>::<span class="ident">Nil</span>(<span class="ident">bs</span>) <span class="op">=&gt;</span> <span class="ident">bs</span>.<span class="ident">hash</span>(<span class="ident">state</span>),
+            <span class="ident">Trie</span>::<span class="ident">Leaf</span>(<span class="ident">bs</span>, <span class="kw-2">ref</span> <span class="ident">x</span>) <span class="op">=&gt;</span> {
+                <span class="ident">x</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
+                <span class="ident">bs</span>.<span class="ident">hash</span>(<span class="ident">state</span>)
             }
-            <span class='ident'>Trie</span>::<span class='ident'>Bin</span>(<span class='ident'>bs</span>, <span class='kw-2'>ref</span> <span class='ident'>left</span>, <span class='kw-2'>ref</span> <span class='ident'>right</span>) <span class='op'>=&gt;</span> {
-                <span class='ident'>right</span>.<span class='ident'>hash</span>(<span class='ident'>state</span>);
-                <span class='ident'>left</span>.<span class='ident'>hash</span>(<span class='ident'>state</span>);
-                <span class='ident'>bs</span>.<span class='ident'>hash</span>(<span class='ident'>state</span>)
+            <span class="ident">Trie</span>::<span class="ident">Bin</span>(<span class="ident">bs</span>, <span class="kw-2">ref</span> <span class="ident">left</span>, <span class="kw-2">ref</span> <span class="ident">right</span>) <span class="op">=&gt;</span> {
+                <span class="ident">right</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
+                <span class="ident">left</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
+                <span class="ident">bs</span>.<span class="ident">hash</span>(<span class="ident">state</span>)
             }
-            <span class='ident'>Trie</span>::<span class='ident'>Root</span>(<span class='kw-2'>ref</span> <span class='ident'>md</span>, <span class='kw-2'>ref</span> <span class='ident'>t</span>) <span class='op'>=&gt;</span> {
-                <span class='ident'>t</span>.<span class='ident'>hash</span>(<span class='ident'>state</span>);
-                <span class='ident'>md</span>.<span class='ident'>hash_seeded</span>(<span class='ident'>state</span>.<span class='ident'>finish</span>());
+            <span class="ident">Trie</span>::<span class="ident">Root</span>(<span class="kw-2">ref</span> <span class="ident">md</span>, <span class="kw-2">ref</span> <span class="ident">t</span>) <span class="op">=&gt;</span> {
+                <span class="ident">t</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
+                <span class="ident">md</span>.<span class="ident">hash_seeded</span>(<span class="ident">state</span>.<span class="ident">finish</span>());
             }
-            <span class='ident'>Trie</span>::<span class='ident'>Name</span>(<span class='kw-2'>ref</span> <span class='ident'>nm</span>, <span class='kw-2'>ref</span> <span class='ident'>t</span>) <span class='op'>=&gt;</span> {
-                <span class='ident'>t</span>.<span class='ident'>hash</span>(<span class='ident'>state</span>);
-                <span class='ident'>nm</span>.<span class='ident'>hash</span>(<span class='ident'>state</span>)
+            <span class="ident">Trie</span>::<span class="ident">Name</span>(<span class="kw-2">ref</span> <span class="ident">nm</span>, <span class="kw-2">ref</span> <span class="ident">t</span>) <span class="op">=&gt;</span> {
+                <span class="ident">t</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
+                <span class="ident">nm</span>.<span class="ident">hash</span>(<span class="ident">state</span>)
             }
-            <span class='ident'>Trie</span>::<span class='ident'>Art</span>(<span class='kw-2'>ref</span> <span class='ident'>art_t</span>) <span class='op'>=&gt;</span> <span class='ident'>art_t</span>.<span class='ident'>hash</span>(<span class='ident'>state</span>),
+            <span class="ident">Trie</span>::<span class="ident">Art</span>(<span class="kw-2">ref</span> <span class="ident">art_t</span>) <span class="op">=&gt;</span> <span class="ident">art_t</span>.<span class="ident">hash</span>(<span class="ident">state</span>),
         }
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>X</span>: <span class='ident'>Debug</span> <span class='op'>+</span> <span class='ident'>Hash</span> <span class='op'>+</span> <span class='ident'>PartialEq</span> <span class='op'>+</span> <span class='ident'>Eq</span> <span class='op'>+</span> <span class='ident'>Clone</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> <span class='ident'>TrieElim</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Trie</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>find</span>(<span class='ident'>trie</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>, <span class='ident'>elt</span>: <span class='kw-2'>&amp;</span><span class='ident'>X</span>, <span class='ident'>i</span>: <span class='ident'>i64</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> {
-        <span class='self'>Self</span>::<span class='ident'>elim_ref</span>(<span class='ident'>trie</span>,
-                       <span class='op'>|</span>_<span class='op'>|</span> <span class='prelude-val'>None</span>,
-                       <span class='op'>|</span>_, <span class='ident'>x</span><span class='op'>|</span> <span class='kw'>if</span> <span class='kw-2'>*</span><span class='ident'>elt</span> <span class='op'>==</span> <span class='kw-2'>*</span><span class='ident'>x</span> { <span class='prelude-val'>Some</span>(<span class='ident'>x</span>.<span class='ident'>clone</span>()) } <span class='kw'>else</span> { <span class='prelude-val'>None</span> },
-                       <span class='op'>|</span>_, <span class='ident'>left</span>, <span class='ident'>right</span><span class='op'>|</span> <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>%</span> <span class='number'>2</span> <span class='op'>==</span> <span class='number'>0</span> {
-                           <span class='self'>Self</span>::<span class='ident'>find</span>(<span class='ident'>left</span>, <span class='ident'>elt</span>, <span class='ident'>i</span> <span class='op'>&gt;&gt;</span> <span class='number'>1</span>)
-                       } <span class='kw'>else</span> {
-                           <span class='self'>Self</span>::<span class='ident'>find</span>(<span class='ident'>right</span>, <span class='ident'>elt</span>, <span class='ident'>i</span> <span class='op'>&gt;&gt;</span> <span class='number'>1</span>)
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>: <span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Hash</span> <span class="op">+</span> <span class="ident">PartialEq</span> <span class="op">+</span> <span class="ident">Eq</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">TrieElim</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Trie</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">find</span>(<span class="ident">trie</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>, <span class="ident">elt</span>: <span class="kw-2">&amp;</span><span class="ident">X</span>, <span class="ident">i</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> {
+        <span class="self">Self</span>::<span class="ident">elim_ref</span>(<span class="ident">trie</span>,
+                       <span class="op">|</span>_<span class="op">|</span> <span class="prelude-val">None</span>,
+                       <span class="op">|</span>_, <span class="ident">x</span><span class="op">|</span> <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">elt</span> <span class="op">==</span> <span class="kw-2">*</span><span class="ident">x</span> { <span class="prelude-val">Some</span>(<span class="ident">x</span>.<span class="ident">clone</span>()) } <span class="kw">else</span> { <span class="prelude-val">None</span> },
+                       <span class="op">|</span>_, <span class="ident">left</span>, <span class="ident">right</span><span class="op">|</span> <span class="kw">if</span> <span class="ident">i</span> <span class="op">%</span> <span class="number">2</span> <span class="op">==</span> <span class="number">0</span> {
+                           <span class="self">Self</span>::<span class="ident">find</span>(<span class="ident">left</span>, <span class="ident">elt</span>, <span class="ident">i</span> <span class="op">&gt;&gt;</span> <span class="number">1</span>)
+                       } <span class="kw">else</span> {
+                           <span class="self">Self</span>::<span class="ident">find</span>(<span class="ident">right</span>, <span class="ident">elt</span>, <span class="ident">i</span> <span class="op">&gt;&gt;</span> <span class="number">1</span>)
                        },
-                       <span class='op'>|</span>_, <span class='ident'>t</span><span class='op'>|</span> <span class='self'>Self</span>::<span class='ident'>find</span>(<span class='ident'>t</span>, <span class='ident'>elt</span>, <span class='ident'>i</span>),
-                       <span class='op'>|</span>_, <span class='ident'>t</span><span class='op'>|</span> <span class='self'>Self</span>::<span class='ident'>find</span>(<span class='ident'>t</span>, <span class='ident'>elt</span>, <span class='ident'>i</span>))
+                       <span class="op">|</span>_, <span class="ident">t</span><span class="op">|</span> <span class="self">Self</span>::<span class="ident">find</span>(<span class="ident">t</span>, <span class="ident">elt</span>, <span class="ident">i</span>),
+                       <span class="op">|</span>_, <span class="ident">t</span><span class="op">|</span> <span class="self">Self</span>::<span class="ident">find</span>(<span class="ident">t</span>, <span class="ident">elt</span>, <span class="ident">i</span>))
     }
 
-    <span class='kw'>fn</span> <span class='ident'>is_empty</span>(<span class='ident'>trie</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='self'>Self</span>::<span class='ident'>elim_ref</span>(<span class='ident'>trie</span>,
-                       <span class='op'>|</span>_<span class='op'>|</span> <span class='bool-val'>true</span>,
-                       <span class='op'>|</span>_, _<span class='op'>|</span> <span class='bool-val'>false</span>,
-                       <span class='op'>|</span>_, _, _<span class='op'>|</span> <span class='bool-val'>false</span>,
-                       <span class='op'>|</span>_, <span class='ident'>t</span><span class='op'>|</span> <span class='self'>Self</span>::<span class='ident'>is_empty</span>(<span class='ident'>t</span>),
-                       <span class='op'>|</span>_, <span class='ident'>t</span><span class='op'>|</span> <span class='self'>Self</span>::<span class='ident'>is_empty</span>(<span class='ident'>t</span>))
+    <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="ident">trie</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">Self</span>::<span class="ident">elim_ref</span>(<span class="ident">trie</span>,
+                       <span class="op">|</span>_<span class="op">|</span> <span class="bool-val">true</span>,
+                       <span class="op">|</span>_, _<span class="op">|</span> <span class="bool-val">false</span>,
+                       <span class="op">|</span>_, _, _<span class="op">|</span> <span class="bool-val">false</span>,
+                       <span class="op">|</span>_, <span class="ident">t</span><span class="op">|</span> <span class="self">Self</span>::<span class="ident">is_empty</span>(<span class="ident">t</span>),
+                       <span class="op">|</span>_, <span class="ident">t</span><span class="op">|</span> <span class="self">Self</span>::<span class="ident">is_empty</span>(<span class="ident">t</span>))
     }
 
-    <span class='kw'>fn</span> <span class='ident'>split_atomic</span>(<span class='ident'>trie</span>: <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='kw'>fn</span> <span class='ident'>suffix</span>(<span class='ident'>bs</span>: <span class='ident'>BS</span>, <span class='ident'>k</span>: <span class='ident'>i64</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-            <span class='ident'>bs</span>.<span class='ident'>value</span> <span class='op'>&amp;</span> <span class='ident'>k</span> <span class='op'>==</span> <span class='ident'>bs</span>.<span class='ident'>value</span>
+    <span class="kw">fn</span> <span class="ident">split_atomic</span>(<span class="ident">trie</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">fn</span> <span class="ident">suffix</span>(<span class="ident">bs</span>: <span class="ident">BS</span>, <span class="ident">k</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+            <span class="ident">bs</span>.<span class="ident">value</span> <span class="op">&amp;</span> <span class="ident">k</span> <span class="op">==</span> <span class="ident">bs</span>.<span class="ident">value</span>
         }
-        <span class='kw'>match</span> <span class='ident'>trie</span> {
-            <span class='ident'>t</span> @ <span class='ident'>Trie</span>::<span class='ident'>Nil</span>(_) <span class='op'>|</span>
-            <span class='ident'>t</span> @ <span class='ident'>Trie</span>::<span class='ident'>Bin</span>(_, _, _) <span class='op'>=&gt;</span> <span class='ident'>t</span>,
-            <span class='ident'>Trie</span>::<span class='ident'>Leaf</span>(<span class='ident'>bs</span>, <span class='ident'>e</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>bs0</span> <span class='op'>=</span> <span class='ident'>BS</span>::<span class='ident'>prepend</span>(<span class='number'>0</span>, <span class='ident'>bs</span>);
-                <span class='kw'>let</span> <span class='ident'>bs1</span> <span class='op'>=</span> <span class='ident'>BS</span>::<span class='ident'>prepend</span>(<span class='number'>1</span>, <span class='ident'>bs</span>);
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>hasher</span> <span class='op'>=</span> <span class='ident'>DefaultHasher</span>::<span class='ident'>new</span>();
-                <span class='ident'>e</span>.<span class='ident'>hash</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>hasher</span>);
-                <span class='kw'>if</span> <span class='ident'>suffix</span>(<span class='ident'>bs1</span>, <span class='ident'>hasher</span>.<span class='ident'>finish</span>() <span class='kw'>as</span> <span class='ident'>i64</span>) {
-                    <span class='self'>Self</span>::<span class='ident'>bin</span>(<span class='ident'>bs</span>, <span class='self'>Self</span>::<span class='ident'>nil</span>(<span class='ident'>bs0</span>), <span class='self'>Self</span>::<span class='ident'>leaf</span>(<span class='ident'>bs1</span>, <span class='ident'>e</span>))
-                } <span class='kw'>else</span> {
-                    <span class='self'>Self</span>::<span class='ident'>bin</span>(<span class='ident'>bs</span>, <span class='self'>Self</span>::<span class='ident'>leaf</span>(<span class='ident'>bs0</span>, <span class='ident'>e</span>), <span class='self'>Self</span>::<span class='ident'>nil</span>(<span class='ident'>bs1</span>))
+        <span class="kw">match</span> <span class="ident">trie</span> {
+            <span class="ident">t</span> @ <span class="ident">Trie</span>::<span class="ident">Nil</span>(_) <span class="op">|</span>
+            <span class="ident">t</span> @ <span class="ident">Trie</span>::<span class="ident">Bin</span>(_, _, _) <span class="op">=&gt;</span> <span class="ident">t</span>,
+            <span class="ident">Trie</span>::<span class="ident">Leaf</span>(<span class="ident">bs</span>, <span class="ident">e</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">bs0</span> <span class="op">=</span> <span class="ident">BS</span>::<span class="ident">prepend</span>(<span class="number">0</span>, <span class="ident">bs</span>);
+                <span class="kw">let</span> <span class="ident">bs1</span> <span class="op">=</span> <span class="ident">BS</span>::<span class="ident">prepend</span>(<span class="number">1</span>, <span class="ident">bs</span>);
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hasher</span> <span class="op">=</span> <span class="ident">DefaultHasher</span>::<span class="ident">new</span>();
+                <span class="ident">e</span>.<span class="ident">hash</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">hasher</span>);
+                <span class="kw">if</span> <span class="ident">suffix</span>(<span class="ident">bs1</span>, <span class="ident">hasher</span>.<span class="ident">finish</span>() <span class="kw">as</span> <span class="ident">i64</span>) {
+                    <span class="self">Self</span>::<span class="ident">bin</span>(<span class="ident">bs</span>, <span class="self">Self</span>::<span class="ident">nil</span>(<span class="ident">bs0</span>), <span class="self">Self</span>::<span class="ident">leaf</span>(<span class="ident">bs1</span>, <span class="ident">e</span>))
+                } <span class="kw">else</span> {
+                    <span class="self">Self</span>::<span class="ident">bin</span>(<span class="ident">bs</span>, <span class="self">Self</span>::<span class="ident">leaf</span>(<span class="ident">bs0</span>, <span class="ident">e</span>), <span class="self">Self</span>::<span class="ident">nil</span>(<span class="ident">bs1</span>))
                 }
             }
-            _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Bad split_atomic(t)&quot;</span>),
+            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Bad split_atomic(t)&quot;</span>),
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>elim</span><span class='op'>&lt;</span><span class='ident'>Res</span>, <span class='ident'>NilC</span>, <span class='ident'>LeafC</span>, <span class='ident'>BinC</span>, <span class='ident'>RootC</span>, <span class='ident'>NameC</span><span class='op'>&gt;</span>(<span class='ident'>trie</span>: <span class='self'>Self</span>,
-                                                  <span class='ident'>nil</span>: <span class='ident'>NilC</span>,
-                                                  <span class='ident'>leaf</span>: <span class='ident'>LeafC</span>,
-                                                  <span class='ident'>bin</span>: <span class='ident'>BinC</span>,
-                                                  <span class='ident'>root</span>: <span class='ident'>RootC</span>,
-                                                  <span class='ident'>name</span>: <span class='ident'>NameC</span>)
-                                                  <span class='op'>-&gt;</span> <span class='ident'>Res</span>
-        <span class='kw'>where</span> <span class='ident'>NilC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>BS</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>LeafC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>BS</span>, <span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>BinC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>BS</span>, <span class='self'>Self</span>, <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>RootC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>Meta</span>, <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>NameC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>Name</span>, <span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>
+    <span class="kw">fn</span> <span class="ident">elim</span><span class="op">&lt;</span><span class="ident">Res</span>, <span class="ident">NilC</span>, <span class="ident">LeafC</span>, <span class="ident">BinC</span>, <span class="ident">RootC</span>, <span class="ident">NameC</span><span class="op">&gt;</span>(<span class="ident">trie</span>: <span class="self">Self</span>,
+                                                  <span class="ident">nil</span>: <span class="ident">NilC</span>,
+                                                  <span class="ident">leaf</span>: <span class="ident">LeafC</span>,
+                                                  <span class="ident">bin</span>: <span class="ident">BinC</span>,
+                                                  <span class="ident">root</span>: <span class="ident">RootC</span>,
+                                                  <span class="ident">name</span>: <span class="ident">NameC</span>)
+                                                  <span class="op">-&gt;</span> <span class="ident">Res</span>
+        <span class="kw">where</span> <span class="ident">NilC</span>: <span class="ident">FnOnce</span>(<span class="ident">BS</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">LeafC</span>: <span class="ident">FnOnce</span>(<span class="ident">BS</span>, <span class="ident">X</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">BinC</span>: <span class="ident">FnOnce</span>(<span class="ident">BS</span>, <span class="self">Self</span>, <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">RootC</span>: <span class="ident">FnOnce</span>(<span class="ident">Meta</span>, <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">NameC</span>: <span class="ident">FnOnce</span>(<span class="ident">Name</span>, <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>
     {
-        <span class='kw'>match</span> <span class='ident'>trie</span> {
-            <span class='ident'>Trie</span>::<span class='ident'>Nil</span>(<span class='ident'>bs</span>) <span class='op'>=&gt;</span> <span class='ident'>nil</span>(<span class='ident'>bs</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Leaf</span>(<span class='ident'>bs</span>, <span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='ident'>leaf</span>(<span class='ident'>bs</span>, <span class='ident'>x</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Bin</span>(<span class='ident'>bs</span>, <span class='ident'>l</span>, <span class='ident'>r</span>) <span class='op'>=&gt;</span> <span class='ident'>bin</span>(<span class='ident'>bs</span>, <span class='kw-2'>*</span><span class='ident'>l</span>, <span class='kw-2'>*</span><span class='ident'>r</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Name</span>(<span class='ident'>nm</span>, <span class='ident'>t</span>) <span class='op'>=&gt;</span> <span class='ident'>name</span>(<span class='ident'>nm</span>, <span class='kw-2'>*</span><span class='ident'>t</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Root</span>(<span class='ident'>meta</span>, <span class='ident'>t</span>) <span class='op'>=&gt;</span> <span class='ident'>root</span>(<span class='ident'>meta</span>, <span class='kw-2'>*</span><span class='ident'>t</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Art</span>(<span class='ident'>art</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>trie</span> <span class='op'>=</span> <span class='ident'>force</span>(<span class='kw-2'>&amp;</span><span class='ident'>art</span>);
-                <span class='self'>Self</span>::<span class='ident'>elim</span>(<span class='ident'>trie</span>, <span class='ident'>nil</span>, <span class='ident'>leaf</span>, <span class='ident'>bin</span>, <span class='ident'>root</span>, <span class='ident'>name</span>)
+        <span class="kw">match</span> <span class="ident">trie</span> {
+            <span class="ident">Trie</span>::<span class="ident">Nil</span>(<span class="ident">bs</span>) <span class="op">=&gt;</span> <span class="ident">nil</span>(<span class="ident">bs</span>),
+            <span class="ident">Trie</span>::<span class="ident">Leaf</span>(<span class="ident">bs</span>, <span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">leaf</span>(<span class="ident">bs</span>, <span class="ident">x</span>),
+            <span class="ident">Trie</span>::<span class="ident">Bin</span>(<span class="ident">bs</span>, <span class="ident">l</span>, <span class="ident">r</span>) <span class="op">=&gt;</span> <span class="ident">bin</span>(<span class="ident">bs</span>, <span class="kw-2">*</span><span class="ident">l</span>, <span class="kw-2">*</span><span class="ident">r</span>),
+            <span class="ident">Trie</span>::<span class="ident">Name</span>(<span class="ident">nm</span>, <span class="ident">t</span>) <span class="op">=&gt;</span> <span class="ident">name</span>(<span class="ident">nm</span>, <span class="kw-2">*</span><span class="ident">t</span>),
+            <span class="ident">Trie</span>::<span class="ident">Root</span>(<span class="ident">meta</span>, <span class="ident">t</span>) <span class="op">=&gt;</span> <span class="ident">root</span>(<span class="ident">meta</span>, <span class="kw-2">*</span><span class="ident">t</span>),
+            <span class="ident">Trie</span>::<span class="ident">Art</span>(<span class="ident">art</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">trie</span> <span class="op">=</span> <span class="ident">force</span>(<span class="kw-2">&amp;</span><span class="ident">art</span>);
+                <span class="self">Self</span>::<span class="ident">elim</span>(<span class="ident">trie</span>, <span class="ident">nil</span>, <span class="ident">leaf</span>, <span class="ident">bin</span>, <span class="ident">root</span>, <span class="ident">name</span>)
             }
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>elim_arg</span><span class='op'>&lt;</span><span class='ident'>Arg</span>, <span class='ident'>Res</span>, <span class='ident'>NilC</span>, <span class='ident'>LeafC</span>, <span class='ident'>BinC</span>, <span class='ident'>RootC</span>, <span class='ident'>NameC</span><span class='op'>&gt;</span>(<span class='ident'>trie</span>: <span class='self'>Self</span>,
-                                                           <span class='ident'>arg</span>: <span class='ident'>Arg</span>,
-                                                           <span class='ident'>nil</span>: <span class='ident'>NilC</span>,
-                                                           <span class='ident'>leaf</span>: <span class='ident'>LeafC</span>,
-                                                           <span class='ident'>bin</span>: <span class='ident'>BinC</span>,
-                                                           <span class='ident'>root</span>: <span class='ident'>RootC</span>,
-                                                           <span class='ident'>name</span>: <span class='ident'>NameC</span>)
-                                                           <span class='op'>-&gt;</span> <span class='ident'>Res</span>
-        <span class='kw'>where</span> <span class='ident'>NilC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>BS</span>, <span class='ident'>Arg</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>LeafC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>BS</span>, <span class='ident'>X</span>, <span class='ident'>Arg</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>BinC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>BS</span>, <span class='self'>Self</span>, <span class='self'>Self</span>, <span class='ident'>Arg</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>RootC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>Meta</span>, <span class='self'>Self</span>, <span class='ident'>Arg</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>NameC</span>: <span class='ident'>FnOnce</span>(<span class='ident'>Name</span>, <span class='self'>Self</span>, <span class='ident'>Arg</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>
+    <span class="kw">fn</span> <span class="ident">elim_arg</span><span class="op">&lt;</span><span class="ident">Arg</span>, <span class="ident">Res</span>, <span class="ident">NilC</span>, <span class="ident">LeafC</span>, <span class="ident">BinC</span>, <span class="ident">RootC</span>, <span class="ident">NameC</span><span class="op">&gt;</span>(<span class="ident">trie</span>: <span class="self">Self</span>,
+                                                           <span class="ident">arg</span>: <span class="ident">Arg</span>,
+                                                           <span class="ident">nil</span>: <span class="ident">NilC</span>,
+                                                           <span class="ident">leaf</span>: <span class="ident">LeafC</span>,
+                                                           <span class="ident">bin</span>: <span class="ident">BinC</span>,
+                                                           <span class="ident">root</span>: <span class="ident">RootC</span>,
+                                                           <span class="ident">name</span>: <span class="ident">NameC</span>)
+                                                           <span class="op">-&gt;</span> <span class="ident">Res</span>
+        <span class="kw">where</span> <span class="ident">NilC</span>: <span class="ident">FnOnce</span>(<span class="ident">BS</span>, <span class="ident">Arg</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">LeafC</span>: <span class="ident">FnOnce</span>(<span class="ident">BS</span>, <span class="ident">X</span>, <span class="ident">Arg</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">BinC</span>: <span class="ident">FnOnce</span>(<span class="ident">BS</span>, <span class="self">Self</span>, <span class="self">Self</span>, <span class="ident">Arg</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">RootC</span>: <span class="ident">FnOnce</span>(<span class="ident">Meta</span>, <span class="self">Self</span>, <span class="ident">Arg</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">NameC</span>: <span class="ident">FnOnce</span>(<span class="ident">Name</span>, <span class="self">Self</span>, <span class="ident">Arg</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>
     {
-        <span class='kw'>match</span> <span class='ident'>trie</span> {
-            <span class='ident'>Trie</span>::<span class='ident'>Nil</span>(<span class='ident'>bs</span>) <span class='op'>=&gt;</span> <span class='ident'>nil</span>(<span class='ident'>bs</span>, <span class='ident'>arg</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Leaf</span>(<span class='ident'>bs</span>, <span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='ident'>leaf</span>(<span class='ident'>bs</span>, <span class='ident'>x</span>, <span class='ident'>arg</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Bin</span>(<span class='ident'>bs</span>, <span class='ident'>l</span>, <span class='ident'>r</span>) <span class='op'>=&gt;</span> <span class='ident'>bin</span>(<span class='ident'>bs</span>, <span class='kw-2'>*</span><span class='ident'>l</span>, <span class='kw-2'>*</span><span class='ident'>r</span>, <span class='ident'>arg</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Name</span>(<span class='ident'>nm</span>, <span class='ident'>t</span>) <span class='op'>=&gt;</span> <span class='ident'>name</span>(<span class='ident'>nm</span>, <span class='kw-2'>*</span><span class='ident'>t</span>, <span class='ident'>arg</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Root</span>(<span class='ident'>meta</span>, <span class='ident'>t</span>) <span class='op'>=&gt;</span> <span class='ident'>root</span>(<span class='ident'>meta</span>, <span class='kw-2'>*</span><span class='ident'>t</span>, <span class='ident'>arg</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Art</span>(<span class='ident'>art</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>trie</span> <span class='op'>=</span> <span class='ident'>force</span>(<span class='kw-2'>&amp;</span><span class='ident'>art</span>);
-                <span class='self'>Self</span>::<span class='ident'>elim_arg</span>(<span class='ident'>trie</span>, <span class='ident'>arg</span>, <span class='ident'>nil</span>, <span class='ident'>leaf</span>, <span class='ident'>bin</span>, <span class='ident'>root</span>, <span class='ident'>name</span>)
+        <span class="kw">match</span> <span class="ident">trie</span> {
+            <span class="ident">Trie</span>::<span class="ident">Nil</span>(<span class="ident">bs</span>) <span class="op">=&gt;</span> <span class="ident">nil</span>(<span class="ident">bs</span>, <span class="ident">arg</span>),
+            <span class="ident">Trie</span>::<span class="ident">Leaf</span>(<span class="ident">bs</span>, <span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">leaf</span>(<span class="ident">bs</span>, <span class="ident">x</span>, <span class="ident">arg</span>),
+            <span class="ident">Trie</span>::<span class="ident">Bin</span>(<span class="ident">bs</span>, <span class="ident">l</span>, <span class="ident">r</span>) <span class="op">=&gt;</span> <span class="ident">bin</span>(<span class="ident">bs</span>, <span class="kw-2">*</span><span class="ident">l</span>, <span class="kw-2">*</span><span class="ident">r</span>, <span class="ident">arg</span>),
+            <span class="ident">Trie</span>::<span class="ident">Name</span>(<span class="ident">nm</span>, <span class="ident">t</span>) <span class="op">=&gt;</span> <span class="ident">name</span>(<span class="ident">nm</span>, <span class="kw-2">*</span><span class="ident">t</span>, <span class="ident">arg</span>),
+            <span class="ident">Trie</span>::<span class="ident">Root</span>(<span class="ident">meta</span>, <span class="ident">t</span>) <span class="op">=&gt;</span> <span class="ident">root</span>(<span class="ident">meta</span>, <span class="kw-2">*</span><span class="ident">t</span>, <span class="ident">arg</span>),
+            <span class="ident">Trie</span>::<span class="ident">Art</span>(<span class="ident">art</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">trie</span> <span class="op">=</span> <span class="ident">force</span>(<span class="kw-2">&amp;</span><span class="ident">art</span>);
+                <span class="self">Self</span>::<span class="ident">elim_arg</span>(<span class="ident">trie</span>, <span class="ident">arg</span>, <span class="ident">nil</span>, <span class="ident">leaf</span>, <span class="ident">bin</span>, <span class="ident">root</span>, <span class="ident">name</span>)
             }
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>elim_ref</span><span class='op'>&lt;</span><span class='ident'>Res</span>, <span class='ident'>NilC</span>, <span class='ident'>LeafC</span>, <span class='ident'>BinC</span>, <span class='ident'>RootC</span>, <span class='ident'>NameC</span><span class='op'>&gt;</span>(<span class='ident'>trie</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>,
-                                                      <span class='ident'>nil</span>: <span class='ident'>NilC</span>,
-                                                      <span class='ident'>leaf</span>: <span class='ident'>LeafC</span>,
-                                                      <span class='ident'>bin</span>: <span class='ident'>BinC</span>,
-                                                      <span class='ident'>root</span>: <span class='ident'>RootC</span>,
-                                                      <span class='ident'>name</span>: <span class='ident'>NameC</span>)
-                                                      <span class='op'>-&gt;</span> <span class='ident'>Res</span>
-        <span class='kw'>where</span> <span class='ident'>NilC</span>: <span class='ident'>FnOnce</span>(<span class='kw-2'>&amp;</span><span class='ident'>BS</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>LeafC</span>: <span class='ident'>FnOnce</span>(<span class='kw-2'>&amp;</span><span class='ident'>BS</span>, <span class='kw-2'>&amp;</span><span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>BinC</span>: <span class='ident'>FnOnce</span>(<span class='kw-2'>&amp;</span><span class='ident'>BS</span>, <span class='kw-2'>&amp;</span><span class='self'>Self</span>, <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>RootC</span>: <span class='ident'>FnOnce</span>(<span class='kw-2'>&amp;</span><span class='ident'>Meta</span>, <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>,
-              <span class='ident'>NameC</span>: <span class='ident'>FnOnce</span>(<span class='kw-2'>&amp;</span><span class='ident'>Name</span>, <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>
+    <span class="kw">fn</span> <span class="ident">elim_ref</span><span class="op">&lt;</span><span class="ident">Res</span>, <span class="ident">NilC</span>, <span class="ident">LeafC</span>, <span class="ident">BinC</span>, <span class="ident">RootC</span>, <span class="ident">NameC</span><span class="op">&gt;</span>(<span class="ident">trie</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>,
+                                                      <span class="ident">nil</span>: <span class="ident">NilC</span>,
+                                                      <span class="ident">leaf</span>: <span class="ident">LeafC</span>,
+                                                      <span class="ident">bin</span>: <span class="ident">BinC</span>,
+                                                      <span class="ident">root</span>: <span class="ident">RootC</span>,
+                                                      <span class="ident">name</span>: <span class="ident">NameC</span>)
+                                                      <span class="op">-&gt;</span> <span class="ident">Res</span>
+        <span class="kw">where</span> <span class="ident">NilC</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="ident">BS</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">LeafC</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="ident">BS</span>, <span class="kw-2">&amp;</span><span class="ident">X</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">BinC</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="ident">BS</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">RootC</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="ident">Meta</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>,
+              <span class="ident">NameC</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="ident">Name</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>
     {
-        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>trie</span> {
-            <span class='ident'>Trie</span>::<span class='ident'>Nil</span>(<span class='kw-2'>ref</span> <span class='ident'>bs</span>) <span class='op'>=&gt;</span> <span class='ident'>nil</span>(<span class='ident'>bs</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Leaf</span>(<span class='kw-2'>ref</span> <span class='ident'>bs</span>, <span class='kw-2'>ref</span> <span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='ident'>leaf</span>(<span class='ident'>bs</span>, <span class='ident'>x</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Bin</span>(<span class='kw-2'>ref</span> <span class='ident'>bs</span>, <span class='kw-2'>ref</span> <span class='ident'>l</span>, <span class='kw-2'>ref</span> <span class='ident'>r</span>) <span class='op'>=&gt;</span> <span class='ident'>bin</span>(<span class='ident'>bs</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='ident'>l</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='ident'>r</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Name</span>(<span class='kw-2'>ref</span> <span class='ident'>nm</span>, <span class='kw-2'>ref</span> <span class='ident'>t</span>) <span class='op'>=&gt;</span> <span class='ident'>name</span>(<span class='ident'>nm</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='ident'>t</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Root</span>(<span class='kw-2'>ref</span> <span class='ident'>meta</span>, <span class='kw-2'>ref</span> <span class='ident'>t</span>) <span class='op'>=&gt;</span> <span class='ident'>root</span>(<span class='ident'>meta</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='ident'>t</span>),
-            <span class='ident'>Trie</span>::<span class='ident'>Art</span>(<span class='kw-2'>ref</span> <span class='ident'>art</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>trie</span> <span class='op'>=</span> <span class='ident'>force</span>(<span class='ident'>art</span>);
-                <span class='self'>Self</span>::<span class='ident'>elim_ref</span>(<span class='kw-2'>&amp;</span><span class='ident'>trie</span>, <span class='ident'>nil</span>, <span class='ident'>leaf</span>, <span class='ident'>bin</span>, <span class='ident'>root</span>, <span class='ident'>name</span>)
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">trie</span> {
+            <span class="ident">Trie</span>::<span class="ident">Nil</span>(<span class="kw-2">ref</span> <span class="ident">bs</span>) <span class="op">=&gt;</span> <span class="ident">nil</span>(<span class="ident">bs</span>),
+            <span class="ident">Trie</span>::<span class="ident">Leaf</span>(<span class="kw-2">ref</span> <span class="ident">bs</span>, <span class="kw-2">ref</span> <span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">leaf</span>(<span class="ident">bs</span>, <span class="ident">x</span>),
+            <span class="ident">Trie</span>::<span class="ident">Bin</span>(<span class="kw-2">ref</span> <span class="ident">bs</span>, <span class="kw-2">ref</span> <span class="ident">l</span>, <span class="kw-2">ref</span> <span class="ident">r</span>) <span class="op">=&gt;</span> <span class="ident">bin</span>(<span class="ident">bs</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">l</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">r</span>),
+            <span class="ident">Trie</span>::<span class="ident">Name</span>(<span class="kw-2">ref</span> <span class="ident">nm</span>, <span class="kw-2">ref</span> <span class="ident">t</span>) <span class="op">=&gt;</span> <span class="ident">name</span>(<span class="ident">nm</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">t</span>),
+            <span class="ident">Trie</span>::<span class="ident">Root</span>(<span class="kw-2">ref</span> <span class="ident">meta</span>, <span class="kw-2">ref</span> <span class="ident">t</span>) <span class="op">=&gt;</span> <span class="ident">root</span>(<span class="ident">meta</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">t</span>),
+            <span class="ident">Trie</span>::<span class="ident">Art</span>(<span class="kw-2">ref</span> <span class="ident">art</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">trie</span> <span class="op">=</span> <span class="ident">force</span>(<span class="ident">art</span>);
+                <span class="self">Self</span>::<span class="ident">elim_ref</span>(<span class="kw-2">&amp;</span><span class="ident">trie</span>, <span class="ident">nil</span>, <span class="ident">leaf</span>, <span class="ident">bin</span>, <span class="ident">root</span>, <span class="ident">name</span>)
             }
         }
     }
 }
 
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>SetIntro</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span>: <span class='ident'>Debug</span> <span class='op'>+</span> <span class='ident'>Hash</span> <span class='op'>+</span> <span class='ident'>PartialEq</span> <span class='op'>+</span> <span class='ident'>Eq</span> <span class='op'>+</span> <span class='ident'>Clone</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> {
-    <span class='kw'>fn</span> <span class='ident'>empty</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>add</span>(<span class='self'>Self</span>, <span class='ident'>e</span>: <span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
-    <span class='comment'>// fn remove(Self, e: &amp;X) -&gt; Self;</span>
-    <span class='comment'>// fn union(Self, Self) -&gt; Self;</span>
-    <span class='comment'>// fn inter(Self, Self) -&gt; Self;</span>
-    <span class='comment'>// fn diff(Self, Self) -&gt; Self;</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SetIntro</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>: <span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Hash</span> <span class="op">+</span> <span class="ident">PartialEq</span> <span class="op">+</span> <span class="ident">Eq</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
+    <span class="kw">fn</span> <span class="ident">empty</span>() <span class="op">-&gt;</span> <span class="self">Self</span>;
+    <span class="kw">fn</span> <span class="ident">add</span>(<span class="self">Self</span>, <span class="ident">e</span>: <span class="ident">X</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
+    <span class="comment">// fn remove(Self, e: &amp;X) -&gt; Self;</span>
+    <span class="comment">// fn union(Self, Self) -&gt; Self;</span>
+    <span class="comment">// fn inter(Self, Self) -&gt; Self;</span>
+    <span class="comment">// fn diff(Self, Self) -&gt; Self;</span>
 }
 
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>SetElim</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span>: <span class='ident'>Debug</span> <span class='op'>+</span> <span class='ident'>Hash</span> <span class='op'>+</span> <span class='ident'>PartialEq</span> <span class='op'>+</span> <span class='ident'>Eq</span> <span class='op'>+</span> <span class='ident'>Clone</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span> {
-    <span class='kw'>fn</span> <span class='ident'>mem</span>(<span class='kw-2'>&amp;</span><span class='self'>Self</span>, <span class='kw-2'>&amp;</span><span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
-    <span class='kw'>fn</span> <span class='ident'>fold</span><span class='op'>&lt;</span><span class='ident'>Res</span>, <span class='ident'>F</span><span class='op'>&gt;</span>(<span class='self'>Self</span>, <span class='ident'>Res</span>, <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span> <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Fn</span>(<span class='ident'>X</span>, <span class='ident'>Res</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>;
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SetElim</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>: <span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Hash</span> <span class="op">+</span> <span class="ident">PartialEq</span> <span class="op">+</span> <span class="ident">Eq</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
+    <span class="kw">fn</span> <span class="ident">mem</span>(<span class="kw-2">&amp;</span><span class="self">Self</span>, <span class="kw-2">&amp;</span><span class="ident">X</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>;
+    <span class="kw">fn</span> <span class="ident">fold</span><span class="op">&lt;</span><span class="ident">Res</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="self">Self</span>, <span class="ident">Res</span>, <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Res</span> <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">X</span>, <span class="ident">Res</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>;
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>X</span>, <span class='ident'>Set</span>: <span class='ident'>TrieIntro</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>TrieElim</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;&gt;</span> <span class='ident'>SetIntro</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Set</span> {
-    <span class='kw'>fn</span> <span class='ident'>empty</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='kw'>let</span> <span class='ident'>meta</span> <span class='op'>=</span> <span class='ident'>Meta</span> { <span class='ident'>min_depth</span>: <span class='number'>1</span> };
-        <span class='self'>Self</span>::<span class='ident'>empty</span>(<span class='ident'>meta</span>)
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">Set</span>: <span class="ident">TrieIntro</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">TrieElim</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;&gt;</span> <span class="ident">SetIntro</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Set</span> {
+    <span class="kw">fn</span> <span class="ident">empty</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="ident">meta</span> <span class="op">=</span> <span class="ident">Meta</span> { <span class="ident">min_depth</span>: <span class="number">1</span> };
+        <span class="self">Self</span>::<span class="ident">empty</span>(<span class="ident">meta</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>add</span>(<span class='ident'>set</span>: <span class='self'>Self</span>, <span class='ident'>elt</span>: <span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='self'>Self</span>::<span class='ident'>extend</span>(<span class='ident'>name_unit</span>(), <span class='ident'>set</span>, <span class='ident'>elt</span>)
+    <span class="kw">fn</span> <span class="ident">add</span>(<span class="ident">set</span>: <span class="self">Self</span>, <span class="ident">elt</span>: <span class="ident">X</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">extend</span>(<span class="ident">name_unit</span>(), <span class="ident">set</span>, <span class="ident">elt</span>)
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>X</span>: <span class='ident'>Hash</span>, <span class='ident'>Set</span>: <span class='ident'>TrieIntro</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>TrieElim</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;&gt;</span> <span class='ident'>SetElim</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Set</span> {
-    <span class='kw'>fn</span> <span class='ident'>mem</span>(<span class='ident'>set</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>, <span class='ident'>elt</span>: <span class='kw-2'>&amp;</span><span class='ident'>X</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>hasher</span> <span class='op'>=</span> <span class='ident'>DefaultHasher</span>::<span class='ident'>new</span>();
-        <span class='ident'>elt</span>.<span class='ident'>hash</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>hasher</span>);
-        <span class='kw'>match</span> <span class='ident'>Set</span>::<span class='ident'>find</span>(<span class='ident'>set</span>, <span class='ident'>elt</span>, <span class='ident'>hasher</span>.<span class='ident'>finish</span>() <span class='kw'>as</span> <span class='ident'>i64</span>) {
-            <span class='prelude-val'>Some</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">X</span>: <span class="ident">Hash</span>, <span class="ident">Set</span>: <span class="ident">TrieIntro</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">TrieElim</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;&gt;</span> <span class="ident">SetElim</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Set</span> {
+    <span class="kw">fn</span> <span class="ident">mem</span>(<span class="ident">set</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>, <span class="ident">elt</span>: <span class="kw-2">&amp;</span><span class="ident">X</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hasher</span> <span class="op">=</span> <span class="ident">DefaultHasher</span>::<span class="ident">new</span>();
+        <span class="ident">elt</span>.<span class="ident">hash</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">hasher</span>);
+        <span class="kw">match</span> <span class="ident">Set</span>::<span class="ident">find</span>(<span class="ident">set</span>, <span class="ident">elt</span>, <span class="ident">hasher</span>.<span class="ident">finish</span>() <span class="kw">as</span> <span class="ident">i64</span>) {
+            <span class="prelude-val">Some</span>(_) <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>fold</span><span class='op'>&lt;</span><span class='ident'>Res</span>, <span class='ident'>F</span><span class='op'>&gt;</span>(<span class='ident'>set</span>: <span class='self'>Self</span>, <span class='ident'>res</span>: <span class='ident'>Res</span>, <span class='ident'>f</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>
-        <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Fn</span>(<span class='ident'>X</span>, <span class='ident'>Res</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>
+    <span class="kw">fn</span> <span class="ident">fold</span><span class="op">&lt;</span><span class="ident">Res</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">set</span>: <span class="self">Self</span>, <span class="ident">res</span>: <span class="ident">Res</span>, <span class="ident">f</span>: <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>
+        <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">X</span>, <span class="ident">Res</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>
     {
-        <span class='self'>Self</span>::<span class='ident'>elim_arg</span>(<span class='ident'>set</span>,
-                       <span class='ident'>res</span>,
-                       <span class='op'>|</span>_, <span class='ident'>arg</span><span class='op'>|</span> <span class='ident'>arg</span>,
-                       <span class='op'>|</span>_, <span class='ident'>x</span>, <span class='ident'>arg</span><span class='op'>|</span> <span class='ident'>f</span>(<span class='ident'>x</span>, <span class='ident'>arg</span>),
-                       <span class='op'>|</span>_, <span class='ident'>left</span>, <span class='ident'>right</span>, <span class='ident'>arg</span><span class='op'>|</span> {
-                           <span class='self'>Self</span>::<span class='ident'>fold</span>(<span class='ident'>right</span>, <span class='self'>Self</span>::<span class='ident'>fold</span>(<span class='ident'>left</span>, <span class='ident'>arg</span>, <span class='ident'>f</span>.<span class='ident'>clone</span>()), <span class='ident'>f</span>.<span class='ident'>clone</span>())
+        <span class="self">Self</span>::<span class="ident">elim_arg</span>(<span class="ident">set</span>,
+                       <span class="ident">res</span>,
+                       <span class="op">|</span>_, <span class="ident">arg</span><span class="op">|</span> <span class="ident">arg</span>,
+                       <span class="op">|</span>_, <span class="ident">x</span>, <span class="ident">arg</span><span class="op">|</span> <span class="ident">f</span>(<span class="ident">x</span>, <span class="ident">arg</span>),
+                       <span class="op">|</span>_, <span class="ident">left</span>, <span class="ident">right</span>, <span class="ident">arg</span><span class="op">|</span> {
+                           <span class="self">Self</span>::<span class="ident">fold</span>(<span class="ident">right</span>, <span class="self">Self</span>::<span class="ident">fold</span>(<span class="ident">left</span>, <span class="ident">arg</span>, <span class="ident">f</span>.<span class="ident">clone</span>()), <span class="ident">f</span>.<span class="ident">clone</span>())
                        },
-                       <span class='op'>|</span>_, <span class='ident'>t</span>, <span class='ident'>arg</span><span class='op'>|</span> <span class='self'>Self</span>::<span class='ident'>fold</span>(<span class='ident'>t</span>, <span class='ident'>arg</span>, <span class='ident'>f</span>.<span class='ident'>clone</span>()),
-                       <span class='op'>|</span>_, <span class='ident'>t</span>, <span class='ident'>arg</span><span class='op'>|</span> <span class='self'>Self</span>::<span class='ident'>fold</span>(<span class='ident'>t</span>, <span class='ident'>arg</span>, <span class='ident'>f</span>.<span class='ident'>clone</span>()))
+                       <span class="op">|</span>_, <span class="ident">t</span>, <span class="ident">arg</span><span class="op">|</span> <span class="self">Self</span>::<span class="ident">fold</span>(<span class="ident">t</span>, <span class="ident">arg</span>, <span class="ident">f</span>.<span class="ident">clone</span>()),
+                       <span class="op">|</span>_, <span class="ident">t</span>, <span class="ident">arg</span><span class="op">|</span> <span class="self">Self</span>::<span class="ident">fold</span>(<span class="ident">t</span>, <span class="ident">arg</span>, <span class="ident">f</span>.<span class="ident">clone</span>()))
     }
 }
 
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>Set</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Trie</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span>;
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>trie_fold</span>
-    <span class='op'>&lt;</span><span class='ident'>X</span>, <span class='ident'>T</span>:<span class='ident'>TrieElim</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span>, <span class='ident'>Res</span>:<span class='ident'>Hash</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>+</span><span class='ident'>Eq</span><span class='op'>+</span><span class='ident'>Clone</span><span class='op'>+</span><span class='lifetime'>&#39;static</span>, <span class='ident'>F</span>:<span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>
-    (<span class='ident'>t</span>: <span class='ident'>T</span>, <span class='ident'>res</span>:<span class='ident'>Res</span>, <span class='ident'>f</span>: <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span>
-    <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Fn</span>(<span class='ident'>X</span>, <span class='ident'>Res</span>) <span class='op'>-&gt;</span> <span class='ident'>Res</span> {
-    <span class='ident'>T</span>::<span class='ident'>elim_arg</span>(<span class='ident'>t</span>,
-                (<span class='ident'>res</span>, <span class='ident'>f</span>),
-                <span class='op'>|</span>_, (<span class='ident'>arg</span>, _)<span class='op'>|</span> <span class='ident'>arg</span>,
-                <span class='op'>|</span>_, <span class='ident'>x</span>, (<span class='ident'>arg</span>, <span class='ident'>f</span>)<span class='op'>|</span> <span class='ident'>f</span>(<span class='ident'>x</span>, <span class='ident'>arg</span>),
-                <span class='op'>|</span>_, <span class='ident'>left</span>, <span class='ident'>right</span>, (<span class='ident'>arg</span>, <span class='ident'>f</span>)<span class='op'>|</span> <span class='ident'>trie_fold</span>(<span class='ident'>right</span>, <span class='ident'>trie_fold</span>(<span class='ident'>left</span>, <span class='ident'>arg</span>, <span class='ident'>f</span>.<span class='ident'>clone</span>()), <span class='ident'>f</span>),
-                <span class='op'>|</span>_, <span class='ident'>t</span>, (<span class='ident'>arg</span>, <span class='ident'>f</span>)<span class='op'>|</span> <span class='ident'>trie_fold</span>(<span class='ident'>t</span>, <span class='ident'>arg</span>, <span class='ident'>f</span>),
-                <span class='op'>|</span><span class='ident'>nm</span>, <span class='ident'>t</span>, (<span class='ident'>arg</span>, <span class='ident'>f</span>)<span class='op'>|</span> <span class='macro'>memo</span><span class='macro'>!</span>(<span class='ident'>nm</span> <span class='op'>=&gt;</span><span class='op'>&gt;</span> <span class='ident'>trie_fold</span>, <span class='ident'>t</span>:<span class='ident'>t</span>, <span class='ident'>res</span>:<span class='ident'>arg</span> ;; <span class='ident'>f</span>:<span class='ident'>f</span>))
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Set</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Trie</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>;
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">trie_fold</span>
+    <span class="op">&lt;</span><span class="ident">X</span>, <span class="ident">T</span>:<span class="ident">TrieElim</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span>, <span class="ident">Res</span>:<span class="ident">Hash</span><span class="op">+</span><span class="ident">Debug</span><span class="op">+</span><span class="ident">Eq</span><span class="op">+</span><span class="ident">Clone</span><span class="op">+</span><span class="lifetime">&#39;static</span>, <span class="ident">F</span>:<span class="lifetime">&#39;static</span><span class="op">&gt;</span>
+    (<span class="ident">t</span>: <span class="ident">T</span>, <span class="ident">res</span>:<span class="ident">Res</span>, <span class="ident">f</span>: <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Res</span>
+    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">X</span>, <span class="ident">Res</span>) <span class="op">-&gt;</span> <span class="ident">Res</span> {
+    <span class="ident">T</span>::<span class="ident">elim_arg</span>(<span class="ident">t</span>,
+                (<span class="ident">res</span>, <span class="ident">f</span>),
+                <span class="op">|</span>_, (<span class="ident">arg</span>, _)<span class="op">|</span> <span class="ident">arg</span>,
+                <span class="op">|</span>_, <span class="ident">x</span>, (<span class="ident">arg</span>, <span class="ident">f</span>)<span class="op">|</span> <span class="ident">f</span>(<span class="ident">x</span>, <span class="ident">arg</span>),
+                <span class="op">|</span>_, <span class="ident">left</span>, <span class="ident">right</span>, (<span class="ident">arg</span>, <span class="ident">f</span>)<span class="op">|</span> <span class="ident">trie_fold</span>(<span class="ident">right</span>, <span class="ident">trie_fold</span>(<span class="ident">left</span>, <span class="ident">arg</span>, <span class="ident">f</span>.<span class="ident">clone</span>()), <span class="ident">f</span>),
+                <span class="op">|</span>_, <span class="ident">t</span>, (<span class="ident">arg</span>, <span class="ident">f</span>)<span class="op">|</span> <span class="ident">trie_fold</span>(<span class="ident">t</span>, <span class="ident">arg</span>, <span class="ident">f</span>),
+                <span class="op">|</span><span class="ident">nm</span>, <span class="ident">t</span>, (<span class="ident">arg</span>, <span class="ident">f</span>)<span class="op">|</span> <span class="macro">memo</span><span class="macro">!</span>(<span class="ident">nm</span> <span class="op">=&gt;</span><span class="op">&gt;</span> <span class="ident">trie_fold</span>, <span class="ident">t</span>:<span class="ident">t</span>, <span class="ident">res</span>:<span class="ident">arg</span> ;; <span class="ident">f</span>:<span class="ident">f</span>))
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>trie_of_list</span><span class='op'>&lt;</span><span class='ident'>X</span>: <span class='ident'>Hash</span> <span class='op'>+</span> <span class='ident'>Clone</span> <span class='op'>+</span> <span class='ident'>Debug</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>,
-                    <span class='ident'>T</span>: <span class='ident'>TrieIntro</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span>,
-                    <span class='ident'>L</span>: <span class='ident'>ListElim</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>ListIntro</span><span class='op'>&lt;</span><span class='ident'>X</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='lifetime'>&#39;static</span><span class='op'>&gt;</span>
-    (<span class='ident'>list</span>: <span class='ident'>L</span>)
-     <span class='op'>-&gt;</span> <span class='ident'>T</span> {
-    <span class='ident'>list_fold</span>(<span class='ident'>list</span>,
-              <span class='ident'>T</span>::<span class='ident'>empty</span>(<span class='ident'>Meta</span> { <span class='ident'>min_depth</span>: <span class='number'>1</span> }),
-              <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>x</span>, <span class='ident'>trie_acc</span><span class='op'>|</span> <span class='ident'>T</span>::<span class='ident'>extend</span>(<span class='ident'>name_unit</span>(), <span class='ident'>trie_acc</span>, <span class='ident'>x</span>)))
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">trie_of_list</span><span class="op">&lt;</span><span class="ident">X</span>: <span class="ident">Hash</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Debug</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+                    <span class="ident">T</span>: <span class="ident">TrieIntro</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+                    <span class="ident">L</span>: <span class="ident">ListElim</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">ListIntro</span><span class="op">&lt;</span><span class="ident">X</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>
+    (<span class="ident">list</span>: <span class="ident">L</span>)
+     <span class="op">-&gt;</span> <span class="ident">T</span> {
+    <span class="ident">list_fold</span>(<span class="ident">list</span>,
+              <span class="ident">T</span>::<span class="ident">empty</span>(<span class="ident">Meta</span> { <span class="ident">min_depth</span>: <span class="number">1</span> }),
+              <span class="ident">Rc</span>::<span class="ident">new</span>(<span class="op">|</span><span class="ident">x</span>, <span class="ident">trie_acc</span><span class="op">|</span> <span class="ident">T</span>::<span class="ident">extend</span>(<span class="ident">name_unit</span>(), <span class="ident">trie_acc</span>, <span class="ident">x</span>)))
 }
 </pre>
 </section>

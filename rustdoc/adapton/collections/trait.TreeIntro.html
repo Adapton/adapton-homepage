@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc trait">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,29 +43,25 @@
         </form>
     </nav>
 
-    <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>adapton</a>::<wbr><a href='index.html'>collections</a>::<wbr><a class='trait' href=''>TreeIntro</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>adapton</a>::<wbr><a href='index.html'>collections</a>::<wbr><a class="trait" href=''>TreeIntro</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/adapton/collections.rs.html#353-361' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait TreeIntro&lt;Lev:&nbsp;<a class='trait' href='../../adapton/collections/trait.Level.html' title='adapton::collections::Level'>Level</a>, Leaf&gt;: <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + 'static {
+<pre class='rust trait'>pub trait TreeIntro&lt;Lev:&nbsp;<a class="trait" href="../../adapton/collections/trait.Level.html" title="trait adapton::collections::Level">Level</a>, Leaf&gt;: <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html" title="trait core::hash::Hash">Hash</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + 'static {
     fn <a href='#tymethod.nil' class='fnname'>nil</a>() -&gt; Self;
     fn <a href='#tymethod.leaf' class='fnname'>leaf</a>(_: Leaf) -&gt; Self;
     fn <a href='#tymethod.bin' class='fnname'>bin</a>(_: Lev, _: Self, _: Self) -&gt; Self;
-    fn <a href='#tymethod.name' class='fnname'>name</a>(_: <a class='struct' href='../../adapton/engine/struct.Name.html' title='adapton::engine::Name'>Name</a>, _: Lev, _: Self, _: Self) -&gt; Self;
-    fn <a href='#tymethod.art' class='fnname'>art</a>(_: <a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;Self&gt;) -&gt; Self;
-}</pre><div class='docblock'><p>Types that can be created like a (binary) tree with leaves of type <code>Leaf</code> are <code>TreeIntro&lt;Leaf&gt;</code>.
-We recognize that monoids are a nearly-analogous case;
-the key differences with monoids are that trees contain names (see <code>name</code> fn) and articulations (see <code>art</code> fn);
-further, the binary cases <code>name</code> and <code>bin</code> carry levels of type <code>Lev</code>, which helps establish and maintain balance.</p>
-</div>
+    fn <a href='#tymethod.name' class='fnname'>name</a>(_: <a class="struct" href="../../adapton/engine/struct.Name.html" title="struct adapton::engine::Name">Name</a>, _: Lev, _: Self, _: Self) -&gt; Self;
+    fn <a href='#tymethod.art' class='fnname'>art</a>(_: <a class="struct" href="../../adapton/engine/struct.Art.html" title="struct adapton::engine::Art">Art</a>&lt;Self&gt;) -&gt; Self;
+}</pre><div class='docblock'><p>Types that can be created like a (binary) tree with leaves of type <code>Leaf</code> are <code>TreeIntro&lt;Leaf&gt;</code>. We recognize that monoids are a nearly-analogous case; the key differences with monoids are that trees contain names (see <code>name</code> fn) and articulations (see <code>art</code> fn); further, the binary cases <code>name</code> and <code>bin</code> carry levels of type <code>Lev</code>, which helps establish and maintain balance.</p></div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.nil' class='method'><span id='nil.v' class='invisible'><code>fn <a href='#tymethod.nil' class='fnname'>nil</a>() -&gt; Self</code></span></h3><h3 id='tymethod.leaf' class='method'><span id='leaf.v' class='invisible'><code>fn <a href='#tymethod.leaf' class='fnname'>leaf</a>(_: Leaf) -&gt; Self</code></span></h3><h3 id='tymethod.bin' class='method'><span id='bin.v' class='invisible'><code>fn <a href='#tymethod.bin' class='fnname'>bin</a>(_: Lev, _: Self, _: Self) -&gt; Self</code></span></h3><h3 id='tymethod.name' class='method'><span id='name.v' class='invisible'><code>fn <a href='#tymethod.name' class='fnname'>name</a>(_: <a class='struct' href='../../adapton/engine/struct.Name.html' title='adapton::engine::Name'>Name</a>, _: Lev, _: Self, _: Self) -&gt; Self</code></span></h3><h3 id='tymethod.art' class='method'><span id='art.v' class='invisible'><code>fn <a href='#tymethod.art' class='fnname'>art</a>(_: <a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;Self&gt;) -&gt; Self</code></span></h3></div>
+        <h3 id='tymethod.nil' class='method'><span id='nil.v' class='invisible'><code>fn <a href='#tymethod.nil' class='fnname'>nil</a>() -&gt; Self</code></span></h3><h3 id='tymethod.leaf' class='method'><span id='leaf.v' class='invisible'><code>fn <a href='#tymethod.leaf' class='fnname'>leaf</a>(_: Leaf) -&gt; Self</code></span></h3><h3 id='tymethod.bin' class='method'><span id='bin.v' class='invisible'><code>fn <a href='#tymethod.bin' class='fnname'>bin</a>(_: Lev, _: Self, _: Self) -&gt; Self</code></span></h3><h3 id='tymethod.name' class='method'><span id='name.v' class='invisible'><code>fn <a href='#tymethod.name' class='fnname'>name</a>(_: <a class="struct" href="../../adapton/engine/struct.Name.html" title="struct adapton::engine::Name">Name</a>, _: Lev, _: Self, _: Self) -&gt; Self</code></span></h3><h3 id='tymethod.art' class='method'><span id='art.v' class='invisible'><code>fn <a href='#tymethod.art' class='fnname'>art</a>(_: <a class="struct" href="../../adapton/engine/struct.Art.html" title="struct adapton::engine::Art">Art</a>&lt;Self&gt;) -&gt; Self</code></span></h3></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl&lt;Leaf:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + 'static&gt; TreeIntro&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, Leaf&gt; for <a class='enum' href='../../adapton/collections/enum.Tree.html' title='adapton::collections::Tree'>Tree</a>&lt;Leaf&gt;</code></li>
+    <li><code>impl&lt;Leaf:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html" title="trait core::hash::Hash">Hash</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + 'static&gt; TreeIntro&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, Leaf&gt; for <a class="enum" href="../../adapton/collections/enum.Tree.html" title="enum adapton::collections::Tree">Tree</a>&lt;Leaf&gt;</code></li>
 </ul><script type="text/javascript" async
                          src="../../implementors/adapton/collections/trait.TreeIntro.js">
                  </script></section>

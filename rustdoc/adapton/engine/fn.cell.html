@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc fn">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,13 +43,13 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>adapton</a>::<wbr><a href='index.html'>engine</a>::<wbr><a class='fn' href=''>cell</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>adapton</a>::<wbr><a href='index.html'>engine</a>::<wbr><a class="fn" href=''>cell</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/adapton/engine.rs.html#1945-1956' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn cell&lt;T:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + 'static&gt;(n: <a class='struct' href='../../adapton/engine/struct.Name.html' title='adapton::engine::Name'>Name</a>, val: T) -&gt; <a class='struct' href='../../adapton/engine/struct.Art.html' title='adapton::engine::Art'>Art</a>&lt;T&gt;</pre><div class='docblock'><p>Creates a named reference cell (an eager <code>Art&lt;_&gt;</code>) whose content
+               </span><a class='srclink' href='../../src/adapton/engine.rs.html#2170-2181' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn cell&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html" title="trait core::hash::Hash">Hash</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + 'static&gt;(n: <a class="struct" href="../../adapton/engine/struct.Name.html" title="struct adapton::engine::Name">Name</a>, val: T) -&gt; <a class="struct" href="../../adapton/engine/struct.Art.html" title="struct adapton::engine::Art">Art</a>&lt;T&gt;</pre><div class='docblock'><p>Creates a named reference cell (an eager <code>Art&lt;_&gt;</code>) whose content
 can change over time.</p>
 
 <p>From the editor&#39;s perspective, this cell is mutable.  From the

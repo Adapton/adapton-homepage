@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc trait">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,13 +43,13 @@
         </form>
     </nav>
 
-    <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>adapton</a>::<wbr><a href='index.html'>collections</a>::<wbr><a class='trait' href=''>SetIntro</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>adapton</a>::<wbr><a href='index.html'>collections</a>::<wbr><a class="trait" href=''>SetIntro</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/adapton/collections.rs.html#456-465' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait SetIntro&lt;Elm&gt;: <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + 'static {
+<pre class='rust trait'>pub trait SetIntro&lt;Elm&gt;: <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html" title="trait core::hash::Hash">Hash</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + 'static {
     fn <a href='#tymethod.empty' class='fnname'>empty</a>() -&gt; Self;
     fn <a href='#tymethod.add' class='fnname'>add</a>(_: Self, e: Elm) -&gt; Self;
     fn <a href='#tymethod.remove' class='fnname'>remove</a>(_: Self, e: &amp;Elm) -&gt; Self;
@@ -62,7 +62,7 @@
         <h3 id='tymethod.empty' class='method'><span id='empty.v' class='invisible'><code>fn <a href='#tymethod.empty' class='fnname'>empty</a>() -&gt; Self</code></span></h3><h3 id='tymethod.add' class='method'><span id='add.v' class='invisible'><code>fn <a href='#tymethod.add' class='fnname'>add</a>(_: Self, e: Elm) -&gt; Self</code></span></h3><h3 id='tymethod.remove' class='method'><span id='remove.v' class='invisible'><code>fn <a href='#tymethod.remove' class='fnname'>remove</a>(_: Self, e: &amp;Elm) -&gt; Self</code></span></h3><h3 id='tymethod.union' class='method'><span id='union.v' class='invisible'><code>fn <a href='#tymethod.union' class='fnname'>union</a>(_: Self, _: Self) -&gt; Self</code></span></h3><h3 id='tymethod.inter' class='method'><span id='inter.v' class='invisible'><code>fn <a href='#tymethod.inter' class='fnname'>inter</a>(_: Self, _: Self) -&gt; Self</code></span></h3><h3 id='tymethod.diff' class='method'><span id='diff.v' class='invisible'><code>fn <a href='#tymethod.diff' class='fnname'>diff</a>(_: Self, _: Self) -&gt; Self</code></span></h3></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl&lt;Elm, Map:&nbsp;<a class='trait' href='../../adapton/collections/trait.MapIntro.html' title='adapton::collections::MapIntro'>MapIntro</a>&lt;Elm, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt; + <a class='trait' href='../../adapton/collections/trait.MapElim.html' title='adapton::collections::MapElim'>MapElim</a>&lt;Elm, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;&gt; SetIntro&lt;Elm&gt; for Map</code></li>
+    <li><code>impl&lt;Elm, Map:&nbsp;<a class="trait" href="../../adapton/collections/trait.MapIntro.html" title="trait adapton::collections::MapIntro">MapIntro</a>&lt;Elm, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt; + <a class="trait" href="../../adapton/collections/trait.MapElim.html" title="trait adapton::collections::MapElim">MapElim</a>&lt;Elm, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">()</a>&gt;&gt; SetIntro&lt;Elm&gt; for Map</code></li>
 </ul><script type="text/javascript" async
                          src="../../implementors/adapton/collections/trait.SetIntro.js">
                  </script></section>

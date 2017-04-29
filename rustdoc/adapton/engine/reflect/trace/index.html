@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc mod">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../../../index.html'>adapton</a>::<wbr><a href='../../index.html'>engine</a>::<wbr><a href='../index.html'>reflect</a></p><script>window.sidebarCurrent = {name: 'trace', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+        <p class='location'>Module trace</p><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../../../index.html'>adapton</a>::<wbr><a href='../../index.html'>engine</a>::<wbr><a href='../index.html'>reflect</a></p><script>window.sidebarCurrent = {name: 'trace', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -43,12 +43,12 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Module <a href='../../../index.html'>adapton</a>::<wbr><a href='../../index.html'>engine</a>::<wbr><a href='../index.html'>reflect</a>::<wbr><a class='mod' href=''>trace</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../../../index.html'>adapton</a>::<wbr><a href='../../index.html'>engine</a>::<wbr><a href='../index.html'>reflect</a>::<wbr><a class="mod" href=''>trace</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../../../src/adapton/reflect.rs.html#265-391' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../../../src/adapton/reflect.rs.html#254-575' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Gives effects and traces for cleaning and dirtying, the engine&#39;s
 internal DCG traversal/processing.  By contrast, the enclosing
 module (<code>reflect</code>) only gives reflected versions of the DCG
@@ -56,59 +56,97 @@ itself, not changes that the engine makes to it.</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Edge.html'
-                                  title='adapton::engine::reflect::trace::Edge'>Edge</a></td>
+                           <td><a class="struct" href="struct.Edge.html"
+                                  title='struct adapton::engine::reflect::trace::Edge'>Edge</a></td>
                            <td class='docblock-short'>
                                 <p>An edge in the DCG, representing an effect of the incremental program.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Trace.html'
-                                  title='adapton::engine::reflect::trace::Trace'>Trace</a></td>
+                           <td><a class="struct" href="struct.Trace.html"
+                                  title='struct adapton::engine::reflect::trace::Trace'>Trace</a></td>
                            <td class='docblock-short'>
                                 <p><code>DCGTrace</code>: A Rose-tree of DCG edge-effects.  This tree structure
 allows the effects to have a a &quot;time interval&quot; that nests around
 and within the time intervals of other effects.</p>
                            </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.TraceCount.html"
+                                  title='struct adapton::engine::reflect::trace::TraceCount'>TraceCount</a></td>
+                           <td class='docblock-short'>
+                                <p>Count of effects and effect-patterns in trace.  For fields
+with two numbers, the first and second projection give the
+<code>Role::Editor</code> and <code>Role::Archivist</code> counts, respectively.</p>
+                           </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.AllocCase.html'
-                                  title='adapton::engine::reflect::trace::AllocCase'>AllocCase</a></td>
+                           <td><a class="enum" href="enum.AllocCase.html"
+                                  title='enum adapton::engine::reflect::trace::AllocCase'>AllocCase</a></td>
                            <td class='docblock-short'>
                                 <p>Distinguish fresh allocations from those that reuse an existing location.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.AllocKind.html'
-                                  title='adapton::engine::reflect::trace::AllocKind'>AllocKind</a></td>
+                           <td><a class="enum" href="enum.AllocKind.html"
+                                  title='enum adapton::engine::reflect::trace::AllocKind'>AllocKind</a></td>
                            <td class='docblock-short'>
                                 <p>Distinguish ref cell allocations from thunk allocations</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.ChangeFlag.html'
-                                  title='adapton::engine::reflect::trace::ChangeFlag'>ChangeFlag</a></td>
+                           <td><a class="enum" href="enum.ChangeFlag.html"
+                                  title='enum adapton::engine::reflect::trace::ChangeFlag'>ChangeFlag</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.Effect.html'
-                                  title='adapton::engine::reflect::trace::Effect'>Effect</a></td>
+                           <td><a class="enum" href="enum.Effect.html"
+                                  title='enum adapton::engine::reflect::trace::Effect'>Effect</a></td>
                            <td class='docblock-short'>
                                 <p>The effects of the DCG (including cleaning and dirtying) on one of
 its edges.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.ForceCase.html'
-                                  title='adapton::engine::reflect::trace::ForceCase'>ForceCase</a></td>
+                           <td><a class="enum" href="enum.ForceCase.html"
+                                  title='enum adapton::engine::reflect::trace::ForceCase'>ForceCase</a></td>
                            <td class='docblock-short'>
                                 <p>When the program <code>force</code>s a computation, either the cache is
 either empty (<code>CacheMiss</code>) or non-empty (<code>CacheHit</code>).  The cached
 value may not be consistent without a cleaning.  When the program
 <code>force</code>s a reference cell, it simply gets the current value.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.Role.html"
+                                  title='enum adapton::engine::reflect::trace::Role'>Role</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.trace_count.html"
+                                  title='fn adapton::engine::reflect::trace::trace_count'>trace_count</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.trace_count_rec.html"
+                                  title='fn adapton::engine::reflect::trace::trace_count_rec'>trace_count_rec</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.trace_count_zero.html"
+                                  title='fn adapton::engine::reflect::trace::trace_count_zero'>trace_count_zero</a></td>
+                           <td class='docblock-short'>
+                                
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>

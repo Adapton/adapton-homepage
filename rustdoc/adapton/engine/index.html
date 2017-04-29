@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc mod">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>adapton</a></p><script>window.sidebarCurrent = {name: 'engine', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+        <p class='location'>Module engine</p><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../index.html'>adapton</a></p><script>window.sidebarCurrent = {name: 'engine', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -43,12 +43,12 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>adapton</a>::<wbr><a class='mod' href=''>engine</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>adapton</a>::<wbr><a class="mod" href=''>engine</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/adapton/engine.rs.html#1-2713' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/adapton/engine.rs.html#1-2966' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Adapton&#39;s core calculus, implemented as a runtime library.  We
 implement two versions of this interface, which we refer to as
 <em>engines</em>: The <strong>naive engine</strong> and the <strong>DCG engine</strong>,
@@ -77,16 +77,16 @@ filesystem.</p></li>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='manage/index.html'
-                                  title='adapton::engine::manage'>manage</a></td>
+                           <td><a class="mod" href="manage/index.html"
+                                  title='mod adapton::engine::manage'>manage</a></td>
                            <td class='docblock-short'>
                                 <p>Operations that monitor and alter the active engine.  Incremental
 applications should not use these operations directly.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='reflect/index.html'
-                                  title='adapton::engine::reflect'>reflect</a></td>
+                           <td><a class="mod" href="reflect/index.html"
+                                  title='mod adapton::engine::reflect'>reflect</a></td>
                            <td class='docblock-short'>
                                 <p>Reflects the DCG engine, including both the effects of the
 programs running in it, and the internal effects of the engine
@@ -96,36 +96,29 @@ cleaning and dirtying the DCG.  For the latter effects, see the
                        </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Art.html'
-                                  title='adapton::engine::Art'>Art</a></td>
+                           <td><a class="struct" href="struct.Art.html"
+                                  title='struct adapton::engine::Art'>Art</a></td>
                            <td class='docblock-short'>
                                 <p><em>Articulations:</em> for incrementally-changing data/computation.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Cnt.html'
-                                  title='adapton::engine::Cnt'>Cnt</a></td>
-                           <td class='docblock-short'>
-                                <p><em>Engine Counts</em>: Metrics that reflect the time and space costs of the engine.</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='struct' href='struct.DCG.html'
-                                  title='adapton::engine::DCG'>DCG</a></td>
+                           <td><a class="struct" href="struct.DCG.html"
+                                  title='struct adapton::engine::DCG'>DCG</a></td>
                            <td class='docblock-short'>
                                 <p><em>(DCG) Demanded Computation Graph</em>: The cache of past computation.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Flags.html'
-                                  title='adapton::engine::Flags'>Flags</a></td>
+                           <td><a class="struct" href="struct.Flags.html"
+                                  title='struct adapton::engine::Flags'>Flags</a></td>
                            <td class='docblock-short'>
                                 <p>Flags control runtime behavior of the DCG.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Name.html'
-                                  title='adapton::engine::Name'>Name</a></td>
+                           <td><a class="struct" href="struct.Name.html"
+                                  title='struct adapton::engine::Name'>Name</a></td>
                            <td class='docblock-short'>
                                 <p><em>Names</em>: First-class data that identifies a mutable cell (see
 <code>cell</code>) or a thunk (see <code>thunk</code>).  When a name identifies
@@ -136,8 +129,8 @@ data structures or computations.</p>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.ArtIdChoice.html'
-                                  title='adapton::engine::ArtIdChoice'>ArtIdChoice</a></td>
+                           <td><a class="enum" href="enum.ArtIdChoice.html"
+                                  title='enum adapton::engine::ArtIdChoice'>ArtIdChoice</a></td>
                            <td class='docblock-short'>
                                 <p>An <code>ArtIdChoice</code> choses between <code>Eager</code>, <code>Structural</code> and
 <code>Nominal</code> identities for articulation points introduced by
@@ -145,123 +138,131 @@ data structures or computations.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.Engine.html'
-                                  title='adapton::engine::Engine'>Engine</a></td>
+                           <td><a class="enum" href="enum.Engine.html"
+                                  title='enum adapton::engine::Engine'>Engine</a></td>
                            <td class='docblock-short'>
                                 <p>The engine API works in two modes: <code>Naive</code> and <code>DCG</code>. A <code>Naive</code> engine is stateless, whereas the <code>DCG</code> is stateful.</p>
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.cell.html'
-                                  title='adapton::engine::cell'>cell</a></td>
+                           <td><a class="fn" href="fn.cell.html"
+                                  title='fn adapton::engine::cell'>cell</a></td>
                            <td class='docblock-short'>
                                 <p>Creates a named reference cell (an eager <code>Art&lt;_&gt;</code>) whose content
 can change over time.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.force.html'
-                                  title='adapton::engine::force'>force</a></td>
+                           <td><a class="fn" href="fn.force.html"
+                                  title='fn adapton::engine::force'>force</a></td>
                            <td class='docblock-short'>
                                 <p>Demands and observes the value of an <code>&amp;Art&lt;T&gt;</code>, returning a (cloned) value of type <code>T</code>.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.name_fork.html'
-                                  title='adapton::engine::name_fork'>name_fork</a></td>
+                           <td><a class="fn" href="fn.force_map.html"
+                                  title='fn adapton::engine::force_map'>force_map</a></td>
+                           <td class='docblock-short'>
+                                <p>Demands and observes the value of an <code>&amp;Art&lt;T&gt;</code>, returning a
+(cloned) value of type <code>S</code>, mapped by function <code>mapf</code>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.name_fork.html"
+                                  title='fn adapton::engine::name_fork'>name_fork</a></td>
                            <td class='docblock-short'>
                                 <p>Create two names from one</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.name_fork3.html'
-                                  title='adapton::engine::name_fork3'>name_fork3</a></td>
+                           <td><a class="fn" href="fn.name_fork3.html"
+                                  title='fn adapton::engine::name_fork3'>name_fork3</a></td>
                            <td class='docblock-short'>
                                 <p>Create three names from one</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.name_fork4.html'
-                                  title='adapton::engine::name_fork4'>name_fork4</a></td>
+                           <td><a class="fn" href="fn.name_fork4.html"
+                                  title='fn adapton::engine::name_fork4'>name_fork4</a></td>
                            <td class='docblock-short'>
                                 <p>Create four names from one</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.name_of_isize.html'
-                                  title='adapton::engine::name_of_isize'>name_of_isize</a></td>
+                           <td><a class="fn" href="fn.name_of_isize.html"
+                                  title='fn adapton::engine::name_of_isize'>name_of_isize</a></td>
                            <td class='docblock-short'>
                                 <p>Create a name from a <code>isize</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.name_of_str.html'
-                                  title='adapton::engine::name_of_str'>name_of_str</a></td>
+                           <td><a class="fn" href="fn.name_of_str.html"
+                                  title='fn adapton::engine::name_of_str'>name_of_str</a></td>
                            <td class='docblock-short'>
                                 <p>Create a name from a <code>str</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.name_of_string.html'
-                                  title='adapton::engine::name_of_string'>name_of_string</a></td>
+                           <td><a class="fn" href="fn.name_of_string.html"
+                                  title='fn adapton::engine::name_of_string'>name_of_string</a></td>
                            <td class='docblock-short'>
                                 <p>Create a name from a <code>string</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.name_of_usize.html'
-                                  title='adapton::engine::name_of_usize'>name_of_usize</a></td>
+                           <td><a class="fn" href="fn.name_of_usize.html"
+                                  title='fn adapton::engine::name_of_usize'>name_of_usize</a></td>
                            <td class='docblock-short'>
                                 <p>Create a name from a <code>usize</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.name_pair.html'
-                                  title='adapton::engine::name_pair'>name_pair</a></td>
+                           <td><a class="fn" href="fn.name_pair.html"
+                                  title='fn adapton::engine::name_pair'>name_pair</a></td>
                            <td class='docblock-short'>
                                 <p>Create one name from two (binary name composition)</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.name_unit.html'
-                                  title='adapton::engine::name_unit'>name_unit</a></td>
+                           <td><a class="fn" href="fn.name_unit.html"
+                                  title='fn adapton::engine::name_unit'>name_unit</a></td>
                            <td class='docblock-short'>
                                 <p>Create a name from unit, that is, create a &quot;leaf&quot; name.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.ns.html'
-                                  title='adapton::engine::ns'>ns</a></td>
+                           <td><a class="fn" href="fn.ns.html"
+                                  title='fn adapton::engine::ns'>ns</a></td>
                            <td class='docblock-short'>
                                 <p>Creates or re-enters a given namespace; performs the given computation there.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.put.html'
-                                  title='adapton::engine::put'>put</a></td>
+                           <td><a class="fn" href="fn.put.html"
+                                  title='fn adapton::engine::put'>put</a></td>
                            <td class='docblock-short'>
                                 <p>Creates an unnamed, immutable reference cell (an eager <code>Art&lt;_&gt;</code>)
 whose content may not change over time.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.set.html'
-                                  title='adapton::engine::set'>set</a></td>
+                           <td><a class="fn" href="fn.set.html"
+                                  title='fn adapton::engine::set'>set</a></td>
                            <td class='docblock-short'>
                                 <p>Mutates a mutable articulation.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.structural.html'
-                                  title='adapton::engine::structural'>structural</a></td>
+                           <td><a class="fn" href="fn.structural.html"
+                                  title='fn adapton::engine::structural'>structural</a></td>
                            <td class='docblock-short'>
                                 <p>Enters a special &quot;namespace&quot; where all name uses are ignored; instead, Adapton uses structural identity.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.thunk.html'
-                                  title='adapton::engine::thunk'>thunk</a></td>
+                           <td><a class="fn" href="fn.thunk.html"
+                                  title='fn adapton::engine::thunk'>thunk</a></td>
                            <td class='docblock-short'>
                                 <p>Allocates a thunk, an <code>Art&lt;T&gt;</code> that consists of a suspended
 computation that produces a value of type <code>T</code>.</p>

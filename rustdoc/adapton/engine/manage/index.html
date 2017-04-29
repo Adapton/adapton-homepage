@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc mod">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../../index.html'>adapton</a>::<wbr><a href='../index.html'>engine</a></p><script>window.sidebarCurrent = {name: 'manage', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+        <p class='location'>Module manage</p><div class="block items"><ul><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../../index.html'>adapton</a>::<wbr><a href='../index.html'>engine</a></p><script>window.sidebarCurrent = {name: 'manage', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -43,40 +43,33 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Module <a href='../../index.html'>adapton</a>::<wbr><a href='../index.html'>engine</a>::<wbr><a class='mod' href=''>manage</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../../index.html'>adapton</a>::<wbr><a href='../index.html'>engine</a>::<wbr><a class="mod" href=''>manage</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../../src/adapton/engine.rs.html#2054-2111' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../../src/adapton/engine.rs.html#2310-2367' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Operations that monitor and alter the active engine.  Incremental
 applications should not use these operations directly.</p>
 </div><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.cnt.html'
-                                  title='adapton::engine::manage::cnt'>cnt</a></td>
-                           <td class='docblock-short'>
-                                <p>Counts various engine cost metrics, returning a product of sums (<code>Cnt</code>)</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.engine_is_dcg.html'
-                                  title='adapton::engine::manage::engine_is_dcg'>engine_is_dcg</a></td>
+                           <td><a class="fn" href="fn.engine_is_dcg.html"
+                                  title='fn adapton::engine::manage::engine_is_dcg'>engine_is_dcg</a></td>
                            <td class='docblock-short'>
                                 <p>True iff the current engine is a <code>DCG</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.engine_is_naive.html'
-                                  title='adapton::engine::manage::engine_is_naive'>engine_is_naive</a></td>
+                           <td><a class="fn" href="fn.engine_is_naive.html"
+                                  title='fn adapton::engine::manage::engine_is_naive'>engine_is_naive</a></td>
                            <td class='docblock-short'>
                                 <p>True iff the current engine is <code>Naive</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.init_dcg.html'
-                                  title='adapton::engine::manage::init_dcg'>init_dcg</a></td>
+                           <td><a class="fn" href="fn.init_dcg.html"
+                                  title='fn adapton::engine::manage::init_dcg'>init_dcg</a></td>
                            <td class='docblock-short'>
                                 <p>Initializes global state with a fresh DCG-based engine; returns the old engine.
 The DCG is the central implementation structure behind Adapton.
@@ -84,15 +77,15 @@ At a high level, it consists of a data dependence graph (the &quot;demanded comp
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.init_engine.html'
-                                  title='adapton::engine::manage::init_engine'>init_engine</a></td>
+                           <td><a class="fn" href="fn.init_engine.html"
+                                  title='fn adapton::engine::manage::init_engine'>init_engine</a></td>
                            <td class='docblock-short'>
                                 <p>alias for <code>use_engine</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.init_naive.html'
-                                  title='adapton::engine::manage::init_naive'>init_naive</a></td>
+                           <td><a class="fn" href="fn.init_naive.html"
+                                  title='fn adapton::engine::manage::init_naive'>init_naive</a></td>
                            <td class='docblock-short'>
                                 <p>Initializes global state with a (&quot;fresh&quot;) Naive engine; returns the old engine.
 The naive engine is stateless, and performs no memoization and builds no dependence graphs.
@@ -100,8 +93,8 @@ The naive engine is stateless, and performs no memoization and builds no depende
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.use_engine.html'
-                                  title='adapton::engine::manage::use_engine'>use_engine</a></td>
+                           <td><a class="fn" href="fn.use_engine.html"
+                                  title='fn adapton::engine::manage::use_engine'>use_engine</a></td>
                            <td class='docblock-short'>
                                 <p>Switch to using the given <code>Engine</code>; returns the <code>Engine</code> that was in use.</p>
                            </td>

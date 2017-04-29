@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `src/reflect.rs`.">
+    <meta name="description" content="Source to the Rust file `/Users/hammer/.cargo/git/checkouts/adapton.rust-b16351c49ab23a81/306591b/src/reflect.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>reflect.rs.html -- source</title>
@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -434,397 +434,765 @@
 <span id="389">389</span>
 <span id="390">390</span>
 <span id="391">391</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::<span class='ident'>Hash</span>;
-<span class='kw'>use</span> <span class='ident'>engine</span>::<span class='ident'>Name</span>;
-<span class='kw'>use</span> <span class='ident'>macros</span>::<span class='ident'>ProgPt</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Debug</span>;
-<span class='comment'>//use std::hash::Hash;</span>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="ident">engine</span>::<span class="ident">Name</span>;
+<span class="kw">use</span> <span class="ident">macros</span>::<span class="ident">ProgPt</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">rc</span>::<span class="ident">Rc</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 
-<span class='comment'>// /// Reflected primitive data</span>
-<span class='comment'>//pub trait Data : Debug { }</span>
-
-<span class='doccomment'>/// This trait consists of the ability for a reference to `Self` to</span>
-<span class='doccomment'>/// produce a `T`.  Conceptually, that value of type T is the</span>
-<span class='doccomment'>/// &quot;reflection&quot; of `Self`.  A large set of types in `engine`</span>
-<span class='doccomment'>/// implement this trait for a particular type in this module, which</span>
-<span class='doccomment'>/// represents its reflection.  The documentation of this module makes</span>
-<span class='doccomment'>/// this correspondance clear.</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Reflect</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> : <span class='ident'>Debug</span> {
-  <span class='kw'>fn</span> <span class='ident'>reflect</span> (<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span>;
+<span class="doccomment">/// This trait consists of the ability for a reference to `Self` to</span>
+<span class="doccomment">/// produce a `T`.  Conceptually, that value of type T is the</span>
+<span class="doccomment">/// &quot;reflection&quot; of `Self`.  A large set of types in `engine`</span>
+<span class="doccomment">/// implement this trait for a particular type in this module, which</span>
+<span class="doccomment">/// represents its reflection.  The documentation of this module makes</span>
+<span class="doccomment">/// this correspondance clear.</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Reflect</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> : <span class="ident">Debug</span> {
+  <span class="kw">fn</span> <span class="ident">reflect</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">T</span>;
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>S</span>,<span class='ident'>T</span>:<span class='ident'>Reflect</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>&gt;</span> <span class='ident'>Reflect</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-  <span class='kw'>fn</span> <span class='ident'>reflect</span> (<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> {
-    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> { 
-      <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>, 
-      <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>x</span>.<span class='ident'>reflect</span>())
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span>,<span class="ident">T</span>:<span class="ident">Reflect</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">+</span><span class="ident">Debug</span><span class="op">&gt;</span> <span class="ident">Reflect</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span> <span class="kw">for</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+  <span class="kw">fn</span> <span class="ident">reflect</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
+    <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> { 
+      <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>, 
+      <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">x</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">x</span>.<span class="ident">reflect</span>())
     }
   }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>,<span class='ident'>S</span>,<span class='ident'>T</span>:<span class='ident'>Reflect</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>&gt;</span> <span class='ident'>Reflect</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-  <span class='kw'>fn</span> <span class='ident'>reflect</span> (<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>S</span> {
-    (<span class='kw-2'>*</span><span class='kw-2'>*</span><span class='self'>self</span>).<span class='ident'>reflect</span>()
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>,<span class="ident">S</span>,<span class="ident">T</span>:<span class="ident">Reflect</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">+</span><span class="ident">Debug</span><span class="op">&gt;</span> <span class="ident">Reflect</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+  <span class="kw">fn</span> <span class="ident">reflect</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">S</span> {
+    (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">reflect</span>()
   }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>,<span class='ident'>S</span>,<span class='ident'>T</span>:<span class='ident'>Reflect</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span><span class='op'>+</span><span class='ident'>Debug</span><span class='op'>&gt;</span> <span class='ident'>Reflect</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-  <span class='kw'>fn</span> <span class='ident'>reflect</span> (<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>S</span> {
-    (<span class='kw-2'>*</span><span class='kw-2'>*</span><span class='self'>self</span>).<span class='ident'>reflect</span>()
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>,<span class="ident">S</span>,<span class="ident">T</span>:<span class="ident">Reflect</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span><span class="op">+</span><span class="ident">Debug</span><span class="op">&gt;</span> <span class="ident">Reflect</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+  <span class="kw">fn</span> <span class="ident">reflect</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">S</span> {
+    (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">reflect</span>()
   }
 }
 
-<span class='comment'>// impl&lt;T&gt; Reflect&lt;T&gt; for T {</span>
-<span class='comment'>//  fn reflect(&amp;self) -&gt; T {</span>
-<span class='comment'>//    self.clone()</span>
-<span class='comment'>//  }</span>
-<span class='comment'>// }</span>
+<span class="doccomment">/// Reflected value; Gives a syntax for inductive data type</span>
+<span class="doccomment">/// constructors (`Constr`), named articulations (`Art`) and primitive</span>
+<span class="doccomment">/// data (`Data`).  All values in the engine (including the values of</span>
+<span class="doccomment">/// nodes, and the values stored on edges) are represented with this</span>
+<span class="doccomment">/// reflected `Val` type.  Primarily, this distinction between actual</span>
+<span class="doccomment">/// Rust values and this type is what makes the DCG engine &quot;reflected&quot;</span>
+<span class="doccomment">/// by the definitions in this module, and not identical to them.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>,<span class="ident">Clone</span>,<span class="ident">Hash</span>,<span class="ident">Eq</span>,<span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Val</span> {
+  <span class="doccomment">/// Constructor, with a sequence of value parameters.</span>
+  <span class="ident">Constr</span>(<span class="ident">Name</span>,<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Val</span><span class="op">&gt;</span>),
 
-<span class='doccomment'>/// Reflected value; Gives a syntax for inductive data type</span>
-<span class='doccomment'>/// constructors (`Constr`), named articulations (`Art`) and primitive</span>
-<span class='doccomment'>/// data (`Data`).  All values in the engine (including the values of</span>
-<span class='doccomment'>/// nodes, and the values stored on edges) are represented with this</span>
-<span class='doccomment'>/// reflected `Val` type.  Primarily, this distinction between actual</span>
-<span class='doccomment'>/// Rust values and this type is what makes the DCG engine &quot;reflected&quot;</span>
-<span class='doccomment'>/// by the definitions in this module, and not identical to them.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>,<span class='ident'>Clone</span>,<span class='ident'>Hash</span>,<span class='ident'>Eq</span>,<span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Val</span> {
-  <span class='doccomment'>/// Constructor, with a sequence of value parameters.</span>
-  <span class='ident'>Constr</span>(<span class='ident'>Name</span>,<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Val</span><span class='op'>&gt;</span>),
+  <span class="doccomment">/// A tuple of values (like a constructor, but without a constructor</span>
+  <span class="doccomment">/// name). Can be seen as a special case of `Constr`.</span>
+  <span class="ident">Tuple</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Val</span><span class="op">&gt;</span>),
 
-  <span class='doccomment'>/// A tuple of values (like a constructor, but without a constructor</span>
-  <span class='doccomment'>/// name). Can be seen as a special case of `Constr`.</span>
-  <span class='ident'>Tuple</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Val</span><span class='op'>&gt;</span>),
-
-  <span class='doccomment'>/// A list of values (like a tuple, but parsed and printed</span>
-  <span class='doccomment'>/// differently). Can be seen as a special case of `Constr`.</span>
-  <span class='ident'>Vec</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Val</span><span class='op'>&gt;</span>),
+  <span class="doccomment">/// A list of values (like a tuple, but parsed and printed</span>
+  <span class="doccomment">/// differently). Can be seen as a special case of `Constr`.</span>
+  <span class="ident">Vec</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Val</span><span class="op">&gt;</span>),
   
-  <span class='doccomment'>/// Constructor with a sequence of fields (name-value pairs) as parameters.</span>
-  <span class='ident'>Struct</span>(<span class='ident'>Name</span>,<span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>Name</span>,<span class='ident'>Val</span>)<span class='op'>&gt;</span>),
+  <span class="doccomment">/// Constructor with a sequence of fields (name-value pairs) as parameters.</span>
+  <span class="ident">Struct</span>(<span class="ident">Name</span>,<span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">Name</span>,<span class="ident">Val</span>)<span class="op">&gt;</span>),
 
-  <span class='doccomment'>/// Named articulation, and its content (an `Art` is either a named value, or a named computation).</span>
-  <span class='ident'>Art</span>(<span class='ident'>Loc</span>,<span class='ident'>ArtContent</span>),
+  <span class="doccomment">/// Named articulation, and its content (an `Art` is either a named value, or a named computation).</span>
+  <span class="ident">Art</span>(<span class="ident">Loc</span>,<span class="ident">ArtContent</span>),
 
-  <span class='doccomment'>/// First-class `Name` value.</span>
-  <span class='ident'>Name</span>(<span class='ident'>Name</span>),
+  <span class="doccomment">/// First-class `Name` value.</span>
+  <span class="ident">Name</span>(<span class="ident">Name</span>),
   
-  <span class='doccomment'>/// Primitive, immutable data.</span>
-  <span class='ident'>Const</span>(<span class='ident'>Const</span>),
+  <span class="doccomment">/// Primitive, immutable data.</span>
+  <span class="ident">Const</span>(<span class="ident">Const</span>),
   
-  <span class='doccomment'>/// Temporary; for marking places in code where we should produce a</span>
-  <span class='doccomment'>/// value, but don&#39;t yet have a good way to do so.</span>
-  <span class='ident'>ValTODO</span>,
+  <span class="doccomment">/// Temporary; for marking places in code where we should produce a</span>
+  <span class="doccomment">/// value, but don&#39;t yet have a good way to do so.</span>
+  <span class="ident">ValTODO</span>,
 }
 
-<span class='doccomment'>/// Primitive constants</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>,<span class='ident'>Clone</span>,<span class='ident'>Hash</span>,<span class='ident'>Eq</span>,<span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Const</span> {
-  <span class='doccomment'>/// Integers</span>
-  <span class='ident'>Num</span>(<span class='ident'>isize</span>),
-  <span class='doccomment'>/// Natural numbers</span>
-  <span class='ident'>Nat</span>(<span class='ident'>usize</span>),
-  <span class='doccomment'>/// Strings</span>
-  <span class='ident'>String</span>(<span class='ident'>String</span>),
+<span class="doccomment">/// Primitive constants</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>,<span class="ident">Clone</span>,<span class="ident">Hash</span>,<span class="ident">Eq</span>,<span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Const</span> {
+  <span class="doccomment">/// Integers</span>
+  <span class="ident">Num</span>(<span class="ident">isize</span>),
+  <span class="doccomment">/// Natural numbers</span>
+  <span class="ident">Nat</span>(<span class="ident">usize</span>),
+  <span class="doccomment">/// Strings</span>
+  <span class="ident">String</span>(<span class="ident">String</span>),
 }
 
-<span class='doccomment'>/// The content of an articulation: Either a cell holding a value, or</span>
-<span class='doccomment'>/// a thunk that has optionally produced a value.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>,<span class='ident'>Clone</span>,<span class='ident'>Hash</span>,<span class='ident'>Eq</span>,<span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ArtContent</span> {
-  <span class='doccomment'>/// The `Art` consists of a ref cell holding a value</span>
-  <span class='ident'>Val</span>(<span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Val</span><span class='op'>&gt;</span>),
-  <span class='doccomment'>/// The `Art` consists of a thunk that, when forced, computes a value</span>
-  <span class='ident'>Comp</span>(<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>Val</span><span class='op'>&gt;&gt;</span>),
-  <span class='doccomment'>/// `Unknown` content means that it has not yet dereferenced by any</span>
-  <span class='doccomment'>/// reflective process.  A reflective process dereferences an `Art`</span>
-  <span class='doccomment'>/// by using a reflected `DCG` to map this `Art`&#39;s `Loc` to a</span>
-  <span class='doccomment'>/// `Node`.  This node gives one of the two known cases (`Val` or</span>
-  <span class='doccomment'>/// `Comp`), above, depending on whether it is a `RefNode` or a</span>
-  <span class='doccomment'>/// `CompNode`.</span>
-  <span class='ident'>Unknown</span>,
+<span class="doccomment">/// The content of an articulation: Either a cell holding a value, or</span>
+<span class="doccomment">/// a thunk that has optionally produced a value.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>,<span class="ident">Clone</span>,<span class="ident">Hash</span>,<span class="ident">Eq</span>,<span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ArtContent</span> {
+  <span class="doccomment">/// The `Art` consists of a ref cell holding a value</span>
+  <span class="ident">Val</span>(<span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">Val</span><span class="op">&gt;</span>),
+  <span class="doccomment">/// The `Art` consists of a thunk that, when forced, computes a value</span>
+  <span class="ident">Comp</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">Val</span><span class="op">&gt;&gt;</span>),
+  <span class="doccomment">/// `Unknown` content means that it has not yet dereferenced by any</span>
+  <span class="doccomment">/// reflective process.  A reflective process dereferences an `Art`</span>
+  <span class="doccomment">/// by using a reflected `DCG` to map this `Art`&#39;s `Loc` to a</span>
+  <span class="doccomment">/// `Node`.  This node gives one of the two known cases (`Val` or</span>
+  <span class="doccomment">/// `Comp`), above, depending on whether it is a `RefNode` or a</span>
+  <span class="doccomment">/// `CompNode`.</span>
+  <span class="ident">Unknown</span>,
 }
 
-<span class='doccomment'>/// Reflected version of `engine::Loc` A `Loc` is a particular</span>
-<span class='doccomment'>/// template for a `Name`: It is a path (a possibly-empty list of</span>
-<span class='doccomment'>/// `Name`s), followed by a distinguished `Name`.  A `Loc` can be</span>
-<span class='doccomment'>/// thought of roughly like a file path in UNIX (but Adapton has</span>
-<span class='doccomment'>/// nothing to do with files, or with UNIX, directly).</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>,<span class='ident'>Eq</span>,<span class='ident'>Debug</span>,<span class='ident'>Hash</span>,<span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Loc</span> {
-  <span class='doccomment'>/// The path of the `Loc` is a list of `Name`s.</span>
-  <span class='kw'>pub</span> <span class='ident'>path</span>: <span class='ident'>Path</span>,
-  <span class='doccomment'>/// The distinguished `Name` of the `Loc` (must be unique in the path).</span>
-  <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='ident'>Name</span>,
+<span class="doccomment">/// Reflected version of `engine::Loc` A `Loc` is a particular</span>
+<span class="doccomment">/// template for a `Name`: It is a path (a possibly-empty list of</span>
+<span class="doccomment">/// `Name`s), followed by a distinguished `Name`.  A `Loc` can be</span>
+<span class="doccomment">/// thought of roughly like a file path in UNIX (but Adapton has</span>
+<span class="doccomment">/// nothing to do with files, or with UNIX, directly).</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">PartialEq</span>,<span class="ident">Eq</span>,<span class="ident">Debug</span>,<span class="ident">Hash</span>,<span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Loc</span> {
+  <span class="doccomment">/// The path of the `Loc` is a list of `Name`s.</span>
+  <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">Path</span>,
+  <span class="doccomment">/// The distinguished `Name` of the `Loc` (must be unique in the path).</span>
+  <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">Name</span>,
 }
 
-<span class='doccomment'>/// A `Path` here is just a `Vec` of `Name`s</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>Path</span> <span class='op'>=</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>;
+<span class="doccomment">/// A `Path` here is just a `Vec` of `Name`s</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Path</span> <span class="op">=</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Name</span><span class="op">&gt;</span>;
 
-<span class='doccomment'>/// Reflected version of `engine::Effect`</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>,<span class='ident'>Clone</span>,<span class='ident'>Eq</span>,<span class='ident'>PartialEq</span>,<span class='ident'>Hash</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Effect</span> {
-  <span class='doccomment'>/// The effect consists of a thunk observing the value of another</span>
-  <span class='doccomment'>/// thunk or reference cell.  That is, the effect consists of</span>
-  <span class='doccomment'>/// **consuming** a value, by demanding its production.</span>
-  <span class='ident'>Force</span>,
-  <span class='doccomment'>/// The effect consists of a thunk allocating a value or thunk at a</span>
-  <span class='doccomment'>/// particular name.  That is, the effect consists of **producing**</span>
-  <span class='doccomment'>/// a value or computation.  If this content differs, then the</span>
-  <span class='doccomment'>/// allocation is a **reallocation**, and the engine dirties the old</span>
-  <span class='doccomment'>/// observers and allocators of the preceding content.</span>
-  <span class='ident'>Alloc</span>,
+<span class="doccomment">/// Reflected version of `engine::Effect`</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>,<span class="ident">Clone</span>,<span class="ident">Eq</span>,<span class="ident">PartialEq</span>,<span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Effect</span> {
+  <span class="doccomment">/// The effect consists of a thunk observing the value of another</span>
+  <span class="doccomment">/// thunk or reference cell.  That is, the effect consists of</span>
+  <span class="doccomment">/// **consuming** a value, by demanding its production.</span>
+  <span class="ident">Force</span>,
+  <span class="doccomment">/// The effect consists of a thunk allocating a value or thunk at a</span>
+  <span class="doccomment">/// particular name.  That is, the effect consists of **producing**</span>
+  <span class="doccomment">/// a value or computation.  If this content differs, then the</span>
+  <span class="doccomment">/// allocation is a **reallocation**, and the engine dirties the old</span>
+  <span class="doccomment">/// observers and allocators of the preceding content.</span>
+  <span class="ident">Alloc</span>,
 }
 
-<span class='doccomment'>/// Reflected version of `engine::Succ`.  Unlike the real engine&#39;s</span>
-<span class='doccomment'>/// `Succ` type, this version stores a reflected value (of type</span>
-<span class='doccomment'>/// `Val`).</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>,<span class='ident'>Clone</span>,<span class='ident'>Eq</span>,<span class='ident'>PartialEq</span>,<span class='ident'>Hash</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Succ</span> {
-  <span class='doccomment'>/// Dirty invariant: If this edge is dirty, then all predecessors of</span>
-  <span class='doccomment'>/// the edge are dirty too.</span>
-  <span class='kw'>pub</span> <span class='ident'>dirty</span>:  <span class='ident'>bool</span>,
-  <span class='doccomment'>/// The target of the outgoing `Effect`</span>
-  <span class='kw'>pub</span> <span class='ident'>loc</span>:    <span class='ident'>Loc</span>,
-  <span class='doccomment'>/// The effect: either producing or consuming articulated content</span>
-  <span class='kw'>pub</span> <span class='ident'>effect</span>: <span class='ident'>Effect</span>,
-  <span class='doccomment'>/// The value either produced or consumed by this `Effect`</span>
-  <span class='kw'>pub</span> <span class='ident'>value</span>:  <span class='ident'>Val</span>,
-  <span class='doccomment'>/// Duplicate edge invariant: If this edge is a duplicate according</span>
-  <span class='doccomment'>/// to this flag, then it is preceded by an edge with the same</span>
-  <span class='doccomment'>/// effect `effect`, targeting the same location `loc`.</span>
-  <span class='doccomment'>/// Furthermore, because of the (precise naming) semantics of</span>
-  <span class='doccomment'>/// Adapton and its programs, the observed value `value` and `dirty`</span>
-  <span class='doccomment'>/// statuses are always the same across duplicated edges.  Hence,</span>
-  <span class='doccomment'>/// the engine does not store these duplicate edges: They are</span>
-  <span class='doccomment'>/// completely redundant.</span>
-  <span class='kw'>pub</span> <span class='ident'>is_dup</span>: <span class='ident'>bool</span>,
+<span class="doccomment">/// Reflected version of `engine::Succ`.  Unlike the real engine&#39;s</span>
+<span class="doccomment">/// `Succ` type, this version stores a reflected value (of type</span>
+<span class="doccomment">/// `Val`).</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>,<span class="ident">Clone</span>,<span class="ident">Eq</span>,<span class="ident">PartialEq</span>,<span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Succ</span> {
+  <span class="doccomment">/// Dirty invariant: If this edge is dirty, then all predecessors of</span>
+  <span class="doccomment">/// the edge are dirty too.</span>
+  <span class="kw">pub</span> <span class="ident">dirty</span>:  <span class="ident">bool</span>,
+  <span class="doccomment">/// The target of the outgoing `Effect`</span>
+  <span class="kw">pub</span> <span class="ident">loc</span>:    <span class="ident">Loc</span>,
+  <span class="doccomment">/// The effect: either producing or consuming articulated content</span>
+  <span class="kw">pub</span> <span class="ident">effect</span>: <span class="ident">Effect</span>,
+  <span class="doccomment">/// The value either produced or consumed by this `Effect`</span>
+  <span class="kw">pub</span> <span class="ident">value</span>:  <span class="ident">Val</span>,
+  <span class="doccomment">/// Duplicate edge invariant: If this edge is a duplicate according</span>
+  <span class="doccomment">/// to this flag, then it is preceded by an edge with the same</span>
+  <span class="doccomment">/// effect `effect`, targeting the same location `loc`.</span>
+  <span class="doccomment">/// Furthermore, because of the (precise naming) semantics of</span>
+  <span class="doccomment">/// Adapton and its programs, the observed value `value` and `dirty`</span>
+  <span class="doccomment">/// statuses are always the same across duplicated edges.  Hence,</span>
+  <span class="doccomment">/// the engine does not store these duplicate edges: They are</span>
+  <span class="doccomment">/// completely redundant.</span>
+  <span class="kw">pub</span> <span class="ident">is_dup</span>: <span class="ident">bool</span>,
 }
 
-<span class='comment'>// Note: Can&#39;t implement Reflect&lt;T&gt; for T, since that conflicts with</span>
-<span class='comment'>// impl Reflect&lt;Option&lt;S&gt;&gt; for Option&lt;T&gt;.  I don&#39;t understand why,</span>
-<span class='comment'>// since T != S in the latter case, making it applicable when</span>
-<span class='comment'>// Reflect&lt;T&gt; for T is not.</span>
-<span class='kw'>impl</span> <span class='ident'>Reflect</span><span class='op'>&lt;</span><span class='ident'>Succ</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Succ</span> {
-  <span class='kw'>fn</span> <span class='ident'>reflect</span> (<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Succ</span> {
-    <span class='self'>self</span>.<span class='ident'>clone</span>()
+<span class="comment">// Note: Can&#39;t implement Reflect&lt;T&gt; for T, since that conflicts with</span>
+<span class="comment">// impl Reflect&lt;Option&lt;S&gt;&gt; for Option&lt;T&gt;.  I don&#39;t understand why,</span>
+<span class="comment">// since T != S in the latter case, making it applicable when</span>
+<span class="comment">// Reflect&lt;T&gt; for T is not.</span>
+<span class="kw">impl</span> <span class="ident">Reflect</span><span class="op">&lt;</span><span class="ident">Succ</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Succ</span> {
+  <span class="kw">fn</span> <span class="ident">reflect</span> (<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Succ</span> {
+    <span class="self">self</span>.<span class="ident">clone</span>()
   }
 }
 
-<span class='doccomment'>/// Reflected version of `engine::Pred`</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Hash</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Pred</span> {
-  <span class='doccomment'>/// The predecessor of the node in question</span>
-  <span class='kw'>pub</span> <span class='ident'>loc</span>:    <span class='ident'>Loc</span>,
-  <span class='doccomment'>/// The effect that the predecessor has done to the node in question</span>
-  <span class='kw'>pub</span> <span class='ident'>effect</span>: <span class='ident'>Effect</span>,
+<span class="doccomment">/// Reflected version of `engine::Pred`</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Pred</span> {
+  <span class="doccomment">/// The predecessor of the node in question</span>
+  <span class="kw">pub</span> <span class="ident">loc</span>:    <span class="ident">Loc</span>,
+  <span class="doccomment">/// The effect that the predecessor has done to the node in question</span>
+  <span class="kw">pub</span> <span class="ident">effect</span>: <span class="ident">Effect</span>,
 }
 
-<span class='doccomment'>/// Reflected version of `engine::CompNode`.  Stores a reflected value</span>
-<span class='doccomment'>/// of type `Option&lt;Val&gt;`, which is `None` when the node has not yet</span>
-<span class='doccomment'>/// been executed, and `Some(_)` otherwise.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Hash</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>CompNode</span> {
-  <span class='kw'>pub</span> <span class='ident'>preds</span>:   <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Pred</span><span class='op'>&gt;</span>,
-  <span class='kw'>pub</span> <span class='ident'>succs</span>:   <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Succ</span><span class='op'>&gt;</span>,
-  <span class='kw'>pub</span> <span class='ident'>prog_pt</span>: <span class='ident'>ProgPt</span>,
-  <span class='kw'>pub</span> <span class='ident'>value</span>:   <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Val</span><span class='op'>&gt;</span>,
+<span class="doccomment">/// Reflected version of `engine::CompNode`.  Stores a reflected value</span>
+<span class="doccomment">/// of type `Option&lt;Val&gt;`, which is `None` when the node has not yet</span>
+<span class="doccomment">/// been executed, and `Some(_)` otherwise.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CompNode</span> {
+  <span class="kw">pub</span> <span class="ident">preds</span>:   <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Pred</span><span class="op">&gt;</span>,
+  <span class="kw">pub</span> <span class="ident">succs</span>:   <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Succ</span><span class="op">&gt;</span>,
+  <span class="kw">pub</span> <span class="ident">prog_pt</span>: <span class="ident">ProgPt</span>,
+  <span class="kw">pub</span> <span class="ident">value</span>:   <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Val</span><span class="op">&gt;</span>,
 }
 
-<span class='doccomment'>/// Reflected version of `engine::MutNode`.  Stores a reflected value of type `Val`.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Hash</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RefNode</span> {  
-  <span class='kw'>pub</span> <span class='ident'>preds</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Pred</span><span class='op'>&gt;</span>,
-  <span class='kw'>pub</span> <span class='ident'>value</span>: <span class='ident'>Val</span>,
+<span class="doccomment">/// Reflected version of `engine::MutNode`.  Stores a reflected value of type `Val`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RefNode</span> {  
+  <span class="kw">pub</span> <span class="ident">preds</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Pred</span><span class="op">&gt;</span>,
+  <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">Val</span>,
 }
 
-<span class='doccomment'>/// Reflected version of `engine::PureNode`.  Stores a reflected value of type `Val`.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Hash</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>PureNode</span> {  
-  <span class='kw'>pub</span> <span class='ident'>value</span>: <span class='ident'>Val</span>,
+<span class="doccomment">/// Reflected version of `engine::PureNode`.  Stores a reflected value of type `Val`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PureNode</span> {  
+  <span class="kw">pub</span> <span class="ident">value</span>: <span class="ident">Val</span>,
 }
 
-<span class='doccomment'>/// Reflected version of `engine::Node`.  Unlike the real engine,</span>
-<span class='doccomment'>/// these nodes are not parameterized by a value type.  Instead, their</span>
-<span class='doccomment'>/// values are all reflected into type `Val`.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Hash</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Node</span> {
-  <span class='ident'>Comp</span>(<span class='ident'>CompNode</span>),
-  <span class='ident'>Ref</span>(<span class='ident'>RefNode</span>),
-  <span class='ident'>Pure</span>(<span class='ident'>PureNode</span>),
+<span class="doccomment">/// Reflected version of `engine::Node`.  Unlike the real engine,</span>
+<span class="doccomment">/// these nodes are not parameterized by a value type.  Instead, their</span>
+<span class="doccomment">/// values are all reflected into type `Val`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Node</span> {
+  <span class="ident">Comp</span>(<span class="ident">CompNode</span>),
+  <span class="ident">Ref</span>(<span class="ident">RefNode</span>),
+  <span class="ident">Pure</span>(<span class="ident">PureNode</span>),
 }
 
-<span class='doccomment'>/// Get the `Succ`s of a `Node`, if they are defined.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>succs_of_node</span> (<span class='ident'>nd</span>:<span class='kw-2'>&amp;</span><span class='ident'>Node</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Succ</span><span class='op'>&gt;&gt;</span> {
-  <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>nd</span> {
-    <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>nd</span>.<span class='ident'>succs</span>),
-    <span class='ident'>Node</span>::<span class='ident'>Ref</span>(<span class='kw-2'>ref</span> <span class='ident'>_nd</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
-    <span class='ident'>Node</span>::<span class='ident'>Pure</span>(<span class='kw-2'>ref</span> <span class='ident'>_nd</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+<span class="doccomment">/// Get the `Succ`s of a `Node`, if they are defined.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">succs_of_node</span> (<span class="ident">nd</span>:<span class="kw-2">&amp;</span><span class="ident">Node</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Succ</span><span class="op">&gt;&gt;</span> {
+  <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">nd</span> {
+    <span class="ident">Node</span>::<span class="ident">Comp</span>(<span class="kw-2">ref</span> <span class="ident">nd</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">nd</span>.<span class="ident">succs</span>),
+    <span class="ident">Node</span>::<span class="ident">Ref</span>(<span class="kw-2">ref</span> <span class="ident">_nd</span>) <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+    <span class="ident">Node</span>::<span class="ident">Pure</span>(<span class="kw-2">ref</span> <span class="ident">_nd</span>) <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
   }
 }
 
-<span class='doccomment'>/// Get the `Pred`s of a `Node`, if they are defined.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>preds_of_node</span> (<span class='ident'>nd</span>:<span class='kw-2'>&amp;</span><span class='ident'>Node</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Pred</span><span class='op'>&gt;&gt;</span> {
-  <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>nd</span> {
-    <span class='ident'>Node</span>::<span class='ident'>Comp</span>(<span class='kw-2'>ref</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>nd</span>.<span class='ident'>preds</span>),
-    <span class='ident'>Node</span>::<span class='ident'>Ref</span>(<span class='kw-2'>ref</span> <span class='ident'>nd</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>nd</span>.<span class='ident'>preds</span>),
-    <span class='ident'>Node</span>::<span class='ident'>Pure</span>(<span class='kw-2'>ref</span> <span class='ident'>_nd</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+<span class="doccomment">/// Get the `Pred`s of a `Node`, if they are defined.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">preds_of_node</span> (<span class="ident">nd</span>:<span class="kw-2">&amp;</span><span class="ident">Node</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Pred</span><span class="op">&gt;&gt;</span> {
+  <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">nd</span> {
+    <span class="ident">Node</span>::<span class="ident">Comp</span>(<span class="kw-2">ref</span> <span class="ident">nd</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">nd</span>.<span class="ident">preds</span>),
+    <span class="ident">Node</span>::<span class="ident">Ref</span>(<span class="kw-2">ref</span> <span class="ident">nd</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">nd</span>.<span class="ident">preds</span>),
+    <span class="ident">Node</span>::<span class="ident">Pure</span>(<span class="kw-2">ref</span> <span class="ident">_nd</span>) <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
   }
 }
 
-<span class='doccomment'>/// Reflected version of `engine::Frame`.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Frame</span> {
-  <span class='kw'>pub</span> <span class='ident'>loc</span>:   <span class='ident'>Loc</span>,
-  <span class='kw'>pub</span> <span class='ident'>succs</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Succ</span><span class='op'>&gt;</span>,
+<span class="doccomment">/// Reflected version of `engine::Frame`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Frame</span> {
+  <span class="kw">pub</span> <span class="ident">loc</span>:   <span class="ident">Loc</span>,
+  <span class="kw">pub</span> <span class="ident">succs</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Succ</span><span class="op">&gt;</span>,
 }
 
-<span class='doccomment'>/// Reflected version of `engine::DCG`.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DCG</span> {
-  <span class='doccomment'>/// The current memo table, mapping `Loc`s to `Node`s.</span>
-  <span class='kw'>pub</span> <span class='ident'>table</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>Loc</span>, <span class='ident'>Node</span><span class='op'>&gt;</span>,
-  <span class='doccomment'>/// A stack of `Frame`s, which store the currently-executing nodes, and their outgoing edges thus far.</span>
-  <span class='kw'>pub</span> <span class='ident'>stack</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Frame</span><span class='op'>&gt;</span>,
-  <span class='doccomment'>/// A list of `Name`s, which is extended for nested regions of code</span>
-  <span class='doccomment'>/// by the `ns` (namespace) combinator.  This path variable</span>
-  <span class='doccomment'>/// determines the path for each allocated `Loc`.</span>
-  <span class='kw'>pub</span> <span class='ident'>path</span>:  <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Name</span><span class='op'>&gt;</span>,
+<span class="doccomment">/// Reflected version of `engine::DCG`.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DCG</span> {
+  <span class="doccomment">/// The current memo table, mapping `Loc`s to `Node`s.</span>
+  <span class="kw">pub</span> <span class="ident">table</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Loc</span>, <span class="ident">Node</span><span class="op">&gt;</span>,
+  <span class="doccomment">/// A stack of `Frame`s, which store the currently-executing nodes, and their outgoing edges thus far.</span>
+  <span class="kw">pub</span> <span class="ident">stack</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Frame</span><span class="op">&gt;</span>,
+  <span class="doccomment">/// A list of `Name`s, which is extended for nested regions of code</span>
+  <span class="doccomment">/// by the `ns` (namespace) combinator.  This path variable</span>
+  <span class="doccomment">/// determines the path for each allocated `Loc`.</span>
+  <span class="kw">pub</span> <span class="ident">path</span>:  <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Name</span><span class="op">&gt;</span>,
 }
 
-<span class='doccomment'>/// Gives effects and traces for cleaning and dirtying, the engine&#39;s</span>
-<span class='doccomment'>/// internal DCG traversal/processing.  By contrast, the enclosing</span>
-<span class='doccomment'>/// module (`reflect`) only gives reflected versions of the DCG</span>
-<span class='doccomment'>/// itself, not changes that the engine makes to it.</span>
-<span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>trace</span> {
+<span class="doccomment">/// Gives effects and traces for cleaning and dirtying, the engine&#39;s</span>
+<span class="doccomment">/// internal DCG traversal/processing.  By contrast, the enclosing</span>
+<span class="doccomment">/// module (`reflect`) only gives reflected versions of the DCG</span>
+<span class="doccomment">/// itself, not changes that the engine makes to it.</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">trace</span> {
+  <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 
-  <span class='doccomment'>/// Distinguish fresh allocations from those that reuse an existing location.</span>
-  <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
-  <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AllocCase</span> {
-    <span class='doccomment'>/// The allocation was **created** fresh; it was **not** reused.</span>
-    <span class='ident'>LocFresh</span>,
-    <span class='doccomment'>/// The allocation matched the location of a prior allocation. its</span>
-    <span class='doccomment'>/// content may or may not also match.  The `bool` indicates the two</span>
-    <span class='doccomment'>/// cases: `true` means same content, `false` means changed content.</span>
-    <span class='ident'>LocExists</span>(<span class='ident'>ChangeFlag</span>),      
+  <span class="doccomment">/// Distinguish fresh allocations from those that reuse an existing location.</span>
+  <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>,<span class="ident">Debug</span>)]</span>
+  <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AllocCase</span> {
+    <span class="doccomment">/// The allocation was **created** fresh; it was **not** reused.</span>
+    <span class="ident">LocFresh</span>,
+    <span class="doccomment">/// The allocation matched the location of a prior allocation. its</span>
+    <span class="doccomment">/// content may or may not also match.  The `bool` indicates the two</span>
+    <span class="doccomment">/// cases: `true` means same content, `false` means changed content.</span>
+    <span class="ident">LocExists</span>(<span class="ident">ChangeFlag</span>),      
   }
 
-  <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
-  <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ChangeFlag</span> {
-      <span class='ident'>ContentDiff</span>,
-      <span class='ident'>ContentSame</span>,
+  <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>,<span class="ident">Debug</span>)]</span>
+  <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ChangeFlag</span> {
+      <span class="ident">ContentDiff</span>,
+      <span class="ident">ContentSame</span>,
   }
 
-  <span class='doccomment'>/// Distinguish ref cell allocations from thunk allocations</span>
-  <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
-  <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>AllocKind</span> {
-    <span class='ident'>RefCell</span>,
-    <span class='ident'>Thunk</span>,
+  <span class="doccomment">/// Distinguish ref cell allocations from thunk allocations</span>
+  <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>,<span class="ident">Debug</span>)]</span>
+  <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AllocKind</span> {
+    <span class="ident">RefCell</span>,
+    <span class="ident">Thunk</span>,
   }
 
-  <span class='doccomment'>/// When the program `force`s a computation, either the cache is</span>
-  <span class='doccomment'>/// either empty (`CacheMiss`) or non-empty (`CacheHit`).  The cached</span>
-  <span class='doccomment'>/// value may not be consistent without a cleaning.  When the program</span>
-  <span class='doccomment'>/// `force`s a reference cell, it simply gets the current value.</span>
-  <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
-  <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ForceCase</span> {
-    <span class='doccomment'>/// The DCG has no cached value for this computation; no prior</span>
-    <span class='doccomment'>/// computation will be reused.</span>
-    <span class='ident'>CompCacheMiss</span>,
-    <span class='doccomment'>/// The DCG has a cached value for this computation; it may not be</span>
-    <span class='doccomment'>/// consistent without a cleaning first.</span>
-    <span class='ident'>CompCacheHit</span>,
-    <span class='doccomment'>/// The forced node is a ref cell with a (mutable) value, and hence,</span>
-    <span class='doccomment'>/// no computation was necessary.  The `force` simply gets the</span>
-    <span class='doccomment'>/// current value.</span>
-    <span class='ident'>RefGet</span>,
+  <span class="doccomment">/// When the program `force`s a computation, either the cache is</span>
+  <span class="doccomment">/// either empty (`CacheMiss`) or non-empty (`CacheHit`).  The cached</span>
+  <span class="doccomment">/// value may not be consistent without a cleaning.  When the program</span>
+  <span class="doccomment">/// `force`s a reference cell, it simply gets the current value.</span>
+  <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>,<span class="ident">Debug</span>)]</span>
+  <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ForceCase</span> {
+    <span class="doccomment">/// The DCG has no cached value for this computation; no prior</span>
+    <span class="doccomment">/// computation will be reused.</span>
+    <span class="ident">CompCacheMiss</span>,
+    <span class="doccomment">/// The DCG has a cached value for this computation; it may not be</span>
+    <span class="doccomment">/// consistent without a cleaning first.</span>
+    <span class="ident">CompCacheHit</span>,
+    <span class="doccomment">/// The forced node is a ref cell with a (mutable) value, and hence,</span>
+    <span class="doccomment">/// no computation was necessary.  The `force` simply gets the</span>
+    <span class="doccomment">/// current value.</span>
+    <span class="ident">RefGet</span>,
   }
 
-  <span class='doccomment'>/// The effects of the DCG (including cleaning and dirtying) on one of</span>
-  <span class='doccomment'>/// its edges.</span>
-  <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
-  <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Effect</span> { 
-    <span class='doccomment'>/// Wrapper for Effect::Alloc; transition to DCG after the alloc.</span>
-    <span class='ident'>Alloc</span> (<span class='ident'>AllocCase</span>, <span class='ident'>AllocKind</span>), 
+  <span class="doccomment">/// The effects of the DCG (including cleaning and dirtying) on one of</span>
+  <span class="doccomment">/// its edges.</span>
+  <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>,<span class="ident">Debug</span>)]</span>
+  <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Effect</span> { 
+    <span class="doccomment">/// Wrapper for Effect::Alloc; transition to DCG after the alloc.</span>
+    <span class="ident">Alloc</span> (<span class="ident">AllocCase</span>, <span class="ident">AllocKind</span>), 
     
-    <span class='doccomment'>/// Wrapper for Effect::Force; transition to DCG after the force.</span>
-    <span class='ident'>Force</span> (<span class='ident'>ForceCase</span>),
+    <span class="doccomment">/// Wrapper for Effect::Force; transition to DCG after the force.</span>
+    <span class="ident">Force</span> (<span class="ident">ForceCase</span>),
 
-    <span class='doccomment'>/// Transition to this edge as **dirty** (potentially inconsistent).</span>
-    <span class='doccomment'>/// This transition may consist of marking other edges dirty.  The</span>
-    <span class='doccomment'>/// DCG&#39;s invariant about dirty edges is simple: If an edge is</span>
-    <span class='doccomment'>/// dirty, then all edges that force (demand/observe) the source of</span>
-    <span class='doccomment'>/// that edge must also be dirty.  This transitive closure property</span>
-    <span class='doccomment'>/// ensures that we do not accidentally reuse stale cached values by</span>
-    <span class='doccomment'>/// mistake (a dirty edge will always witness a potentially stale</span>
-    <span class='doccomment'>/// cached value).</span>
-    <span class='ident'>Dirty</span>, 
+    <span class="doccomment">/// Transition to this edge as **dirty** (potentially inconsistent).</span>
+    <span class="doccomment">/// This transition may consist of marking other edges dirty.  The</span>
+    <span class="doccomment">/// DCG&#39;s invariant about dirty edges is simple: If an edge is</span>
+    <span class="doccomment">/// dirty, then all edges that force (demand/observe) the source of</span>
+    <span class="doccomment">/// that edge must also be dirty.  This transitive closure property</span>
+    <span class="doccomment">/// ensures that we do not accidentally reuse stale cached values by</span>
+    <span class="doccomment">/// mistake (a dirty edge will always witness a potentially stale</span>
+    <span class="doccomment">/// cached value).</span>
+    <span class="ident">Dirty</span>, 
     
-    <span class='doccomment'>/// Clean this edge, marking it **not dirty**, or equivalently,</span>
-    <span class='doccomment'>/// **definitely consistent**. Cleaning an edge consists of</span>
-    <span class='doccomment'>/// processing the edge&#39;s dirty transitive dependencies, if any.</span>
-    <span class='doccomment'>/// Recursively, this processing may consist of marking other edges</span>
-    <span class='doccomment'>/// clean (`CleanEdge`), and/or, removing edges (`Remove`) and</span>
-    <span class='doccomment'>/// replacing them via reevaluation under the current DCG state</span>
-    <span class='doccomment'>/// (`CleanEval`).  </span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// This process finishes in one of two mutually-exclusive</span>
-    <span class='doccomment'>/// situations: Either the edge is cleaned, meaning that its target</span>
-    <span class='doccomment'>/// need not be recomputed (`CleanEdge`). Or else, the value on this</span>
-    <span class='doccomment'>/// edge has changed, and this means that the edge&#39;s source is</span>
-    <span class='doccomment'>/// potentially affected by the change. Consequently, this change</span>
-    <span class='doccomment'>/// requires that the edge source be reevaluated (`CleanEval`).</span>
-    <span class='ident'>CleanRec</span>,
+    <span class="doccomment">/// Clean this edge, marking it **not dirty**, or equivalently,</span>
+    <span class="doccomment">/// **definitely consistent**. Cleaning an edge consists of</span>
+    <span class="doccomment">/// processing the edge&#39;s dirty transitive dependencies, if any.</span>
+    <span class="doccomment">/// Recursively, this processing may consist of marking other edges</span>
+    <span class="doccomment">/// clean (`CleanEdge`), and/or, removing edges (`Remove`) and</span>
+    <span class="doccomment">/// replacing them via reevaluation under the current DCG state</span>
+    <span class="doccomment">/// (`CleanEval`).  </span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This process finishes in one of two mutually-exclusive</span>
+    <span class="doccomment">/// situations: Either the edge is cleaned, meaning that its target</span>
+    <span class="doccomment">/// need not be recomputed (`CleanEdge`). Or else, the value on this</span>
+    <span class="doccomment">/// edge has changed, and this means that the edge&#39;s source is</span>
+    <span class="doccomment">/// potentially affected by the change. Consequently, this change</span>
+    <span class="doccomment">/// requires that the edge source be reevaluated (`CleanEval`).</span>
+    <span class="ident">CleanRec</span>,
     
-    <span class='doccomment'>/// Transition to this edge as **clean** (definitely consistent),</span>
-    <span class='doccomment'>/// after doing a recursive cleaning of its dependencies and finding</span>
-    <span class='doccomment'>/// that they are clean.  This effect is mutually-exclusive with</span>
-    <span class='doccomment'>/// `CleanEval`, which occurs when `CleanEdge` **cannot** occur on</span>
-    <span class='doccomment'>/// an edge that is being recursively cleaned (via `CleanRec`).</span>
-    <span class='ident'>CleanEdge</span>,
+    <span class="doccomment">/// Transition to this edge as **clean** (definitely consistent),</span>
+    <span class="doccomment">/// after doing a recursive cleaning of its dependencies and finding</span>
+    <span class="doccomment">/// that they are clean.  This effect is mutually-exclusive with</span>
+    <span class="doccomment">/// `CleanEval`, which occurs when `CleanEdge` **cannot** occur on</span>
+    <span class="doccomment">/// an edge that is being recursively cleaned (via `CleanRec`).</span>
+    <span class="ident">CleanEdge</span>,
     
-    <span class='doccomment'>/// Re-evaluate the previously-forced thunk that is the target of</span>
-    <span class='doccomment'>/// this edge, to clean it.  This effect is mutually-exclusive with</span>
-    <span class='doccomment'>/// `CleanEdge`.  It occurs when `CleanEdge` cannot occur.</span>
-    <span class='ident'>CleanEval</span>,
+    <span class="doccomment">/// Re-evaluate the previously-forced thunk that is the target of</span>
+    <span class="doccomment">/// this edge, to clean it.  This effect is mutually-exclusive with</span>
+    <span class="doccomment">/// `CleanEdge`.  It occurs when `CleanEdge` cannot occur.</span>
+    <span class="ident">CleanEval</span>,
     
-    <span class='doccomment'>/// Transition to the DCG without this edge.  Perhaps it will be</span>
-    <span class='doccomment'>/// replaced via re-execution, sometime later.</span>
-    <span class='ident'>Remove</span>,
+    <span class="doccomment">/// Transition to the DCG without this edge.  Perhaps it will be</span>
+    <span class="doccomment">/// replaced via re-execution, sometime later.</span>
+    <span class="ident">Remove</span>,
   }
   
-  <span class='doccomment'>/// An edge in the DCG, representing an effect of the incremental program.</span>
-  <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
-  <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Edge</span> {
-    <span class='doccomment'>/// The source of the directed edge; it is actively _doing_ the</span>
-    <span class='doccomment'>/// effect of `succ.effect` to `succ.loc`.  `None` means the doer is</span>
-    <span class='doccomment'>/// the **editor**, who is not identified by any location. (The editor</span>
-    <span class='doccomment'>/// is not a node in the DCG, but rather, an actor operating outside</span>
-    <span class='doccomment'>/// of it).</span>
-    <span class='kw'>pub</span> <span class='ident'>loc</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw'>super</span>::<span class='ident'>Loc</span><span class='op'>&gt;</span>,
-    <span class='doccomment'>/// The effect and target of the directed edge.</span>
-    <span class='kw'>pub</span> <span class='ident'>succ</span>: <span class='kw'>super</span>::<span class='ident'>Succ</span>,
+  <span class="doccomment">/// An edge in the DCG, representing an effect of the incremental program.</span>
+  <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>,<span class="ident">Debug</span>)]</span>
+  <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Edge</span> {
+    <span class="doccomment">/// The source of the directed edge; it is actively _doing_ the</span>
+    <span class="doccomment">/// effect of `succ.effect` to `succ.loc`.  `None` means the doer is</span>
+    <span class="doccomment">/// the **editor**, who is not identified by any location. (The editor</span>
+    <span class="doccomment">/// is not a node in the DCG, but rather, an actor operating outside</span>
+    <span class="doccomment">/// of it).</span>
+    <span class="kw">pub</span> <span class="ident">loc</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">Loc</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The effect and target of the directed edge.</span>
+    <span class="kw">pub</span> <span class="ident">succ</span>: <span class="kw">super</span>::<span class="ident">Succ</span>,
   }
   
-  <span class='doccomment'>/// `DCGTrace`: A Rose-tree of DCG edge-effects.  This tree structure</span>
-  <span class='doccomment'>/// allows the effects to have a a &quot;time interval&quot; that nests around</span>
-  <span class='doccomment'>/// and within the time intervals of other effects.</span>
-  <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>,<span class='ident'>Debug</span>)]</span>
-  <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Trace</span> { 
-    <span class='doccomment'>/// The DCG effect (e.g., Alloc(MatchDiff), Dirty, Clean, etc.)</span>
-    <span class='kw'>pub</span> <span class='ident'>effect</span>:<span class='ident'>Effect</span>,
+  <span class="doccomment">/// `DCGTrace`: A Rose-tree of DCG edge-effects.  This tree structure</span>
+  <span class="doccomment">/// allows the effects to have a a &quot;time interval&quot; that nests around</span>
+  <span class="doccomment">/// and within the time intervals of other effects.</span>
+  <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>,<span class="ident">Debug</span>)]</span>
+  <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Trace</span> { 
+    <span class="doccomment">/// The DCG effect (e.g., Alloc(MatchDiff), Dirty, Clean, etc.)</span>
+    <span class="kw">pub</span> <span class="ident">effect</span>:<span class="ident">Effect</span>,
     
-    <span class='doccomment'>/// The DCG edge on which this DCG effect takes place</span>
-    <span class='kw'>pub</span> <span class='ident'>edge</span>: <span class='ident'>Edge</span>,
+    <span class="doccomment">/// The DCG edge on which this DCG effect takes place</span>
+    <span class="kw">pub</span> <span class="ident">edge</span>: <span class="ident">Edge</span>,
     
-    <span class='doccomment'>/// The DCG effects that occur subordinately as a result of this</span>
-    <span class='doccomment'>/// effect. (They begin after this effect begins, and the end before</span>
-    <span class='doccomment'>/// this effect ends).</span>
-    <span class='kw'>pub</span> <span class='ident'>extent</span>:<span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Trace</span><span class='op'>&gt;&gt;</span>,
+    <span class="doccomment">/// The DCG effects that occur subordinately as a result of this</span>
+    <span class="doccomment">/// effect. (They begin after this effect begins, and the end before</span>
+    <span class="doccomment">/// this effect ends).</span>
+    <span class="kw">pub</span> <span class="ident">extent</span>:<span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Trace</span><span class="op">&gt;&gt;</span>,
   }
+
+    
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>,<span class="ident">Copy</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Role</span> { <span class="ident">Editor</span>, <span class="ident">Archivist</span> }
+    
+    <span class="doccomment">/// Count of effects and effect-patterns in trace.  For fields</span>
+    <span class="doccomment">/// with two numbers, the first and second projection give the</span>
+    <span class="doccomment">/// `Role::Editor` and `Role::Archivist` counts, respectively.</span>
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TraceCount</span> {
+        <span class="kw">pub</span> <span class="ident">total_updates</span>:   <span class="ident">usize</span>,
+        <span class="kw">pub</span> <span class="ident">total_archivist</span>: <span class="ident">usize</span>,
+        <span class="kw">pub</span> <span class="ident">reeval_nochange</span>: <span class="ident">usize</span>,
+        <span class="kw">pub</span> <span class="ident">reeval_change</span>:   <span class="ident">usize</span>,
+        <span class="kw">pub</span> <span class="ident">clean_rec</span>:       <span class="ident">usize</span>,
+        <span class="kw">pub</span> <span class="ident">dirty</span>:           (<span class="ident">usize</span>, <span class="ident">usize</span>),
+        <span class="kw">pub</span> <span class="ident">alloc_fresh</span>:     (<span class="ident">usize</span>, <span class="ident">usize</span>),
+        <span class="kw">pub</span> <span class="ident">alloc_nochange</span>:  (<span class="ident">usize</span>, <span class="ident">usize</span>),
+        <span class="kw">pub</span> <span class="ident">alloc_change</span>:    (<span class="ident">usize</span>, <span class="ident">usize</span>),
+    }
+    
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">trace_count_zero</span>() <span class="op">-&gt;</span> <span class="ident">TraceCount</span> {
+        <span class="ident">TraceCount</span>{ <span class="ident">alloc_fresh</span>:(<span class="number">0</span>,<span class="number">0</span>), 
+                    <span class="ident">alloc_change</span>:(<span class="number">0</span>,<span class="number">0</span>), 
+                    <span class="ident">alloc_nochange</span>:(<span class="number">0</span>,<span class="number">0</span>),
+                    <span class="ident">reeval_change</span>:<span class="number">0</span>, 
+                    <span class="ident">reeval_nochange</span>:<span class="number">0</span>, 
+                    <span class="ident">dirty</span>:(<span class="number">0</span>,<span class="number">0</span>), 
+                    <span class="ident">clean_rec</span>:<span class="number">0</span>,
+                    <span class="ident">total_updates</span>:<span class="number">0</span>,
+                    <span class="ident">total_archivist</span>:<span class="number">0</span>,
+        }
+    }
+
+    <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">TraceCount</span> {
+        <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>:<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {  
+            <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>,<span class="string">&quot;\
+                Trace counts:        {:&gt;12} {:&gt;12}
+------------------------------------------------
+editor:
+  alloc_fresh:       {:&gt;12} {:&gt;12.2}
+  alloc_nochange:    {:&gt;12} {:&gt;12.2}
+  alloc_change:      {:&gt;12} {:&gt;12.2}
+  dirty:             {:&gt;12} {:&gt;12.2} 
+archivist:
+  alloc_fresh:       {:&gt;12} {:&gt;12.2}
+  alloc_nochange:    {:&gt;12} {:&gt;12.2}
+  alloc_change:      {:&gt;12} {:&gt;12.2}
+  dirty:             {:&gt;12} {:&gt;12.2}
+  reeval:
+    clean_rec:       {:&gt;12} {:&gt;12.2}
+    reeval_nochange: {:&gt;12} {:&gt;12.2}
+    reeval_change:   {:&gt;12} {:&gt;12.2}
+&quot;</span>,
+                   <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;sum&quot;</span>),        <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;ave&quot;</span>),
+                   <span class="comment">// Editor</span>
+                   <span class="self">self</span>.<span class="ident">alloc_fresh</span>.<span class="number">0</span>,    <span class="self">self</span>.<span class="ident">alloc_fresh</span>.<span class="number">0</span>    <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="self">self</span>.<span class="ident">total_updates</span> <span class="kw">as</span> <span class="ident">f32</span>,
+                   <span class="self">self</span>.<span class="ident">alloc_nochange</span>.<span class="number">0</span>, <span class="self">self</span>.<span class="ident">alloc_nochange</span>.<span class="number">0</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="self">self</span>.<span class="ident">total_updates</span> <span class="kw">as</span> <span class="ident">f32</span>,
+                   <span class="self">self</span>.<span class="ident">alloc_change</span>.<span class="number">0</span>,   <span class="self">self</span>.<span class="ident">alloc_change</span>.<span class="number">0</span>   <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="self">self</span>.<span class="ident">total_updates</span> <span class="kw">as</span> <span class="ident">f32</span>,
+                   <span class="self">self</span>.<span class="ident">dirty</span>.<span class="number">0</span>,          <span class="self">self</span>.<span class="ident">dirty</span>.<span class="number">0</span>          <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="self">self</span>.<span class="ident">total_updates</span> <span class="kw">as</span> <span class="ident">f32</span>,
+                   <span class="comment">// Archivist</span>
+                   <span class="self">self</span>.<span class="ident">alloc_fresh</span>.<span class="number">1</span>,    <span class="self">self</span>.<span class="ident">alloc_fresh</span>.<span class="number">1</span>    <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="self">self</span>.<span class="ident">total_updates</span> <span class="kw">as</span> <span class="ident">f32</span>,
+                   <span class="self">self</span>.<span class="ident">alloc_nochange</span>.<span class="number">1</span>, <span class="self">self</span>.<span class="ident">alloc_nochange</span>.<span class="number">1</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="self">self</span>.<span class="ident">total_updates</span> <span class="kw">as</span> <span class="ident">f32</span>,
+                   <span class="self">self</span>.<span class="ident">alloc_change</span>.<span class="number">1</span>,   <span class="self">self</span>.<span class="ident">alloc_change</span>.<span class="number">1</span>   <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="self">self</span>.<span class="ident">total_updates</span> <span class="kw">as</span> <span class="ident">f32</span>,
+                   <span class="self">self</span>.<span class="ident">dirty</span>.<span class="number">1</span>,          <span class="self">self</span>.<span class="ident">dirty</span>.<span class="number">1</span>          <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="self">self</span>.<span class="ident">total_updates</span> <span class="kw">as</span> <span class="ident">f32</span>,
+                   <span class="self">self</span>.<span class="ident">clean_rec</span>,        <span class="self">self</span>.<span class="ident">clean_rec</span>        <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="self">self</span>.<span class="ident">total_updates</span> <span class="kw">as</span> <span class="ident">f32</span>,
+                   <span class="self">self</span>.<span class="ident">reeval_nochange</span>,  <span class="self">self</span>.<span class="ident">reeval_nochange</span>  <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="self">self</span>.<span class="ident">total_updates</span> <span class="kw">as</span> <span class="ident">f32</span>, 
+                   <span class="self">self</span>.<span class="ident">reeval_change</span>,    <span class="self">self</span>.<span class="ident">reeval_change</span>    <span class="kw">as</span> <span class="ident">f32</span> <span class="op">/</span> <span class="self">self</span>.<span class="ident">total_updates</span> <span class="kw">as</span> <span class="ident">f32</span>,
+            )
+        }
+    }
+
+    
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">trace_count</span>(<span class="ident">trs</span>:<span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Trace</span><span class="op">&gt;</span>, <span class="ident">total_updates</span>:<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">TraceCount</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">trace_count</span> <span class="op">=</span> <span class="ident">trace_count_zero</span>();
+        <span class="kw">match</span> <span class="ident">total_updates</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">trace_count</span>.<span class="ident">total_updates</span> <span class="op">=</span> <span class="ident">x</span>,
+            <span class="prelude-val">None</span>    <span class="op">=&gt;</span> <span class="ident">trace_count</span>.<span class="ident">total_updates</span> <span class="op">=</span> <span class="number">1</span>,
+        }
+        <span class="kw">for</span> <span class="ident">tr</span> <span class="kw">in</span> <span class="ident">trs</span> {
+            <span class="ident">trace_count_rec</span>(<span class="ident">Role</span>::<span class="ident">Editor</span>, <span class="ident">tr</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">trace_count</span>)
+        }
+        <span class="kw">return</span> <span class="ident">trace_count</span>
+    }
+
+    <span class="kw">fn</span> <span class="ident">trace_count_dirty</span>(<span class="ident">role</span>:<span class="ident">Role</span>, <span class="ident">tr</span>:<span class="kw-2">&amp;</span><span class="ident">Trace</span>, <span class="ident">c</span>:<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TraceCount</span>) {
+        <span class="kw">match</span> <span class="ident">tr</span>.<span class="ident">effect</span> {
+            <span class="ident">Effect</span>::<span class="ident">Dirty</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">role</span> { 
+                <span class="ident">Role</span>::<span class="ident">Editor</span>    <span class="op">=&gt;</span> <span class="ident">c</span>.<span class="ident">dirty</span>.<span class="number">0</span> <span class="op">+=</span> <span class="number">1</span>,
+                <span class="ident">Role</span>::<span class="ident">Archivist</span> <span class="op">=&gt;</span> <span class="ident">c</span>.<span class="ident">dirty</span>.<span class="number">1</span> <span class="op">+=</span> <span class="number">1</span>,
+            },
+            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;unexpected effect: {:?}&quot;</span>, <span class="ident">tr</span>),
+        }
+        <span class="kw">for</span> <span class="ident">sub_tr</span> <span class="kw">in</span> <span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">iter</span>() {
+            <span class="ident">trace_count_dirty</span>(<span class="ident">role</span>, <span class="ident">sub_tr</span>, <span class="ident">c</span>)
+        }
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">trace_count_rec</span>(<span class="ident">role</span>:<span class="ident">Role</span>, <span class="ident">tr</span>:<span class="kw-2">&amp;</span><span class="ident">Trace</span>, <span class="ident">c</span>:<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TraceCount</span>) {
+        <span class="kw">match</span> <span class="ident">role</span> {
+            <span class="ident">Role</span>::<span class="ident">Editor</span> <span class="op">=&gt;</span>
+                <span class="kw">match</span> <span class="ident">tr</span>.<span class="ident">effect</span> {
+                    <span class="ident">Effect</span>::<span class="ident">Dirty</span> <span class="op">=&gt;</span> <span class="ident">trace_count_dirty</span>(<span class="ident">role</span>, <span class="ident">tr</span>, <span class="ident">c</span>),
+                    <span class="ident">Effect</span>::<span class="ident">Remove</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+                    <span class="ident">Effect</span>::<span class="ident">CleanEdge</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+                    <span class="ident">Effect</span>::<span class="ident">CleanEval</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+                    <span class="ident">Effect</span>::<span class="ident">CleanRec</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+                    <span class="ident">Effect</span>::<span class="ident">Alloc</span>(<span class="ident">AllocCase</span>::<span class="ident">LocFresh</span>, _) <span class="op">=&gt;</span> { 
+                        <span class="ident">c</span>.<span class="ident">alloc_fresh</span>.<span class="number">0</span> <span class="op">+=</span> <span class="number">1</span>; 
+                        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>)  
+                    }
+                    <span class="ident">Effect</span>::<span class="ident">Alloc</span>(<span class="ident">AllocCase</span>::<span class="ident">LocExists</span>(<span class="ident">ChangeFlag</span>::<span class="ident">ContentSame</span>), _) <span class="op">=&gt;</span> { 
+                        <span class="ident">c</span>.<span class="ident">alloc_nochange</span>.<span class="number">0</span> <span class="op">+=</span> <span class="number">1</span>;
+                        <span class="kw">for</span> <span class="ident">sub_tr</span> <span class="kw">in</span> <span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">iter</span>() { <span class="ident">trace_count_dirty</span>(<span class="ident">role</span>, <span class="ident">sub_tr</span>, <span class="ident">c</span>) }
+                    }
+                    <span class="ident">Effect</span>::<span class="ident">Alloc</span>(<span class="ident">AllocCase</span>::<span class="ident">LocExists</span>(<span class="ident">ChangeFlag</span>::<span class="ident">ContentDiff</span>), _) <span class="op">=&gt;</span> {
+                        <span class="ident">c</span>.<span class="ident">alloc_change</span>.<span class="number">0</span> <span class="op">+=</span> <span class="number">1</span>;
+                        <span class="kw">for</span> <span class="ident">sub_tr</span> <span class="kw">in</span> <span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">iter</span>() { <span class="ident">trace_count_dirty</span>(<span class="ident">role</span>, <span class="ident">sub_tr</span>, <span class="ident">c</span>) }
+                    }
+                    <span class="ident">Effect</span>::<span class="ident">Force</span>(<span class="ident">ForceCase</span>::<span class="ident">RefGet</span>) <span class="op">=&gt;</span> <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>),
+                    <span class="ident">Effect</span>::<span class="ident">Force</span>(<span class="ident">ForceCase</span>::<span class="ident">CompCacheHit</span>)  <span class="op">|</span>
+                    <span class="ident">Effect</span>::<span class="ident">Force</span>(<span class="ident">ForceCase</span>::<span class="ident">CompCacheMiss</span>) <span class="op">=&gt;</span> {
+                        <span class="ident">c</span>.<span class="ident">total_archivist</span> <span class="op">+=</span> <span class="number">1</span>;
+                        <span class="kw">for</span> <span class="ident">sub_tr</span> <span class="kw">in</span> <span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">iter</span>() { 
+                            <span class="ident">trace_count_rec</span>(<span class="ident">Role</span>::<span class="ident">Archivist</span>, <span class="ident">sub_tr</span>, <span class="ident">c</span>);
+                        }
+                    }
+                },
+            <span class="ident">Role</span>::<span class="ident">Archivist</span> <span class="op">=&gt;</span>
+                <span class="kw">match</span> <span class="ident">tr</span>.<span class="ident">effect</span> {
+                    <span class="ident">Effect</span>::<span class="ident">Dirty</span> <span class="op">=&gt;</span> <span class="ident">trace_count_dirty</span>(<span class="ident">role</span>, <span class="ident">tr</span>, <span class="ident">c</span>),
+                    <span class="ident">Effect</span>::<span class="ident">Remove</span> <span class="op">=&gt;</span> <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>),
+                    <span class="ident">Effect</span>::<span class="ident">CleanEdge</span> <span class="op">=&gt;</span> <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>),
+                    <span class="ident">Effect</span>::<span class="ident">CleanEval</span> <span class="op">=&gt;</span> {
+                        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">change</span> <span class="op">=</span> <span class="bool-val">false</span>;
+                        <span class="kw">for</span> <span class="ident">subtr</span> <span class="kw">in</span> <span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">iter</span>() {
+                            <span class="kw">match</span> <span class="ident">subtr</span>.<span class="ident">effect</span> {
+                                <span class="ident">Effect</span>::<span class="ident">Remove</span> <span class="op">=&gt;</span> (),
+                                <span class="ident">Effect</span>::<span class="ident">CleanEdge</span> <span class="op">=&gt;</span> (),
+                                <span class="ident">Effect</span>::<span class="ident">CleanEval</span> <span class="op">=&gt;</span> (),
+                                <span class="ident">Effect</span>::<span class="ident">CleanRec</span> <span class="op">=&gt;</span> (),
+                                <span class="ident">Effect</span>::<span class="ident">Alloc</span>(<span class="ident">AllocCase</span>::<span class="ident">LocExists</span>(<span class="ident">ChangeFlag</span>::<span class="ident">ContentSame</span>), _) <span class="op">=&gt;</span> (),
+                                <span class="ident">Effect</span>::<span class="ident">Alloc</span>(<span class="ident">AllocCase</span>::<span class="ident">LocFresh</span>, _)                           <span class="op">=&gt;</span> <span class="ident">change</span> <span class="op">=</span> <span class="bool-val">true</span>,
+                                <span class="ident">Effect</span>::<span class="ident">Alloc</span>(<span class="ident">AllocCase</span>::<span class="ident">LocExists</span>(<span class="ident">ChangeFlag</span>::<span class="ident">ContentDiff</span>), _) <span class="op">=&gt;</span> <span class="ident">change</span> <span class="op">=</span> <span class="bool-val">true</span>,
+                                <span class="ident">Effect</span>::<span class="ident">Force</span>(<span class="ident">ForceCase</span>::<span class="ident">RefGet</span>)        <span class="op">=&gt;</span> (), <span class="comment">/* XXX/TODO: This is undercounting?; do we need to know if gotten value was different? */</span>
+                                <span class="ident">Effect</span>::<span class="ident">Force</span>(<span class="ident">ForceCase</span>::<span class="ident">CompCacheHit</span>)  <span class="op">=&gt;</span> (),
+                                <span class="ident">Effect</span>::<span class="ident">Force</span>(<span class="ident">ForceCase</span>::<span class="ident">CompCacheMiss</span>) <span class="op">=&gt;</span> <span class="ident">change</span> <span class="op">=</span> <span class="bool-val">true</span>,
+                                <span class="ident">Effect</span>::<span class="ident">Dirty</span> <span class="op">=&gt;</span> <span class="ident">change</span> <span class="op">=</span> <span class="bool-val">true</span>,
+                            }
+                        }
+                        <span class="kw">if</span> <span class="ident">change</span> { <span class="ident">c</span>.<span class="ident">reeval_change</span>   <span class="op">+=</span> <span class="number">1</span> }
+                        <span class="kw">else</span>      { <span class="ident">c</span>.<span class="ident">reeval_nochange</span> <span class="op">+=</span> <span class="number">1</span> };
+                        <span class="kw">for</span> <span class="ident">sub_tr</span> <span class="kw">in</span> <span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">iter</span>() { 
+                            <span class="ident">trace_count_rec</span>(<span class="ident">Role</span>::<span class="ident">Archivist</span>, <span class="ident">sub_tr</span>, <span class="ident">c</span>);
+                        }     
+                    },
+                    <span class="ident">Effect</span>::<span class="ident">CleanRec</span> <span class="op">=&gt;</span> { 
+                        <span class="ident">c</span>.<span class="ident">clean_rec</span> <span class="op">+=</span> <span class="number">1</span>;
+                        <span class="kw">for</span> <span class="ident">sub_tr</span> <span class="kw">in</span> <span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">iter</span>() { 
+                            <span class="ident">trace_count_rec</span>(<span class="ident">Role</span>::<span class="ident">Archivist</span>, <span class="ident">sub_tr</span>, <span class="ident">c</span>);
+                        }
+                    }
+                    <span class="ident">Effect</span>::<span class="ident">Alloc</span>(<span class="ident">AllocCase</span>::<span class="ident">LocFresh</span>, _) <span class="op">=&gt;</span> {
+                        <span class="ident">c</span>.<span class="ident">alloc_fresh</span>.<span class="number">1</span> <span class="op">+=</span> <span class="number">1</span>;
+                        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>);
+                    }
+                    <span class="ident">Effect</span>::<span class="ident">Alloc</span>(<span class="ident">AllocCase</span>::<span class="ident">LocExists</span>(<span class="ident">ChangeFlag</span>::<span class="ident">ContentSame</span>), _) <span class="op">=&gt;</span> {
+                        <span class="ident">c</span>.<span class="ident">alloc_nochange</span>.<span class="number">1</span> <span class="op">+=</span> <span class="number">1</span>;
+                        <span class="kw">for</span> <span class="ident">sub_tr</span> <span class="kw">in</span> <span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">iter</span>() { 
+                            <span class="ident">trace_count_rec</span>(<span class="ident">Role</span>::<span class="ident">Archivist</span>, <span class="ident">sub_tr</span>, <span class="ident">c</span>);
+                        }
+                    }
+                    <span class="ident">Effect</span>::<span class="ident">Alloc</span>(<span class="ident">AllocCase</span>::<span class="ident">LocExists</span>(<span class="ident">ChangeFlag</span>::<span class="ident">ContentDiff</span>), _) <span class="op">=&gt;</span> {
+                        <span class="ident">c</span>.<span class="ident">alloc_change</span>.<span class="number">1</span> <span class="op">+=</span> <span class="number">1</span>;
+                        <span class="kw">for</span> <span class="ident">sub_tr</span> <span class="kw">in</span> <span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">iter</span>() { 
+                            <span class="ident">trace_count_rec</span>(<span class="ident">Role</span>::<span class="ident">Archivist</span>, <span class="ident">sub_tr</span>, <span class="ident">c</span>);
+                        }                  
+                    }
+                    <span class="ident">Effect</span>::<span class="ident">Force</span>(<span class="ident">ForceCase</span>::<span class="ident">RefGet</span>) <span class="op">=&gt;</span> {
+                        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>);
+                    },
+                    <span class="ident">Effect</span>::<span class="ident">Force</span>(<span class="ident">ForceCase</span>::<span class="ident">CompCacheHit</span>) <span class="op">=&gt;</span> {
+                        <span class="kw">for</span> <span class="ident">sub_tr</span> <span class="kw">in</span> <span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">iter</span>() { 
+                            <span class="ident">trace_count_rec</span>(<span class="ident">Role</span>::<span class="ident">Archivist</span>, <span class="ident">sub_tr</span>, <span class="ident">c</span>);
+                        }
+                    }
+                    <span class="ident">Effect</span>::<span class="ident">Force</span>(<span class="ident">ForceCase</span>::<span class="ident">CompCacheMiss</span>) <span class="op">=&gt;</span> {
+                        <span class="kw">for</span> <span class="ident">sub_tr</span> <span class="kw">in</span> <span class="ident">tr</span>.<span class="ident">extent</span>.<span class="ident">iter</span>() { 
+                            <span class="ident">trace_count_rec</span>(<span class="ident">Role</span>::<span class="ident">Archivist</span>, <span class="ident">sub_tr</span>, <span class="ident">c</span>);
+                        }                  
+                    }
+                }
+        }
+    }
 }
 </pre>
 </section>

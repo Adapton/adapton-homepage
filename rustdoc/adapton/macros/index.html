@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc mod">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>adapton</a></p><script>window.sidebarCurrent = {name: 'macros', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+        <p class='location'>Module macros</p><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../index.html'>adapton</a></p><script>window.sidebarCurrent = {name: 'macros', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -43,34 +43,45 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>adapton</a>::<wbr><a class='mod' href=''>macros</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>adapton</a>::<wbr><a class="mod" href=''>macros</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/adapton/macros.rs.html#13-497' title='goto source code'>[src]</a></span></h1>
-<h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+               </span><a class='srclink' href='../../src/adapton/macros.rs.html#1-404' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Macros to make using the <code>engine</code> module&#39;s interface more
+ergonomic.</p>
+
+<h2 id='examples' class='section-header'><a href='#examples'>Examples:</a></h2>
+<p>To memoize a function call to <code>foo</code>, named by <code>name</code> (of type
+ <code>Name</code>) that receives two arguments, <code>arg1</code> and <code>arg2</code>, use the
+ following macro invocation:</p>
+
+<p><code>let res = memo!( name =&gt;&gt; foo =&gt;&gt; x:arg1, y:arg2 ); ...</code></p>
+
+<p>The same syntax works for creating (unforced) thunks, too:</p>
+
+<p><code>let t = thunk!( name =&gt;&gt; foo =&gt;&gt; x:arg1, y:arg2 ); ...</code></p>
+
+<p>The <code>memo!</code> macro differs from <code>thunk!</code> only in that it <code>force</code>s
+ the thunk too (e.g., by doing <code>force(&amp;t)</code>, above, after creating
+ the thunk).</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.ProgPt.html'
-                                  title='adapton::macros::ProgPt'>ProgPt</a></td>
+                           <td><a class="struct" href="struct.ProgPt.html"
+                                  title='struct adapton::macros::ProgPt'>ProgPt</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Program points: used by the Adapton engine to distinguish different memoized functions.</p>
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.my_hash.html'
-                                  title='adapton::macros::my_hash'>my_hash</a></td>
+                           <td><a class="fn" href="fn.bump_name_counter.html"
+                                  title='fn adapton::macros::bump_name_counter'>bump_name_counter</a></td>
                            <td class='docblock-short'>
-                                
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.my_hash_n.html'
-                                  title='adapton::macros::my_hash_n'>my_hash_n</a></td>
-                           <td class='docblock-short'>
-                                
+                                <p>Convenience function: A global counter for creating unique names,
+e.g., in unit tests. Avoid using this outside of unit tests.</p>
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>

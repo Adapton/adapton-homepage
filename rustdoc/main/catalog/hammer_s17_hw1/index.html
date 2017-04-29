@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `hammer_s17_hw1` mod in crate `main`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, hammer_s17_hw1">
+
+    <title>main::catalog::hammer_s17_hw1 - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Module hammer_s17_hw1</p><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../../index.html'>main</a>::<wbr><a href='../index.html'>catalog</a></p><script>window.sidebarCurrent = {name: 'hammer_s17_hw1', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../../index.html'>main</a>::<wbr><a href='../index.html'>catalog</a>::<wbr><a class="mod" href=''>hammer_s17_hw1</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/main/catalog/mod.rs.html#561-683' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'>
+<h1 id='hammer---csci-7000-spring-2017' class='section-header'><a href='#hammer---csci-7000-spring-2017'>Hammer - CSCI 7000, Spring 2017</a></h1>
+<h2 id='first-homework-assignment-hw1' class='section-header'><a href='#first-homework-assignment-hw1'>First homework assignment: #HW1</a></h2>
+<p>There are five functions below whose bodies consist of
+<code>panic!(&quot;TODO&quot;)</code>.  Using the types listed in their declarations,
+implement these functions.</p>
+
+<p>Test the behavior of your filter function, for instance:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="ident">cargo</span> <span class="ident">run</span> <span class="op">-</span><span class="op">-</span> <span class="op">-</span><span class="ident">L</span> <span class="ident">hammer</span><span class="op">-</span><span class="ident">s17</span><span class="op">-</span><span class="ident">hw1</span><span class="op">-</span><span class="ident">filter</span></pre>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Editor.html"
+                                  title='struct main::catalog::hammer_s17_hw1::Editor'>Editor</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.LLEditor.html"
+                                  title='struct main::catalog::hammer_s17_hw1::LLEditor'>LLEditor</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.RunFilter.html"
+                                  title='struct main::catalog::hammer_s17_hw1::RunFilter'>RunFilter</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.RunJoin.html"
+                                  title='struct main::catalog::hammer_s17_hw1::RunJoin'>RunJoin</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.RunReverse.html"
+                                  title='struct main::catalog::hammer_s17_hw1::RunReverse'>RunReverse</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.RunSingletons.html"
+                                  title='struct main::catalog::hammer_s17_hw1::RunSingletons'>RunSingletons</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.RunSplit.html"
+                                  title='struct main::catalog::hammer_s17_hw1::RunSplit'>RunSplit</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.List.html"
+                                  title='enum main::catalog::hammer_s17_hw1::List'>List</a></td>
+                           <td class='docblock-short'>
+                                <p>Compared with <code>hw0</code>, <code>Cons</code> cells <em>only</em> carry an element;
+<code>Name</code> and reference cell (<code>Art</code>) cases are separate from
+<code>Cons</code>.</p>
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.list_filter.html"
+                                  title='fn main::catalog::hammer_s17_hw1::list_filter'>list_filter</a></td>
+                           <td class='docblock-short'>
+                                <p>List filter:</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.list_join.html"
+                                  title='fn main::catalog::hammer_s17_hw1::list_join'>list_join</a></td>
+                           <td class='docblock-short'>
+                                <p>List join:</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.list_reverse.html"
+                                  title='fn main::catalog::hammer_s17_hw1::list_reverse'>list_reverse</a></td>
+                           <td class='docblock-short'>
+                                <p>List reverse:</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.list_singletons.html"
+                                  title='fn main::catalog::hammer_s17_hw1::list_singletons'>list_singletons</a></td>
+                           <td class='docblock-short'>
+                                <p>List singletons:</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.list_split.html"
+                                  title='fn main::catalog::hammer_s17_hw1::list_split'>list_split</a></td>
+                           <td class='docblock-short'>
+                                <p>List split:</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "main";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

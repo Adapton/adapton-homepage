@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["my_hash",""],["my_hash_n",""]],"struct":[["ProgPt",""]]});
+initSidebarItems({"fn":[["bump_name_counter","Convenience function: A global counter for creating unique names, e.g., in unit tests. Avoid using this outside of unit tests."]],"struct":[["ProgPt","Program points: used by the Adapton engine to distinguish different memoized functions."]]});

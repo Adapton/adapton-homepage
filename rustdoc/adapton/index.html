@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc mod">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'></p><script>window.sidebarCurrent = {name: 'adapton', ty: 'mod', relpath: '../'};</script>
+        <p class='location'>Crate adapton</p><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'adapton', ty: 'mod', relpath: '../'};</script>
     </nav>
 
     <nav class="sub">
@@ -43,24 +43,25 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>adapton</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>adapton</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/adapton/lib.rs.html#6-40' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/adapton/lib.rs.html#3-20' title='goto source code'>[src]</a></span></h1>
 <h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='collections/index.html'
-                                  title='adapton::collections'>collections</a></td>
+                           <td><a class="mod" href="catalog/index.html"
+                                  title='mod adapton::catalog'>catalog</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Experimental collections, including those for sequences and sets.
+(See also: <a href="https://github.com/cuplv/iodyn.rust">The IODyn crate</a>)</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='engine/index.html'
-                                  title='adapton::engine'>engine</a></td>
+                           <td><a class="mod" href="engine/index.html"
+                                  title='mod adapton::engine'>engine</a></td>
                            <td class='docblock-short'>
                                 <p>Adapton&#39;s core calculus, implemented as a runtime library.  We
 implement two versions of this interface, which we refer to as
@@ -69,46 +70,62 @@ implemented based on the algorithms from the Adapton papers.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='mod' href='macros/index.html'
-                                  title='adapton::macros'>macros</a></td>
+                           <td><a class="mod" href="macros/index.html"
+                                  title='mod adapton::macros'>macros</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Macros to make using the <code>engine</code> module&#39;s interface more
+ergonomic.</p>
                            </td>
                        </tr></table><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='macro' href='macro.cell_call.html'
-                                  title='adapton::cell_call'>cell_call</a></td>
+                           <td><a class="macro" href="macro.cell.html"
+                                  title='macro adapton::cell'>cell</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Convenience wrapper for <code>engine::cell</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='macro' href='macro.eager.html'
-                                  title='adapton::eager'>eager</a></td>
+                           <td><a class="macro" href="macro.cell_call.html"
+                                  title='macro adapton::cell_call'>cell_call</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Convenience wrapper: Call a function and place the result into an <code>engine::cell</code>.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='macro' href='macro.memo.html'
-                                  title='adapton::memo'>memo</a></td>
+                           <td><a class="macro" href="macro.eager.html"
+                                  title='macro adapton::eager'>eager</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Similar to <code>memo!</code>, except return both the thunk and its observed (<code>force</code>d) value.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='macro' href='macro.prog_pt.html'
-                                  title='adapton::prog_pt'>prog_pt</a></td>
+                           <td><a class="macro" href="macro.get.html"
+                                  title='macro adapton::get'>get</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Convenience wrapper for <code>engine::force</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='macro' href='macro.thunk.html'
-                                  title='adapton::thunk'>thunk</a></td>
+                           <td><a class="macro" href="macro.memo.html"
+                                  title='macro adapton::memo'>memo</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Convenience wrapper for <code>engine::thunk</code> and <code>engine::force</code>:
+creates a thunk and immediately forces it.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.prog_pt.html"
+                                  title='macro adapton::prog_pt'>prog_pt</a></td>
+                           <td class='docblock-short'>
+                                <p>Generate a &quot;program point&quot;, used as a unique ID for memoized functions.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="macro" href="macro.thunk.html"
+                                  title='macro adapton::thunk'>thunk</a></td>
+                           <td class='docblock-short'>
+                                <p>Convenience wrapper for <code>engine::thunk</code></p>
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
