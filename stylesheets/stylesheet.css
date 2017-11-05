@@ -138,6 +138,14 @@ h1 {
   font-size: 2em;
 }
 
+.paper-title {
+  font-size: 1.7em;
+}
+
+.talk-title {
+  font-size: 1.7em;
+}
+
 /**
  * Address styling not present in IE 8/9.
  */
@@ -457,7 +465,7 @@ header {
 }
 
 header h1 {
-  width: 540px;
+  /*width: 540px;*/
   margin-top: 0;
   margin-bottom: 0.2em;
   font-size: 72px;
@@ -468,7 +476,7 @@ header h1 {
 }
 
 header h2 {
-  width: 540px;
+  /* width: 540px; */
   margin-top: 0;
   margin-bottom: 0;
   font-size: 26px;
@@ -496,7 +504,7 @@ header h2 {
 
 #slogans {
   float: left;
-  width: 690px;
+  /*width: 690px;*/
 }
 
 #main-content img {
@@ -681,11 +689,22 @@ form {
 }
 
 #slogans h4 {
-  padding-left: 20px;
-  background: #fdf;
-  border-radius: 10px;
-  border: solid 3px;
-  border-color: #fbf;
+    font-size: 20px;
+    padding-left: 20px;
+    background: #fdf;
+    border-radius: 10px;
+    border: solid 3px;
+    border-color: #fbf;
+}
+
+#slogans h5 {
+    font-size: 20px;
+    padding-left: 20px;
+    background: #efe;
+    border-radius: 10px;
+    border: solid 3px;
+    border-color: #cdc;
+    color: #040;
 }
 
 img:hover {
@@ -708,18 +727,12 @@ h4:before {
   font-size: 26px;
 }
 
-#main-content h5 {
-  margin-bottom: 8px;
-  font-family: Verdana, 'Helvetica Neue', Helvetica, Arial, serif;
-  font-size: 14px;
-  color: #474747;
-  text-indent: 3px;
-}
 h5:before {
-  padding-right: 0.3em;
-  margin-left: -3.2em;
-  content: "/////";
-  color: #9ddcff;
+  padding-right: 25px;
+  margin-left: -2em;
+  content: "▲";
+  color: #8f8;
+  font-size: 26px;
 }
 
 #main-content h6 {
