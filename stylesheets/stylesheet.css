@@ -698,6 +698,7 @@ form {
 }
 
 #slogans h5 {
+    font-weight: normal;
     font-size: 20px;
     padding-left: 20px;
     background: #efe;
