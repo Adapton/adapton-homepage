@@ -142,6 +142,10 @@ h1 {
   font-size: 1.7em;
 }
 
+.paper-title-inline {
+  font-weight: bold;
+}
+
 .talk-title {
   font-size: 1.7em;
 }
