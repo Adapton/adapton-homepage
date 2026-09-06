@@ -1,293 +1,390 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Nova+Round" />    
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Aldrich"/>
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Adapton</title>
+    <meta name="description" content="Adapton: programming language abstractions for incremental computation. A recipe, written down in papers since 2014, and currently expressed in Fumola.">
+    <link rel="icon" type="image/svg+xml" href="adapton-logo-bonsai-dark.svg">
+    <link rel="alternate icon" href="adapton-logo-bonsai-64.png">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,600;1,400&display=swap">
+    <style>
+      /* Same palette as the Fumola page, which takes it from the Fumola VS Code
+         theme. Same family of work, so: same paint. */
+      :root {
+        --bg:    #000000;
+        --panel: #0b0b0d;
+        --rule:  #212124;
+        --fg:    #d4d4d4;
+        --dim:   #7d7d82;
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+        --green: #6A9955;  /* comment    */
+        --blue:  #569CD6;  /* keyword    */
+        --type:  #a989d0;  /* type name  */
+        --sym:   #a086a5;  /* symbol     */
+        --op:    #9999dd;  /* operator   */
+        --eff:   #ffaaaa;  /* := and @   */
+        --str:   #c87e60;  /* string     */
+        --var:   #f6ead2;  /* identifier */
 
-    <title>Adapton: Programming Language Abstractions for Incremental Computation</title>
+        --ui:   "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+        --mono: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      * { box-sizing: border-box; }
+      html { background: var(--bg); }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font: 400 15px/1.65 var(--ui);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      main { max-width: 45rem; margin: 0 auto; padding: 5rem 1.5rem 8rem; }
+
+      /* ---- masthead ---------------------------------------------------- */
+
+      header { margin-bottom: 4.5rem; }
+
+      .mark { display: flex; align-items: center; gap: 1.15rem; margin-bottom: 1rem; }
+      .mark img {
+        width: 72px; height: 72px; flex: none;
+        border: 1px solid var(--rule); border-radius: 4px;
+      }
+
+      h1 {
+        font: 600 2.6rem/1 var(--mono);
+        letter-spacing: -0.02em;
+        margin: 0;
+        color: var(--var);
+      }
+
+      .tagline { margin: 0; max-width: 34rem; font-size: 1.06rem; color: var(--fg); }
+
+      .masthead-note {
+        margin: 1.6rem 0 0;
+        padding-left: 0.9rem;
+        border-left: 1px solid var(--rule);
+        font-size: 0.9rem;
+        color: var(--dim);
+      }
+
+      /* ---- sections ---------------------------------------------------- */
+
+      section { border-top: 1px solid var(--rule); padding-top: 2rem; margin-top: 3.25rem; }
+
+      h2 {
+        font: 400 0.78rem/1 var(--mono);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--green);
+        margin: 0 0 1.6rem;
+      }
+
+      p { margin: 0 0 1.05rem; }
+      p:last-child { margin-bottom: 0; }
+
+      a { color: var(--blue); text-decoration: none; border-bottom: 1px solid #2b3f52; }
+      a:hover { color: #7db6e8; border-bottom-color: #4a7ba6; }
+
+      strong { font-weight: 600; color: var(--var); }
+      em { color: var(--fg); }
+
+      code { font: 400 0.88em/1.5 var(--mono); color: var(--var); white-space: nowrap; }
+
+      pre {
+        font: 400 0.84rem/1.75 var(--mono);
+        background: var(--panel);
+        border: 1px solid var(--rule);
+        border-radius: 2px;
+        padding: 1rem 1.1rem;
+        margin: 1.4rem 0;
+        overflow-x: auto;
+        color: var(--fg);
+      }
+      pre code { white-space: pre; font-size: inherit; color: inherit; }
+
+      .c   { color: var(--green); font-style: italic; }
+      .k   { color: var(--blue);  font-weight: 600; }
+      .sy  { color: var(--sym);   font-weight: 600; }
+      .o   { color: var(--op); }
+      .eff { color: var(--eff); }
+      .v   { color: var(--var); }
+
+      /* ---- the one pull quote ------------------------------------------- */
+
+      .lede {
+        margin: 0 0 1.3rem;
+        font-size: 1.12rem;
+        line-height: 1.5;
+        color: var(--var);
+      }
+
+      /* ---- publications -------------------------------------------------- */
+
+      .pubs { list-style: none; margin: 0; padding: 0; }
+      .pubs li { border-top: 1px solid var(--rule); padding: 0.9rem 0; }
+      .pubs li:first-child { border-top: none; padding-top: 0.2rem; }
+      .pub-title { display: block; font-size: 0.98rem; }
+      .pub-authors { display: block; color: var(--dim); font-size: 0.88rem; margin-top: 0.2rem; }
+      .pub-venue {
+        display: block;
+        font: 400 0.79rem/1.5 var(--mono);
+        letter-spacing: 0.03em;
+        color: var(--sym);
+        margin-top: 0.25rem;
+      }
+      .pub-why { display: block; margin-top: 0.5rem; font-size: 0.91rem; }
+
+      /* ---- link lists ---------------------------------------------------- */
+
+      .links { list-style: none; margin: 0; padding: 0; }
+      .links li {
+        border-top: 1px solid var(--rule);
+        padding: 0.7rem 0;
+        display: flex; gap: 1.2rem; align-items: baseline;
+      }
+      .links li:first-child { border-top: none; }
+      .links .what { flex: 0 0 11rem; font: 400 0.82rem/1.5 var(--mono); color: var(--dim); }
+      .links .desc { flex: 1; font-size: 0.92rem; }
+      .links .desc small { display: block; color: var(--dim); font-size: 0.84rem; margin-top: 0.1rem; }
+
+      .aside {
+        border-left: 1px solid var(--rule);
+        padding: 0.1rem 0 0.1rem 1rem;
+        margin: 1.5rem 0 0;
+        color: var(--dim);
+        font-size: 0.9rem;
+      }
+
+      footer {
+        border-top: 1px solid var(--rule);
+        margin-top: 4rem; padding-top: 1.4rem;
+        font-size: 0.84rem; color: var(--dim);
+      }
+
+      @media (max-width: 34rem) {
+        main { padding-top: 3rem; }
+        h1 { font-size: 2rem; }
+        .mark img { width: 56px; height: 56px; }
+        .links li { display: block; }
+        .links .what { margin-bottom: 0.15rem; }
+      }
+    </style>
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1 style="font-family:Verdana">
-	  <a id="logo" href="http://docs.rs/adapton/">
-	    <img width="150" id="logo" style="background:#ffd; border-radius:5px; padding:3px; border:solid #f8f 3px;" src="adapton-logo-bonsai-notext.png"/>
-	  </a>
-	  Adapton
-	</h1>
-        <h2>Programming Language Abstractions for Incremental Computation</h2>
-        <div class="buttons">
-        <!-- <a href="http://docs.rs/adapton/" class="button">adapton.rust</a> -->
-        <!-- <a href="https://github.com/plum-umd/adapton.ocaml" class="button">adapton.ocaml</a> -->
+    <main>
+      <header>
+        <div class="mark">
+          <img src="adapton-logo-bonsai-dark.svg" alt="The Adapton bonsai."
+               width="72" height="72" onerror="this.hidden = true">
+          <h1>adapton</h1>
         </div>
-      </div>
-    </header>
+        <p class="tagline">
+          Programming language abstractions for <strong>incremental
+          computation</strong>: a program's run leaves behind a graph of what it
+          named, read and demanded, and that graph is what the next run repairs
+          instead of redoing.
+        </p>
+        <p class="masthead-note">
+          Adapton is not one implementation. It is a recipe &mdash; a handful of
+          primitives and the rules for running them &mdash; set down in papers
+          since 2014 and cooked in several languages since.
+        </p>
+      </header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="slogans">
-	  <h4>
-	    <a href="https://en.wikipedia.org/wiki/Incremental_computing">
-	      <img style="width:200px;float:right; padding:1em"
-		   src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Incremental_computing.svg/1200px-Incremental_computing.svg.png"
-		   alt="Incremental computing provides a means of computing a new input/output pair (I2,O2), 
-			based on an old input output pair (I1,O1).  
-			The key technique is represented by a function ΔP, 
-			which relates changes in the input to changes to the output.">
-	    </a>
-	    A program <code>P</code> is <strong>incremental</strong>
-	    if repeating <code>P</code> with a <strong>changed input</strong> is
-	    <em>faster than from-scratch recomputation</em>.
-	    </br></br>
-	    <a href="https://en.wikipedia.org/wiki/Incremental_computing">
-	      Incremental computations</a>	    
-	    are ubiquitous in everyday computer systems.
-            </br>
-	    </br>
-	  </h4>
-	  
-	  <h5><strong>Adapton</strong>
-	    offers <strong>programming language abstractions</strong></br>
-	    for <strong>incremental computation</strong>.
-	  </h5>
+      <section id="now">
+        <h2>Where the recipe is cooking</h2>
+        <p class="lede">
+          A recipe outlives its kitchens. <a href="https://adapton.github.io/fumola/">Fumola</a>
+          is the one it is cooking in now &mdash; the fullest expression of
+          Adapton so far, and by a distance the most written down.
+        </p>
+        <p>
+          Fumola is an experimental language whose surface is ordinary
+          &mdash; functions, records, variants, modules, borrowed from
+          <a href="https://github.com/dfinity/motoko.rs">Motoko</a> &mdash; and
+          whose execution model is Adapton. Its incremental primitives are this
+          project's, extended with symbolic space and time, and a program can
+          read back the graph its own run left behind, as ordinary data.
+        </p>
+        <p>
+          Its page is the one to read: the primitives one at a time, the two
+          modes a program runs in, the two semantics the runtime implements,
+          the papers underneath, and a console running the whole thing,
+          compiled to WebAssembly, in the browser. Fumola also runs inside
+          <a href="https://hazel.org">Hazel</a>, a live programming
+          environment, where editing a program re-forces the same named thunk
+          &mdash; which is what an incremental edit was always meant to be.
+        </p>
+        <ul class="links">
+          <li>
+            <span class="what">adapton.github.io/fumola</span>
+            <span class="desc"><a href="https://adapton.github.io/fumola/">The language, explained</a>
+            <small>The primitives, the semantics, the history, and a Fumola console you can type into.</small></span>
+          </li>
+          <li>
+            <span class="what">Adapton/fumola</span>
+            <span class="desc"><a href="https://github.com/Adapton/fumola">The implementation</a>
+            <small>Rust, with the Fumola module library and the examples alongside it.</small></span>
+          </li>
+          <li>
+            <span class="what">adapton-recipe</span>
+            <span class="desc"><a href="https://github.com/matthewhammer/adapton-recipe">The Extended Adapton Recipe</a>
+            <small>The recipe itself, written out: demanded computation graphs with symbolic space and time. What Fumola implements.</small></span>
+          </li>
+          <li>
+            <span class="what">replayground</span>
+            <span class="desc"><a href="http://matthewhammer.org/replayground/mergeSort44.html">A graph you can walk through</a>
+            <small>mergeSort on 44 elements, drawn from a Fumola program reading its own event history.</small></span>
+          </li>
+        </ul>
+      </section>
 
-	    <!--
-	    <iframe style="border:none; width:600px" src="https://en.wikipedia.org/w/index.php?title=Incremental_computing&printable=yes">
-	    </iframe>
-	    -->
+      <section id="recipe">
+        <h2>The recipe, in short</h2>
+        <p>
+          A program is run so that changing its input does not mean running it
+          again. As it executes it builds a <strong>demanded computation
+          graph</strong>: <em>cells</em>, which hold values, and
+          <em>thunks</em>, which are suspended computations, with an edge for
+          every action a thunk took &mdash; every cell it wrote, every cell it
+          read, every thunk it forced &mdash; kept in the order it took them.
+        </p>
+        <p>
+          The graph exists so that a later run can be <em>repaired</em> rather
+          than redone. When a cell changes, the thunks that read it are the
+          ones whose results are in question; the rest of the graph is still
+          good, and is reused as it stands. What makes this addressable at all
+          is that every cell and thunk has a <strong>name</strong>: the run
+          after the edit has to recognise the node it is about to recompute as
+          the same node as last time, and a name is how it does.
+        </p>
+        <pre><code><span class="k">thunk</span> { <span class="v">e</span> }                <span class="c">// suspend a computation</span>
+<span class="sy">`n</span> <span class="eff">:=</span> <span class="v">e</span>                    <span class="c">// put: write the cell named `n</span>
+<span class="eff">@</span><span class="v">p</span>                         <span class="c">// get: read a cell, recording the edge</span>
+<span class="k">force</span>(<span class="v">p</span>)                   <span class="c">// demand a thunk, recording the edge</span>
 
-<!--	    <br>By <a href="//commons.wikimedia.org/w/index.php?title=User:Evithyan&amp;action=edit&amp;redlink=1"
-		      class="new"
-		      title="User:Evithyan (page does not exist)">Evithyan</a> -<span class="int-own-work" lang="en">Own work</span>,
-	    <a href="https://creativecommons.org/licenses/by-sa/4.0"
-	       title="Creative Commons Attribution-Share Alike 4.0">CC BY-SA 4.0</a>,
-	    <a href="https://commons.wikimedia.org/w/index.php?curid=52107996">Link</a></p> -->
-	  
-	  
-<h1>
-<a id="code" class="anchor" href="#code" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code</h1>
+<span class="k">force</span>(<span class="sy">`n</span> <span class="eff">:=</span> <span class="k">thunk</span> { <span class="v">e</span> })   <span class="c">// the idiom: name it, store it, demand it.</span>
+                           <span class="c">// running it again with the same name is an edit</span></code></pre>
+        <p class="aside">
+          Two papers are between them the whole of that: the first is the
+          machinery, the second is what makes it addressable. Everything after
+          them has been a matter of saying it more precisely, or building it
+          somewhere new.
+        </p>
+      </section>
 
-<p><strong>Latest</strong>: This is the latest implementation of Adapton:
+      <section id="papers">
+        <h2>Papers</h2>
+        <ul class="pubs">
+          <li>
+            <span class="pub-title"><a href="https://doi.org/10.1145/2594291.2594324">Adapton: composable, demand-driven incremental computation</a></span>
+            <span class="pub-authors">Matthew A. Hammer, Khoo Yit Phang, Michael Hicks, Jeffrey S. Foster</span>
+            <span class="pub-venue">PLDI 2014 &middot; pp. 156&ndash;166 &middot; doi:10.1145/2594291.2594324</span>
+            <span class="pub-why">
+              Adapton itself. Demand drives the computation, the demanded
+              computation graph records what that demand touched, and the graph
+              is what a later run repairs.
+            </span>
+          </li>
+          <li>
+            <span class="pub-title"><a href="https://doi.org/10.1145/2814270.2814305">Incremental computation with names</a></span>
+            <span class="pub-authors">Matthew A. Hammer, Jana Dunfield, Kyle Headley, Nicholas Labich, Jeffrey S. Foster, Michael Hicks, David Van Horn</span>
+            <span class="pub-venue">OOPSLA 2015 &middot; pp. 748&ndash;766 &middot; doi:10.1145/2814270.2814305</span>
+            <span class="pub-why">
+              Names, made explicit and first-class. Without them a second run
+              has to infer which node is which; with them, reuse becomes
+              something a program can control deliberately.
+            </span>
+          </li>
+        </ul>
+        <p class="aside">
+          Drafts, on typing these programs rather than only running them:
+          <a href="https://arxiv.org/abs/1808.07826">Fungi: typed incremental
+          computation with names</a> (2018), and its predecessor
+          <a href="https://arxiv.org/abs/1610.00097">Refinement types for
+          precisely named cache locations</a> (2017). Further back, Adapton
+          descends from self-adjusting computation, whose root is
+          <a href="https://doi.org/10.1145/503272.503296">Adaptive functional
+          programming</a> (Acar, Blelloch, Harper, POPL 2002). A
+          <a href="https://vimeo.com/122066659">talk from March 2015</a> covers
+          the first two papers.
+        </p>
+      </section>
 
-<ul>
-   <li>
-    <img src="https://www.rust-lang.org/logos/rust-logo-512x512.png" width=20>
-    <a href="https://github.com/adapton/adapton.rust">Adapton for <strong>Rust</strong>:</a>
-    <ul>
-      <li>
-	<a href="http://docs.rs/adapton/"><strong>Rust documentation</strong></a> for
-      </li>
-      <li>
-	<a href="https://crates.io/crates/adapton">Adapton Crate</a>
-      </li>
-<!--
-      <li>
-	<a href="https://github.com/cuplv/adapton-lab.rust#quick-start">Quickstart instructions</a>
-      </li>
--->
-    </ul>
-  </li>
-</ul>
+      <section id="implementations">
+        <h2>Implementations</h2>
+        <p>
+          Kitchens, in order of use. Only the first is current; the others are
+          left standing because the papers point at them.
+        </p>
+        <ul class="links">
+          <li>
+            <span class="what">fumola</span>
+            <span class="desc"><a href="https://github.com/Adapton/fumola">Rust &mdash; current</a>
+            <small>A language of its own, rather than a library. See <a href="#now">above</a>.</small></span>
+          </li>
+          <li>
+            <span class="what">adapton.rust</span>
+            <span class="desc"><a href="https://github.com/adapton/adapton.rust">Rust &mdash; a library</a>
+            <small>Adapton as a crate: <a href="https://docs.rs/adapton/">documentation</a>, last published December 2019.</small></span>
+          </li>
+          <li>
+            <span class="what">fungi-lang.rust</span>
+            <span class="desc"><a href="https://github.com/Adapton/fungi-lang.rust">Rust &mdash; the typed prototype</a>
+            <small>The type-and-effect system of the drafts above, implemented. Archived.</small></span>
+          </li>
+          <li>
+            <span class="what">adapton.ocaml</span>
+            <span class="desc"><a href="https://github.com/plum-umd/adapton.ocaml">OCaml &mdash; the OOPSLA 2015 artifact</a>
+            <small>Nominal Adapton as evaluated in the paper. <a href="https://github.com/plum-umd/adapton.ocaml/blob/master/docs/oopsla15_artifact_docs/ArtifactGuide.md">Artifact guide</a>; the PLDI 2014 artifact has its own <a href="https://www.cs.umd.edu/projects/PL/adapton/">site</a>.</small></span>
+          </li>
+          <li>
+            <span class="what">adapton.racket</span>
+            <span class="desc"><a href="https://github.com/plum-umd/adapton.racket">Racket &mdash; contributed</a>
+            <small>Not by us.</small></span>
+          </li>
+        </ul>
+        <p class="aside">
+          The first two prototypes, in OCaml and Python circa 2014, were
+          Mercurial repositories on Bitbucket and did not survive its removal
+          of Mercurial hosting.
+        </p>
+      </section>
 
-</p>
-<p><strong>Legacy</strong>: These were the first implementations of Adapton and Nominal Adapton:
+      <section id="people">
+        <h2>People and funding</h2>
+        <p>
+          Adapton is the work of
+          <a href="http://matthewhammer.org">Matthew A. Hammer</a>, Jana
+          Dunfield, Michael Hicks, Jeffrey S. Foster, David Van Horn, Kyle
+          Headley, Monal Narasimhamurthy, Dimitrios J. Economou, Nicholas
+          Labich, Khoo Yit Phang, James Parker and Jared Wright &mdash; begun
+          in the programming languages groups at the University of Maryland and
+          the University of Colorado Boulder, and continued since 2023 as
+          independent research.
+        </p>
+        <p class="aside">
+          The academic work was funded by a Facebook Faculty Research Award
+          (2017), the NSF project
+          <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=1619282">Online
+          Verification-Validation</a> (2016&ndash;2019), and a Mozilla Research
+          Grant (2015).
+        </p>
+      </section>
 
-<ul>
-  <li>
-    <img src="https://opam.ocaml.org/ext/img/ocaml.png" width=20>
-    <a href="https://github.com/plum-umd/adapton.ocaml">Adapton for <strong>OCaml</strong></a> (for OOPSLA 2015 paper)
-  </li>
-  <li>
-    <img src="https://opam.ocaml.org/ext/img/ocaml.png" width=20>
-    <a href="https://bitbucket.org/khooyp/adapton.ocaml">Adapton for <strong>OCaml</strong></a> (legacy, circa 2014)
-  </li>
-  <li>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/2000px-Python-logo-notext.svg.png" width=20>
-    <a href="https://bitbucket.org/khooyp/adapton.python">Adapton for <strong>Python</strong></a> (legacy, circa 2014)
-  </li>
-</ul>
-</p>
-
-<!--
-<p><strong>Contributed</strong>: </p>
-<ul>
-  <li>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Racket_logo.png" width=20>
-<a href="https://github.com/plum-umd/adapton.racket">Adapton for <strong>Racket</strong> </a><br>
-</li>
-</ul>
--->
-
-
-<h1>Paper Drafts</h1>
-
-
-  <a class="paper-title"
-     href="https://arxiv.org/abs/1808.07826">
-    Fungi: Typed incremental computation with names
-  </a>
-</br> Matthew A. Hammer, Jana Dunfield, Kyle Headley, Monal Narasimhamurthy, Dimitrios J. Economou
-</br>
-</br> (under submission, Oct 2018)
-</br> (Extends and improves an earlier TR: <a class="paper-title-inline"
-     href="https://arxiv.org/abs/1610.00097">
-    Refinement types for precisely named cache locations</a>)
-<ul>
-  <li>Implementation: <img src="http://adapton.org/fungi-lang-logo/Fungi-lang-logo-notext-64.png" width=20>
-    <a href="https://github.com/Adapton/fungi-lang.rust">github.com/Adapton/fungi-lang.rust</a></li>
-  <li>Full citation: HammerDHNE <a href="https://dblp.uni-trier.de/rec/bibtex/journals/corr/abs-1808-07826"> (via DBLP)</a></li>
-</ul>
-
-<h1>Publications</h1>
-
-<a class="paper-title"
-   href="http://arxiv.org/abs/1503.07792">
-  Incremental Computation with Names
-</a> (OOPSLA 2015)
-<ul>
-  <li>Full citation:
-    <a href="http://dblp.org/rec/conf/oopsla/HammerDHLFHH15">
-      HammerDHLFHH15 (via DBLP)</a>
-  </li>
-  <li>Artifact: <a href="https://github.com/plum-umd/adapton.ocaml/blob/master/docs/oopsla15_artifact_docs/ArtifactGuide.md">Guide</a>,
-    <a href="https://www.cs.umd.edu/projects/PL/adapton-oopsla2015/icwn-oopsla15.ova">VM Image</a><br>
-  </li>
-</ul>
-<p>
-  Matthew A. Hammer, Jana Dunfield, Kyle Headley, Nicholas Labich, Jeffrey S. Foster, Michael Hicks, David Van Horn</br>
-  Object-oriented Programming, Systems, Languages, and Applications (<strong>OOPSLA 2015</strong>)</br>
-  Pittsburgh, USA. October 2015.
-</p>
-
-<a class="paper-title"
-   href="http://matthewhammer.org/adapton/adapton-pldi2014.pdf">
-  Adapton: Composable, Demand-Driven Incremental Computation
-</a> (PLDI 2014)
-<ul>
-  <li>Full citation: <a href="http://dblp.org/rec/conf/pldi/HammerKHF14">HammerKHF14 (via DBLP)</a>
-  <li>Artifact: <a href="http://www.cs.umd.edu/projects/PL/adapton/">Artifact Website</a></li>
-</ul>
-<p>
-  Matthew A. Hammer, Yit Phang Khoo, Michael Hicks and Jeffrey S. Foster<br>
-  Programming Language Design and Implementation (<strong>PLDI 2014</strong>).<br>
-  Edinburgh, Scotland. June 2014.
-</p>
-
-
-<h1>
-<a id="videos" class="anchor" href="#videos" aria-hidden="true"><span class="octicon octicon-link"></span></a>Videos</h1>
-
-  <h2>
-  <a href="https://drive.google.com/a/colorado.edu/file/d/0B6ZM1oYivK60MFRkVkY1c3J5Rzg/view">Incremental Computation with Adapton (May 2017)</a></h2>
-  <strong>Matthew A Hammer</strong></br>
-  Facebook (<a href="https://plemm.splashthat.com/">PLEMM</a>), Redwood City, CA. May 2017.</br>
-
-  <h2>
-    <a href="https://drive.google.com/file/d/0B6ZM1oYivK60MFRkVkY1c3J5Rzg/view">Sparse Adapton (Sept 2015)</a></h2>
-    <strong>Kyle Headley</strong></br>
-    ICFP Student Research Contest. September 2015.</br>
-
-  <h2>
-  <a href="https://vimeo.com/122066659">Incremental Computation with Adapton (March 2015)</a></h2>
-  <strong>Matthew A Hammer</strong></br>
-  University of Colorado, Boulder. March 2015.</br>
-
-
-<style>
-.tab
-{
-  border:0;
-}
-</style>
-
-<!--
-<h1>People</h1>
-<table cellspacing="0" cellpadding="0" class="tab"><tr class="tab">
-    <td width="30%" class="tab">
-      <a href="http://pl.cs.colorado.edu"><img style="width:120px"
-					       src="https://avatars0.githubusercontent.com/u/3604349?s=200&v=4"/></a>
-    </td>
-    <td width="30%" class="tab">
-      <a href="http://www.cs.umd.edu/projects/PL/"><img style="width:150px"
-							src="http://www.cs.umd.edu/projects/PL/images/PLUM.svg" height=100/></a>
-    </td>
-    <td width="40%" class="tab">
-    </td>
-  </tr>
-  <tr>
-    <td class="tab">CU Programming Languages and Verification</td>
-    <td class="tab">Programming Languages at University of Maryland</td>
-  </tr>
-</table>
-
-<h2>Faculty</h2>
-
-<ul>
-<li>
-<a href="http://matthewhammer.org">Matthew A Hammer</a> - University of Colorado Boulder</li>
-<li>
-<a href="https://github.com/jdunfield">Jana Dunfield</a> - University of British Columbia</li>
-<li>
-<a href="http://www.cs.umd.edu/%7Emwh">Michael Hicks</a> - University of Maryland</li>
-<li>
-<a href="http://www.cs.umd.edu/%7Ejfoster">Jeff Foster</a> - University of Maryland</li>
-<li>
-<a href="http://www.cs.umd.edu/%7Edvanhorn">David Van Horn</a> - University of Maryland</li>
-</ul>
-
-<h2>Students</h2>
-
-<ul>
-<li>
-  <a href="https://kyleheadley.github.io/PHDWebsite/">Kyle Headley</a> - University of Colorado Boulder
-</li>
-<li>
-  <a href="http://monal.github.io/">Monal Narasimhamurthy</a> - University of Colorado Boulder
-</li>
-<li>
-  Jared Wright - University of Colorado Boulder
-</li>
-</ul>
-
-<h2>Alumni</h2>
-
-<ul>
-  <li>
-     Dimitrios J. Economou - University of Colorado Boulder
-  </li>
-  <li>
-    <a href="https://github.com/labichn">Nicholas Labich</a> - University of Maryland</li>
-  <li>
-    <a href="http://www.cs.umd.edu/%7Ekhooyp/Khoo_Yit_Phang.html">Khoo Yit Phang</a> - MathWorks</li>
-  <li>
-    <a href="http://jamesparker.me/">James Parker</a> - University of Maryland, research programmer</li>
-</ul>
-
--->
-
-<h1>Funding Acknowledgments</h1>
-Our academic research on Adapton has been funded through various sources, both past and present:
-<ul>
-<li>Facebook Faculty Research Award (<a href="">Matthew A. Hammer</a>, 2017)</li>
-<li><a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=1619282">Online Verification-Validation (NSF project, Sept 2016--2019)</a></li>
-<li>Mozilla Research Grant (<a href="">Matthew A. Hammer</a>, 2015)</li>
-</ul>
-
-</section>
-</div>
-</div>
-</body>
+      <footer>
+        Built from <code>index.html</code> on the <code>gh-pages</code> branch of
+        <a href="https://github.com/Adapton/adapton-homepage">Adapton/adapton-homepage</a>.
+        The bonsai is the project's own, first planted here in 2017 and redrawn now
+        for a dark ground, with the half of it that was always below the line. The
+        <a href="lab-results/">lab results</a> from the Rust library are still
+        here, as published.
+      </footer>
+    </main>
+  </body>
 </html>
-
