@@ -114,6 +114,32 @@
       .eff { color: var(--eff); }
       .v   { color: var(--var); }
 
+      /* ---- copyable heading anchors -------------------------------------- */
+
+      h2, h3 { position: relative; }
+      .anchor {
+        margin-left: 0.6ch;
+        border-bottom: none;
+        color: var(--dim);
+        opacity: 0;
+        font-weight: 400;
+        text-transform: none;
+        transition: opacity 0.12s ease;
+      }
+      h2:hover .anchor, h3:hover .anchor, .anchor:focus-visible { opacity: 1; }
+      .anchor:hover { color: var(--blue); border-bottom: none; }
+      /* absolutely positioned so confirming a copy never nudges the layout */
+      .anchor[data-copied]::after {
+        content: "link copied";
+        position: absolute;
+        margin-left: 0.8ch;
+        font: 400 0.68rem/1.6 var(--mono);
+        letter-spacing: 0.08em;
+        text-transform: none;
+        white-space: nowrap;
+        color: var(--green);
+      }
+
       /* ---- the one pull quote ------------------------------------------- */
 
       .lede {
@@ -369,7 +395,7 @@
       </header>
 
       <section id="now">
-        <h2>Where the recipe is cooking</h2>
+        <h2>Where the recipe is cooking<a class="anchor" href="#now" aria-label="Copy link to this heading">#</a></h2>
         <p class="lede">
           A recipe outlives its kitchens. <a href="https://fumola.org/">Fumola</a>
           is the one it is cooking in now &mdash; the fullest expression of
@@ -417,7 +443,7 @@
       </section>
 
       <section id="recipe">
-        <h2>The recipe, in short</h2>
+        <h2>The recipe, in short<a class="anchor" href="#recipe" aria-label="Copy link to this heading">#</a></h2>
         <p>
           A program is run so that changing its input does not mean running it
           again. As it executes it builds a <strong>demanded computation
@@ -451,7 +477,7 @@
       </section>
 
       <section id="papers">
-        <h2>Papers</h2>
+        <h2>Papers<a class="anchor" href="#papers" aria-label="Copy link to this heading">#</a></h2>
         <ul class="pubs">
           <li>
             <span class="pub-title"><a href="https://doi.org/10.1145/2594291.2594324">Adapton: composable, demand-driven incremental computation</a></span>
@@ -488,8 +514,8 @@
         </p>
       </section>
 
-      <section id="implementations">
-        <h2>Implementations</h2>
+      <section id="kitchens">
+        <h2>Implementations<a class="anchor" href="#kitchens" aria-label="Copy link to this heading">#</a></h2>
         <p>
           Kitchens, in order of use. Only the first is current; the others are
           left standing because the papers point at them.
@@ -529,7 +555,7 @@
       </section>
 
       <section id="people">
-        <h2>People and funding</h2>
+        <h2>People and funding<a class="anchor" href="#people" aria-label="Copy link to this heading">#</a></h2>
         <p>
           Adapton is the work of
           <a href="http://matthewhammer.org">Matthew A. Hammer</a>, Jana
@@ -559,6 +585,39 @@
       </footer>
     </main>
     <script>
+      // Heading anchors. They are real links, so they work with JavaScript
+      // off; this only adds the clipboard copy on top.
+      document.addEventListener("click", (e) => {
+        const a = e.target.closest(".anchor");
+        if (!a) return;
+        const url = location.origin + location.pathname + new URL(a.href).hash;
+        const done = () => {
+          a.setAttribute("data-copied", "");
+          setTimeout(() => a.removeAttribute("data-copied"), 1400);
+        };
+        // The async clipboard needs a secure origin and, in most browsers, a
+        // real user gesture. Both hold for an actual click on https or
+        // localhost -- but not always, so fall back to the old textarea
+        // trick rather than leave the click looking like it did nothing.
+        const fallback = () => {
+          const t = document.createElement("textarea");
+          t.value = url;
+          t.setAttribute("readonly", "");
+          t.style.cssText = "position:fixed;top:-9999px;opacity:0";
+          document.body.appendChild(t);
+          t.select();
+          let okay = false;
+          try { okay = document.execCommand("copy"); } catch (_) {}
+          t.remove();
+          if (okay) done();
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(done, fallback);
+        } else {
+          fallback();
+        }
+      });
+
       // ---- The floating outline -------------------------------------------
       // Built from the document rather than written out, so the outline and
       // the page cannot disagree: a section that exists is in it, a section
